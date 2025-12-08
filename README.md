@@ -17,7 +17,7 @@ Tujuan utama dari proyek ini adalah untuk [**GANTI: jelaskan tujuannya, misalnya
 
 Aplikasi ini telah berhasil di-*deploy* ke Vercel dan dapat diakses melalui tautan berikut:
 
-[**GANTI: Tautan ke aplikasi yang sudah jadi, misalnya:**](https://webz-psi.vercel.app)
+[**GANTI: Tautan ke aplikasi yang sudah jadi, misalnya:**](https://stores.xtrimer.cloud)
 
 ## 📁 Struktur File Utama
 
