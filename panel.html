@@ -1815,7 +1815,7 @@ window.addEventListener("popstate", (event) => {
   const pass  = localStorage.getItem("xt_pass");
 
   if (!email || !pass) {
-    window.location.href = "index.html";
+    window.location.href = "login.html";
     return;
   }
 
@@ -1831,7 +1831,7 @@ window.addEventListener("popstate", (event) => {
       localStorage.removeItem("xt_panel_tab");
       clearLastOrder();
       clearLastAccount(); // 🔥 bersihkan cache akun
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     };
   }
 
@@ -2029,7 +2029,7 @@ window.addEventListener("popstate", (event) => {
       const userEmail = localStorage.getItem("xt_email") || "";
       if (!userEmail) {
         alert("Kamu harus login terlebih dahulu.");
-        window.location.href = "index.html";
+        window.location.href = "login.html";
         return;
       }
 
