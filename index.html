@@ -15,10 +15,6 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
       color: #fff;
       position: relative;
       overflow-x: hidden;
@@ -43,23 +39,20 @@
       50% { transform: scale(1.1) rotate(5deg); }
     }
 
-    .wrapper {
-      width: 100%;
-      max-width: 680px;
+    /* Header dengan Menu Hamburger */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      padding: 16px 20px;
       display: flex;
-      flex-direction: column;
-      gap: 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .dashboard-header {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 20px 24px;
-      border-radius: 16px;
-      display: flex;
+      justify-content: space-between;
       align-items: center;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
     }
 
     .logo-section {
@@ -69,36 +62,208 @@
     }
 
     .logo-icon {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       background: linear-gradient(135deg, #059669, #10b981);
-      border-radius: 12px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 20px;
       box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
-      flex-shrink: 0;
-      animation: logoFloat 3s ease-in-out infinite;
-    }
-
-    @keyframes logoFloat {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
     }
 
     .logo-text h2 {
       color: #059669;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 800;
-      letter-spacing: -0.5px;
-      margin-bottom: 2px;
+      letter-spacing: -0.3px;
     }
 
     .tagline {
-      font-size: 12px;
+      font-size: 10px;
       color: #6b7280;
       font-weight: 500;
+    }
+
+    /* Hamburger Menu Button */
+    .hamburger {
+      width: 40px;
+      height: 40px;
+      background: #f0fdf4;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1001;
+    }
+
+    .hamburger:hover {
+      background: #dcfce7;
+      border-color: #059669;
+    }
+
+    .hamburger span {
+      width: 20px;
+      height: 2.5px;
+      background: #059669;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* Sidebar Menu */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+      transition: right 0.4s ease;
+      z-index: 999;
+      padding: 80px 24px 24px;
+      overflow-y: auto;
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 998;
+    }
+
+    .sidebar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .menu-section {
+      margin-bottom: 32px;
+    }
+
+    .menu-section h3 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #6b7280;
+      margin-bottom: 12px;
+    }
+
+    .menu-list {
+      list-style: none;
+    }
+
+    .menu-list li {
+      margin-bottom: 4px;
+    }
+
+    .menu-list a {
+      display: block;
+      padding: 12px 16px;
+      color: #374151;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .menu-list a:hover {
+      background: #f0fdf4;
+      color: #059669;
+      transform: translateX(4px);
+    }
+
+    .auth-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .btn-login, .btn-register {
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      outline: none;
+    }
+
+    .btn-login {
+      background: #fff;
+      color: #059669;
+      border: 2px solid #10b981;
+    }
+
+    .btn-login:hover {
+      background: #f0fdf4;
+      border-color: #059669;
+    }
+
+    .btn-register {
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    }
+
+    .btn-register:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+    }
+
+    /* Main Content */
+    .main-content {
+      padding-top: 80px;
+      padding-bottom: 20px;
+      padding-left: 20px;
+      padding-right: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     .welcome-card {
@@ -152,109 +317,47 @@
       margin-bottom: 20px;
     }
 
-    .feature-list {
-      list-style: none;
-      font-size: 14px;
-      color: #374151;
+    .protocol-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
       margin-bottom: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
     }
 
-    .feature-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 12px;
-      background: #f0fdf4;
-      border-radius: 12px;
-      border: 1px solid #d1fae5;
+    .protocol-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 24px;
       transition: all 0.3s ease;
-    }
-
-    .feature-list li:hover {
-      background: #dcfce7;
-      border-color: #a7f3d0;
-      transform: translateX(5px);
-    }
-
-    .feature-icon {
-      font-size: 18px;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .btn-row {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .btn-primary {
-      border: none;
-      outline: none;
       cursor: pointer;
-      padding: 14px 28px;
-      border-radius: 12px;
-      font-size: 15px;
+    }
+
+    .protocol-card:hover {
+      background: #252525;
+      border-color: #10b981;
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+    }
+
+    .protocol-icon {
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .protocol-card h3 {
+      font-size: 20px;
       font-weight: 700;
-      letter-spacing: 0.3px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: linear-gradient(135deg, #059669, #10b981);
-      color: #fff;
-      box-shadow: 0 10px 30px rgba(5, 150, 105, 0.3);
-      text-decoration: none;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
+      color: #e5e5e5;
+      margin-bottom: 8px;
     }
 
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s;
-    }
-
-    .btn-primary:hover::before {
-      left: 100%;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 40px rgba(5, 150, 105, 0.4);
-    }
-
-    .btn-ghost {
-      border-radius: 12px;
-      padding: 13px 24px;
-      border: 2px solid #10b981;
-      background: #fff;
-      color: #059669;
-      font-size: 14px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-
-    .btn-ghost:hover {
-      background: #f0fdf4;
-      border-color: #059669;
-      transform: translateY(-2px);
+    .protocol-card p {
+      font-size: 13px;
+      color: #9ca3af;
+      line-height: 1.6;
     }
 
     .status-pill {
@@ -434,7 +537,7 @@
       text-align: center;
       font-size: 12px;
       color: rgba(255, 255, 255, 0.9);
-      padding: 8px;
+      padding: 20px;
       position: relative;
       z-index: 1;
     }
@@ -450,30 +553,16 @@
     }
 
     @media (max-width: 640px) {
-      body {
-        padding: 16px;
-      }
-
-      .wrapper {
-        gap: 16px;
-      }
-
-      .dashboard-header {
-        padding: 16px 20px;
-      }
-
-      .logo-icon {
-        width: 38px;
-        height: 38px;
-        font-size: 18px;
-      }
-
       .logo-text h2 {
-        font-size: 18px;
+        font-size: 16px;
       }
 
       .tagline {
-        font-size: 11px;
+        font-size: 9px;
+      }
+
+      .sidebar {
+        width: 260px;
       }
 
       .welcome-card {
@@ -497,8 +586,16 @@
         gap: 10px;
       }
 
-      .stat-number {
-        font-size: 24px;
+      .protocol-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .protocol-card {
+        padding: 20px;
+      }
+
+      .protocol-card h3 {
+        font-size: 18px;
       }
     }
   </style>
@@ -518,137 +615,221 @@
   </script>
 </head>
 <body>
-  <div class="wrapper">
-    <header class="dashboard-header">
-      <div class="logo-section">
-        <div class="logo-icon">🚀</div>
-        <div class="logo-text">
-          <h2>XT VPN TUNNELING</h2>
-          <div class="tagline">Secure Tunneling & VPN Management</div>
-        </div>
+  <!-- Header dengan Hamburger Menu -->
+  <header class="header">
+    <div class="logo-section">
+      <div class="logo-icon">🚀</div>
+      <div class="logo-text">
+        <h2>XT VPN TUNNELING</h2>
+        <div class="tagline">Secure Tunneling & VPN Management</div>
       </div>
-    </header>
-
-    <section class="welcome-card">
-      <div class="badge">✨ Selamat Datang</div>
-      
-      <h1>Panel VPN Otomatis, Cepat & Stabil</h1>
-      
-      <p>
-        Kelola akun SSH, VMess, VLess, dan Trojan dengan mudah.
-        Pembuatan akun otomatis, pembayaran terintegrasi, dan tampilan panel yang nyaman di semua perangkat.
-      </p>
-
-      <ul class="feature-list">
-        <li>
-          <span class="feature-icon">⚡</span>
-          <span>Sistem otomatis 24/7, cocok untuk jualan akun VPN</span>
-        </li>
-        <li>
-          <span class="feature-icon">🔒</span>
-          <span>Data akun tersimpan aman di backend, bukan di device</span>
-        </li>
-        <li>
-          <span class="feature-icon">📱</span>
-          <span>Desain responsive & nyaman dipakai di HP</span>
-        </li>
-      </ul>
-
-      <div class="btn-row">
-        <a href="login.html" class="btn-primary">
-          Masuk / Daftar Sekarang
-          <span>›</span>
-        </a>
-        
-        <button type="button" class="btn-ghost" onclick="window.location.href='panel.html'">
-          Sudah login? Buka Panel
-        </button>
-      </div>
-
-      <div class="status-pill">
-        <span class="status-dot"></span>
-        <span>Panel aktif & siap dipakai</span>
-      </div>
-    </section>
-
-    <section class="network-map-section">
-      <div class="map-header">
-        <h3>🌍 Jaringan Global VPN</h3>
-        <p>Terhubung ke server di seluruh dunia dengan koneksi super cepat</p>
-      </div>
-      <div class="map-container">
-        <svg viewBox="0 0 1000 500" class="world-map">
-          <path class="continent" d="M150,80 Q180,60 220,70 Q260,80 300,90 L340,110 Q380,120 420,110 L460,90 Q500,80 540,90 L580,110 Q620,130 660,120 L700,100 Q740,80 780,90 L820,110 Q860,120 900,110 L920,100 L920,380 Q900,400 860,390 L820,370 Q780,360 740,370 L700,390 Q660,400 620,390 L580,370 Q540,360 500,370 L460,390 Q420,400 380,390 L340,370 Q300,360 260,370 L220,390 Q180,400 150,390 Z"/>
-          
-          <g class="node-animation">
-            <circle class="server-node-glow" cx="180" cy="120" r="12"/>
-            <circle class="server-node" cx="180" cy="120" r="7"/>
-          </g>
-          
-          <g class="node-animation" style="animation-delay: 0.3s">
-            <circle class="server-node-glow" cx="320" cy="160" r="12"/>
-            <circle class="server-node" cx="320" cy="160" r="7"/>
-          </g>
-          
-          <g class="node-animation" style="animation-delay: 0.6s">
-            <circle class="server-node-glow" cx="480" cy="140" r="12"/>
-            <circle class="server-node" cx="480" cy="140" r="7"/>
-          </g>
-          
-          <g class="node-animation" style="animation-delay: 0.9s">
-            <circle class="server-node-glow" cx="640" cy="180" r="12"/>
-            <circle class="server-node" cx="640" cy="180" r="7"/>
-          </g>
-          
-          <g class="node-animation" style="animation-delay: 1.2s">
-            <circle class="server-node-glow" cx="800" cy="220" r="12"/>
-            <circle class="server-node" cx="800" cy="220" r="7"/>
-          </g>
-          
-          <g class="node-animation" style="animation-delay: 1.5s">
-            <circle class="server-node-glow" cx="260" cy="280" r="12"/>
-            <circle class="server-node" cx="260" cy="280" r="7"/>
-          </g>
-          
-          <g class="node-animation" style="animation-delay: 1.8s">
-            <circle class="server-node-glow" cx="720" cy="300" r="12"/>
-            <circle class="server-node" cx="720" cy="300" r="7"/>
-          </g>
-          
-          <line class="connection-line animate line-1" x1="180" y1="120" x2="320" y2="160"/>
-          <line class="connection-line animate line-2" x1="320" y1="160" x2="480" y2="140"/>
-          <line class="connection-line animate line-3" x1="480" y1="140" x2="640" y2="180"/>
-          <line class="connection-line animate line-4" x1="640" y1="180" x2="800" y2="220"/>
-          <line class="connection-line animate line-5" x1="320" y1="160" x2="260" y2="280"/>
-          <line class="connection-line animate line-6" x1="640" y1="180" x2="720" y2="300"/>
-          <line class="connection-line animate line-7" x1="180" y1="120" x2="260" y2="280"/>
-        </svg>
-        
-        <div class="map-stats">
-          <div class="stat-item">
-            <span class="stat-number">50+</span>
-            <div class="stat-label">Server Locations</div>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">99.9%</span>
-            <div class="stat-label">Uptime</div>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">1000+</span>
-            <div class="stat-label">Active Users</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">
-      © <span id="yearSpan"></span> XT VPN Panel – Crafted for Tunneling Lovers 🚀 · 
-      Telegram: <a href="https://t.me/joyhayabuse" target="_blank" rel="noopener">@joyhayabuse</a>
     </div>
-  </div>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <!-- Sidebar Menu -->
+  <div class="sidebar-overlay" id="overlay"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="menu-section">
+      <h3>Menu</h3>
+      <ul class="menu-list">
+        <li><a href="#home">🏠 Home</a></li>
+        <li><a href="#product">📦 Product</a></li>
+        <li><a href="#pricing">💰 Pricing</a></li>
+        <li><a href="#about">ℹ️ About</a></li>
+      </ul>
+    </div>
+
+    <div class="menu-section">
+      <h3>Account</h3>
+      <div class="auth-buttons">
+        <a href="login.html" class="btn-login">Login</a>
+        <a href="login.html" class="btn-register">Register</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="wrapper">
+      <section class="welcome-card">
+        <div class="badge">✨ Selamat Datang</div>
+        
+        <h1>Panel VPN Otomatis, Cepat & Stabil</h1>
+        
+        <p>
+          Kelola akun SSH, VMess, VLess, dan Trojan dengan mudah.
+          Pembuatan akun otomatis, pembayaran terintegrasi, dan tampilan panel yang nyaman di semua perangkat.
+        </p>
+
+        <div class="protocol-grid">
+          <div class="protocol-card">
+            <div class="protocol-icon">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <rect x="8" y="14" width="32" height="8" rx="2" fill="#10b981"/>
+                <circle cx="12" cy="18" r="2" fill="#fff"/>
+                <rect x="8" y="26" width="32" height="8" rx="2" fill="#10b981"/>
+                <circle cx="12" cy="30" r="2" fill="#fff"/>
+              </svg>
+            </div>
+            <h3>SSH Tunnel</h3>
+            <p>Secure Shell tunneling with custom build using go for max performance</p>
+          </div>
+
+          <div class="protocol-card">
+            <div class="protocol-icon">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <rect x="8" y="14" width="32" height="8" rx="2" fill="#10b981"/>
+                <circle cx="12" cy="18" r="2" fill="#fff"/>
+                <rect x="8" y="26" width="32" height="8" rx="2" fill="#10b981"/>
+                <circle cx="12" cy="30" r="2" fill="#fff"/>
+              </svg>
+            </div>
+            <h3>VLESS</h3>
+            <p>Lightweight protocol without encryption overhead, designed for performance</p>
+          </div>
+
+          <div class="protocol-card">
+            <div class="protocol-icon">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <rect x="8" y="14" width="32" height="8" rx="2" fill="#10b981"/>
+                <circle cx="12" cy="18" r="2" fill="#fff"/>
+                <rect x="8" y="26" width="32" height="8" rx="2" fill="#10b981"/>
+                <circle cx="12" cy="30" r="2" fill="#fff"/>
+              </svg>
+            </div>
+            <h3>VMESS</h3>
+            <p>Versatile encrypted protocol for bypassing censorship</p>
+          </div>
+
+          <div class="protocol-card">
+            <div class="protocol-icon">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <rect x="8" y="14" width="32" height="8" rx="2" fill="#10b981"/>
+                <circle cx="12" cy="18" r="2" fill="#fff"/>
+                <rect x="8" y="26" width="32" height="8" rx="2" fill="#10b981"/>
+                <circle cx="12" cy="30" r="2" fill="#fff"/>
+              </svg>
+            </div>
+            <h3>Trojan</h3>
+            <p>Mimics HTTPS traffic to remain undetected by firewalls</p>
+          </div>
+        </div>
+
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          <span>Panel aktif & siap dipakai</span>
+        </div>
+      </section>
+
+      <section class="network-map-section">
+        <div class="map-header">
+          <h3>🌍 Jaringan Global VPN</h3>
+          <p>Terhubung ke server di seluruh dunia dengan koneksi super cepat</p>
+        </div>
+        <div class="map-container">
+          <svg viewBox="0 0 1000 500" class="world-map">
+            <path class="continent" d="M150,80 Q180,60 220,70 Q260,80 300,90 L340,110 Q380,120 420,110 L460,90 Q500,80 540,90 L580,110 Q620,130 660,120 L700,100 Q740,80 780,90 L820,110 Q860,120 900,110 L920,100 L920,380 Q900,400 860,390 L820,370 Q780,360 740,370 L700,390 Q660,400 620,390 L580,370 Q540,360 500,370 L460,390 Q420,400 380,390 L340,370 Q300,360 260,370 L220,390 Q180,400 150,390 Z"/>
+            
+            <g class="node-animation">
+              <circle class="server-node-glow" cx="180" cy="120" r="12"/>
+              <circle class="server-node" cx="180" cy="120" r="7"/>
+            </g>
+            
+            <g class="node-animation" style="animation-delay: 0.3s">
+              <circle class="server-node-glow" cx="320" cy="160" r="12"/>
+              <circle class="server-node" cx="320" cy="160" r="7"/>
+            </g>
+            
+            <g class="node-animation" style="animation-delay: 0.6s">
+              <circle class="server-node-glow" cx="480" cy="140" r="12"/>
+              <circle class="server-node" cx="480" cy="140" r="7"/>
+            </g>
+            
+            <g class="node-animation" style="animation-delay: 0.9s">
+              <circle class="server-node-glow" cx="640" cy="180" r="12"/>
+              <circle class="server-node" cx="640" cy="180" r="7"/>
+            </g>
+            
+            <g class="node-animation" style="animation-delay: 1.2s">
+              <circle class="server-node-glow" cx="800" cy="220" r="12"/>
+              <circle class="server-node" cx="800" cy="220" r="7"/>
+            </g>
+            
+            <g class="node-animation" style="animation-delay: 1.5s">
+              <circle class="server-node-glow" cx="260" cy="280" r="12"/>
+              <circle class="server-node" cx="260" cy="280" r="7"/>
+            </g>
+            
+            <g class="node-animation" style="animation-delay: 1.8s">
+              <circle class="server-node-glow" cx="720" cy="300" r="12"/>
+              <circle class="server-node" cx="720" cy="300" r="7"/>
+            </g>
+            
+            <line class="connection-line animate line-1" x1="180" y1="120" x2="320" y2="160"/>
+            <line class="connection-line animate line-2" x1="320" y1="160" x2="480" y2="140"/>
+            <line class="connection-line animate line-3" x1="480" y1="140" x2="640" y2="180"/>
+            <line class="connection-line animate line-4" x1="640" y1="180" x2="800" y2="220"/>
+            <line class="connection-line animate line-5" x1="320" y1="160" x2="260" y2="280"/>
+            <line class="connection-line animate line-6" x1="640" y1="180" x2="720" y2="300"/>
+            <line class="connection-line animate line-7" x1="180" y1="120" x2="260" y2="280"/>
+          </svg>
+          
+          <div class="map-stats">
+            <div class="stat-item">
+              <span class="stat-number">50+</span>
+              <div class="stat-label">Server Locations</div>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">99.9%</span>
+              <div class="stat-label">Uptime</div>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">1000+</span>
+              <div class="stat-label">Active Users</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer">
+        © <span id="yearSpan"></span> XT VPN Panel – Crafted for Tunneling Lovers 🚀 · 
+        Telegram: <a href="https://t.me/joyhayabuse" target="_blank" rel="noopener">@joyhayabuse</a>
+      </div>
+    </div>
+  </main>
 
   <script>
     document.getElementById("yearSpan").textContent = new Date().getFullYear();
+
+    // Hamburger Menu Toggle
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    function toggleMenu() {
+      hamburger.classList.toggle('active');
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking menu items
+    const menuLinks = document.querySelectorAll('.menu-list a, .auth-buttons a');
+    menuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (sidebar.classList.contains('active')) {
+          toggleMenu();
+        }
+      });
+    });
   </script>
 </body>
 </html>
