@@ -816,7 +816,6 @@
   </div>
 
   <div class="app-container">
-    <!-- Sidebar Navigation -->
     <nav class="app-nav">
       <button class="nav-btn active" data-target="overview">📊 Overview</button>
       <button class="nav-btn" data-target="servers">🖥️ Server List</button>
@@ -825,9 +824,7 @@
       <button class="nav-btn" data-target="topup">💳 Pembayaran</button>
     </nav>
 
-    <!-- Content Area -->
     <main class="app-content">
-      <!-- OVERVIEW PAGE -->
       <div id="app-overview" class="app-page active">
         <h3 class="page-title">Layanan Tersedia</h3>
         <div class="services-grid">
@@ -869,7 +866,6 @@
         </div>
       </div>
 
-      <!-- SERVERS PAGE -->
       <div id="app-servers" class="app-page">
         <h3 class="page-title">Daftar Server</h3>
         <div id="serverList">
@@ -877,7 +873,6 @@
         </div>
       </div>
 
-      <!-- CREATE ACCOUNT PAGE -->
       <div id="app-create" class="app-page">
         <h3 class="page-title">Buat Akun Baru</h3>
         <div class="form-container">
@@ -922,9 +917,8 @@
         </div>
       </div>
 
-      <!-- TRIAL PAGE -->
       <div id="app-trial" class="app-page">
-        <h3 class="page-title">Trial Akun </h3>
+        <h3 class="page-title">Trial Akun</h3>
         <div class="form-container">
           <div class="form-grid">
             <p class="small muted">
@@ -952,31 +946,16 @@
           </div>
         </div>
 
-        <!-- HASIL TRIAL -->
-        <div id="trialResultCard" class="payment-container" style="display:none; margin-top:20px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
-            <h4 style="margin:0;">✅ Trial Berhasil Dibuat</h4>
+        <div id="trialResultCard">
+          <div class="result-header">
+            <h4>✅ Trial Berhasil Dibuat</h4>
             <button type="button" class="btn-outline" onclick="copyTrialAll()">Salin Semua</button>
           </div>
-
-          <div id="trialResultContent"
-               style="margin-top:12px;
-                      background:#0f172a;
-                      color:#e5e7eb;
-                      border-radius:12px;
-                      padding:16px;
-                      font-size:13px;
-                      line-height:1.6;
-                      overflow-x:auto;">
-          </div>
-
-          <div id="trialCopyButtons"
-               style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-          </div>
+          <div id="trialResultContent"></div>
+          <div id="trialCopyButtons"></div>
         </div>
       </div>
 
-      <!-- TOPUP / PAYMENT PAGE -->
       <div id="app-topup" class="app-page">
         <h3 class="page-title">Pembayaran</h3>
         <div class="payment-container">
@@ -990,30 +969,15 @@
             <a id="paymentLink" href="#" target="_blank" style="display:none;">Buka Link Pembayaran</a>
           </div>
 
-          <!-- HASIL AKUN SETELAH BAYAR -->
-          <div id="topupAccountCard"
-               class="payment-card"
-               style="margin-top:20px; display:none;">
-            <h4>✅ Akun Berhasil Dibuat</h4>
-            <p class="muted small">
+          <div id="topupAccountCard">
+            <div class="result-header">
+              <h4>✅ Akun Berhasil Dibuat</h4>
+              <button type="button" class="btn-outline" onclick="copyTopupAll()">Salin Semua</button>
+            </div>
+            <p class="result-subtitle">
               Di bawah ini adalah detail akun yang dibuat otomatis setelah pembayaran berhasil.
             </p>
-            <div id="topupAccountContent"
-                 style="margin-top:12px;
-                        background:#0f172a;
-                        color:#e5e7eb;
-                        border-radius:12px;
-                        padding:16px;
-                        font-size:13px;
-                        line-height:1.6;
-                        overflow-x:auto;">
-            </div>
-            <button type="button"
-                    class="btn-outline"
-                    style="margin-top:12px;"
-                    onclick="copyTopupAll()">
-              Salin Semua
-            </button>
+            <div id="topupAccountContent"></div>
           </div>
         </div>
       </div>
@@ -1021,208 +985,107 @@
   </div>
 
   <script>
-    // =====================================
-    // CONFIG
-    // =====================================
     const API_BASE = "/api/web";
-const fmtRupiah = (n) => "Rp " + Number(n || 0).toLocaleString("id-ID");
+    const fmtRupiah = (n) => "Rp " + Number(n || 0).toLocaleString("id-ID");
 
-const ORDER_KEY   = "xt_last_order";          // simpan orderId terakhir
-const ACCOUNT_KEY = "xt_last_paid_account";   // simpan akun yang sudah jadi
+    const ORDER_KEY   = "xt_last_order";
+    const ACCOUNT_KEY = "xt_last_paid_account";
 
-let POLL_TIMER = null;
-let LAST_TRIAL_RAW = "";
-let LAST_TRIAL_PARSED = {};
-let LAST_TOPUP_MESSAGE_RAW = "";
+    let POLL_TIMER = null;
+    let LAST_TRIAL_RAW = "";
+    let LAST_TRIAL_PARSED = {};
+    let LAST_TOPUP_MESSAGE_RAW = "";
 
-// ====== SIMPAN / LOAD AKUN BERDASARKAN EMAIL ======
-function saveLastAccountForEmail(email, html, rawText) {
-  if (!email || !html) return;
-  try {
-    const payload = {
-      email,
-      html,
-      raw: rawText || "",
-      ts: Date.now(),
-    };
-    localStorage.setItem(ACCOUNT_KEY, JSON.stringify(payload));
-  } catch (e) {
-    console.warn("Gagal simpan akun ke localStorage:", e);
-  }
-}
+    function saveLastAccountForEmail(email, html, rawText) {
+      if (!email || !html) return;
+      try {
+        const payload = {
+          email,
+          html,
+          raw: rawText || "",
+          ts: Date.now(),
+        };
+        localStorage.setItem(ACCOUNT_KEY, JSON.stringify(payload));
+      } catch (e) {
+        console.warn("Gagal simpan akun ke localStorage:", e);
+      }
+    }
 
-function loadLastAccountForEmail(email) {
-  if (!email) return null;
-  try {
-    const raw = localStorage.getItem(ACCOUNT_KEY);
-    if (!raw) return null;
+    function loadLastAccountForEmail(email) {
+      if (!email) return null;
+      try {
+        const raw = localStorage.getItem(ACCOUNT_KEY);
+        if (!raw) return null;
 
-    const data = JSON.parse(raw);
-    if (!data || data.email !== email) return null; // beda email => jangan dipakai
+        const data = JSON.parse(raw);
+        if (!data || data.email !== email) return null;
 
-    // opsional: expired 7 hari
-    const MAX_AGE = 7 * 24 * 60 * 60 * 1000;
-    if (Date.now() - (data.ts || 0) > MAX_AGE) return null;
+        const MAX_AGE = 7 * 24 * 60 * 60 * 1000;
+        if (Date.now() - (data.ts || 0) > MAX_AGE) return null;
 
-    return data;
-  } catch (e) {
-    return null;
-  }
-}
+        return data;
+      } catch (e) {
+        return null;
+      }
+    }
 
-function clearLastAccount() {
-  try {
-    localStorage.removeItem(ACCOUNT_KEY);
-  } catch (e) {}
-}
+    function clearLastAccount() {
+      try {
+        localStorage.removeItem(ACCOUNT_KEY);
+      } catch (e) {}
+    }
 
     function lockButton(btn, locked) {
       if (!btn) return;
       btn.disabled = locked;
       btn.classList.toggle("loading", !!locked);
     }
-/**
- * Helper function untuk copy text ke clipboard
- * Digunakan untuk tombol copy pada config link
- */
-function copyToClipboard(button) {
-  // Cari textarea di parent container
-  const container = button.parentElement;
-  const textarea = container.querySelector('.config-link');
-  
-  if (!textarea) {
-    console.error('Textarea tidak ditemukan');
-    return;
-  }
 
-  // Select dan copy text
-  textarea.select();
-  textarea.setSelectionRange(0, 99999); // Untuk mobile
-  
-  try {
-    // Method modern
-    navigator.clipboard.writeText(textarea.value).then(() => {
-      showCopySuccess(button);
-    }).catch(err => {
-      // Fallback ke method lama
-      document.execCommand('copy');
-      showCopySuccess(button);
-    });
-  } catch (err) {
-    // Fallback ke method lama
-    try {
-      document.execCommand('copy');
-      showCopySuccess(button);
-    } catch (e) {
-      console.error('Gagal copy:', e);
-      showCopyError(button);
+    const DEFAULT_PAGE = "overview";
+
+    function openAppPage(name, options = {}) {
+      const { pushHistory = true, fromPopstate = false } = options;
+
+      localStorage.setItem("xt_panel_tab", name);
+
+      document.querySelectorAll(".app-page").forEach((p) =>
+        p.classList.remove("active")
+      );
+      const pageEl = document.getElementById("app-" + name);
+      if (pageEl) pageEl.classList.add("active");
+
+      document.querySelectorAll(".nav-btn").forEach((btn) =>
+        btn.classList.remove("active")
+      );
+      const activeBtn = document.querySelector(
+        '.nav-btn[data-target="' + name + '"]'
+      );
+      if (activeBtn) activeBtn.classList.add("active");
+
+      const nav = document.querySelector(".app-nav");
+      if (nav) nav.classList.remove("open");
+
+      if (pushHistory && !fromPopstate && history.pushState) {
+        history.pushState({ page: name }, "", "#" + name);
+      }
     }
-  }
-}
 
-/**
- * Tampilkan feedback sukses copy
- */
-function showCopySuccess(button) {
-  const originalHTML = button.innerHTML;
-  
-  // Ubah tampilan button
-  button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-  button.classList.add('copied');
-  
-  // Kembalikan ke semula setelah 2 detik
-  setTimeout(() => {
-    button.innerHTML = originalHTML;
-    button.classList.remove('copied');
-  }, 2000);
-}
+    function initHistory() {
+      const lastTab = localStorage.getItem("xt_panel_tab") || DEFAULT_PAGE;
+      openAppPage(lastTab, { pushHistory: false });
 
-/**
- * Tampilkan feedback error copy
- */
-function showCopyError(button) {
-  const originalHTML = button.innerHTML;
-  
-  // Ubah tampilan button
-  button.innerHTML = '<i class="fas fa-times"></i> Failed';
-  button.style.background = '#dc3545';
-  
-  // Kembalikan ke semula setelah 2 detik
-  setTimeout(() => {
-    button.innerHTML = originalHTML;
-    button.style.background = '';
-  }, 2000);
-}
+      if (history.replaceState) {
+        history.replaceState({ page: lastTab }, "", "#" + lastTab);
+      }
+    }
 
-// Export untuk use di module
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { copyToClipboard };
-}
-    // =====================================
-// NAVIGATION + BACK BUTTON
-// =====================================
-const DEFAULT_PAGE = "overview";
+    window.addEventListener("popstate", (event) => {
+      const state = event.state;
+      if (state && state.page) {
+        openAppPage(state.page, { pushHistory: false, fromPopstate: true });
+      }
+    });
 
-function openAppPage(name, options = {}) {
-  const { pushHistory = true, fromPopstate = false } = options;
-
-  // simpan tab terakhir
-  localStorage.setItem("xt_panel_tab", name);
-
-  // show/hide page
-  document.querySelectorAll(".app-page").forEach((p) =>
-    p.classList.remove("active")
-  );
-  const pageEl = document.getElementById("app-" + name);
-  if (pageEl) pageEl.classList.add("active");
-
-  // aktifkan nav
-  document.querySelectorAll(".nav-btn").forEach((btn) =>
-    btn.classList.remove("active")
-  );
-  const activeBtn = document.querySelector(
-    '.nav-btn[data-target="' + name + '"]'
-  );
-  if (activeBtn) activeBtn.classList.add("active");
-
-  // tutup sidebar di HP
-  const nav = document.querySelector(".app-nav");
-  if (nav) nav.classList.remove("open");
-
-  // tambahin ke history biar tombol Back HP pindah tab dulu
-  if (pushHistory && !fromPopstate && history.pushState) {
-    history.pushState({ page: name }, "", "#" + name);
-  }
-}
-
-// Set state awal history
-function initHistory() {
-  const lastTab = localStorage.getItem("xt_panel_tab") || DEFAULT_PAGE;
-
-  // tampilkan dulu tanpa nambah history
-  openAppPage(lastTab, { pushHistory: false });
-
-  // ganti state pertama jadi state panel
-  if (history.replaceState) {
-    history.replaceState({ page: lastTab }, "", "#" + lastTab);
-  }
-}
-
-// Ketika tombol BACK ditekan
-window.addEventListener("popstate", (event) => {
-  const state = event.state;
-
-  if (state && state.page) {
-    // pindah tab TANPA nambah history lagi
-    openAppPage(state.page, { pushHistory: false, fromPopstate: true });
-  } else {
-    // kalau sudah nggak ada state (sudah di index.html / halaman lain),
-    // biarin browser yang handle (boleh keluar)
-  }
-});
-    // =====================================
-    // ORDER STORAGE + POLLING
-    // =====================================
     function saveLastOrder(orderId, amount) {
       try {
         localStorage.setItem(
@@ -1267,57 +1130,55 @@ window.addEventListener("popstate", (event) => {
     }
 
     async function pollOrderStatusOnce(orderId) {
-  if (!orderId) return;
-  try {
-    const res = await fetch(
-      `${API_BASE}/order-status?orderId=${encodeURIComponent(orderId)}`
-    );
-    const json = await res.json().catch(() => ({}));
-    if (!res.ok || !json.ok) return;
+      if (!orderId) return;
+      try {
+        const res = await fetch(
+          `${API_BASE}/order-status?orderId=${encodeURIComponent(orderId)}`
+        );
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || !json.ok) return;
 
-    const data = json.data || {};
-    if (data.status === "paid") {
-      // stop polling
-      if (POLL_TIMER) {
-        clearInterval(POLL_TIMER);
-        POLL_TIMER = null;
-      }
-      clearLastOrder();
+        const data = json.data || {};
+        if (data.status === "paid") {
+          if (POLL_TIMER) {
+            clearInterval(POLL_TIMER);
+            POLL_TIMER = null;
+          }
+          clearLastOrder();
 
-      if (data.akun_message && typeof data.akun_message === "string") {
-        const card = document.getElementById("topupAccountCard");
-        const content = document.getElementById("topupAccountContent");
-        if (card && content) {
-          content.innerHTML = data.akun_message;
+          if (data.akun_message && typeof data.akun_message === "string") {
+            const card = document.getElementById("topupAccountCard");
+            const content = document.getElementById("topupAccountContent");
+            if (card && content) {
+              content.innerHTML = data.akun_message;
 
-          LAST_TOPUP_MESSAGE_RAW = data.akun_message
-            .replace(/<br\s*\/?>/gi, "\n")
-            .replace(/<\/p>/gi, "\n\n")
-            .replace(/<[^>]+>/g, "")
-            .trim();
+              LAST_TOPUP_MESSAGE_RAW = data.akun_message
+                .replace(/<br\s*\/?>/gi, "\n")
+                .replace(/<\/p>/gi, "\n\n")
+                .replace(/<[^>]+>/g, "")
+                .trim();
 
-          // 🔥 simpan akun per-email
-          const currentEmail = localStorage.getItem("xt_email") || "";
-          saveLastAccountForEmail(
-            currentEmail,
-            data.akun_message,      // HTML akun
-            LAST_TOPUP_MESSAGE_RAW  // versi plain text
-          );
+              const currentEmail = localStorage.getItem("xt_email") || "";
+              saveLastAccountForEmail(
+                currentEmail,
+                data.akun_message,
+                LAST_TOPUP_MESSAGE_RAW
+              );
 
-          card.style.display = "block";
-          card.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else {
-          alert(
-            "Akun berhasil dibuat:\n\n" +
-              data.akun_message.replace(/<[^>]+>/g, "")
-          );
+              card.style.display = "block";
+              card.scrollIntoView({ behavior: "smooth", block: "start" });
+            } else {
+              alert(
+                "Akun berhasil dibuat:\n\n" +
+                  data.akun_message.replace(/<[^>]+>/g, "")
+              );
+            }
+          }
         }
+      } catch (e) {
+        console.warn("Gagal cek status order:", e);
       }
     }
-  } catch (e) {
-    console.warn("Gagal cek status order:", e);
-  }
-}
 
     function startOrderPolling(orderId) {
       if (!orderId) return;
@@ -1325,9 +1186,6 @@ window.addEventListener("popstate", (event) => {
       POLL_TIMER = setInterval(() => pollOrderStatusOnce(orderId), 5000);
     }
 
-    // =====================================
-    // SERVER LIST
-    // =====================================
     let cachedServers = [];
 
     async function loadServersFromApi() {
@@ -1402,13 +1260,8 @@ window.addEventListener("popstate", (event) => {
       if (selTrial)  selTrial.innerHTML  = html;
     }
 
-    // =====================================
-    // PASSWORD FIELD VISIBILITY
-    // =====================================
     const typeSelect        = document.getElementById("createType");
     const passwordFieldWrap = document.getElementById("createPassWrap");
-    const trialTypeSelect   = document.getElementById("trialType");
-    const trialPassWrap     = document.getElementById("trialPassWrap");
 
     function updatePasswordVisibility() {
       if (!typeSelect || !passwordFieldWrap) return;
@@ -1416,15 +1269,6 @@ window.addEventListener("popstate", (event) => {
       passwordFieldWrap.style.display = t === "ssh" ? "block" : "none";
     }
 
-    function updateTrialPasswordVisibility() {
-      if (!trialTypeSelect || !trialPassWrap) return;
-      const t = trialTypeSelect.value.toLowerCase();
-      trialPassWrap.style.display = t === "ssh" ? "block" : "none";
-    }
-
-    // =====================================
-    // TRIAL RESULT + COPY HELPER
-    // =====================================
     function showTrialResult(messageHtml) {
       const card    = document.getElementById("trialResultCard");
       const content = document.getElementById("trialResultContent");
@@ -1492,338 +1336,302 @@ window.addEventListener("popstate", (event) => {
       card.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    // =====================================
-    // ON LOAD
-    // =====================================
     window.addEventListener("load", () => {
-  const email = localStorage.getItem("xt_email");
-  const pass  = localStorage.getItem("xt_pass");
+      const email = localStorage.getItem("xt_email");
+      const pass  = localStorage.getItem("xt_pass");
 
-  if (!email || !pass) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  const headerEmailEl = document.getElementById("userEmailHeader");
-  if (headerEmailEl) headerEmailEl.innerText = email;
-
-  // Logout
-  const btnLogout = document.getElementById("btnLogout");
-  if (btnLogout) {
-    btnLogout.onclick = () => {
-      localStorage.removeItem("xt_email");
-      localStorage.removeItem("xt_pass");
-      localStorage.removeItem("xt_panel_tab");
-      clearLastOrder();
-      clearLastAccount(); // 🔥 bersihkan cache akun
-      window.location.href = "login.html";
-    };
-  }
-
-  // Nav button click
-  document.querySelectorAll(".nav-btn").forEach((btn) => {
-    btn.onclick = () => openAppPage(btn.dataset.target);
-  });
-
-  // Hamburger
-  const btnToggleNav = document.getElementById("btnToggleNav");
-  if (btnToggleNav) {
-    btnToggleNav.onclick = () => {
-      const nav = document.querySelector(".app-nav");
-      if (nav) nav.classList.toggle("open");
-    };
-  }
-
-  // Load server list
-  loadServersFromApi();
-
-  // Password visibility
-  updatePasswordVisibility();
-  if (typeSelect) {
-    typeSelect.addEventListener("change", updatePasswordVisibility);
-  }
-  updateTrialPasswordVisibility();
-  if (trialTypeSelect) {
-    trialTypeSelect.addEventListener("change", updateTrialPasswordVisibility);
-  }
-
-  // Service card → buka tab create/trial
-  document.querySelectorAll(".service-cta").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const t = btn.dataset.createType || "ssh";
-      openAppPage("create");
-      const sel = document.getElementById("createType");
-      if (sel) {
-        sel.value = t;
-        updatePasswordVisibility();
-      }
-    });
-  });
-
-  document.querySelectorAll(".service-cta-trial").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const t = btn.dataset.trialType || "ssh";
-      openAppPage("trial");
-      const sel =
-        document.getElementById("trialType") ||
-        document.getElementById("createType");
-      if (sel) {
-        sel.value = t;
-        updateTrialPasswordVisibility();
-      }
-      const trialBtn = document.getElementById("btnTrial");
-      if (trialBtn) {
-        trialBtn.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    });
-  });
-
-  // CREATE ACCOUNT (PAKASIR)
-  const btnCreate = document.getElementById("btnCreate");
-  if (btnCreate) {
-    btnCreate.onclick = async (ev) => {
-      const btn = ev.currentTarget;
-      const type = document.getElementById("createType").value;
-      const serverId = parseInt(
-        document.getElementById("createServer").value,
-        10
-      );
-      const username = document
-        .getElementById("createUser")
-        .value.trim();
-      const password = document.getElementById("createPass")
-        ? document.getElementById("createPass").value.trim()
-        : "";
-      const days = parseInt(
-        document.getElementById("createDays").value,
-        10
-      );
-      const userEmail = localStorage.getItem("xt_email") || "";
-
-      if (!userEmail) {
-        alert("Kamu harus login terlebih dahulu.");
-        window.location.href = "index.html";
-        return;
-      }
-      if (!serverId || !username || !days) {
-        alert("Lengkapi semua form (server, username, hari).");
-        return;
-      }
-      if (type === "ssh" && !password) {
-        alert("Password SSH wajib diisi untuk akun SSH.");
-        return;
-      }
-      if (days !== 15 && days !== 30) {
-        alert("Untuk panel web hanya tersedia paket 15 atau 30 hari.");
-        return;
-      }
-
-      lockButton(btn, true);
-
-      try {
-        const res = await fetch(API_BASE + "/create-order", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: userEmail,
-            type,
-            serverId,
-            username,
-            days,
-            password,
-          }),
-        });
-
-        const json = await res.json().catch(() => ({}));
-        if (!res.ok || !json.ok) {
-          throw new Error(json.error || "Gagal membuat order.");
-        }
-
-        const data = json.data || {};
-        const card = document.getElementById("topupPaymentCard");
-        const img = document.getElementById("qrisImage");
-        const infoEl = document.getElementById("paymentInfo");
-        const linkEl = document.getElementById("paymentLink");
-
-        if (card && infoEl) {
-          infoEl.textContent = `Order ID: ${
-            data.orderId || "-"
-          } • Nominal: ${fmtRupiah(data.amount || 0)}`;
-
-          if (img) {
-            let qrUrl =
-              data.qrImageBase64 ||
-              data.qrImageUrl ||
-              data.qrisImageUrl ||
-              data.qr_url ||
-              data.qris_image ||
-              data.qrisImage ||
-              data.qrImage ||
-              "";
-
-            if (
-              qrUrl &&
-              !qrUrl.startsWith("http") &&
-              !qrUrl.startsWith("data:")
-            ) {
-              qrUrl = "data:image/png;base64," + qrUrl;
-            }
-
-            if (qrUrl) {
-              img.src = qrUrl;
-              img.style.display = "block";
-            } else {
-              img.style.display = "none";
-            }
-          }
-
-        if (linkEl) {
-          if (data.paymentUrl) {
-            linkEl.href = data.paymentUrl;
-            linkEl.style.display = "inline-block";
-          } else {
-            linkEl.style.display = "none";
-          }
-        }
-
-        card.style.display = "block";
-      }
-
-        saveLastOrder(data.orderId, data.amount);
-        startOrderPolling(data.orderId);
-
-        openAppPage("topup");
-
-        alert(
-          "Order berhasil dibuat.\nSilakan lakukan pembayaran menggunakan QR / link yang tampil. Akun akan dibuat otomatis setelah pembayaran berhasil."
-        );
-      } catch (e) {
-        alert(e.message || "Gagal membuat order pembayaran.");
-      } finally {
-        lockButton(btn, false);
-      }
-    };
-  }
-
-  // TRIAL ACCOUNT
-  const btnTrial = document.getElementById("btnTrial");
-  if (btnTrial) {
-    btnTrial.onclick = async (ev) => {
-      const btn = ev.currentTarget;
-
-      const userEmail = localStorage.getItem("xt_email") || "";
-      if (!userEmail) {
-        alert("Kamu harus login terlebih dahulu.");
+      if (!email || !pass) {
         window.location.href = "login.html";
         return;
       }
 
-      const typeEl =
-        document.getElementById("trialType") ||
-        document.getElementById("createType");
-      const serverEl =
-        document.getElementById("trialServer") ||
-        document.getElementById("createServer");
-      const usernameEl =
-        document.getElementById("trialUsername") ||
-        document.getElementById("createUser");
-      const passwordEl =
-        document.getElementById("trialPassword") ||
-        document.getElementById("createPass");
+      const headerEmailEl = document.getElementById("userEmailHeader");
+      if (headerEmailEl) headerEmailEl.innerText = email;
 
-      const type = typeEl ? typeEl.value : "";
-      const serverId = serverEl ? parseInt(serverEl.value, 10) : 0;
-      const username = usernameEl ? usernameEl.value.trim() : "";
-      const password = passwordEl ? passwordEl.value.trim() : "";
-
-      if (!type || !serverId) {
-        alert("Data trial tidak lengkap (tipe / server).");
-        return;
+      const btnLogout = document.getElementById("btnLogout");
+      if (btnLogout) {
+        btnLogout.onclick = () => {
+          localStorage.removeItem("xt_email");
+          localStorage.removeItem("xt_pass");
+          localStorage.removeItem("xt_panel_tab");
+          clearLastOrder();
+          clearLastAccount();
+          window.location.href = "login.html";
+        };
       }
 
-      lockButton(btn, true);
-      try {
-        const res = await fetch(API_BASE + "/trial", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: userEmail,
-            type,
-            serverId,
-            username,
-            password,
-          }),
-        });
+      document.querySelectorAll(".nav-btn").forEach((btn) => {
+        btn.onclick = () => openAppPage(btn.dataset.target);
+      });
 
-        const json = await res.json().catch(() => ({}));
+      const btnToggleNav = document.getElementById("btnToggleNav");
+      if (btnToggleNav) {
+        btnToggleNav.onclick = () => {
+          const nav = document.querySelector(".app-nav");
+          if (nav) nav.classList.toggle("open");
+        };
+      }
 
-        if (!res.ok || !json.ok) {
-          if (res.status === 429 && json.error) {
-            throw new Error(json.error);
+      loadServersFromApi();
+
+      updatePasswordVisibility();
+      if (typeSelect) {
+        typeSelect.addEventListener("change", updatePasswordVisibility);
+      }
+
+      document.querySelectorAll(".service-cta").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const t = btn.dataset.createType || "ssh";
+          openAppPage("create");
+          const sel = document.getElementById("createType");
+          if (sel) {
+            sel.value = t;
+            updatePasswordVisibility();
           }
-          throw new Error(json.error || "Gagal membuat akun trial.");
-        }
+        });
+      });
 
-        const data = json.data || {};
-        if (data.message && typeof data.message === "string") {
-          showTrialResult(data.message);
-        } else {
-          alert(
-            "Trial berhasil dibuat.\n\n" +
-              JSON.stringify(data, null, 2)
+      document.querySelectorAll(".service-cta-trial").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const t = btn.dataset.trialType || "ssh";
+          openAppPage("trial");
+          const sel = document.getElementById("trialType");
+          if (sel) {
+            sel.value = t;
+          }
+          const trialBtn = document.getElementById("btnTrial");
+          if (trialBtn) {
+            trialBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        });
+      });
+
+      const btnCreate = document.getElementById("btnCreate");
+      if (btnCreate) {
+        btnCreate.onclick = async (ev) => {
+          const btn = ev.currentTarget;
+          const type = document.getElementById("createType").value;
+          const serverId = parseInt(
+            document.getElementById("createServer").value,
+            10
           );
+          const username = document
+            .getElementById("createUser")
+            .value.trim();
+          const password = document.getElementById("createPass")
+            ? document.getElementById("createPass").value.trim()
+            : "";
+          const days = parseInt(
+            document.getElementById("createDays").value,
+            10
+          );
+          const userEmail = localStorage.getItem("xt_email") || "";
+
+          if (!userEmail) {
+            alert("Kamu harus login terlebih dahulu.");
+            window.location.href = "index.html";
+            return;
+          }
+          if (!serverId || !username || !days) {
+            alert("Lengkapi semua form (server, username, hari).");
+            return;
+          }
+          if (type === "ssh" && !password) {
+            alert("Password SSH wajib diisi untuk akun SSH.");
+            return;
+          }
+          if (days !== 15 && days !== 30) {
+            alert("Untuk panel web hanya tersedia paket 15 atau 30 hari.");
+            return;
+          }
+
+          lockButton(btn, true);
+
+          try {
+            const res = await fetch(API_BASE + "/create-order", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: userEmail,
+                type,
+                serverId,
+                username,
+                days,
+                password,
+              }),
+            });
+
+            const json = await res.json().catch(() => ({}));
+            if (!res.ok || !json.ok) {
+              throw new Error(json.error || "Gagal membuat order.");
+            }
+
+            const data = json.data || {};
+            const card = document.getElementById("topupPaymentCard");
+            const img = document.getElementById("qrisImage");
+            const infoEl = document.getElementById("paymentInfo");
+            const linkEl = document.getElementById("paymentLink");
+
+            if (card && infoEl) {
+              infoEl.textContent = `Order ID: ${
+                data.orderId || "-"
+              } • Nominal: ${fmtRupiah(data.amount || 0)}`;
+
+              if (img) {
+                let qrUrl =
+                  data.qrImageBase64 ||
+                  data.qrImageUrl ||
+                  data.qrisImageUrl ||
+                  data.qr_url ||
+                  data.qris_image ||
+                  data.qrisImage ||
+                  data.qrImage ||
+                  "";
+
+                if (
+                  qrUrl &&
+                  !qrUrl.startsWith("http") &&
+                  !qrUrl.startsWith("data:")
+                ) {
+                  qrUrl = "data:image/png;base64," + qrUrl;
+                }
+
+                if (qrUrl) {
+                  img.src = qrUrl;
+                  img.style.display = "block";
+                } else {
+                  img.style.display = "none";
+                }
+              }
+
+              if (linkEl) {
+                if (data.paymentUrl) {
+                  linkEl.href = data.paymentUrl;
+                  linkEl.style.display = "inline-block";
+                } else {
+                  linkEl.style.display = "none";
+                }
+              }
+
+              card.style.display = "block";
+            }
+
+            saveLastOrder(data.orderId, data.amount);
+            startOrderPolling(data.orderId);
+
+            openAppPage("topup");
+
+            alert(
+              "Order berhasil dibuat.\nSilakan lakukan pembayaran menggunakan QR / link yang tampil. Akun akan dibuat otomatis setelah pembayaran berhasil."
+            );
+          } catch (e) {
+            alert(e.message || "Gagal membuat order pembayaran.");
+          } finally {
+            lockButton(btn, false);
+          }
+        };
+      }
+
+      const btnTrial = document.getElementById("btnTrial");
+      if (btnTrial) {
+        btnTrial.onclick = async (ev) => {
+          const btn = ev.currentTarget;
+
+          const userEmail = localStorage.getItem("xt_email") || "";
+          if (!userEmail) {
+            alert("Kamu harus login terlebih dahulu.");
+            window.location.href = "login.html";
+            return;
+          }
+
+          const typeEl = document.getElementById("trialType");
+          const serverEl = document.getElementById("trialServer");
+
+          const type = typeEl ? typeEl.value : "";
+          const serverId = serverEl ? parseInt(serverEl.value, 10) : 0;
+
+          if (!type || !serverId) {
+            alert("Data trial tidak lengkap (tipe / server).");
+            return;
+          }
+
+          lockButton(btn, true);
+          try {
+            const res = await fetch(API_BASE + "/trial", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: userEmail,
+                type,
+                serverId,
+              }),
+            });
+
+            const json = await res.json().catch(() => ({}));
+
+            if (!res.ok || !json.ok) {
+              if (res.status === 429 && json.error) {
+                throw new Error(json.error);
+              }
+              throw new Error(json.error || "Gagal membuat akun trial.");
+            }
+
+            const data = json.data || {};
+            if (data.message && typeof data.message === "string") {
+              showTrialResult(data.message);
+            } else {
+              alert(
+                "Trial berhasil dibuat.\n\n" +
+                  JSON.stringify(data, null, 2)
+              );
+            }
+          } catch (e) {
+            alert(e.message || "Gagal membuat akun trial.");
+          } finally {
+            lockButton(btn, false);
+          }
+        };
+      }
+
+      initHistory();
+
+      const lastOrder = loadLastOrder();
+      if (lastOrder && lastOrder.orderId) {
+        const card = document.getElementById("topupPaymentCard");
+        const infoEl = document.getElementById("paymentInfo");
+        if (card && infoEl) {
+          infoEl.textContent = `Order ID: ${
+            lastOrder.orderId
+          } • Nominal: ${fmtRupiah(lastOrder.amount || 0)}`;
+          card.style.display = "block";
+        }
+        openAppPage("topup");
+        startOrderPolling(lastOrder.orderId);
+      }
+
+      try {
+        const savedAcc = loadLastAccountForEmail(email);
+        if (savedAcc && savedAcc.html) {
+          const card = document.getElementById("topupAccountCard");
+          const content = document.getElementById("topupAccountContent");
+
+          if (card && content) {
+            content.innerHTML = savedAcc.html;
+            card.style.display = "block";
+
+            LAST_TOPUP_MESSAGE_RAW = (savedAcc.raw || savedAcc.html)
+              .replace(/<br\s*\/?>/gi, "\n")
+              .replace(/<\/p>/gi, "\n\n")
+              .replace(/<[^>]+>/g, "")
+              .trim();
+
+            openAppPage("topup");
+          }
         }
       } catch (e) {
-        alert(e.message || "Gagal membuat akun trial.");
-      } finally {
-        lockButton(btn, false);
+        console.warn("Gagal restore akun tersimpan:", e);
       }
-    };
-  }
-
-// Inisialisasi history + tab pertama
-  initHistory();
-
-  // Restore order jika ada
-  const lastOrder = loadLastOrder();
-  if (lastOrder && lastOrder.orderId) {
-    const card = document.getElementById("topupPaymentCard");
-    const infoEl = document.getElementById("paymentInfo");
-    if (card && infoEl) {
-      infoEl.textContent = `Order ID: ${
-        lastOrder.orderId
-      } • Nominal: ${fmtRupiah(lastOrder.amount || 0)}`;
-      card.style.display = "block";
-    }
-    openAppPage("topup");
-    startOrderPolling(lastOrder.orderId);
-  }
-
-// 🔁 RESTORE AKUN TERSIMPAN (KHUSUS EMAIL INI)
-  try {
-    const savedAcc = loadLastAccountForEmail(email);
-    if (savedAcc && savedAcc.html) {
-      const card = document.getElementById("topupAccountCard");
-      const content = document.getElementById("topupAccountContent");
-
-      if (card && content) {
-        content.innerHTML = savedAcc.html;
-        card.style.display = "block";
-
-        LAST_TOPUP_MESSAGE_RAW = (savedAcc.raw || savedAcc.html)
-          .replace(/<br\s*\/?>/gi, "\n")
-          .replace(/<\/p>/gi, "\n\n")
-          .replace(/<[^>]+>/g, "")
-          .trim();
-
-        // buka tab Pembayaran
-        openAppPage("topup");
-      }
-    }
-  } catch (e) {
-    console.warn("Gagal restore akun tersimpan:", e);
-  }
-});
+    });
   </script>
 </body>
 </html>
