@@ -13,7 +13,7 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -52,7 +52,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.1);
     }
 
     .hamburger {
@@ -64,13 +64,19 @@
       left: 20px;
       top: 50%;
       transform: translateY(-50%);
-      background: linear-gradient(135deg, #059669, #10b981);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
       border: none;
       padding: 10px;
       cursor: pointer;
       border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3);
+      box-shadow: 0 4px 16px rgba(30, 64, 175, 0.3);
       z-index: 101;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger:hover {
+      transform: translateY(-50%) scale(1.05);
+      box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
     }
 
     .hamburger span {
@@ -91,17 +97,17 @@
     .logo-icon {
       width: 40px;
       height: 40px;
-      background: linear-gradient(135deg, #059669, #10b981);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 20px;
-      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
     }
 
     .dashboard-header h2 {
-      background: linear-gradient(135deg, #059669, #10b981);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -121,9 +127,9 @@
       font-size: 13px;
       font-weight: 600;
       padding: 8px 16px;
-      background: #f0fdf4;
+      background: #dbeafe;
       border-radius: 20px;
-      border: 1px solid #d1fae5;
+      border: 1px solid #bfdbfe;
     }
 
     .btn-logout {
@@ -173,6 +179,7 @@
       z-index: 1000;
       transition: left 0.3s;
       padding-top: 80px;
+      border: 1px solid rgba(59, 130, 246, 0.1);
     }
 
     .app-nav.open {
@@ -210,15 +217,15 @@
     }
 
     .nav-btn:hover {
-      background: #f0fdf4;
-      color: #059669;
+      background: #dbeafe;
+      color: #1e40af;
       transform: translateX(4px);
     }
 
     .nav-btn.active {
-      background: linear-gradient(135deg, #059669, #10b981);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
       color: white;
-      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.3);
+      box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
     }
 
     .app-content {
@@ -283,7 +290,7 @@
       flex-direction: column;
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.1);
     }
 
     .service-card::before {
@@ -293,14 +300,14 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #059669, #10b981);
+      background: linear-gradient(90deg, #1e40af, #3b82f6);
       transform: scaleX(0);
       transition: transform 0.4s;
     }
 
     .service-card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 16px 48px rgba(5, 150, 105, 0.2);
+      box-shadow: 0 16px 48px rgba(30, 64, 175, 0.2);
     }
 
     .service-card:hover::before {
@@ -308,7 +315,7 @@
     }
 
     .service-card h4 {
-      color: #059669;
+      color: #1e40af;
       margin-bottom: 12px;
       font-size: 20px;
       font-weight: 700;
@@ -341,25 +348,25 @@
     }
 
     .service-cta {
-      background: linear-gradient(135deg, #059669, #10b981);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
       color: white;
-      box-shadow: 0 4px 16px rgba(5, 150, 105, 0.3);
+      box-shadow: 0 4px 16px rgba(30, 64, 175, 0.3);
     }
 
     .service-cta:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4);
+      box-shadow: 0 8px 24px rgba(30, 64, 175, 0.4);
     }
 
     .service-cta-trial {
-      background: #f0fdf4;
-      color: #059669;
-      border: 2px solid #d1fae5;
+      background: #dbeafe;
+      color: #1e40af;
+      border: 2px solid #bfdbfe;
     }
 
     .service-cta-trial:hover {
-      background: #dcfce7;
-      border-color: #a7f3d0;
+      background: #bfdbfe;
+      border-color: #93c5fd;
       transform: translateY(-2px);
     }
 
@@ -378,16 +385,16 @@
       align-items: center;
       box-shadow: 0 8px 32px rgba(0,0,0,0.1);
       transition: all 0.3s;
-      border: 1px solid rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.1);
     }
 
     .server-item:hover {
       transform: translateX(4px);
-      box-shadow: 0 12px 40px rgba(5, 150, 105, 0.15);
+      box-shadow: 0 12px 40px rgba(30, 64, 175, 0.15);
     }
 
     .server-info h4 {
-      color: #059669;
+      color: #1e40af;
       font-size: 18px;
       margin-bottom: 10px;
       font-weight: 700;
@@ -428,7 +435,7 @@
       padding: 32px;
       max-width: 600px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-      border: 1px solid rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.1);
     }
 
     .form-grid {
@@ -448,7 +455,7 @@
     select {
       width: 100%;
       padding: 14px 18px;
-      border: 2px solid #d1fae5;
+      border: 2px solid #bfdbfe;
       border-radius: 12px;
       font-size: 15px;
       transition: all 0.3s;
@@ -459,9 +466,9 @@
     .input-group input:focus,
     select:focus {
       outline: none;
-      border-color: #10b981;
-      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
-      background: #f0fdf4;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+      background: #dbeafe;
     }
 
     select {
@@ -505,14 +512,14 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #059669, #10b981);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
       color: white;
-      box-shadow: 0 6px 24px rgba(5, 150, 105, 0.4);
+      box-shadow: 0 6px 24px rgba(30, 64, 175, 0.4);
     }
 
     .btn-primary:hover:not(:disabled) {
       transform: translateY(-3px);
-      box-shadow: 0 10px 32px rgba(5, 150, 105, 0.5);
+      box-shadow: 0 10px 32px rgba(30, 64, 175, 0.5);
     }
 
     .btn-trial {
@@ -529,19 +536,19 @@
     .btn-outline {
       padding: 10px 18px;
       border-radius: 10px;
-      border: 2px solid #d1fae5;
+      border: 2px solid #bfdbfe;
       background: white;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
-      color: #059669;
+      color: #1e40af;
     }
 
     .btn-outline:hover {
-      background: #f0fdf4;
-      border-color: #10b981;
-      color: #059669;
+      background: #dbeafe;
+      border-color: #3b82f6;
+      color: #1e40af;
       transform: translateY(-2px);
     }
 
@@ -552,21 +559,21 @@
       padding: 32px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.1);
       max-width: 700px;
-      border: 1px solid rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.1);
     }
 
     .payment-card {
       display: none;
-      border: 2px solid #10b981;
+      border: 2px solid #3b82f6;
       border-radius: 20px;
       padding: 32px;
       margin-top: 28px;
       text-align: center;
-      background: linear-gradient(135deg, rgba(240, 253, 244, 0.8) 0%, rgba(220, 252, 231, 0.8) 100%);
+      background: linear-gradient(135deg, rgba(219, 234, 254, 0.8) 0%, rgba(191, 219, 254, 0.8) 100%);
     }
 
     .payment-card h4 {
-      color: #059669;
+      color: #1e40af;
       margin-bottom: 16px;
       font-size: 22px;
       font-weight: 700;
@@ -590,24 +597,24 @@
     .payment-card a {
       display: inline-block;
       padding: 14px 32px;
-      background: linear-gradient(135deg, #059669, #10b981);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
       color: white;
       text-decoration: none;
       border-radius: 12px;
       font-weight: 600;
       font-size: 15px;
       transition: all 0.3s;
-      box-shadow: 0 6px 24px rgba(5, 150, 105, 0.4);
+      box-shadow: 0 6px 24px rgba(30, 64, 175, 0.4);
     }
 
     .payment-card a:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 32px rgba(5, 150, 105, 0.5);
+      box-shadow: 0 10px 32px rgba(30, 64, 175, 0.5);
     }
 
     .alert-info {
-      background: rgba(16, 185, 129, 0.1);
-      border-left: 4px solid #10b981;
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 4px solid #3b82f6;
       padding: 16px 20px;
       border-radius: 12px;
       color: #374151;
@@ -629,7 +636,7 @@
       margin-top: 24px;
       border-radius: 20px;
       padding: 28px 24px;
-      background: linear-gradient(135deg, #059669, #10b981);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
       box-shadow: 0 12px 40px rgba(0,0,0,0.28);
       border: none;
       text-align: left;
@@ -694,7 +701,7 @@
 
     #trialResultContent b,
     #topupAccountContent b {
-      color: #a5b4fc;
+      color: #93c5fd;
       font-weight: 700;
     }
 
@@ -787,12 +794,12 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: rgba(16, 185, 129, 0.5);
+      background: rgba(59, 130, 246, 0.5);
       border-radius: 5px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: rgba(16, 185, 129, 0.7);
+      background: rgba(59, 130, 246, 0.7);
     }
   </style>
 </head>
