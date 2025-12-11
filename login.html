@@ -48,7 +48,8 @@
       border-radius: 24px;
       padding: 40px 32px;
       width: 100%;
-      max-width: 420px;
+      /* LEBAR DIPERKECL DARI 420PX MENJADI 380PX */
+      max-width: 380px; 
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
       position: relative;
       z-index: 1;
@@ -270,7 +271,6 @@
 </head>
 <body>
   <div class="login-container">
-    <!-- Login Normal -->
     <div id="loginBox">
       <div class="login-header">
         <div class="logo-icon">🚀</div>
@@ -296,7 +296,6 @@
       </div>
     </div>
 
-    <!-- REGISTER STEP 1: EMAIL + PASSWORD -->
     <div id="registerStep1" style="display:none;">
       <div class="login-header">
         <div class="logo-icon">📧</div>
@@ -315,7 +314,6 @@
       <button class="btn btn-secondary" id="btnRegBack1">Kembali ke Login</button>
     </div>
 
-    <!-- REGISTER STEP 2: OTP -->
     <div id="registerStep2" style="display:none;">
       <div class="login-header">
         <div class="logo-icon">🔐</div>
@@ -330,7 +328,6 @@
       <button class="btn btn-secondary" id="btnRegBack2">Kembali ke Login</button>
     </div>
 
-    <!-- Reset Step 1: Input Email -->
     <div id="resetStep1" style="display:none;">
       <div class="login-header">
         <div class="logo-icon">🔑</div>
@@ -345,7 +342,6 @@
       <button class="btn btn-secondary" id="btnResetBack1">Kembali ke Login</button>
     </div>
 
-    <!-- Reset Step 2: Input Kode + Password Baru -->
     <div id="resetStep2" style="display:none;">
       <div class="login-header">
         <div class="logo-icon">✅</div>
@@ -372,6 +368,11 @@
       email: "",
       password: "",
     };
+    
+    // FUNGSI BARU UNTUK RELOAD HALAMAN
+    function doReload() {
+        window.location.reload();
+    }
 
     function lockButton(btn, locked) {
       if (!btn) return;
@@ -467,11 +468,12 @@
       };
     }
 
+    // PERUBAHAN: Semua tombol 'Kembali ke Login' kini me-reload halaman
     const btnRegBack1 = document.getElementById("btnRegBack1");
-    if (btnRegBack1) btnRegBack1.onclick = () => showRegisterStep(0);
+    if (btnRegBack1) btnRegBack1.onclick = () => doReload(); 
 
     const btnRegBack2 = document.getElementById("btnRegBack2");
-    if (btnRegBack2) btnRegBack2.onclick = () => showRegisterStep(0);
+    if (btnRegBack2) btnRegBack2.onclick = () => doReload();
 
     // Kirim kode OTP register
     const btnRegSendCode = document.getElementById("btnRegSendCode");
@@ -566,10 +568,11 @@
       };
     }
 
+    // PERUBAHAN: Semua tombol 'Kembali ke Login' kini me-reload halaman
     const btnResetBack1 = document.getElementById("btnResetBack1");
-    if (btnResetBack1) btnResetBack1.onclick = () => showResetStep(0);
+    if (btnResetBack1) btnResetBack1.onclick = () => doReload(); 
     const btnResetBack2 = document.getElementById("btnResetBack2");
-    if (btnResetBack2) btnResetBack2.onclick = () => showResetStep(0);
+    if (btnResetBack2) btnResetBack2.onclick = () => doReload();
 
     // Send reset code
     const btnSendReset = document.getElementById("btnSendReset");
@@ -633,7 +636,8 @@
           alert("Password berhasil direset. Silakan login dengan password baru.");
           document.getElementById("email").value = email;
           document.getElementById("password").value = newPass;
-          showResetStep(0);
+          // PERUBAHAN: Setelah reset sukses, kembalikan ke login dengan reload
+          doReload(); 
         } catch (e) {
           alert(e.message || "Gagal reset password.");
         } finally {
