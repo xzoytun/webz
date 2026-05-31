@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/web/:path*",
-      "destination": "http://joy.xtrimer.cloud:50123/api/web/:path*"
+      "destination": "http://sgxt3.isdarprem.net:50123/api/web/:path*"
     }
   ]
 }
