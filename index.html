@@ -3,96 +3,278 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login — GabutStore</title>
+  <title>GabutStore — Premium VPN Store</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="auth-page">
-  <div class="container">
-    <div class="logo-wrap">
-      <div class="logo">GABUT<span>STORE</span></div>
-      <div class="scan-line"></div>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-brand">⚡ GabutStore</div>
+  <div class="navbar-links">
+    <a href="#fitur">Fitur</a>
+    <a href="#harga">Harga</a>
+    <a href="#cara">Cara Beli</a>
+    <a href="login.html" class="btn btn-secondary btn-sm">Masuk</a>
+    <a href="register.html" class="btn btn-primary btn-sm">Daftar Gratis</a>
+  </div>
+</nav>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>VPN Premium<br>Harga Terjangkau 🚀</h1>
+  <p>Nikmati koneksi internet yang cepat, aman, dan stabil dengan server premium pilihan kami di seluruh Indonesia.</p>
+  <div class="hero-badges">
+    <span class="badge">⚡ SSH WS</span>
+    <span class="badge">🔒 VMess</span>
+    <span class="badge">🛡️ VLess</span>
+    <span class="badge">🌑 Trojan</span>
+    <span class="badge">📡 ZiVPN</span>
+    <span class="badge">🌀 Shadowsocks</span>
+  </div>
+  <div class="hero-buttons">
+    <a href="register.html" class="btn btn-primary" style="padding:12px 28px;font-size:16px">🚀 Mulai Sekarang</a>
+    <a href="#cara" class="btn btn-secondary" style="padding:12px 28px;font-size:16px">📖 Cara Beli</a>
+  </div>
+  <div style="margin-top:40px;display:flex;gap:40px;justify-content:center;flex-wrap:wrap">
+    <div style="text-align:center">
+      <div style="font-size:28px;font-weight:800;color:var(--accent)">10+</div>
+      <div style="font-size:13px;color:var(--text2)">Server Premium</div>
     </div>
-    <div class="tagline">SECURE ACCESS PORTAL</div>
+    <div style="text-align:center">
+      <div style="font-size:28px;font-weight:800;color:var(--accent)">99.9%</div>
+      <div style="font-size:13px;color:var(--text2)">Uptime</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:28px;font-weight:800;color:var(--accent)">500+</div>
+      <div style="font-size:13px;color:var(--text2)">Pelanggan Aktif</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:28px;font-weight:800;color:var(--accent)">24/7</div>
+      <div style="font-size:13px;color:var(--text2)">Support</div>
+    </div>
+  </div>
+</section>
 
-    <div class="card">
-      <div id="alert-box"></div>
-
-      <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="email" placeholder="user@example.com" autocomplete="email">
+<!-- FITUR -->
+<section class="section" id="fitur">
+  <div class="container">
+    <h2 class="section-title">Kenapa Pilih Kami?</h2>
+    <p class="section-sub">Layanan VPN premium dengan teknologi terkini dan harga yang bersahabat</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <div style="font-size:32px;margin-bottom:12px">⚡</div>
+        <h3 style="margin-bottom:8px">Kecepatan Tinggi</h3>
+        <p style="color:var(--text2);font-size:14px">Server kami dioptimasi untuk kecepatan maksimal. Streaming, gaming, dan browsing tanpa lag.</p>
       </div>
-
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+      <div class="card">
+        <div style="font-size:32px;margin-bottom:12px">🔒</div>
+        <h3 style="margin-bottom:8px">Enkripsi Kuat</h3>
+        <p style="color:var(--text2);font-size:14px">Koneksi terenkripsi end-to-end dengan protokol terbaru: VMess, VLess, Trojan, Shadowsocks.</p>
       </div>
-
-      <button class="btn btn-primary" id="btn-login" onclick="doLogin()">
-        LOGIN
-      </button>
-
-      <div class="divider">OR</div>
-
-      <div class="text-center">
-        <span style="font-size:0.8rem;color:var(--text3)">Belum punya akun? </span>
-        <a href="register.html" class="link">Register di sini</a>
+      <div class="card">
+        <div style="font-size:32px;margin-bottom:12px">🌏</div>
+        <h3 style="margin-bottom:8px">Multi Server</h3>
+        <p style="color:var(--text2);font-size:14px">Pilihan server di berbagai kota Indonesia. Ganti server kapan saja sesuai kebutuhan.</p>
       </div>
-
-      <div class="text-center mt-4">
-        <a href="index.html" class="link" style="color:var(--text3);font-size:0.75rem">← Kembali ke Home</a>
+      <div class="card">
+        <div style="font-size:32px;margin-bottom:12px">🤖</div>
+        <h3 style="margin-bottom:8px">Bot Telegram</h3>
+        <p style="color:var(--text2);font-size:14px">Kelola akun langsung dari Telegram. Order, cek status, dan topup saldo dengan mudah.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:32px;margin-bottom:12px">💳</div>
+        <h3 style="margin-bottom:8px">Banyak Metode Bayar</h3>
+        <p style="color:var(--text2);font-size:14px">QRIS, transfer bank, e-wallet, dan berbagai metode pembayaran lainnya tersedia.</p>
+      </div>
+      <div class="card">
+        <div style="font-size:32px;margin-bottom:12px">⭐</div>
+        <h3 style="margin-bottom:8px">Program Reseller</h3>
+        <p style="color:var(--text2);font-size:14px">Daftar jadi reseller dan dapatkan komisi dari setiap penjualan. Penghasilan tambahan mudah!</p>
       </div>
     </div>
   </div>
+</section>
 
-  <script src="script.js"></script>
-  <script>
-    // Redirect kalau sudah login
-    if (localStorage.getItem('gs_token')) {
-      window.location.href = 'panel.html';
-    }
+<!-- HARGA -->
+<section class="section" id="harga" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <h2 class="section-title">Paket SSH Premium</h2>
+    <p class="section-sub">Harga terjangkau untuk semua kalangan</p>
 
-    async function doLogin() {
-      const email    = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const btn      = document.getElementById('btn-login');
+    <!-- TABS PRODUK -->
+    <div data-tabs style="margin-bottom:28px">
+      <div class="tabs" style="max-width:500px;margin:0 auto 24px">
+        <button class="tab-btn active" data-tab="tab-ssh">🖥️ SSH</button>
+        <button class="tab-btn" data-tab="tab-vmess">⚡ VMess</button>
+        <button class="tab-btn" data-tab="tab-vless">🔒 VLess</button>
+        <button class="tab-btn" data-tab="tab-trojan">🛡️ Trojan</button>
+      </div>
 
-      clearAlert();
+      <div id="tab-ssh" class="tab-content active">
+        <div class="grid grid-3">
+          <div class="price-card">
+            <h3>SSH 7 Hari</h3>
+            <div class="price">Rp 5.000 <span>/ akun</span></div>
+            <ul>
+              <li>Durasi 7 Hari</li>
+              <li>Unlimited Quota</li>
+              <li>IP Limit 2</li>
+              <li>Multi Protocol</li>
+            </ul>
+            <a href="register.html" class="btn btn-secondary btn-block">Beli Sekarang</a>
+          </div>
+          <div class="price-card featured">
+            <span class="badge-featured">Populer</span>
+            <h3>SSH 30 Hari</h3>
+            <div class="price">Rp 15.000 <span>/ akun</span></div>
+            <ul>
+              <li>Durasi 30 Hari</li>
+              <li>Unlimited Quota</li>
+              <li>IP Limit 3</li>
+              <li>Multi Protocol</li>
+            </ul>
+            <a href="register.html" class="btn btn-primary btn-block">Beli Sekarang</a>
+          </div>
+          <div class="price-card">
+            <h3>SSH 60 Hari</h3>
+            <div class="price">Rp 25.000 <span>/ akun</span></div>
+            <ul>
+              <li>Durasi 60 Hari</li>
+              <li>Unlimited Quota</li>
+              <li>IP Limit 3</li>
+              <li>Multi Protocol</li>
+            </ul>
+            <a href="register.html" class="btn btn-secondary btn-block">Beli Sekarang</a>
+          </div>
+        </div>
+      </div>
 
-      if (!email || !password) {
-        showAlert('Email dan password wajib diisi.', 'error');
-        return;
-      }
+      <div id="tab-vmess" class="tab-content">
+        <div class="grid grid-3">
+          <div class="price-card">
+            <h3>VMess 7 Hari</h3>
+            <div class="price">Rp 7.000 <span>/ akun</span></div>
+            <ul><li>Durasi 7 Hari</li><li>Quota 30 GB</li><li>IP Limit 2</li><li>WS + TLS + gRPC</li></ul>
+            <a href="register.html" class="btn btn-secondary btn-block">Beli Sekarang</a>
+          </div>
+          <div class="price-card featured">
+            <span class="badge-featured">Populer</span>
+            <h3>VMess 30 Hari</h3>
+            <div class="price">Rp 20.000 <span>/ akun</span></div>
+            <ul><li>Durasi 30 Hari</li><li>Quota 100 GB</li><li>IP Limit 3</li><li>WS + TLS + gRPC</li></ul>
+            <a href="register.html" class="btn btn-primary btn-block">Beli Sekarang</a>
+          </div>
+          <div class="price-card">
+            <h3>VMess 60 Hari</h3>
+            <div class="price">Rp 35.000 <span>/ akun</span></div>
+            <ul><li>Durasi 60 Hari</li><li>Quota 200 GB</li><li>IP Limit 3</li><li>WS + TLS + gRPC</li></ul>
+            <a href="register.html" class="btn btn-secondary btn-block">Beli Sekarang</a>
+          </div>
+        </div>
+      </div>
 
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Authenticating...';
+      <div id="tab-vless" class="tab-content">
+        <div class="grid grid-3">
+          <div class="price-card">
+            <h3>VLess 7 Hari</h3>
+            <div class="price">Rp 7.000 <span>/ akun</span></div>
+            <ul><li>Durasi 7 Hari</li><li>Quota 30 GB</li><li>IP Limit 2</li><li>WS + TLS + gRPC</li></ul>
+            <a href="register.html" class="btn btn-secondary btn-block">Beli Sekarang</a>
+          </div>
+          <div class="price-card featured">
+            <span class="badge-featured">Populer</span>
+            <h3>VLess 30 Hari</h3>
+            <div class="price">Rp 20.000 <span>/ akun</span></div>
+            <ul><li>Durasi 30 Hari</li><li>Quota 100 GB</li><li>IP Limit 3</li><li>WS + TLS + gRPC</li></ul>
+            <a href="register.html" class="btn btn-primary btn-block">Beli Sekarang</a>
+          </div>
+          <div class="price-card">
+            <h3>VLess 60 Hari</h3>
+            <div class="price">Rp 35.000 <span>/ akun</span></div>
+            <ul><li>Durasi 60 Hari</li><li>Quota 200 GB</li><li>IP Limit 3</li><li>WS + TLS + gRPC</li></ul>
+            <a href="register.html" class="btn btn-secondary btn-block">Beli Sekarang</a>
+          </div>
+        </div>
+      </div>
 
-      try {
-        const res = await apiFetch('/api/login', {
-          method: 'POST',
-          body: JSON.stringify({ email, password })
-        });
+      <div id="tab-trojan" class="tab-content">
+        <div class="grid grid-3">
+          <div class="price-card">
+            <h3>Trojan 7 Hari</h3>
+            <div class="price">Rp 7.000 <span>/ akun</span></div>
+            <ul><li>Durasi 7 Hari</li><li>Quota 30 GB</li><li>IP Limit 2</li><li>WS + TLS + gRPC</li></ul>
+            <a href="register.html" class="btn btn-secondary btn-block">Beli Sekarang</a>
+          </div>
+          <div class="price-card featured">
+            <span class="badge-featured">Populer</span>
+            <h3>Trojan 30 Hari</h3>
+            <div class="price">Rp 20.000 <span>/ akun</span></div>
+            <ul><li>Durasi 30 Hari</li><li>Quota 100 GB</li><li>IP Limit 3</li><li>WS + TLS + gRPC</li></ul>
+            <a href="register.html" class="btn btn-primary btn-block">Beli Sekarang</a>
+          </div>
+          <div class="price-card">
+            <h3>Trojan 60 Hari</h3>
+            <div class="price">Rp 35.000 <span>/ akun</span></div>
+            <ul><li>Durasi 60 Hari</li><li>Quota 200 GB</li><li>IP Limit 3</li><li>WS + TLS + gRPC</li></ul>
+            <a href="register.html" class="btn btn-secondary btn-block">Beli Sekarang</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        if (res.success) {
-          localStorage.setItem('gs_token', res.token);
-          localStorage.setItem('gs_email', email);
-          showAlert('Login berhasil! Mengalihkan...', 'success');
-          setTimeout(() => window.location.href = 'panel.html', 800);
-        } else {
-          showAlert(res.message || 'Login gagal.', 'error');
-          btn.disabled = false;
-          btn.innerHTML = 'LOGIN';
-        }
-      } catch (e) {
-        showAlert('Gagal menghubungi server.', 'error');
-        btn.disabled = false;
-        btn.innerHTML = 'LOGIN';
-      }
-    }
+    <p class="text-center text-muted fs-14">Harga di atas adalah harga normal. <a href="register.html">Daftar</a> dan login untuk melihat harga reseller!</p>
+  </div>
+</section>
 
-    // Enter key
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Enter') doLogin();
-    });
-  </script>
+<!-- CARA BELI -->
+<section class="section" id="cara">
+  <div class="container">
+    <h2 class="section-title">Cara Beli</h2>
+    <p class="section-sub">4 langkah mudah mendapatkan akun VPN premium</p>
+    <div class="grid grid-4">
+      <div style="text-align:center;padding:20px">
+        <div style="width:56px;height:56px;background:rgba(110,64,201,0.15);border:2px solid var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px;font-weight:800;color:var(--primary)">1</div>
+        <h3 style="margin-bottom:8px">Daftar Akun</h3>
+        <p style="color:var(--text2);font-size:13px">Buat akun gratis di website kami dengan email dan username kamu.</p>
+      </div>
+      <div style="text-align:center;padding:20px">
+        <div style="width:56px;height:56px;background:rgba(110,64,201,0.15);border:2px solid var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px;font-weight:800;color:var(--primary)">2</div>
+        <h3 style="margin-bottom:8px">Isi Saldo</h3>
+        <p style="color:var(--text2);font-size:13px">Topup saldo via QRIS, transfer bank, atau e-wallet favoritmu.</p>
+      </div>
+      <div style="text-align:center;padding:20px">
+        <div style="width:56px;height:56px;background:rgba(110,64,201,0.15);border:2px solid var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px;font-weight:800;color:var(--primary)">3</div>
+        <h3 style="margin-bottom:8px">Pilih Paket</h3>
+        <p style="color:var(--text2);font-size:13px">Pilih jenis VPN dan durasi yang sesuai kebutuhanmu.</p>
+      </div>
+      <div style="text-align:center;padding:20px">
+        <div style="width:56px;height:56px;background:rgba(110,64,201,0.15);border:2px solid var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px;font-weight:800;color:var(--primary)">4</div>
+        <h3 style="margin-bottom:8px">Akun Siap!</h3>
+        <p style="color:var(--text2);font-size:13px">Akun langsung aktif. Detail dikirim ke email & panel akunmu.</p>
+      </div>
+    </div>
+    <div class="text-center mt-24">
+      <a href="register.html" class="btn btn-primary" style="padding:12px 32px;font-size:15px">🚀 Daftar & Mulai Beli</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="navbar-brand" style="display:inline-block;margin-bottom:8px">⚡ GabutStore</div>
+  <p>VPN Premium Store — Server cepat, harga bersahabat, support 24/7</p>
+  <p style="margin-top:8px">
+    <a href="login.html">Login</a> · 
+    <a href="register.html">Daftar</a> · 
+    <a href="https://t.me/yourtelegrambot" target="_blank">Bot Telegram</a>
+  </p>
+  <p style="margin-top:12px;color:var(--text3)">© 2025 GabutStore. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
