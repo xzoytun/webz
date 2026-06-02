@@ -1,75 +1,179 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Media Xtrimer</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — GabutStore</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-<div class="container">
-
-    <div class="logo">
-        <img
-            src="https://raw.githubusercontent.com/joytun21/joy/main/image/mediaxtrimer.png"
-            alt="Media Xtrimer">
+<body class="auth-page">
+  <div class="container">
+    <div class="logo-wrap">
+      <div class="logo">GABUT<span>STORE</span></div>
+      <div class="scan-line"></div>
     </div>
+    <div class="tagline">CREATE NEW ACCOUNT</div>
 
-    <h1>REGISTER</h1>
+    <div class="card">
+      <div id="alert-box"></div>
 
-    <p class="desc">
-        Daftar akun Media Xtrimer
-    </p>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="user@example.com" autocomplete="email">
+      </div>
 
-    <div class="form-box">
-
-        <input
-            type="email"
-            id="email"
-            placeholder="Masukkan Gmail">
-
-        <div class="otp-row">
-
-            <input
-                type="text"
-                id="otp"
-                placeholder="Kode OTP">
-
-            <button
-                class="otp-btn"
-                onclick="sendOTP()">
-                Kirim
-            </button>
-
+      <!-- OTP Section -->
+      <div class="form-group">
+        <label>Kode OTP</label>
+        <div class="otp-group">
+          <input type="text" id="otp" placeholder="6 digit OTP" maxlength="6" inputmode="numeric">
+          <button class="btn btn-outline" id="btn-otp" onclick="sendOTP()">Kirim OTP</button>
         </div>
+        <div id="otp-countdown"></div>
+      </div>
 
-        <input
-            type="password"
-            id="password"
-            placeholder="Password">
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Min. 8 karakter" autocomplete="new-password">
+      </div>
 
-        <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Konfirmasi Password">
+      <div class="form-group">
+        <label>Konfirmasi Password</label>
+        <input type="password" id="password2" placeholder="Ulangi password" autocomplete="new-password">
+      </div>
 
-        <button
-            class="btn"
-            onclick="registerUser()">
-            Daftar Sekarang
-        </button>
+      <button class="btn btn-primary" id="btn-register" onclick="doRegister()">
+        BUAT AKUN
+      </button>
 
-        <a href="login.html" class="back-link">
-            Sudah punya akun? Login
-        </a>
+      <div class="divider">OR</div>
 
+      <div class="text-center">
+        <span style="font-size:0.8rem;color:var(--text3)">Sudah punya akun? </span>
+        <a href="login.html" class="link">Login di sini</a>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="index.html" class="link" style="color:var(--text3);font-size:0.75rem">← Kembali ke Home</a>
+      </div>
     </div>
+  </div>
 
-</div>
+  <script src="script.js"></script>
+  <script>
+    if (localStorage.getItem('gs_token')) {
+      window.location.href = 'panel.html';
+    }
 
-<script src="script.js"></script>
+    let otpCooldown = 0;
+    let countdownInterval = null;
 
+    async function sendOTP() {
+      const email = document.getElementById('email').value.trim();
+      const btn   = document.getElementById('btn-otp');
+
+      clearAlert();
+
+      if (!email || !/\S+@\S+\.\S+/.test(email)) {
+        showAlert('Masukkan email yang valid terlebih dahulu.', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Mengirim...';
+
+      try {
+        const res = await apiFetch('/api/send-otp', {
+          method: 'POST',
+          body: JSON.stringify({ email })
+        });
+
+        if (res.success) {
+          showAlert('OTP terkirim ke email kamu. Cek inbox/spam.', 'success');
+          startCountdown(60);
+        } else {
+          showAlert(res.message || 'Gagal kirim OTP.', 'error');
+          btn.disabled = false;
+          btn.textContent = 'Kirim OTP';
+        }
+      } catch (e) {
+        showAlert('Gagal menghubungi server.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Kirim OTP';
+      }
+    }
+
+    function startCountdown(seconds) {
+      const btn = document.getElementById('btn-otp');
+      const countdown = document.getElementById('otp-countdown');
+      otpCooldown = seconds;
+
+      clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        otpCooldown--;
+        countdown.textContent = `Kirim ulang dalam ${otpCooldown}s`;
+
+        if (otpCooldown <= 0) {
+          clearInterval(countdownInterval);
+          btn.disabled = false;
+          btn.textContent = 'Kirim Ulang';
+          countdown.textContent = '';
+        }
+      }, 1000);
+    }
+
+    async function doRegister() {
+      const email    = document.getElementById('email').value.trim();
+      const otp      = document.getElementById('otp').value.trim();
+      const password = document.getElementById('password').value;
+      const pass2    = document.getElementById('password2').value;
+      const btn      = document.getElementById('btn-register');
+
+      clearAlert();
+
+      if (!email || !otp || !password || !pass2) {
+        showAlert('Semua field wajib diisi.', 'error');
+        return;
+      }
+
+      if (password !== pass2) {
+        showAlert('Password tidak cocok.', 'error');
+        return;
+      }
+
+      if (password.length < 8) {
+        showAlert('Password minimal 8 karakter.', 'error');
+        return;
+      }
+
+      if (otp.length !== 6) {
+        showAlert('OTP harus 6 digit.', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Memproses...';
+
+      try {
+        const res = await apiFetch('/api/register', {
+          method: 'POST',
+          body: JSON.stringify({ email, otp, password })
+        });
+
+        if (res.success) {
+          showAlert('Registrasi berhasil! Mengalihkan ke halaman login...', 'success');
+          setTimeout(() => window.location.href = 'login.html', 1500);
+        } else {
+          showAlert(res.message || 'Registrasi gagal.', 'error');
+          btn.disabled = false;
+          btn.innerHTML = 'BUAT AKUN';
+        }
+      } catch (e) {
+        showAlert('Gagal menghubungi server.', 'error');
+        btn.disabled = false;
+        btn.innerHTML = 'BUAT AKUN';
+      }
+    }
+  </script>
 </body>
 </html>
