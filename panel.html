@@ -5,517 +5,154 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel — GabutStore</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .page { display: none; }
-    .page.active { display: block; }
-
-    .greeting {
-      font-family: 'Orbitron', monospace;
-      font-size: 1.1rem;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .greeting span { color: var(--accent); }
-
-    .sub-greeting {
-      font-size: 0.75rem;
-      color: var(--text3);
-      margin-bottom: 28px;
-    }
-
-    /* Mobile nav bottom */
-    .mobile-nav {
-      display: none;
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      padding: 8px 0;
-      z-index: 50;
-    }
-
-    .mobile-nav-inner {
-      display: flex;
-      justify-content: space-around;
-    }
-
-    .mnav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      padding: 6px 12px;
-      font-size: 0.6rem;
-      color: var(--text3);
-      cursor: pointer;
-      transition: color 0.15s;
-    }
-
-    .mnav-item .icon { font-size: 1.2rem; }
-    .mnav-item.active { color: var(--accent); }
-
-    @media (max-width: 768px) {
-      .mobile-nav { display: block; }
-      .main-content { padding-bottom: 72px; }
-    }
-
-    /* Transaction table mobile */
-    @media (max-width: 600px) {
-      .hide-mobile { display: none; }
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text3);
-    }
-
-    .empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; }
-    .empty-state p { font-size: 0.8rem; }
-
-    .profile-info {
-      display: grid;
-      gap: 12px;
-    }
-
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.82rem;
-    }
-
-    .info-row:last-child { border-bottom: none; }
-
-    .info-row .key { color: var(--text3); }
-    .info-row .val { color: var(--text); font-weight: 500; }
-
-    .topup-amounts {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .amount-btn {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text2);
-      padding: 10px 6px;
-      border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: all 0.15s;
-      text-align: center;
-    }
-
-    .amount-btn:hover, .amount-btn.selected {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(0,212,255,0.08);
-    }
-  </style>
 </head>
-<body>
-  <div id="loading-screen">
-    <div class="logo">GABUT<span style="color:var(--accent2)">STORE</span></div>
-    <div class="loading-bar"><div class="loading-bar-fill"></div></div>
-    <div style="font-size:0.7rem;color:var(--text3);letter-spacing:2px">AUTHENTICATING...</div>
-  </div>
+<body data-page="dashboard">
 
-  <div class="panel-layout" id="app" style="display:none">
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <div class="logo">GABUT<span>STORE</span></div>
-      </div>
-      <nav class="sidebar-nav">
-        <div class="nav-item active" onclick="showPage('dashboard')" data-page="dashboard">
-          <span class="icon">📊</span> Dashboard
-        </div>
-        <div class="nav-item" onclick="showPage('topup')" data-page="topup">
-          <span class="icon">💰</span> Top Up
-        </div>
-        <div class="nav-item" onclick="showPage('transaksi')" data-page="transaksi">
-          <span class="icon">📋</span> Transaksi
-        </div>
-        <div class="nav-item" onclick="showPage('profil')" data-page="profil">
-          <span class="icon">👤</span> Profil
-        </div>
-      </nav>
-      <div class="sidebar-bottom">
-        <button class="btn btn-danger btn-sm" onclick="doLogout()" style="width:100%">
-          ⏻ Logout
-        </button>
-      </div>
-    </aside>
+<div id="toast"></div>
 
-    <!-- MAIN -->
-    <main class="main-content">
-      <!-- DASHBOARD PAGE -->
-      <div class="page active" id="page-dashboard">
-        <div class="greeting">Halo, <span id="user-name">—</span> 👋</div>
-        <div class="sub-greeting" id="user-email-sub">—</div>
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:140" onclick="document.getElementById('sidebar').classList.remove('open');this.style.display='none'"></div>
 
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="label">Saldo Aktif</div>
-            <div class="value" id="stat-saldo">Rp 0</div>
-            <div class="icon">💰</div>
-          </div>
-          <div class="stat-card">
-            <div class="label">Role</div>
-            <div class="value purple" id="stat-role">—</div>
-            <div class="icon">🏅</div>
-          </div>
-          <div class="stat-card">
-            <div class="label">Total Transaksi</div>
-            <div class="value green" id="stat-trx">0</div>
-            <div class="icon">📦</div>
-          </div>
-        </div>
+<div class="panel-layout">
 
-        <div class="section">
-          <div class="section-header">
-            <div class="section-title">Transaksi Terbaru</div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Protokol</th>
-                  <th>Akun</th>
-                  <th class="hide-mobile">Server</th>
-                  <th>Hari</th>
-                  <th>Harga</th>
-                  <th class="hide-mobile">Tanggal</th>
-                </tr>
-              </thead>
-              <tbody id="table-trx-recent">
-                <tr>
-                  <td colspan="6">
-                    <div class="empty-state">
-                      <div class="icon">📭</div>
-                      <p>Belum ada transaksi</p>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- TOP UP PAGE -->
-      <div class="page" id="page-topup">
-        <div class="section-title" style="margin-bottom:20px">💰 TOP UP SALDO</div>
-
-        <div class="card" style="max-width:500px">
-          <div id="topup-alert"></div>
-
-          <div class="form-group">
-            <label>Pilih Nominal Cepat</label>
-            <div class="topup-amounts">
-              <div class="amount-btn" onclick="selectAmount(5000)">Rp 5.000</div>
-              <div class="amount-btn" onclick="selectAmount(10000)">Rp 10.000</div>
-              <div class="amount-btn" onclick="selectAmount(20000)">Rp 20.000</div>
-              <div class="amount-btn" onclick="selectAmount(50000)">Rp 50.000</div>
-              <div class="amount-btn" onclick="selectAmount(100000)">Rp 100.000</div>
-              <div class="amount-btn" onclick="selectAmount(200000)">Rp 200.000</div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Atau Masukkan Nominal</label>
-            <input type="number" id="topup-amount" placeholder="Contoh: 15000" min="2000">
-          </div>
-
-          <div style="font-size:0.75rem;color:var(--text3);margin-bottom:16px">
-            ⚠️ Minimal top up <strong style="color:var(--text2)">Rp 2.000</strong>
-          </div>
-
-          <button class="btn btn-primary" onclick="doTopup()">
-            Lanjut ke Pembayaran
-          </button>
-        </div>
-      </div>
-
-      <!-- TRANSAKSI PAGE -->
-      <div class="page" id="page-transaksi">
-        <div class="section-title" style="margin-bottom:20px">📋 RIWAYAT TRANSAKSI</div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Protokol</th>
-                <th>Akun</th>
-                <th class="hide-mobile">Server</th>
-                <th>Hari</th>
-                <th>Harga</th>
-                <th class="hide-mobile">Tanggal</th>
-              </tr>
-            </thead>
-            <tbody id="table-trx-all">
-              <tr>
-                <td colspan="6">
-                  <div class="empty-state">
-                    <div class="icon">📭</div>
-                    <p>Memuat data...</p>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div style="text-align:center;margin-top:16px" id="trx-pagination"></div>
-      </div>
-
-      <!-- PROFIL PAGE -->
-      <div class="page" id="page-profil">
-        <div class="section-title" style="margin-bottom:20px">👤 PROFIL AKUN</div>
-
-        <div class="card" style="max-width:500px">
-          <div class="profile-info">
-            <div class="info-row">
-              <span class="key">Email</span>
-              <span class="val" id="prof-email">—</span>
-            </div>
-            <div class="info-row">
-              <span class="key">Role</span>
-              <span class="val" id="prof-role">—</span>
-            </div>
-            <div class="info-row">
-              <span class="key">Saldo</span>
-              <span class="val" id="prof-saldo">—</span>
-            </div>
-            <div class="info-row">
-              <span class="key">Member Sejak</span>
-              <span class="val" id="prof-since">—</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" style="max-width:500px;margin-top:16px">
-          <div class="section-title" style="margin-bottom:16px">Ganti Password</div>
-          <div id="pass-alert"></div>
-
-          <div class="form-group">
-            <label>Password Lama</label>
-            <input type="password" id="old-pass" placeholder="••••••••">
-          </div>
-          <div class="form-group">
-            <label>Password Baru</label>
-            <input type="password" id="new-pass" placeholder="Min. 8 karakter">
-          </div>
-          <button class="btn btn-primary" onclick="doChangePass()">Simpan Password</button>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <!-- MOBILE NAV -->
-  <nav class="mobile-nav">
-    <div class="mobile-nav-inner">
-      <div class="mnav-item active" onclick="showPage('dashboard')" data-page="dashboard">
-        <span class="icon">📊</span>
-        <span>Dashboard</span>
-      </div>
-      <div class="mnav-item" onclick="showPage('topup')" data-page="topup">
-        <span class="icon">💰</span>
-        <span>Top Up</span>
-      </div>
-      <div class="mnav-item" onclick="showPage('transaksi')" data-page="transaksi">
-        <span class="icon">📋</span>
-        <span>Riwayat</span>
-      </div>
-      <div class="mnav-item" onclick="showPage('profil')" data-page="profil">
-        <span class="icon">👤</span>
-        <span>Profil</span>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html" style="text-decoration:none"><div class="brand">⚡ GabutStore</div></a>
+      <div style="margin-top:8px;font-size:12px;color:var(--text2)">
+        <span class="user-name">-</span>
+        · <span class="user-role">-</span>
       </div>
     </div>
-  </nav>
 
-  <script src="script.js"></script>
-  <script>
-    let userData = null;
-    let trxData  = [];
-    let trxPage  = 1;
-    const TRX_PER_PAGE = 10;
+    <div class="sidebar-section">Menu Utama</div>
+    <ul class="sidebar-menu">
+      <li><a href="panel.html" data-body-page="dashboard" class="active"><span class="icon">🏠</span> Dashboard</a></li>
+      <li><a href="akun.html" data-body-page="akun"><span class="icon">🗂️</span> Akun VPN Saya</a></li>
+      <li><a href="beli.html" data-body-page="beli"><span class="icon">🛒</span> Beli VPN</a></li>
+      <li><a href="deposit.html" data-body-page="deposit"><span class="icon">💰</span> Deposit Saldo</a></li>
+    </ul>
 
-    // ── Auth guard ──
-    const token = localStorage.getItem('gs_token');
-    if (!token) window.location.href = 'login.html';
+    <div class="sidebar-section">Lainnya</div>
+    <ul class="sidebar-menu">
+      <li><a href="ppob.html" data-body-page="ppob"><span class="icon">📱</span> PPOB / Pulsa</a></li>
+      <li><a href="transaksi.html" data-body-page="transaksi"><span class="icon">📋</span> Riwayat Transaksi</a></li>
+      <li><a href="profil.html" data-body-page="profil"><span class="icon">👤</span> Profil</a></li>
+    </ul>
 
-    // ── Init ──
-    window.addEventListener('load', async () => {
-      try {
-        const res = await apiFetch('/api/me');
-        if (!res.success) {
-          doLogout();
-          return;
-        }
-        userData = res.user;
-        renderProfile();
-        renderDashboard();
+    <div style="padding:12px 20px;margin-top:auto">
+      <button id="logoutBtn" class="btn btn-danger btn-block btn-sm" style="margin-top:8px">🚪 Logout</button>
+    </div>
+  </aside>
 
-        const trxRes = await apiFetch('/api/transactions');
-        if (trxRes.success) {
-          trxData = trxRes.data || [];
-          renderTrxTable('table-trx-recent', trxData.slice(0, 5));
-          renderTrxTable('table-trx-all', trxData.slice(0, TRX_PER_PAGE));
-          renderPagination();
-        }
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setTimeout(() => {
-          document.getElementById('loading-screen').style.opacity = '0';
-          setTimeout(() => {
-            document.getElementById('loading-screen').style.display = 'none';
-            document.getElementById('app').style.display = 'flex';
-          }, 400);
-        }, 1200);
-      }
-    });
+  <!-- MAIN CONTENT -->
+  <main class="panel-main">
 
-    function renderDashboard() {
-      if (!userData) return;
-      const name = userData.email.split('@')[0];
-      document.getElementById('user-name').textContent = name;
-      document.getElementById('user-email-sub').textContent = userData.email;
-      document.getElementById('stat-saldo').textContent = formatRp(userData.saldo || 0);
-      document.getElementById('stat-role').textContent = (userData.role || 'user').toUpperCase();
-      document.getElementById('stat-trx').textContent = trxData.length;
-    }
+    <!-- TOPBAR (mobile) -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+      <button class="hamburger" id="hamburger" onclick="document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebarOverlay').style.display='block'">☰</button>
+      <div>
+        <h1 style="font-size:20px;font-weight:700">Dashboard</h1>
+        <p style="font-size:13px;color:var(--text2)">Selamat datang kembali, <span class="user-name">-</span>!</p>
+      </div>
+    </div>
 
-    function renderProfile() {
-      if (!userData) return;
-      document.getElementById('prof-email').textContent = userData.email;
-      document.getElementById('prof-role').textContent = (userData.role || 'user').toUpperCase();
-      document.getElementById('prof-saldo').textContent = formatRp(userData.saldo || 0);
-      document.getElementById('prof-since').textContent = userData.created_at
-        ? new Date(userData.created_at).toLocaleDateString('id-ID', { day:'2-digit', month:'short', year:'numeric' })
-        : '—';
-    }
+    <!-- STAT CARDS -->
+    <div class="grid grid-4 mb-24">
+      <div class="stat-card">
+        <span class="stat-icon">💰</span>
+        <div class="stat-label">Saldo</div>
+        <div class="stat-value text-accent" id="userSaldo">Rp 0</div>
+        <div class="stat-sub"><a href="deposit.html">+ Isi Saldo</a></div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🗂️</span>
+        <div class="stat-label">Akun Aktif</div>
+        <div class="stat-value" id="totalAkun">0</div>
+        <div class="stat-sub"><a href="akun.html">Lihat Semua</a></div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">📋</span>
+        <div class="stat-label">Total Transaksi</div>
+        <div class="stat-value" id="totalTrx">0</div>
+        <div class="stat-sub"><a href="transaksi.html">Lihat Riwayat</a></div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">⭐</span>
+        <div class="stat-label">Status</div>
+        <div class="stat-value" style="font-size:16px;margin-top:10px" id="userRoleStat">-</div>
+        <div class="stat-sub">Member Level</div>
+      </div>
+    </div>
 
-    function renderTrxTable(tbodyId, data) {
-      const tbody = document.getElementById(tbodyId);
-      if (!data || data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="icon">📭</div><p>Belum ada transaksi</p></div></td></tr>`;
-        return;
-      }
-      tbody.innerHTML = data.map(t => `
-        <tr>
-          <td><span class="badge badge-blue">${t.protocol || '—'}</span></td>
-          <td class="highlight">${t.akun || '—'}</td>
-          <td class="hide-mobile">${t.layanan || '—'}</td>
-          <td>${t.hari || '—'} hari</td>
-          <td style="color:var(--accent3)">${formatRp(t.harga || 0)}</td>
-          <td class="hide-mobile" style="color:var(--text3)">${t.created_at ? new Date(t.created_at).toLocaleDateString('id-ID') : '—'}</td>
-        </tr>
-      `).join('');
-    }
+    <!-- QUICK ACTIONS -->
+    <div class="card mb-24">
+      <h3 style="margin-bottom:16px;font-size:15px">⚡ Aksi Cepat</h3>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="beli.html" class="btn btn-primary">🛒 Beli VPN</a>
+        <a href="deposit.html" class="btn btn-green">💰 Deposit</a>
+        <a href="akun.html" class="btn btn-secondary">🗂️ Lihat Akun</a>
+        <a href="ppob.html" class="btn btn-secondary">📱 Beli Pulsa</a>
+      </div>
+    </div>
 
-    function renderPagination() {
-      const total = Math.ceil(trxData.length / TRX_PER_PAGE);
-      const el = document.getElementById('trx-pagination');
-      if (total <= 1) { el.innerHTML = ''; return; }
+    <!-- AKUN TERBARU -->
+    <div class="card mb-24">
+      <div class="flex-between mb-16">
+        <h3 style="font-size:15px">🗂️ Akun VPN Terbaru</h3>
+        <a href="akun.html" class="btn btn-sm btn-secondary">Lihat Semua</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Jenis</th>
+              <th>Expired</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="akunList">
+            <tr><td colspan="4" class="text-center text-muted" style="padding:20px">Memuat data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-      let html = '';
-      for (let i = 1; i <= total; i++) {
-        html += `<button class="btn btn-sm ${i === trxPage ? 'btn-primary' : 'btn-outline'}" style="margin:2px" onclick="goTrxPage(${i})">${i}</button>`;
-      }
-      el.innerHTML = html;
-    }
+    <!-- TRANSAKSI TERBARU -->
+    <div class="card">
+      <div class="flex-between mb-16">
+        <h3 style="font-size:15px">📋 Transaksi Terbaru</h3>
+        <a href="transaksi.html" class="btn btn-sm btn-secondary">Lihat Semua</a>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Keterangan</th>
+              <th>Jumlah</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="trxList">
+            <tr><td colspan="4" class="text-center text-muted" style="padding:20px">Memuat data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-    function goTrxPage(p) {
-      trxPage = p;
-      const start = (p - 1) * TRX_PER_PAGE;
-      renderTrxTable('table-trx-all', trxData.slice(start, start + TRX_PER_PAGE));
-      renderPagination();
-    }
+  </main>
+</div>
 
-    // ── Page navigation ──
-    function showPage(name) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-item, .mnav-item').forEach(n => n.classList.remove('active'));
-      document.getElementById('page-' + name).classList.add('active');
-      document.querySelectorAll(`[data-page="${name}"]`).forEach(n => n.classList.add('active'));
-    }
-
-    // ── Top Up ──
-    function selectAmount(val) {
-      document.getElementById('topup-amount').value = val;
-      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
-      event.target.classList.add('selected');
-    }
-
-    async function doTopup() {
-      const amount = parseInt(document.getElementById('topup-amount').value);
-      const alertEl = document.getElementById('topup-alert');
-
-      if (!amount || amount < 2000) {
-        alertEl.innerHTML = `<div class="alert alert-error">⚠️ Minimal top up Rp 2.000</div>`;
-        return;
-      }
-
-      // Arahkan ke bot Telegram untuk top up (karena payment ada di bot)
-      alertEl.innerHTML = `<div class="alert alert-info">ℹ️ Top up melalui bot Telegram. Klik tombol di bawah.</div>`;
-      setTimeout(() => {
-        window.open('https://t.me/your_bot_username', '_blank');
-      }, 800);
-    }
-
-    // ── Change Password ──
-    async function doChangePass() {
-      const oldPass = document.getElementById('old-pass').value;
-      const newPass = document.getElementById('new-pass').value;
-      const alertEl = document.getElementById('pass-alert');
-
-      if (!oldPass || !newPass) {
-        alertEl.innerHTML = `<div class="alert alert-error">⚠️ Semua field wajib diisi.</div>`;
-        return;
-      }
-      if (newPass.length < 8) {
-        alertEl.innerHTML = `<div class="alert alert-error">⚠️ Password baru minimal 8 karakter.</div>`;
-        return;
-      }
-
-      try {
-        const res = await apiFetch('/api/change-password', {
-          method: 'POST',
-          body: JSON.stringify({ old_password: oldPass, new_password: newPass })
-        });
-
-        if (res.success) {
-          alertEl.innerHTML = `<div class="alert alert-success">✅ Password berhasil diubah.</div>`;
-          document.getElementById('old-pass').value = '';
-          document.getElementById('new-pass').value = '';
-        } else {
-          alertEl.innerHTML = `<div class="alert alert-error">❌ ${res.message || 'Gagal.'}</div>`;
-        }
-      } catch (e) {
-        alertEl.innerHTML = `<div class="alert alert-error">❌ Gagal menghubungi server.</div>`;
-      }
-    }
-
-    // ── Logout ──
-    function doLogout() {
-      localStorage.removeItem('gs_token');
-      localStorage.removeItem('gs_email');
-      window.location.href = 'login.html';
-    }
-
-    // ── Helpers ──
-    function formatRp(n) {
-      return 'Rp ' + Number(n).toLocaleString('id-ID');
-    }
-  </script>
+<script src="script.js"></script>
+<script>
+  // Set role di stat card
+  document.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const el = document.getElementById('userRoleStat');
+    if (el && user) el.textContent = user.role === 'reseller' ? '⭐ Reseller' : '👤 Member';
+  });
+</script>
 </body>
 </html>
