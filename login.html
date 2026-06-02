@@ -6,93 +6,89 @@
   <title>Login — GabutStore</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="auth-page">
-  <div class="container">
-    <div class="logo-wrap">
-      <div class="logo">GABUT<span>STORE</span></div>
-      <div class="scan-line"></div>
+<body data-page="login">
+
+<div id="toast"></div>
+
+<div class="auth-wrapper">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <a href="index.html" style="text-decoration:none">
+        <div class="brand">⚡ GabutStore</div>
+      </a>
+      <p>VPN Premium Store</p>
     </div>
-    <div class="tagline">SECURE ACCESS PORTAL</div>
 
-    <div class="card">
-      <div id="alert-box"></div>
+    <h2 class="auth-title">Masuk ke Akun</h2>
+
+    <div id="loginAlert" class="alert alert-error"></div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label" for="username">Username atau Email</label>
+        <input
+          class="form-input"
+          type="text"
+          id="username"
+          placeholder="Masukkan username atau email"
+          autocomplete="username"
+          required
+        >
+      </div>
 
       <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="email" placeholder="user@example.com" autocomplete="email">
+        <label class="form-label" for="password">
+          Password
+          <a href="#" onclick="togglePassword()" style="float:right;font-weight:400;color:var(--accent)">Tampilkan</a>
+        </label>
+        <input
+          class="form-input"
+          type="password"
+          id="password"
+          placeholder="Masukkan password"
+          autocomplete="current-password"
+          required
+        >
       </div>
 
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
-      </div>
+      <button
+        type="submit"
+        id="loginBtn"
+        class="btn btn-primary btn-block"
+        style="margin-top:8px;padding:12px"
+        data-label="🔐 Masuk"
+      >🔐 Masuk</button>
+    </form>
 
-      <button class="btn btn-primary" id="btn-login" onclick="doLogin()">
-        LOGIN
-      </button>
+    <div class="form-divider">atau</div>
 
-      <div class="divider">OR</div>
+    <a href="https://t.me/yourtelegrambot" target="_blank" class="btn btn-secondary btn-block" style="margin-bottom:8px">
+      🤖 Login via Bot Telegram
+    </a>
 
-      <div class="text-center">
-        <span style="font-size:0.8rem;color:var(--text3)">Belum punya akun? </span>
-        <a href="register.html" class="link">Register di sini</a>
-      </div>
+    <div class="form-footer">
+      Belum punya akun? <a href="register.html">Daftar Gratis</a>
+    </div>
 
-      <div class="text-center mt-4">
-        <a href="index.html" class="link" style="color:var(--text3);font-size:0.75rem">← Kembali ke Home</a>
-      </div>
+    <div class="form-footer" style="margin-top:8px">
+      <a href="index.html" style="color:var(--text2);font-size:12px">← Kembali ke Beranda</a>
     </div>
   </div>
+</div>
 
-  <script src="script.js"></script>
-  <script>
-    // Redirect kalau sudah login
-    if (localStorage.getItem('gs_token')) {
-      window.location.href = 'panel.html';
-    }
-
-    async function doLogin() {
-      const email    = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const btn      = document.getElementById('btn-login');
-
-      clearAlert();
-
-      if (!email || !password) {
-        showAlert('Email dan password wajib diisi.', 'error');
-        return;
-      }
-
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Authenticating...';
-
-      try {
-        const res = await apiFetch('/api/login', {
-          method: 'POST',
-          body: JSON.stringify({ email, password })
-        });
-
-        if (res.success) {
-          localStorage.setItem('gs_token', res.token);
-          localStorage.setItem('gs_email', email);
-          showAlert('Login berhasil! Mengalihkan...', 'success');
-          setTimeout(() => window.location.href = 'panel.html', 800);
-        } else {
-          showAlert(res.message || 'Login gagal.', 'error');
-          btn.disabled = false;
-          btn.innerHTML = 'LOGIN';
-        }
-      } catch (e) {
-        showAlert('Gagal menghubungi server.', 'error');
-        btn.disabled = false;
-        btn.innerHTML = 'LOGIN';
-      }
-    }
-
-    // Enter key
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Enter') doLogin();
-    });
-  </script>
+<script src="script.js"></script>
+<script>
+function togglePassword() {
+  const input = document.getElementById('password');
+  const link = event.target;
+  if (input.type === 'password') {
+    input.type = 'text';
+    link.textContent = 'Sembunyikan';
+  } else {
+    input.type = 'password';
+    link.textContent = 'Tampilkan';
+  }
+}
+</script>
 </body>
 </html>
