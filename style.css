@@ -87,3 +87,52 @@ h1{
 
     border:3px solid #facc15;
 }
+.form-box{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.form-box input{
+    width:100%;
+    padding:15px;
+
+    border:none;
+    border-radius:12px;
+
+    background:white;
+    color:black;
+
+    font-size:16px;
+}
+
+.otp-row{
+    display:flex;
+    gap:10px;
+}
+
+.otp-row input{
+    flex:1;
+}
+
+.otp-btn{
+    width:110px;
+
+    border:none;
+
+    background:#facc15;
+
+    color:black;
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.back-link{
+    color:#facc15;
+    text-decoration:none;
+    margin-top:10px;
+}
