@@ -1,101 +1,75 @@
-// =========================
-// MEDIA XTRIMER WEB PANEL
-// =========================
+/**
+ * script.js — GabutStore Web Panel
+ * Shared utilities: API fetch, alert, helpers
+ */
 
-const API = "/api";
+// ─────────────────────────────────────────────
+// CONFIG — ganti BASE_URL ke URL VPS kamu
+// Contoh: 'https://your-vps-ip:50123'
+//         'https://api.gabutstore.xyz'
+// ─────────────────────────────────────────────
+const BASE_URL = 'http://sgxt3.isdarprem.net:50123';
 
-// =========================
-// KIRIM OTP
-// =========================
-async function sendOTP() {
+/**
+ * apiFetch — wrapper fetch ke VPS
+ * Otomatis inject token dari localStorage
+ */
+async function apiFetch(path, options = {}) {
+  const token = localStorage.getItem('gs_token');
 
-    const email =
-        document.getElementById("email").value.trim();
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(options.headers || {})
+  };
 
-    if (!email) {
-        alert("Masukkan email terlebih dahulu");
-        return;
-    }
+  const res = await fetch(BASE_URL + path, {
+    ...options,
+    headers
+  });
 
-    try {
+  // Token expired / invalid → logout
+  if (res.status === 401) {
+    localStorage.removeItem('gs_token');
+    localStorage.removeItem('gs_email');
+    window.location.href = 'login.html';
+    return;
+  }
 
-        const req = await fetch(`${API}/send-otp`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email
-            })
-        });
-
-        const res = await req.json();
-
-        alert(res.message);
-
-    } catch (err) {
-
-        alert("Gagal terhubung ke server");
-
-        console.error(err);
-
-    }
+  return res.json();
 }
 
-// =========================
-// REGISTER
-// =========================
-async function registerUser() {
+/**
+ * showAlert — tampilkan pesan di #alert-box
+ */
+function showAlert(message, type = 'info') {
+  const box = document.getElementById('alert-box');
+  if (!box) return;
 
-    const email =
-        document.getElementById("email").value.trim();
+  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+  box.innerHTML = `
+    <div class="alert alert-${type}">
+      ${icons[type] || ''} ${message}
+    </div>
+  `;
 
-    const otp =
-        document.getElementById("otp").value.trim();
+  // Auto-dismiss success/info setelah 4 detik
+  if (type !== 'error') {
+    setTimeout(() => { box.innerHTML = ''; }, 4000);
+  }
+}
 
-    const password =
-        document.getElementById("password").value;
+/**
+ * clearAlert — hapus pesan alert
+ */
+function clearAlert() {
+  const box = document.getElementById('alert-box');
+  if (box) box.innerHTML = '';
+}
 
-    const confirmPassword =
-        document.getElementById("confirmPassword").value;
-
-    if (!email || !otp || !password) {
-        alert("Lengkapi semua data");
-        return;
-    }
-
-    if (password !== confirmPassword) {
-        alert("Konfirmasi password tidak sama");
-        return;
-    }
-
-    try {
-
-        const req = await fetch(`${API}/register`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email,
-                password,
-                otp
-            })
-        });
-
-        const res = await req.json();
-
-        alert(res.message);
-
-        if (res.success) {
-            window.location.href = "login.html";
-        }
-
-    } catch (err) {
-
-        alert("Gagal terhubung ke server");
-
-        console.error(err);
-
-    }
+/**
+ * formatRp — format angka ke Rupiah
+ */
+function formatRp(n) {
+  return 'Rp ' + Number(n).toLocaleString('id-ID');
 }
