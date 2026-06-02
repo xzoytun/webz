@@ -3,1834 +3,519 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XT VPN Panel - Dashboard</title>
+  <title>Panel — GabutStore</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .greeting {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 4px;
     }
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow-x: hidden;
+    .greeting span { color: var(--accent); }
+
+    .sub-greeting {
+      font-size: 0.75rem;
+      color: var(--text3);
+      margin-bottom: 28px;
     }
 
-    body::before {
-      content: '';
+    /* Mobile nav bottom */
+    .mobile-nav {
+      display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
-      animation: bgShift 20s ease-in-out infinite;
-      z-index: 0;
+      bottom: 0; left: 0; right: 0;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 8px 0;
+      z-index: 50;
     }
 
-    @keyframes bgShift {
-      0%, 100% { transform: scale(1) rotate(0deg); }
-      50% { transform: scale(1.1) rotate(5deg); }
-    }
-
-    .dashboard-header {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(20px);
-      padding: 16px 20px 16px 64px;
+    .mobile-nav-inner {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-      flex-shrink: 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+      justify-content: space-around;
     }
 
-    .hamburger {
+    .mnav-item {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: linear-gradient(135deg, #1e40af, #3b82f6);
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(30, 64, 175, 0.3);
-      z-index: 101;
-      transition: all 0.3s ease;
-    }
-
-    .hamburger:hover {
-      transform: translateY(-50%) scale(1.05);
-      box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
-    }
-
-    .hamburger span {
-      width: 22px;
-      height: 3px;
-      background: white;
-      display: block;
-      border-radius: 2px;
-      transition: all 0.3s;
-    }
-
-    .logo-section {
-      display: flex;
       align-items: center;
-      gap: 12px;
-    }
-
-    .logo-icon {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, #1e40af, #3b82f6);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
-    }
-
-    .dashboard-header h2 {
-      background: linear-gradient(135deg, #1e40af, #3b82f6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .user-email {
-      color: #4b5563;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 16px;
-      background: #dbeafe;
-      border-radius: 20px;
-      border: 1px solid #bfdbfe;
-    }
-
-    .btn-logout {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
+      gap: 2px;
+      padding: 6px 12px;
+      font-size: 0.6rem;
+      color: var(--text3);
       cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+      transition: color 0.15s;
     }
 
-    .btn-logout:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
-    }
-
-    .app-container {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-      padding: 24px;
-      gap: 24px;
-      max-width: 1600px;
-      margin: 0 auto;
-      width: 100%;
-      position: relative;
-      z-index: 1;
-    }
-
-    .app-nav {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(20px);
-      width: 280px;
-      padding: 24px;
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-      overflow-y: auto;
-      flex-shrink: 0;
-      position: fixed;
-      left: -300px;
-      top: 0;
-      height: 100vh;
-      z-index: 1000;
-      transition: left 0.3s;
-      padding-top: 80px;
-      border: 1px solid rgba(59, 130, 246, 0.1);
-    }
-
-    .app-nav.open {
-      left: 0;
-      box-shadow: 8px 0 32px rgba(0,0,0,0.2);
-    }
-
-    .nav-section-title {
-      color: #6b7280;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-      padding-left: 16px;
-    }
-
-    .nav-btn {
-      width: 100%;
-      padding: 14px 18px;
-      border: none;
-      background: transparent;
-      text-align: left;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 15px;
-      color: #4b5563;
-      margin-bottom: 6px;
-      transition: all 0.3s;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      position: relative;
-    }
-
-    .nav-btn:hover {
-      background: #dbeafe;
-      color: #1e40af;
-      transform: translateX(4px);
-    }
-
-    .nav-btn.active {
-      background: linear-gradient(135deg, #1e40af, #3b82f6);
-      color: white;
-      box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
-    }
-
-    .app-content {
-      flex: 1;
-      overflow-y: auto;
-      background: transparent;
-      padding: 0;
-    }
-
-    .app-page {
-      display: none;
-      animation: fadeIn 0.4s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .app-page.active {
-      display: block;
-    }
-
-    .page-header {
-      margin-bottom: 32px;
-    }
-
-    .page-title {
-      color: white;
-      font-size: 32px;
-      font-weight: 800;
-      margin-bottom: 8px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
-
-    .page-subtitle {
-      color: rgba(255, 255, 255, 0.95);
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .service-card {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-      transition: all 0.3s;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(59, 130, 246, 0.1);
-    }
-
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #1e40af, #3b82f6);
-      transform: scaleX(0);
-      transition: transform 0.4s;
-    }
-
-    .service-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 16px 48px rgba(30, 64, 175, 0.2);
-    }
-
-    .service-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .service-card h4 {
-      color: #1e40af;
-      margin-bottom: 12px;
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .service-card p {
-      color: #6b7280;
-      font-size: 14px;
-      line-height: 1.7;
-      margin-bottom: auto;
-      min-height: 60px;
-    }
-
-    .service-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .service-cta,
-    .service-cta-trial {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      flex: 1;
-    }
-
-    .service-cta {
-      background: linear-gradient(135deg, #1e40af, #3b82f6);
-      color: white;
-      box-shadow: 0 4px 16px rgba(30, 64, 175, 0.3);
-    }
-
-    .service-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(30, 64, 175, 0.4);
-    }
-
-    .service-cta-trial {
-      background: #dbeafe;
-      color: #1e40af;
-      border: 2px solid #bfdbfe;
-    }
-
-    .service-cta-trial:hover {
-      background: #bfdbfe;
-      border-color: #93c5fd;
-      transform: translateY(-2px);
-    }
-
-    #serverList {
-      display: grid;
-      gap: 20px;
-    }
-
-    .server-item {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-      transition: all 0.3s;
-      border: 1px solid rgba(59, 130, 246, 0.1);
-    }
-
-    .server-item:hover {
-      transform: translateX(4px);
-      box-shadow: 0 12px 40px rgba(30, 64, 175, 0.15);
-    }
-
-    .server-info h4 {
-      color: #1e40af;
-      font-size: 18px;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-
-    .server-info p {
-      font-size: 13px;
-      line-height: 1.6;
-      color: #6b7280;
-    }
-
-    .server-status {
-      padding: 10px 20px;
-      border-radius: 24px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-    }
-
-    .server-status.online {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
-    }
-
-    .server-status.offline {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: white;
-      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
-    }
-
-    .form-container {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 32px;
-      max-width: 600px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-      border: 1px solid rgba(59, 130, 246, 0.1);
-    }
-
-    .form-grid {
-      display: grid;
-      gap: 20px;
-    }
-
-    .input-group label {
-      display: block;
-      margin-bottom: 10px;
-      color: #374151;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .input-group input,
-    select {
-      width: 100%;
-      padding: 14px 18px;
-      border: 2px solid #bfdbfe;
-      border-radius: 12px;
-      font-size: 15px;
-      transition: all 0.3s;
-      background: white;
-      color: #374151;
-    }
-
-    .input-group input:focus,
-    select:focus {
-      outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-      background: #dbeafe;
-    }
-
-    select {
-      cursor: pointer;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 14px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
-      position: relative;
-      letter-spacing: 0.3px;
-    }
-
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .btn.loading::after {
-      content: '';
-      position: absolute;
-      width: 18px;
-      height: 18px;
-      top: 50%;
-      right: 24px;
-      margin-top: -9px;
-      border: 3px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spinner 0.6s linear infinite;
-    }
-
-    @keyframes spinner {
-      to { transform: rotate(360deg); }
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #1e40af, #3b82f6);
-      color: white;
-      box-shadow: 0 6px 24px rgba(30, 64, 175, 0.4);
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 32px rgba(30, 64, 175, 0.5);
-    }
-
-    .btn-trial {
-      background: linear-gradient(135deg, #fbbf24, #f59e0b);
-      color: #78350f;
-      box-shadow: 0 6px 24px rgba(251, 191, 36, 0.4);
-    }
-
-    .btn-trial:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 32px rgba(251, 191, 36, 0.5);
-    }
-
-    .btn-outline {
-      padding: 10px 18px;
-      border-radius: 10px;
-      border: 2px solid #bfdbfe;
-      background: white;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      color: #1e40af;
-    }
-
-    .btn-outline:hover {
-      background: #dbeafe;
-      border-color: #3b82f6;
-      color: #1e40af;
-      transform: translateY(-2px);
-    }
-
-    .payment-container {
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(20px);
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-      max-width: 700px;
-      border: 1px solid rgba(59, 130, 246, 0.1);
-    }
-
-    .payment-card {
-      display: none;
-      border: 2px solid #3b82f6;
-      border-radius: 20px;
-      padding: 32px;
-      margin-top: 28px;
-      text-align: center;
-      background: linear-gradient(135deg, rgba(219, 234, 254, 0.8) 0%, rgba(191, 219, 254, 0.8) 100%);
-    }
-
-    .payment-card h4 {
-      color: #1e40af;
-      margin-bottom: 16px;
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    .payment-card img {
-      max-width: 320px;
-      width: 100%;
-      margin: 24px 0;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-    }
-
-    .payment-card p {
-      color: #4b5563;
-      margin-bottom: 24px;
-      font-size: 15px;
-      font-weight: 500;
-    }
-
-    .payment-card a {
-      display: inline-block;
-      padding: 14px 32px;
-      background: linear-gradient(135deg, #1e40af, #3b82f6);
-      color: white;
-      text-decoration: none;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 15px;
-      transition: all 0.3s;
-      box-shadow: 0 6px 24px rgba(30, 64, 175, 0.4);
-    }
-
-    .payment-card a:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 32px rgba(30, 64, 175, 0.5);
-    }
-
-    .alert-info {
-      background: rgba(59, 130, 246, 0.1);
-      border-left: 4px solid #3b82f6;
-      padding: 16px 20px;
-      border-radius: 12px;
-      color: #374151;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-
-    .small {
-      font-size: 13px;
-    }
-
-    .muted {
-      color: #6b7280;
-    }
-
-    #trialResultCard,
-    #topupAccountCard {
-      display: none;
-      margin-top: 24px;
-      border-radius: 20px;
-      padding: 28px 24px;
-      background: linear-gradient(135deg, #1e40af, #3b82f6);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.28);
-      border: none;
-      text-align: left;
-    }
-
-    .result-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-
-    .result-header h4 {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 700;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .result-subtitle {
-      margin-top: 8px;
-      color: rgba(255,255,255,0.85);
-      font-size: 14px;
-    }
-
-    #trialResultCard .btn-outline,
-    #topupAccountCard .btn-outline {
-      border: 2px solid rgba(255,255,255,0.5);
-      background: rgba(255,255,255,0.12);
-      color: #ffffff;
-      font-weight: 600;
-      padding: 10px 20px;
-    }
-
-    #trialResultCard .btn-outline:hover,
-    #topupAccountCard .btn-outline:hover {
-      background: rgba(255,255,255,0.25);
-      border-color: #ffffff;
-      color: #ffffff;
-      transform: translateY(-2px);
-    }
-
-    #trialResultContent,
-    #topupAccountContent {
-      margin-top: 16px;
-      background: #0f172a;
-      color: #e2e8f0;
-      border-radius: 16px;
-      padding: 20px;
-      font-size: 14px;
-      line-height: 1.8;
-      font-family: "SF Mono", "Monaco", "Courier New", monospace;
-      overflow-x: auto;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    #trialResultContent b,
-    #topupAccountContent b {
-      color: #93c5fd;
-      font-weight: 700;
-    }
-
-    #trialResultContent code,
-    #topupAccountContent code {
-      color: #fbbf24;
-      background: rgba(251,191,36,0.1);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 13px;
-    }
-
-    #trialCopyButtons {
-      margin-top: 16px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    #trialCopyButtons .btn-outline {
-      flex: 1;
-      min-width: 140px;
-    }
-
-    @media (max-width: 1024px) {
-      .app-container {
-        padding: 16px;
-        gap: 16px;
-        flex-direction: column;
-      }
-
-      .services-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      }
-    }
+    .mnav-item .icon { font-size: 1.2rem; }
+    .mnav-item.active { color: var(--accent); }
 
     @media (max-width: 768px) {
-      .user-email {
-        display: none;
-      }
-
-      .page-title {
-        font-size: 26px;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .server-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-      }
-
-      .service-actions {
-        flex-direction: column;
-      }
-
-      .form-container,
-      .payment-container {
-        padding: 24px;
-      }
+      .mobile-nav { display: block; }
+      .main-content { padding-bottom: 72px; }
     }
 
-    @media (max-width: 480px) {
-      .dashboard-header h2 {
-        font-size: 16px;
-      }
-
-      .logo-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 18px;
-      }
-
-      .page-title {
-        font-size: 24px;
-      }
+    /* Transaction table mobile */
+    @media (max-width: 600px) {
+      .hide-mobile { display: none; }
     }
 
-    ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text3);
     }
 
-    ::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 5px;
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .empty-state p { font-size: 0.8rem; }
+
+    .profile-info {
+      display: grid;
+      gap: 12px;
     }
 
-    ::-webkit-scrollbar-thumb {
-      background: rgba(59, 130, 246, 0.5);
-      border-radius: 5px;
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
     }
 
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(59, 130, 246, 0.7);
+    .info-row:last-child { border-bottom: none; }
+
+    .info-row .key { color: var(--text3); }
+    .info-row .val { color: var(--text); font-weight: 500; }
+
+    .topup-amounts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .amount-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 10px 6px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+
+    .amount-btn:hover, .amount-btn.selected {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,212,255,0.08);
     }
   </style>
 </head>
 <body>
-  <div class="dashboard-header">
-    <button class="hamburger" id="btnToggleNav">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-    <div class="logo-section">
-      <div class="logo-icon">🚀</div>
-      <h2>XT VPN TUNNELING</h2>
-    </div>
-
-    <div class="user-info">
-      <span class="user-email" id="userEmailHeader">-</span>
-      <button class="btn-logout" id="btnLogout">Logout</button>
-    </div>
+  <div id="loading-screen">
+    <div class="logo">GABUT<span style="color:var(--accent2)">STORE</span></div>
+    <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+    <div style="font-size:0.7rem;color:var(--text3);letter-spacing:2px">AUTHENTICATING...</div>
   </div>
 
-  <div class="app-container">
-    <!-- Sidebar Navigation -->
-    <nav class="app-nav">
-      <button class="nav-btn active" data-target="overview">📊 Overview</button>
-      <button class="nav-btn" data-target="servers">🖥️ Server List</button>
-      <button class="nav-btn" data-target="create">➕ Buat Akun</button>
-      <button class="nav-btn" data-target="trial">✨ Trial Akun</button>
-      <button class="nav-btn" data-target="topup">💳 Pembayaran</button>
-    </nav>
+  <div class="panel-layout" id="app" style="display:none">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo">GABUT<span>STORE</span></div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" onclick="showPage('dashboard')" data-page="dashboard">
+          <span class="icon">📊</span> Dashboard
+        </div>
+        <div class="nav-item" onclick="showPage('topup')" data-page="topup">
+          <span class="icon">💰</span> Top Up
+        </div>
+        <div class="nav-item" onclick="showPage('transaksi')" data-page="transaksi">
+          <span class="icon">📋</span> Transaksi
+        </div>
+        <div class="nav-item" onclick="showPage('profil')" data-page="profil">
+          <span class="icon">👤</span> Profil
+        </div>
+      </nav>
+      <div class="sidebar-bottom">
+        <button class="btn btn-danger btn-sm" onclick="doLogout()" style="width:100%">
+          ⏻ Logout
+        </button>
+      </div>
+    </aside>
 
-    <!-- Content Area -->
-    <main class="app-content">
-      <!-- OVERVIEW PAGE -->
-      <div id="app-overview" class="app-page active">
-        <h3 class="page-title">Layanan Tersedia</h3>
-        <div class="services-grid">
-          <div class="service-card">
-            <h4>SSH Account</h4>
-            <p>Akses SSH untuk tunneling dan remote server. Support Dropbear, OpenSSH, dan WebSocket.</p>
-            <div class="service-actions">
-              <button class="service-cta" data-create-type="ssh">Buat SSH</button>
-              <button class="service-cta-trial" data-trial-type="ssh">Trial SSH</button>
-            </div>
+    <!-- MAIN -->
+    <main class="main-content">
+      <!-- DASHBOARD PAGE -->
+      <div class="page active" id="page-dashboard">
+        <div class="greeting">Halo, <span id="user-name">—</span> 👋</div>
+        <div class="sub-greeting" id="user-email-sub">—</div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="label">Saldo Aktif</div>
+            <div class="value" id="stat-saldo">Rp 0</div>
+            <div class="icon">💰</div>
           </div>
-
-          <div class="service-card">
-            <h4>VMess Account</h4>
-            <p>V2Ray VMess protocol dengan enkripsi tinggi. Cocok untuk koneksi cepat dan stabil.</p>
-            <div class="service-actions">
-              <button class="service-cta" data-create-type="vmess">Buat VMess</button>
-              <button class="service-cta-trial" data-trial-type="vmess">Trial VMess</button>
-            </div>
+          <div class="stat-card">
+            <div class="label">Role</div>
+            <div class="value purple" id="stat-role">—</div>
+            <div class="icon">🏅</div>
           </div>
-
-          <div class="service-card">
-            <h4>VLess Account</h4>
-            <p>V2Ray VLess protocol tanpa enkripsi tambahan. Performa maksimal untuk streaming.</p>
-            <div class="service-actions">
-              <button class="service-cta" data-create-type="vless">Buat VLess</button>
-              <button class="service-cta-trial" data-trial-type="vless">Trial VLess</button>
-            </div>
+          <div class="stat-card">
+            <div class="label">Total Transaksi</div>
+            <div class="value green" id="stat-trx">0</div>
+            <div class="icon">📦</div>
           </div>
+        </div>
 
-          <div class="service-card">
-            <h4>Trojan Account</h4>
-            <p>Trojan-GFW protocol dengan TLS. Bypass filtering internet dengan mudah.</p>
-            <div class="service-actions">
-              <button class="service-cta" data-create-type="trojan">Buat Trojan</button>
-              <button class="service-cta-trial" data-trial-type="trojan">Trial Trojan</button>
-            </div>
+        <div class="section">
+          <div class="section-header">
+            <div class="section-title">Transaksi Terbaru</div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Protokol</th>
+                  <th>Akun</th>
+                  <th class="hide-mobile">Server</th>
+                  <th>Hari</th>
+                  <th>Harga</th>
+                  <th class="hide-mobile">Tanggal</th>
+                </tr>
+              </thead>
+              <tbody id="table-trx-recent">
+                <tr>
+                  <td colspan="6">
+                    <div class="empty-state">
+                      <div class="icon">📭</div>
+                      <p>Belum ada transaksi</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
-      <!-- SERVERS PAGE -->
-      <div id="app-servers" class="app-page">
-        <h3 class="page-title">Daftar Server</h3>
-        <div id="serverList">
-          <p class="muted small">Memuat server...</p>
+      <!-- TOP UP PAGE -->
+      <div class="page" id="page-topup">
+        <div class="section-title" style="margin-bottom:20px">💰 TOP UP SALDO</div>
+
+        <div class="card" style="max-width:500px">
+          <div id="topup-alert"></div>
+
+          <div class="form-group">
+            <label>Pilih Nominal Cepat</label>
+            <div class="topup-amounts">
+              <div class="amount-btn" onclick="selectAmount(5000)">Rp 5.000</div>
+              <div class="amount-btn" onclick="selectAmount(10000)">Rp 10.000</div>
+              <div class="amount-btn" onclick="selectAmount(20000)">Rp 20.000</div>
+              <div class="amount-btn" onclick="selectAmount(50000)">Rp 50.000</div>
+              <div class="amount-btn" onclick="selectAmount(100000)">Rp 100.000</div>
+              <div class="amount-btn" onclick="selectAmount(200000)">Rp 200.000</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Atau Masukkan Nominal</label>
+            <input type="number" id="topup-amount" placeholder="Contoh: 15000" min="2000">
+          </div>
+
+          <div style="font-size:0.75rem;color:var(--text3);margin-bottom:16px">
+            ⚠️ Minimal top up <strong style="color:var(--text2)">Rp 2.000</strong>
+          </div>
+
+          <button class="btn btn-primary" onclick="doTopup()">
+            Lanjut ke Pembayaran
+          </button>
         </div>
       </div>
 
-      <!-- CREATE ACCOUNT PAGE -->
-      <div id="app-create" class="app-page">
-        <h3 class="page-title">Buat Akun Baru</h3>
-        <div class="form-container">
-          <div class="form-grid">
-            <div class="input-group">
-              <label>Tipe Akun</label>
-              <select id="createType">
-                <option value="ssh">SSH</option>
-                <option value="vmess">VMess</option>
-                <option value="vless">VLess</option>
-                <option value="trojan">Trojan</option>
-              </select>
-            </div>
+      <!-- TRANSAKSI PAGE -->
+      <div class="page" id="page-transaksi">
+        <div class="section-title" style="margin-bottom:20px">📋 RIWAYAT TRANSAKSI</div>
 
-            <div class="input-group">
-              <label>Pilih Server</label>
-              <select id="createServer">
-                <option value="">Memuat server...</option>
-              </select>
-            </div>
-
-            <div class="input-group">
-              <label>Username</label>
-              <input type="text" id="createUser" placeholder="username-kamu">
-            </div>
-
-            <div class="input-group" id="createPassWrap">
-              <label>Password (Khusus SSH)</label>
-              <input type="password" id="createPass" placeholder="password">
-            </div>
-
-            <div class="input-group">
-              <label>Durasi (Hari)</label>
-              <select id="createDays">
-                <option value="15">15 Hari</option>
-                <option value="30">30 Hari</option>
-              </select>
-            </div>
-
-            <button class="btn btn-primary" id="btnCreate">Buat Akun &amp; Bayar</button>
-          </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Protokol</th>
+                <th>Akun</th>
+                <th class="hide-mobile">Server</th>
+                <th>Hari</th>
+                <th>Harga</th>
+                <th class="hide-mobile">Tanggal</th>
+              </tr>
+            </thead>
+            <tbody id="table-trx-all">
+              <tr>
+                <td colspan="6">
+                  <div class="empty-state">
+                    <div class="icon">📭</div>
+                    <p>Memuat data...</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+
+        <div style="text-align:center;margin-top:16px" id="trx-pagination"></div>
       </div>
 
-      <!-- TRIAL PAGE -->
-      <div id="app-trial" class="app-page">
-        <h3 class="page-title">Trial Akun </h3>
-        <div class="form-container">
-          <div class="form-grid">
-            <p class="small muted">
-              Setiap email hanya bisa mengambil trial sekali setiap <b>2 hari</b>.
-            </p>
+      <!-- PROFIL PAGE -->
+      <div class="page" id="page-profil">
+        <div class="section-title" style="margin-bottom:20px">👤 PROFIL AKUN</div>
 
-            <div class="input-group">
-              <label>Tipe Akun Trial</label>
-              <select id="trialType">
-                <option value="ssh">SSH</option>
-                <option value="vmess">VMess</option>
-                <option value="vless">VLess</option>
-                <option value="trojan">Trojan</option>
-              </select>
+        <div class="card" style="max-width:500px">
+          <div class="profile-info">
+            <div class="info-row">
+              <span class="key">Email</span>
+              <span class="val" id="prof-email">—</span>
             </div>
-
-            <div class="input-group">
-              <label>Pilih Server</label>
-              <select id="trialServer">
-                <option value="">Memuat server...</option>
-              </select>
+            <div class="info-row">
+              <span class="key">Role</span>
+              <span class="val" id="prof-role">—</span>
             </div>
-
-            <button class="btn btn-trial" id="btnTrial">Buat Akun Trial (2 hari sekali)</button>
+            <div class="info-row">
+              <span class="key">Saldo</span>
+              <span class="val" id="prof-saldo">—</span>
+            </div>
+            <div class="info-row">
+              <span class="key">Member Sejak</span>
+              <span class="val" id="prof-since">—</span>
+            </div>
           </div>
         </div>
 
-        <!-- HASIL TRIAL -->
-        <div id="trialResultCard" class="payment-container" style="display:none; margin-top:20px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
-            <h4 style="margin:0;">✅ Trial Berhasil Dibuat</h4>
-            <button type="button" class="btn-outline" onclick="copyTrialAll()">Salin Semua</button>
-          </div>
+        <div class="card" style="max-width:500px;margin-top:16px">
+          <div class="section-title" style="margin-bottom:16px">Ganti Password</div>
+          <div id="pass-alert"></div>
 
-          <div id="trialResultContent"
-               style="margin-top:12px;
-                      background:#0f172a;
-                      color:#e5e7eb;
-                      border-radius:12px;
-                      padding:16px;
-                      font-size:13px;
-                      line-height:1.6;
-                      overflow-x:auto;">
+          <div class="form-group">
+            <label>Password Lama</label>
+            <input type="password" id="old-pass" placeholder="••••••••">
           </div>
-
-          <div id="trialCopyButtons"
-               style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <div class="form-group">
+            <label>Password Baru</label>
+            <input type="password" id="new-pass" placeholder="Min. 8 karakter">
           </div>
-        </div>
-      </div>
-
-      <!-- TOPUP / PAYMENT PAGE -->
-      <div id="app-topup" class="app-page">
-        <h3 class="page-title">Pembayaran</h3>
-        <div class="payment-container">
-          <p class="muted">Setelah membuat akun, QR code dan link pembayaran akan muncul di bawah ini.</p>
-
-          <div id="topupPaymentCard" class="payment-card">
-            <h4>Silakan Lakukan Pembayaran</h4>
-            <p id="paymentInfo">-</p>
-            <img id="qrisImage" src="" alt="QR Code" style="display:none;">
-            <br>
-            <a id="paymentLink" href="#" target="_blank" style="display:none;">Buka Link Pembayaran</a>
-          </div>
-
-          <!-- HASIL AKUN SETELAH BAYAR -->
-          <div id="topupAccountCard"
-               class="payment-card"
-               style="margin-top:20px; display:none;">
-            <h4>✅ Akun Berhasil Dibuat</h4>
-            <p class="muted small">
-              Di bawah ini adalah detail akun yang dibuat otomatis setelah pembayaran berhasil.
-            </p>
-            <div id="topupAccountContent"
-                 style="margin-top:12px;
-                        background:#0f172a;
-                        color:#e5e7eb;
-                        border-radius:12px;
-                        padding:16px;
-                        font-size:13px;
-                        line-height:1.6;
-                        overflow-x:auto;">
-            </div>
-            <button type="button"
-                    class="btn-outline"
-                    style="margin-top:12px;"
-                    onclick="copyTopupAll()">
-              Salin Semua
-            </button>
-          </div>
+          <button class="btn btn-primary" onclick="doChangePass()">Simpan Password</button>
         </div>
       </div>
     </main>
   </div>
 
+  <!-- MOBILE NAV -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+      <div class="mnav-item active" onclick="showPage('dashboard')" data-page="dashboard">
+        <span class="icon">📊</span>
+        <span>Dashboard</span>
+      </div>
+      <div class="mnav-item" onclick="showPage('topup')" data-page="topup">
+        <span class="icon">💰</span>
+        <span>Top Up</span>
+      </div>
+      <div class="mnav-item" onclick="showPage('transaksi')" data-page="transaksi">
+        <span class="icon">📋</span>
+        <span>Riwayat</span>
+      </div>
+      <div class="mnav-item" onclick="showPage('profil')" data-page="profil">
+        <span class="icon">👤</span>
+        <span>Profil</span>
+      </div>
+    </div>
+  </nav>
+
+  <script src="script.js"></script>
   <script>
-    // =====================================
-    // CONFIG
-    // =====================================
-    const API_BASE = "/api/web";
-const fmtRupiah = (n) => "Rp " + Number(n || 0).toLocaleString("id-ID");
+    let userData = null;
+    let trxData  = [];
+    let trxPage  = 1;
+    const TRX_PER_PAGE = 10;
 
-const ORDER_KEY   = "xt_last_order";          // simpan orderId terakhir
-const ACCOUNT_KEY = "xt_last_paid_account";   // simpan akun yang sudah jadi
+    // ── Auth guard ──
+    const token = localStorage.getItem('gs_token');
+    if (!token) window.location.href = 'login.html';
 
-let POLL_TIMER = null;
-let LAST_TRIAL_RAW = "";
-let LAST_TRIAL_PARSED = {};
-let LAST_TOPUP_MESSAGE_RAW = "";
-
-// ====== SIMPAN / LOAD AKUN BERDASARKAN EMAIL ======
-function saveLastAccountForEmail(email, html, rawText) {
-  if (!email || !html) return;
-  try {
-    const payload = {
-      email,
-      html,
-      raw: rawText || "",
-      ts: Date.now(),
-    };
-    localStorage.setItem(ACCOUNT_KEY, JSON.stringify(payload));
-  } catch (e) {
-    console.warn("Gagal simpan akun ke localStorage:", e);
-  }
-}
-
-function loadLastAccountForEmail(email) {
-  if (!email) return null;
-  try {
-    const raw = localStorage.getItem(ACCOUNT_KEY);
-    if (!raw) return null;
-
-    const data = JSON.parse(raw);
-    if (!data || data.email !== email) return null; // beda email => jangan dipakai
-
-    // opsional: expired 7 hari
-    const MAX_AGE = 7 * 24 * 60 * 60 * 1000;
-    if (Date.now() - (data.ts || 0) > MAX_AGE) return null;
-
-    return data;
-  } catch (e) {
-    return null;
-  }
-}
-
-function clearLastAccount() {
-  try {
-    localStorage.removeItem(ACCOUNT_KEY);
-  } catch (e) {}
-}
-
-    function lockButton(btn, locked) {
-      if (!btn) return;
-      btn.disabled = locked;
-      btn.classList.toggle("loading", !!locked);
-    }
-/**
- * Helper function untuk copy text ke clipboard
- * Digunakan untuk tombol copy pada config link
- */
-function copyToClipboard(button) {
-  // Cari textarea di parent container
-  const container = button.parentElement;
-  const textarea = container.querySelector('.config-link');
-  
-  if (!textarea) {
-    console.error('Textarea tidak ditemukan');
-    return;
-  }
-
-  // Select dan copy text
-  textarea.select();
-  textarea.setSelectionRange(0, 99999); // Untuk mobile
-  
-  try {
-    // Method modern
-    navigator.clipboard.writeText(textarea.value).then(() => {
-      showCopySuccess(button);
-    }).catch(err => {
-      // Fallback ke method lama
-      document.execCommand('copy');
-      showCopySuccess(button);
-    });
-  } catch (err) {
-    // Fallback ke method lama
-    try {
-      document.execCommand('copy');
-      showCopySuccess(button);
-    } catch (e) {
-      console.error('Gagal copy:', e);
-      showCopyError(button);
-    }
-  }
-}
-
-/**
- * Tampilkan feedback sukses copy
- */
-function showCopySuccess(button) {
-  const originalHTML = button.innerHTML;
-  
-  // Ubah tampilan button
-  button.innerHTML = '<i class="fas fa-check"></i> Copied!';
-  button.classList.add('copied');
-  
-  // Kembalikan ke semula setelah 2 detik
-  setTimeout(() => {
-    button.innerHTML = originalHTML;
-    button.classList.remove('copied');
-  }, 2000);
-}
-
-/**
- * Tampilkan feedback error copy
- */
-function showCopyError(button) {
-  const originalHTML = button.innerHTML;
-  
-  // Ubah tampilan button
-  button.innerHTML = '<i class="fas fa-times"></i> Failed';
-  button.style.background = '#dc3545';
-  
-  // Kembalikan ke semula setelah 2 detik
-  setTimeout(() => {
-    button.innerHTML = originalHTML;
-    button.style.background = '';
-  }, 2000);
-}
-
-// Export untuk use di module
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { copyToClipboard };
-}
-    // =====================================
-// NAVIGATION + BACK BUTTON
-// =====================================
-const DEFAULT_PAGE = "overview";
-
-function openAppPage(name, options = {}) {
-  const { pushHistory = true, fromPopstate = false } = options;
-
-  // simpan tab terakhir
-  localStorage.setItem("xt_panel_tab", name);
-
-  // show/hide page
-  document.querySelectorAll(".app-page").forEach((p) =>
-    p.classList.remove("active")
-  );
-  const pageEl = document.getElementById("app-" + name);
-  if (pageEl) pageEl.classList.add("active");
-
-  // aktifkan nav
-  document.querySelectorAll(".nav-btn").forEach((btn) =>
-    btn.classList.remove("active")
-  );
-  const activeBtn = document.querySelector(
-    '.nav-btn[data-target="' + name + '"]'
-  );
-  if (activeBtn) activeBtn.classList.add("active");
-
-  // tutup sidebar di HP
-  const nav = document.querySelector(".app-nav");
-  if (nav) nav.classList.remove("open");
-
-  // tambahin ke history biar tombol Back HP pindah tab dulu
-  if (pushHistory && !fromPopstate && history.pushState) {
-    history.pushState({ page: name }, "", "#" + name);
-  }
-}
-
-// Set state awal history
-function initHistory() {
-  const lastTab = localStorage.getItem("xt_panel_tab") || DEFAULT_PAGE;
-
-  // tampilkan dulu tanpa nambah history
-  openAppPage(lastTab, { pushHistory: false });
-
-  // ganti state pertama jadi state panel
-  if (history.replaceState) {
-    history.replaceState({ page: lastTab }, "", "#" + lastTab);
-  }
-}
-
-// Ketika tombol BACK ditekan
-window.addEventListener("popstate", (event) => {
-  const state = event.state;
-
-  if (state && state.page) {
-    // pindah tab TANPA nambah history lagi
-    openAppPage(state.page, { pushHistory: false, fromPopstate: true });
-  } else {
-    // kalau sudah nggak ada state (sudah di index.html / halaman lain),
-    // biarin browser yang handle (boleh keluar)
-  }
-});
-    // =====================================
-    // ORDER STORAGE + POLLING
-    // =====================================
-    function saveLastOrder(orderId, amount) {
+    // ── Init ──
+    window.addEventListener('load', async () => {
       try {
-        localStorage.setItem(
-          ORDER_KEY,
-          JSON.stringify({ orderId, amount, ts: Date.now() })
-        );
-      } catch (e) {}
-    }
+        const res = await apiFetch('/api/me');
+        if (!res.success) {
+          doLogout();
+          return;
+        }
+        userData = res.user;
+        renderProfile();
+        renderDashboard();
 
-    function loadLastOrder() {
-      try {
-        const raw = localStorage.getItem(ORDER_KEY);
-        if (!raw) return null;
-        return JSON.parse(raw);
+        const trxRes = await apiFetch('/api/transactions');
+        if (trxRes.success) {
+          trxData = trxRes.data || [];
+          renderTrxTable('table-trx-recent', trxData.slice(0, 5));
+          renderTrxTable('table-trx-all', trxData.slice(0, TRX_PER_PAGE));
+          renderPagination();
+        }
       } catch (e) {
-        return null;
-      }
-    }
-
-    function clearLastOrder() {
-      try {
-        localStorage.removeItem(ORDER_KEY);
-      } catch (e) {}
-    }
-
-    function copyText(txt) {
-      if (!txt) return;
-      navigator.clipboard
-        .writeText(txt)
-        .then(() => alert("✅ Berhasil disalin"))
-        .catch(() => alert("Clipboard tidak support di browser ini."));
-    }
-
-    function copyTrialAll() {
-      if (!LAST_TRIAL_RAW) return;
-      copyText(LAST_TRIAL_RAW);
-    }
-
-    function copyTopupAll() {
-      if (!LAST_TOPUP_MESSAGE_RAW) return;
-      copyText(LAST_TOPUP_MESSAGE_RAW);
-    }
-
-    async function pollOrderStatusOnce(orderId) {
-  if (!orderId) return;
-  try {
-    const res = await fetch(
-      `${API_BASE}/order-status?orderId=${encodeURIComponent(orderId)}`
-    );
-    const json = await res.json().catch(() => ({}));
-    if (!res.ok || !json.ok) return;
-
-    const data = json.data || {};
-    if (data.status === "paid") {
-      // stop polling
-      if (POLL_TIMER) {
-        clearInterval(POLL_TIMER);
-        POLL_TIMER = null;
-      }
-      clearLastOrder();
-
-      if (data.akun_message && typeof data.akun_message === "string") {
-        const card = document.getElementById("topupAccountCard");
-        const content = document.getElementById("topupAccountContent");
-        if (card && content) {
-          content.innerHTML = data.akun_message;
-
-          LAST_TOPUP_MESSAGE_RAW = data.akun_message
-            .replace(/<br\s*\/?>/gi, "\n")
-            .replace(/<\/p>/gi, "\n\n")
-            .replace(/<[^>]+>/g, "")
-            .trim();
-
-          // 🔥 simpan akun per-email
-          const currentEmail = localStorage.getItem("xt_email") || "";
-          saveLastAccountForEmail(
-            currentEmail,
-            data.akun_message,      // HTML akun
-            LAST_TOPUP_MESSAGE_RAW  // versi plain text
-          );
-
-          card.style.display = "block";
-          card.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else {
-          alert(
-            "Akun berhasil dibuat:\n\n" +
-              data.akun_message.replace(/<[^>]+>/g, "")
-          );
-        }
-      }
-    }
-  } catch (e) {
-    console.warn("Gagal cek status order:", e);
-  }
-}
-
-    function startOrderPolling(orderId) {
-      if (!orderId) return;
-      if (POLL_TIMER) clearInterval(POLL_TIMER);
-      POLL_TIMER = setInterval(() => pollOrderStatusOnce(orderId), 5000);
-    }
-
-    // =====================================
-    // SERVER LIST
-    // =====================================
-    let cachedServers = [];
-
-    async function loadServersFromApi() {
-      try {
-        const res = await fetch(API_BASE + "/servers");
-        const json = await res.json().catch(() => ({}));
-        if (!res.ok || !json.ok) {
-          throw new Error(json.error || "Gagal load server.");
-        }
-
-        cachedServers = json.data || [];
-        renderServers();
-        fillServerSelects();
-      } catch (e) {
-        console.warn("Gagal load servers:", e);
-        const wrap = document.getElementById("serverList");
-        if (wrap) {
-          wrap.innerHTML =
-            "<p class='muted small'>Gagal memuat server.</p>";
-        }
-      }
-    }
-
-    function renderServers() {
-      const wrap = document.getElementById("serverList");
-      if (!wrap) return;
-
-      if (!cachedServers.length) {
-        wrap.innerHTML =
-          "<p class='muted small'>Server kosong / belum disetting di backend.</p>";
-        return;
-      }
-
-      wrap.innerHTML = cachedServers
-        .map((s) => {
-          const isFull = s.penuh;
-          const statusText = isFull ? "PENUH" : "TERSEDIA";
-
-          return `
-            <div class="server-item">
-              <div class="server-info">
-                <h4>${s.nama_server}</h4>
-                <p class="small muted">${s.lokasi} • ${s.isp}</p>
-                <p class="small muted">
-                  Kuota ${s.quota}GB / hari • IP Max ${s.iplimit}
-                </p>
-              </div>
-              <span class="server-status ${isFull ? "offline" : "online"}">
-                ${statusText}
-              </span>
-            </div>
-          `;
-        })
-        .join("");
-    }
-
-    function fillServerSelects() {
-      const selCreate = document.getElementById("createServer");
-      const selTrial  = document.getElementById("trialServer");
-
-      if (!cachedServers.length) {
-        if (selCreate) selCreate.innerHTML = "<option value=''>Server kosong</option>";
-        if (selTrial)  selTrial.innerHTML  = "<option value=''>Server kosong</option>";
-        return;
-      }
-
-      const html = cachedServers
-        .map((s) => `<option value="${s.id}">${s.nama_server}</option>`)
-        .join("");
-
-      if (selCreate) selCreate.innerHTML = html;
-      if (selTrial)  selTrial.innerHTML  = html;
-    }
-
-    // =====================================
-    // PASSWORD FIELD VISIBILITY
-    // =====================================
-    const typeSelect        = document.getElementById("createType");
-    const passwordFieldWrap = document.getElementById("createPassWrap");
-    const trialTypeSelect   = document.getElementById("trialType");
-    const trialPassWrap     = document.getElementById("trialPassWrap");
-
-    function updatePasswordVisibility() {
-      if (!typeSelect || !passwordFieldWrap) return;
-      const t = typeSelect.value.toLowerCase();
-      passwordFieldWrap.style.display = t === "ssh" ? "block" : "none";
-    }
-
-    function updateTrialPasswordVisibility() {
-      if (!trialTypeSelect || !trialPassWrap) return;
-      const t = trialTypeSelect.value.toLowerCase();
-      trialPassWrap.style.display = t === "ssh" ? "block" : "none";
-    }
-
-    // =====================================
-    // TRIAL RESULT + COPY HELPER
-    // =====================================
-    function showTrialResult(messageHtml) {
-      const card    = document.getElementById("trialResultCard");
-      const content = document.getElementById("trialResultContent");
-      const btnBox  = document.getElementById("trialCopyButtons");
-
-      if (!card || !content || !btnBox) {
-        alert(
-          "Trial berhasil dibuat:\n\n" +
-          messageHtml.replace(/<[^>]+>/g, "")
-        );
-        return;
-      }
-
-      LAST_TRIAL_RAW = messageHtml
-        .replace(/<br\s*\/?>/gi, "\n")
-        .replace(/<\/p>/gi, "\n\n")
-        .replace(/<[^>]+>/g, "")
-        .trim();
-
-      content.innerHTML = messageHtml;
-
-      const find = (label) => {
-        const r = new RegExp(
-          `<b>${label}<\\/b>\\s*:?\\s*<code>(.*?)<\\/code>`,
-          "i"
-        );
-        const m = messageHtml.match(r);
-        return m ? m[1] : "";
-      };
-
-      LAST_TRIAL_PARSED = {
-        username: find("Username"),
-        password: find("Password"),
-        uuid:     find("UUID"),
-        domain:   find("Domain"),
-      };
-
-      btnBox.innerHTML = "";
-
-      if (LAST_TRIAL_PARSED.username) {
-        btnBox.innerHTML += `
-          <button type="button" class="btn-outline"
-            onclick="copyText('${LAST_TRIAL_PARSED.username}')">
-            Copy Username
-          </button>`;
-      }
-
-      if (LAST_TRIAL_PARSED.password) {
-        btnBox.innerHTML += `
-          <button type="button" class="btn-outline"
-            onclick="copyText('${LAST_TRIAL_PARSED.password}')">
-            Copy Password
-          </button>`;
-      }
-
-      if (LAST_TRIAL_PARSED.uuid) {
-        btnBox.innerHTML += `
-          <button type="button" class="btn-outline"
-            onclick="copyText('${LAST_TRIAL_PARSED.uuid}')">
-            Copy UUID
-          </button>`;
-      }
-
-      card.style.display = "block";
-      card.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    // =====================================
-    // ON LOAD
-    // =====================================
-    window.addEventListener("load", () => {
-  const email = localStorage.getItem("xt_email");
-  const pass  = localStorage.getItem("xt_pass");
-
-  if (!email || !pass) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  const headerEmailEl = document.getElementById("userEmailHeader");
-  if (headerEmailEl) headerEmailEl.innerText = email;
-
-  // Logout
-  const btnLogout = document.getElementById("btnLogout");
-  if (btnLogout) {
-    btnLogout.onclick = () => {
-      localStorage.removeItem("xt_email");
-      localStorage.removeItem("xt_pass");
-      localStorage.removeItem("xt_panel_tab");
-      clearLastOrder();
-      clearLastAccount(); // 🔥 bersihkan cache akun
-      window.location.href = "login.html";
-    };
-  }
-
-  // Nav button click
-  document.querySelectorAll(".nav-btn").forEach((btn) => {
-    btn.onclick = () => openAppPage(btn.dataset.target);
-  });
-
-  // Hamburger
-  const btnToggleNav = document.getElementById("btnToggleNav");
-  if (btnToggleNav) {
-    btnToggleNav.onclick = () => {
-      const nav = document.querySelector(".app-nav");
-      if (nav) nav.classList.toggle("open");
-    };
-  }
-
-  // Load server list
-  loadServersFromApi();
-
-  // Password visibility
-  updatePasswordVisibility();
-  if (typeSelect) {
-    typeSelect.addEventListener("change", updatePasswordVisibility);
-  }
-  updateTrialPasswordVisibility();
-  if (trialTypeSelect) {
-    trialTypeSelect.addEventListener("change", updateTrialPasswordVisibility);
-  }
-
-  // Service card → buka tab create/trial
-  document.querySelectorAll(".service-cta").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const t = btn.dataset.createType || "ssh";
-      openAppPage("create");
-      const sel = document.getElementById("createType");
-      if (sel) {
-        sel.value = t;
-        updatePasswordVisibility();
+        console.error(e);
+      } finally {
+        setTimeout(() => {
+          document.getElementById('loading-screen').style.opacity = '0';
+          setTimeout(() => {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('app').style.display = 'flex';
+          }, 400);
+        }, 1200);
       }
     });
-  });
 
-  document.querySelectorAll(".service-cta-trial").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const t = btn.dataset.trialType || "ssh";
-      openAppPage("trial");
-      const sel =
-        document.getElementById("trialType") ||
-        document.getElementById("createType");
-      if (sel) {
-        sel.value = t;
-        updateTrialPasswordVisibility();
-      }
-      const trialBtn = document.getElementById("btnTrial");
-      if (trialBtn) {
-        trialBtn.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-    });
-  });
+    function renderDashboard() {
+      if (!userData) return;
+      const name = userData.email.split('@')[0];
+      document.getElementById('user-name').textContent = name;
+      document.getElementById('user-email-sub').textContent = userData.email;
+      document.getElementById('stat-saldo').textContent = formatRp(userData.saldo || 0);
+      document.getElementById('stat-role').textContent = (userData.role || 'user').toUpperCase();
+      document.getElementById('stat-trx').textContent = trxData.length;
+    }
 
-  // CREATE ACCOUNT (PAKASIR)
-  const btnCreate = document.getElementById("btnCreate");
-  if (btnCreate) {
-    btnCreate.onclick = async (ev) => {
-      const btn = ev.currentTarget;
-      const type = document.getElementById("createType").value;
-      const serverId = parseInt(
-        document.getElementById("createServer").value,
-        10
-      );
-      const username = document
-        .getElementById("createUser")
-        .value.trim();
-      const password = document.getElementById("createPass")
-        ? document.getElementById("createPass").value.trim()
-        : "";
-      const days = parseInt(
-        document.getElementById("createDays").value,
-        10
-      );
-      const userEmail = localStorage.getItem("xt_email") || "";
+    function renderProfile() {
+      if (!userData) return;
+      document.getElementById('prof-email').textContent = userData.email;
+      document.getElementById('prof-role').textContent = (userData.role || 'user').toUpperCase();
+      document.getElementById('prof-saldo').textContent = formatRp(userData.saldo || 0);
+      document.getElementById('prof-since').textContent = userData.created_at
+        ? new Date(userData.created_at).toLocaleDateString('id-ID', { day:'2-digit', month:'short', year:'numeric' })
+        : '—';
+    }
 
-      if (!userEmail) {
-        alert("Kamu harus login terlebih dahulu.");
-        window.location.href = "index.html";
+    function renderTrxTable(tbodyId, data) {
+      const tbody = document.getElementById(tbodyId);
+      if (!data || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><div class="icon">📭</div><p>Belum ada transaksi</p></div></td></tr>`;
         return;
       }
-      if (!serverId || !username || !days) {
-        alert("Lengkapi semua form (server, username, hari).");
-        return;
+      tbody.innerHTML = data.map(t => `
+        <tr>
+          <td><span class="badge badge-blue">${t.protocol || '—'}</span></td>
+          <td class="highlight">${t.akun || '—'}</td>
+          <td class="hide-mobile">${t.layanan || '—'}</td>
+          <td>${t.hari || '—'} hari</td>
+          <td style="color:var(--accent3)">${formatRp(t.harga || 0)}</td>
+          <td class="hide-mobile" style="color:var(--text3)">${t.created_at ? new Date(t.created_at).toLocaleDateString('id-ID') : '—'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderPagination() {
+      const total = Math.ceil(trxData.length / TRX_PER_PAGE);
+      const el = document.getElementById('trx-pagination');
+      if (total <= 1) { el.innerHTML = ''; return; }
+
+      let html = '';
+      for (let i = 1; i <= total; i++) {
+        html += `<button class="btn btn-sm ${i === trxPage ? 'btn-primary' : 'btn-outline'}" style="margin:2px" onclick="goTrxPage(${i})">${i}</button>`;
       }
-      if (type === "ssh" && !password) {
-        alert("Password SSH wajib diisi untuk akun SSH.");
-        return;
-      }
-      if (days !== 15 && days !== 30) {
-        alert("Untuk panel web hanya tersedia paket 15 atau 30 hari.");
+      el.innerHTML = html;
+    }
+
+    function goTrxPage(p) {
+      trxPage = p;
+      const start = (p - 1) * TRX_PER_PAGE;
+      renderTrxTable('table-trx-all', trxData.slice(start, start + TRX_PER_PAGE));
+      renderPagination();
+    }
+
+    // ── Page navigation ──
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item, .mnav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      document.querySelectorAll(`[data-page="${name}"]`).forEach(n => n.classList.add('active'));
+    }
+
+    // ── Top Up ──
+    function selectAmount(val) {
+      document.getElementById('topup-amount').value = val;
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+      event.target.classList.add('selected');
+    }
+
+    async function doTopup() {
+      const amount = parseInt(document.getElementById('topup-amount').value);
+      const alertEl = document.getElementById('topup-alert');
+
+      if (!amount || amount < 2000) {
+        alertEl.innerHTML = `<div class="alert alert-error">⚠️ Minimal top up Rp 2.000</div>`;
         return;
       }
 
-      lockButton(btn, true);
+      // Arahkan ke bot Telegram untuk top up (karena payment ada di bot)
+      alertEl.innerHTML = `<div class="alert alert-info">ℹ️ Top up melalui bot Telegram. Klik tombol di bawah.</div>`;
+      setTimeout(() => {
+        window.open('https://t.me/your_bot_username', '_blank');
+      }, 800);
+    }
+
+    // ── Change Password ──
+    async function doChangePass() {
+      const oldPass = document.getElementById('old-pass').value;
+      const newPass = document.getElementById('new-pass').value;
+      const alertEl = document.getElementById('pass-alert');
+
+      if (!oldPass || !newPass) {
+        alertEl.innerHTML = `<div class="alert alert-error">⚠️ Semua field wajib diisi.</div>`;
+        return;
+      }
+      if (newPass.length < 8) {
+        alertEl.innerHTML = `<div class="alert alert-error">⚠️ Password baru minimal 8 karakter.</div>`;
+        return;
+      }
 
       try {
-        const res = await fetch(API_BASE + "/create-order", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: userEmail,
-            type,
-            serverId,
-            username,
-            days,
-            password,
-          }),
+        const res = await apiFetch('/api/change-password', {
+          method: 'POST',
+          body: JSON.stringify({ old_password: oldPass, new_password: newPass })
         });
 
-        const json = await res.json().catch(() => ({}));
-        if (!res.ok || !json.ok) {
-          throw new Error(json.error || "Gagal membuat order.");
-        }
-
-        const data = json.data || {};
-        const card = document.getElementById("topupPaymentCard");
-        const img = document.getElementById("qrisImage");
-        const infoEl = document.getElementById("paymentInfo");
-        const linkEl = document.getElementById("paymentLink");
-
-        if (card && infoEl) {
-          infoEl.textContent = `Order ID: ${
-            data.orderId || "-"
-          } • Nominal: ${fmtRupiah(data.amount || 0)}`;
-
-          if (img) {
-            let qrUrl =
-              data.qrImageBase64 ||
-              data.qrImageUrl ||
-              data.qrisImageUrl ||
-              data.qr_url ||
-              data.qris_image ||
-              data.qrisImage ||
-              data.qrImage ||
-              "";
-
-            if (
-              qrUrl &&
-              !qrUrl.startsWith("http") &&
-              !qrUrl.startsWith("data:")
-            ) {
-              qrUrl = "data:image/png;base64," + qrUrl;
-            }
-
-            if (qrUrl) {
-              img.src = qrUrl;
-              img.style.display = "block";
-            } else {
-              img.style.display = "none";
-            }
-          }
-
-        if (linkEl) {
-          if (data.paymentUrl) {
-            linkEl.href = data.paymentUrl;
-            linkEl.style.display = "inline-block";
-          } else {
-            linkEl.style.display = "none";
-          }
-        }
-
-        card.style.display = "block";
-      }
-
-        saveLastOrder(data.orderId, data.amount);
-        startOrderPolling(data.orderId);
-
-        openAppPage("topup");
-
-        alert(
-          "Order berhasil dibuat.\nSilakan lakukan pembayaran menggunakan QR / link yang tampil. Akun akan dibuat otomatis setelah pembayaran berhasil."
-        );
-      } catch (e) {
-        alert(e.message || "Gagal membuat order pembayaran.");
-      } finally {
-        lockButton(btn, false);
-      }
-    };
-  }
-
-  // TRIAL ACCOUNT
-  const btnTrial = document.getElementById("btnTrial");
-  if (btnTrial) {
-    btnTrial.onclick = async (ev) => {
-      const btn = ev.currentTarget;
-
-      const userEmail = localStorage.getItem("xt_email") || "";
-      if (!userEmail) {
-        alert("Kamu harus login terlebih dahulu.");
-        window.location.href = "login.html";
-        return;
-      }
-
-      const typeEl =
-        document.getElementById("trialType") ||
-        document.getElementById("createType");
-      const serverEl =
-        document.getElementById("trialServer") ||
-        document.getElementById("createServer");
-      const usernameEl =
-        document.getElementById("trialUsername") ||
-        document.getElementById("createUser");
-      const passwordEl =
-        document.getElementById("trialPassword") ||
-        document.getElementById("createPass");
-
-      const type = typeEl ? typeEl.value : "";
-      const serverId = serverEl ? parseInt(serverEl.value, 10) : 0;
-      const username = usernameEl ? usernameEl.value.trim() : "";
-      const password = passwordEl ? passwordEl.value.trim() : "";
-
-      if (!type || !serverId) {
-        alert("Data trial tidak lengkap (tipe / server).");
-        return;
-      }
-
-      lockButton(btn, true);
-      try {
-        const res = await fetch(API_BASE + "/trial", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: userEmail,
-            type,
-            serverId,
-            username,
-            password,
-          }),
-        });
-
-        const json = await res.json().catch(() => ({}));
-
-        if (!res.ok || !json.ok) {
-          if (res.status === 429 && json.error) {
-            throw new Error(json.error);
-          }
-          throw new Error(json.error || "Gagal membuat akun trial.");
-        }
-
-        const data = json.data || {};
-        if (data.message && typeof data.message === "string") {
-          showTrialResult(data.message);
+        if (res.success) {
+          alertEl.innerHTML = `<div class="alert alert-success">✅ Password berhasil diubah.</div>`;
+          document.getElementById('old-pass').value = '';
+          document.getElementById('new-pass').value = '';
         } else {
-          alert(
-            "Trial berhasil dibuat.\n\n" +
-              JSON.stringify(data, null, 2)
-          );
+          alertEl.innerHTML = `<div class="alert alert-error">❌ ${res.message || 'Gagal.'}</div>`;
         }
       } catch (e) {
-        alert(e.message || "Gagal membuat akun trial.");
-      } finally {
-        lockButton(btn, false);
-      }
-    };
-  }
-
-// Inisialisasi history + tab pertama
-  initHistory();
-
-  // Restore order jika ada
-  const lastOrder = loadLastOrder();
-  if (lastOrder && lastOrder.orderId) {
-    const card = document.getElementById("topupPaymentCard");
-    const infoEl = document.getElementById("paymentInfo");
-    if (card && infoEl) {
-      infoEl.textContent = `Order ID: ${
-        lastOrder.orderId
-      } • Nominal: ${fmtRupiah(lastOrder.amount || 0)}`;
-      card.style.display = "block";
-    }
-    openAppPage("topup");
-    startOrderPolling(lastOrder.orderId);
-  }
-
-// 🔁 RESTORE AKUN TERSIMPAN (KHUSUS EMAIL INI)
-  try {
-    const savedAcc = loadLastAccountForEmail(email);
-    if (savedAcc && savedAcc.html) {
-      const card = document.getElementById("topupAccountCard");
-      const content = document.getElementById("topupAccountContent");
-
-      if (card && content) {
-        content.innerHTML = savedAcc.html;
-        card.style.display = "block";
-
-        LAST_TOPUP_MESSAGE_RAW = (savedAcc.raw || savedAcc.html)
-          .replace(/<br\s*\/?>/gi, "\n")
-          .replace(/<\/p>/gi, "\n\n")
-          .replace(/<[^>]+>/g, "")
-          .trim();
-
-        // buka tab Pembayaran
-        openAppPage("topup");
+        alertEl.innerHTML = `<div class="alert alert-error">❌ Gagal menghubungi server.</div>`;
       }
     }
-  } catch (e) {
-    console.warn("Gagal restore akun tersimpan:", e);
-  }
-});
+
+    // ── Logout ──
+    function doLogout() {
+      localStorage.removeItem('gs_token');
+      localStorage.removeItem('gs_email');
+      window.location.href = 'login.html';
+    }
+
+    // ── Helpers ──
+    function formatRp(n) {
+      return 'Rp ' + Number(n).toLocaleString('id-ID');
+    }
   </script>
 </body>
 </html>
