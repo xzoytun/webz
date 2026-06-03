@@ -37,7 +37,25 @@ if (loginForm) {
             message.innerText =
                 result.message || 'Login berhasil';
 
+            if (result.success) {
+
+                localStorage.setItem(
+                    'user',
+                    JSON.stringify(result.user)
+                );
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        'dashboard.html';
+
+                }, 1000);
+
+            }
+
         } catch (err) {
+
+            console.error(err);
 
             message.innerText =
                 'Server tidak dapat dihubungi';
@@ -106,12 +124,17 @@ if (registerForm) {
             if (result.success) {
 
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+
+                    window.location.href =
+                        'index.html';
+
                 }, 1500);
 
             }
 
         } catch (err) {
+
+            console.error(err);
 
             message.innerText =
                 'Server tidak dapat dihubungi';
