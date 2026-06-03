@@ -1,17 +1,153 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Xtrimer Tunnel</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0b132b;
+    color:white;
+    min-height:100vh;
+}
+
+.header{
+    background:#1c2541;
+    padding:20px;
+    text-align:center;
+    border-bottom:2px solid #facc15;
+}
+
+.logo{
+    color:#facc15;
+    font-size:32px;
+    font-weight:bold;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:#1f2937;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:15px;
+}
+
+.card h3{
+    color:#facc15;
+    margin-bottom:15px;
+}
+
+.info{
+    margin-bottom:10px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.stat-box{
+    background:#1f2937;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+}
+
+.stat-title{
+    color:#facc15;
+    margin-bottom:10px;
+}
+
+.stat-value{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.logout-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#facc15;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:20px;
+}
+</style>
 </head>
 <body>
 
-<h2>Dashboard User</h2>
+<div class="header">
+    <div class="logo">
+        XTRIMER TUNNEL
+    </div>
+</div>
 
-<p id="welcome"></p>
+<div class="container">
 
-<button onclick="logout()">
-    Logout
-</button>
+    <div class="card">
+        <h3>Informasi Akun</h3>
+
+        <div class="info">
+            Username:
+            <span id="username"></span>
+        </div>
+
+        <div class="info">
+            Email:
+            <span id="email"></span>
+        </div>
+
+        <div class="info">
+            Role:
+            <span id="role"></span>
+        </div>
+    </div>
+
+    <div class="stats">
+
+        <div class="stat-box">
+            <div class="stat-title">
+                Saldo
+            </div>
+
+            <div class="stat-value" id="balance">
+                0
+            </div>
+        </div>
+
+        <div class="stat-box">
+            <div class="stat-title">
+                Status
+            </div>
+
+            <div class="stat-value">
+                Aktif
+            </div>
+        </div>
+
+    </div>
+
+    <button
+        class="logout-btn"
+        onclick="logout()">
+        Logout
+    </button>
+
+</div>
 
 <script>
 
@@ -22,12 +158,25 @@ if (!user) {
     window.location.href = 'index.html';
 }
 
-document.getElementById('welcome').innerHTML =
-    `Halo ${user.username}`;
+document.getElementById('username').innerText =
+    user.username || '-';
+
+document.getElementById('email').innerText =
+    user.email || '-';
+
+document.getElementById('role').innerText =
+    user.role || 'user';
+
+document.getElementById('balance').innerText =
+    user.balance || 0;
 
 function logout() {
+
     localStorage.removeItem('user');
-    window.location.href = 'index.html';
+
+    window.location.href =
+        'index.html';
+
 }
 
 </script>
