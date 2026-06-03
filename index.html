@@ -66,6 +66,12 @@ body{
     font-weight:bold;
 }
 
+.google-login{
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+}
+
 .register-link{
     text-align:center;
     margin-top:15px;
@@ -122,6 +128,25 @@ body{
 
     <div id="message"></div>
 
+    <div class="google-login">
+
+        <div id="g_id_onload"
+            data-client_id="480091956294-njvigllpnbqmh6p11nij99eavv101u3e.apps.googleusercontent.com"
+            data-callback="handleCredentialResponse">
+        </div>
+
+        <div
+            class="g_id_signin"
+            data-type="standard"
+            data-size="large"
+            data-theme="filled_black"
+            data-text="signin_with"
+            data-shape="rectangular"
+            data-width="300">
+        </div>
+
+    </div>
+
     <div class="register-link">
         Belum punya akun?
         <a href="register.html">Daftar</a>
@@ -129,6 +154,7 @@ body{
 
 </div>
 
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="script.js"></script>
 
 </body>
