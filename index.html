@@ -107,23 +107,17 @@ JSON.parse(
 );
 
 if (user) {
-
     window.location.href =
         'dashboard.html';
-
 }
 
 // Google Login Callback
 async function handleCredentialResponse(response) {
-
     const message =
         document.getElementById('message');
-
     try {
-
         message.innerText =
             'Memproses login...';
-
         const res =
         await fetch(
             '/api/google-login',
@@ -139,39 +133,27 @@ async function handleCredentialResponse(response) {
                 })
             }
         );
-
         const result =
         await res.json();
-
         if(result.success){
-
             localStorage.setItem(
                 'user',
                 JSON.stringify(
                     result.user
                 )
             );
-
             window.location.href =
                 'dashboard.html';
-
         }else{
-
             message.innerText =
                 result.message ||
                 'Login gagal';
-
         }
-
     } catch(err){
-
         console.error(err);
-
         message.innerText =
             'Server tidak dapat dihubungi';
-
     }
-
 }
 
 </script>
