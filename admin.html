@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Xtrimer Tunnel</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0b132b;
+    color:white;
+}
+
+.header{
+    background:#1c2541;
+    padding:20px;
+    text-align:center;
+    border-bottom:2px solid #facc15;
+}
+
+.logo{
+    color:#facc15;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.container{
+    padding:20px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.card{
+    background:#1f2937;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+}
+
+.card h3{
+    color:#facc15;
+    margin-bottom:10px;
+}
+
+.value{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.menu{
+    margin-top:20px;
+}
+
+.menu-btn{
+    width:100%;
+    margin-bottom:10px;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#facc15;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="logo">
+        ADMIN PANEL
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="stats">
+
+        <div class="card">
+            <h3>Total User</h3>
+            <div class="value" id="users">0</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Produk</h3>
+            <div class="value" id="products">0</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Transaksi</h3>
+            <div class="value" id="transactions">0</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Saldo</h3>
+            <div class="value" id="balance">0</div>
+        </div>
+
+    </div>
+
+    <div class="menu">
+
+        <button
+        class="menu-btn"
+        onclick="location.href='admin-users.html'">
+        👥 Kelola User
+        </button>
+
+        <button
+        class="menu-btn"
+        onclick="location.href='admin-products.html'">
+        📦 Kelola Produk
+        </button>
+
+        <button
+        class="menu-btn"
+        onclick="location.href='admin-transactions.html'">
+        📜 Riwayat Transaksi
+        </button>
+
+        <button
+        class="menu-btn"
+        onclick="logout()">
+        🚪 Logout
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+loadStats();
+
+async function loadStats(){
+
+    const res =
+    await fetch('/api/admin/stats');
+
+    const data =
+    await res.json();
+
+    if(!data.success) return;
+
+    document.getElementById('users').innerText =
+    data.stats.users;
+
+    document.getElementById('products').innerText =
+    data.stats.products;
+
+    document.getElementById('transactions').innerText =
+    data.stats.transactions;
+
+    document.getElementById('balance').innerText =
+    data.stats.balance;
+
+}
+
+function logout(){
+
+    localStorage.removeItem('user');
+
+    window.location.href =
+    'index.html';
+
+}
+
+</script>
+
+</body>
+</html>
