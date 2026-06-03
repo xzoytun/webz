@@ -1,115 +1,153 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar — GabutStore</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - Xtrimer Tunnel</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#111827;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.register-box{
+    width:100%;
+    max-width:400px;
+    background:#1f2937;
+    padding:30px;
+    border-radius:15px;
+}
+
+.logo{
+    text-align:center;
+    color:#facc15;
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:25px;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    display:block;
+    color:white;
+    margin-bottom:5px;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    outline:none;
+}
+
+.btn-register{
+    width:100%;
+    padding:12px;
+    background:#facc15;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.login-link{
+    text-align:center;
+    margin-top:15px;
+    color:white;
+}
+
+.login-link a{
+    color:#facc15;
+    text-decoration:none;
+}
+
+#message{
+    margin-top:15px;
+    text-align:center;
+    color:white;
+}
+</style>
 </head>
-<body data-page="register">
+<body>
 
-<div id="toast"></div>
+<div class="register-box">
 
-<div class="auth-wrapper">
-  <div class="auth-box" style="max-width:460px">
-    <div class="auth-logo">
-      <a href="index.html" style="text-decoration:none">
-        <div class="brand">⚡ GabutStore</div>
-      </a>
-      <p>Daftar gratis & mulai beli VPN premium</p>
+    <div class="logo">
+        XTRIMER TUNNEL
     </div>
-
-    <h2 class="auth-title">Buat Akun Baru</h2>
-
-    <div id="registerAlert" class="alert alert-error"></div>
 
     <form id="registerForm">
-      <div class="form-group">
-        <label class="form-label" for="username">Username <span style="color:var(--red)">*</span></label>
-        <input
-          class="form-input"
-          type="text"
-          id="username"
-          placeholder="Huruf dan angka saja, min 4 karakter"
-          autocomplete="username"
-          pattern="[a-zA-Z0-9]+"
-          minlength="4"
-          required
-        >
-      </div>
 
-      <div class="form-group">
-        <label class="form-label" for="email">Email <span style="color:var(--red)">*</span></label>
-        <input
-          class="form-input"
-          type="email"
-          id="email"
-          placeholder="email@contoh.com"
-          autocomplete="email"
-          required
-        >
-        <div style="font-size:11px;color:var(--text3);margin-top:4px">📧 Detail akun akan dikirim ke email ini</div>
-      </div>
+        <div class="input-group">
+            <label>Username</label>
+            <input
+                type="text"
+                id="username"
+                required
+                placeholder="Masukkan username">
+        </div>
 
-      <div class="form-group">
-        <label class="form-label" for="whatsapp">No. WhatsApp <span style="color:var(--text3)">(opsional)</span></label>
-        <input
-          class="form-input"
-          type="tel"
-          id="whatsapp"
-          placeholder="08xxxxxxxxxx"
-        >
-      </div>
+        <div class="input-group">
+            <label>Email</label>
+            <input
+                type="email"
+                id="email"
+                required
+                placeholder="Masukkan email">
+        </div>
 
-      <div class="form-group">
-        <label class="form-label" for="password">Password <span style="color:var(--red)">*</span></label>
-        <input
-          class="form-input"
-          type="password"
-          id="password"
-          placeholder="Min. 6 karakter"
-          autocomplete="new-password"
-          minlength="6"
-          required
-        >
-      </div>
+        <div class="input-group">
+            <label>Password</label>
+            <input
+                type="password"
+                id="password"
+                required
+                placeholder="Masukkan password">
+        </div>
 
-      <div class="form-group">
-        <label class="form-label" for="confirm_password">Konfirmasi Password <span style="color:var(--red)">*</span></label>
-        <input
-          class="form-input"
-          type="password"
-          id="confirm_password"
-          placeholder="Ulangi password"
-          autocomplete="new-password"
-          minlength="6"
-          required
-        >
-      </div>
+        <div class="input-group">
+            <label>Konfirmasi Password</label>
+            <input
+                type="password"
+                id="confirmPassword"
+                required
+                placeholder="Ulangi password">
+        </div>
 
-      <div style="background:var(--bg3);border-radius:8px;padding:12px;font-size:12px;color:var(--text2);margin-bottom:16px">
-        Dengan mendaftar, kamu menyetujui <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> kami.
-      </div>
+        <button
+            type="submit"
+            class="btn-register">
+            Daftar
+        </button>
 
-      <button
-        type="submit"
-        id="registerBtn"
-        class="btn btn-primary btn-block"
-        style="padding:12px"
-        data-label="✅ Daftar Sekarang"
-      >✅ Daftar Sekarang</button>
     </form>
 
-    <div class="form-footer" style="margin-top:16px">
-      Sudah punya akun? <a href="login.html">Masuk</a>
+    <div id="message"></div>
+
+    <div class="login-link">
+        Sudah punya akun?
+        <a href="index.html">Login</a>
     </div>
 
-    <div class="form-footer" style="margin-top:8px">
-      <a href="index.html" style="color:var(--text2);font-size:12px">← Kembali ke Beranda</a>
-    </div>
-  </div>
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
