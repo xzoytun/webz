@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout Produk</title>
+
+<style>
+body{
+    background:#0b132b;
+    color:white;
+    font-family:Arial,sans-serif;
+    padding:20px;
+}
+
+.card{
+    background:#1f2937;
+    padding:20px;
+    border-radius:15px;
+}
+
+h2{
+    color:#facc15;
+    margin-bottom:15px;
+}
+
+.info{
+    margin-bottom:10px;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#facc15;
+    color:black;
+    font-weight:bold;
+    margin-top:15px;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+    <h2>Checkout Produk</h2>
+
+    <div class="info">
+        Nama:
+        <span id="name">-</span>
+    </div>
+
+    <div class="info">
+        Kategori:
+        <span id="category">-</span>
+    </div>
+
+    <div class="info">
+        Masa Aktif:
+        <span id="duration">-</span>
+    </div>
+
+    <div class="info">
+        Harga:
+        <span id="price">-</span>
+    </div>
+
+    <button
+        class="btn"
+        onclick="buyProduct()">
+        Beli Produk
+    </button>
+
+</div>
+
+<script>
+
+const productId =
+    localStorage.getItem(
+        'selected_product'
+    );
+
+loadProduct();
+
+async function loadProduct() {
+
+    const response =
+        await fetch(
+            `/api/product/${productId}`
+        );
+
+    const result =
+        await response.json();
+
+    if (!result.success) {
+
+        alert(result.message);
+
+        return;
+
+    }
+
+    const product =
+        result.product;
+
+    document.getElementById('name')
+        .innerText =
+        product.name;
+
+    document.getElementById('category')
+        .innerText =
+        product.category;
+
+    document.getElementById('duration')
+        .innerText =
+        product.duration + ' Hari';
+
+    document.getElementById('price')
+        .innerText =
+        'Rp ' +
+        Number(product.price)
+        .toLocaleString('id-ID');
+
+}
+
+function buyProduct() {
+
+    alert(
+        'Step berikutnya: Potong saldo & create akun VPN'
+    );
+
+}
+
+</script>
+
+</body>
+</html>
