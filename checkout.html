@@ -125,11 +125,33 @@ async function loadProduct() {
 
 }
 
-function buyProduct() {
+async function buyProduct() {
 
-    alert(
-        'Step berikutnya: Potong saldo & create akun VPN'
-    );
+    const user =
+        JSON.parse(
+            localStorage.getItem('user')
+        );
+
+    const response =
+        await fetch(
+            '/api/buy-product',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type':
+                    'application/json'
+                },
+                body: JSON.stringify({
+                    email: user.email,
+                    product_id: productId
+                })
+            }
+        );
+
+    const result =
+        await response.json();
+
+    alert(result.message);
 
 }
 
