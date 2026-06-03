@@ -66,6 +66,7 @@ if (loginForm) {
 
 }
 
+
 // ==================== REGISTER ====================
 
 const registerForm = document.getElementById('registerForm');
@@ -142,5 +143,55 @@ if (registerForm) {
         }
 
     });
+
+}
+
+
+// ==================== GOOGLE LOGIN ====================
+
+async function handleCredentialResponse(response) {
+
+    try {
+
+        const res = await fetch('/api/google-login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                credential: response.credential
+            })
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+
+            localStorage.setItem(
+                'user',
+                JSON.stringify(result.user)
+            );
+
+            window.location.href =
+                'dashboard.html';
+
+        } else {
+
+            alert(
+                result.message ||
+                'Login Google gagal'
+            );
+
+        }
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert(
+            'Server tidak dapat dihubungi'
+        );
+
+    }
 
 }
