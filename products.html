@@ -49,7 +49,7 @@ body{
 }
 
 .product p{
-    margin-bottom:15px;
+    margin-bottom:10px;
 }
 
 .btn{
@@ -61,6 +61,7 @@ body{
     color:black;
     font-weight:bold;
     cursor:pointer;
+    margin-top:10px;
 }
 
 .back-btn{
@@ -85,35 +86,7 @@ body{
 
 <div class="container">
 
-    <div class="product">
-        <h3>SSH Premium</h3>
-        <p>Akun SSH Premium untuk tunneling.</p>
-        <button class="btn">Pilih Produk</button>
-    </div>
-
-    <div class="product">
-        <h3>VMESS Premium</h3>
-        <p>Akun VMESS Premium Anti Limit.</p>
-        <button class="btn">Pilih Produk</button>
-    </div>
-
-    <div class="product">
-        <h3>VLESS Premium</h3>
-        <p>Akun VLESS Premium Kecepatan Tinggi.</p>
-        <button class="btn">Pilih Produk</button>
-    </div>
-
-    <div class="product">
-        <h3>TROJAN Premium</h3>
-        <p>Akun Trojan Premium Stabil.</p>
-        <button class="btn">Pilih Produk</button>
-    </div>
-
-    <div class="product">
-        <h3>SHADOWSOCKS Premium</h3>
-        <p>Akun Shadowsocks Premium.</p>
-        <button class="btn">Pilih Produk</button>
-    </div>
+    <div id="products"></div>
 
     <button
         class="back-btn"
@@ -122,6 +95,92 @@ body{
     </button>
 
 </div>
+
+<script>
+
+loadProducts();
+
+async function loadProducts() {
+
+    try {
+
+        const response =
+            await fetch('/api/products');
+
+        const result =
+            await response.json();
+
+        if (!result.success) {
+
+            alert('Gagal memuat produk');
+
+            return;
+
+        }
+
+        const container =
+            document.getElementById('products');
+
+        container.innerHTML = '';
+
+        result.products.forEach(product => {
+
+            container.innerHTML += `
+                <div class="product">
+
+                    <h3>${product.name}</h3>
+
+                    <p>
+                        Kategori:
+                        ${product.category}
+                    </p>
+
+                    <p>
+                        Masa Aktif:
+                        ${product.duration} Hari
+                    </p>
+
+                    <p>
+                        Harga:
+                        Rp ${Number(product.price).toLocaleString('id-ID')}
+                    </p>
+
+                    <button
+                        class="btn"
+                        onclick="selectProduct(${product.id})">
+
+                        Pilih Produk
+
+                    </button>
+
+                </div>
+            `;
+
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        alert('Server tidak dapat dihubungi');
+
+    }
+
+}
+
+function selectProduct(id) {
+
+    localStorage.setItem(
+        'selected_product',
+        id
+    );
+
+    window.location.href =
+        'checkout.html';
+
+}
+
+</script>
 
 </body>
 </html>
