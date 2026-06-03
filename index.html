@@ -28,6 +28,7 @@ body{
     background:#1f2937;
     padding:30px;
     border-radius:15px;
+    box-shadow:0 0 20px rgba(0,0,0,.3);
 }
 
 .logo{
@@ -35,13 +36,7 @@ body{
     color:#facc15;
     font-size:28px;
     font-weight:bold;
-    margin-bottom:25px;
-}
-
-.google-login{
-    display:flex;
-    justify-content:center;
-    margin-top:20px;
+    margin-bottom:15px;
 }
 
 .info{
@@ -49,6 +44,12 @@ body{
     color:white;
     margin-bottom:20px;
     font-size:14px;
+}
+
+.google-login{
+    display:flex;
+    justify-content:center;
+    margin-top:20px;
 }
 
 #message{
@@ -74,9 +75,11 @@ body{
 
     <div class="google-login">
 
-        <div id="g_id_onload"
+        <div
+            id="g_id_onload"
             data-client_id="480091956294-njvigllpnbqmh6p11nij99eavv101u3e.apps.googleusercontent.com"
-            data-callback="handleCredentialResponse">
+            data-callback="handleCredentialResponse"
+            data-auto_select="true">
         </div>
 
         <div
@@ -94,7 +97,84 @@ body{
 </div>
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="script.js"></script>
+
+<script>
+
+// Auto Login
+const user =
+JSON.parse(
+    localStorage.getItem('user')
+);
+
+if (user) {
+
+    window.location.href =
+        'dashboard.html';
+
+}
+
+// Google Login Callback
+async function handleCredentialResponse(response) {
+
+    const message =
+        document.getElementById('message');
+
+    try {
+
+        message.innerText =
+            'Memproses login...';
+
+        const res =
+        await fetch(
+            '/api/google-login',
+            {
+                method:'POST',
+                headers:{
+                    'Content-Type':
+                    'application/json'
+                },
+                body:JSON.stringify({
+                    credential:
+                    response.credential
+                })
+            }
+        );
+
+        const result =
+        await res.json();
+
+        if(result.success){
+
+            localStorage.setItem(
+                'user',
+                JSON.stringify(
+                    result.user
+                )
+            );
+
+            window.location.href =
+                'dashboard.html';
+
+        }else{
+
+            message.innerText =
+                result.message ||
+                'Login gagal';
+
+        }
+
+    } catch(err){
+
+        console.error(err);
+
+        message.innerText =
+            'Server tidak dapat dihubungi';
+
+    }
+
+}
+
+</script>
 
 </body>
 </html>
