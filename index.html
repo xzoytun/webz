@@ -1,137 +1,135 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Xtrimer Tunnel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Xtrimer Tunnel</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
 
-        body {
-            background: #111827;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+body{
+    background:#111827;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
 
-        .login-box {
-            width: 100%;
-            max-width: 400px;
-            background: #1f2937;
-            padding: 30px;
-            border-radius: 15px;
-        }
+.login-box{
+    width:100%;
+    max-width:400px;
+    background:#1f2937;
+    padding:30px;
+    border-radius:15px;
+}
 
-        .logo {
-            text-align: center;
-            color: #facc15;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
+.logo{
+    text-align:center;
+    color:#facc15;
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:25px;
+}
 
-        .input-group {
-            margin-bottom: 15px;
-        }
+.input-group{
+    margin-bottom:15px;
+}
 
-        .input-group label {
-            color: white;
-            display: block;
-            margin-bottom: 5px;
-        }
+.input-group label{
+    display:block;
+    color:white;
+    margin-bottom:5px;
+}
 
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            outline: none;
-        }
+.input-group input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    outline:none;
+}
 
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background: #facc15;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.btn-login{
+    width:100%;
+    padding:12px;
+    background:#facc15;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
 
-        .btn-login:hover {
-            opacity: 0.9;
-        }
+.register-link{
+    text-align:center;
+    margin-top:15px;
+    color:white;
+}
 
-        .register {
-            text-align: center;
-            margin-top: 15px;
-            color: white;
-        }
+.register-link a{
+    color:#facc15;
+    text-decoration:none;
+}
 
-        .register a {
-            color: #facc15;
-            text-decoration: none;
-        }
-
-        #message {
-            margin-top: 15px;
-            text-align: center;
-            color: white;
-        }
-    </style>
+#message{
+    margin-top:15px;
+    text-align:center;
+    color:white;
+}
+</style>
 </head>
 <body>
 
-    <div class="login-box">
-        <div class="logo">
-            XTRIMER TUNNEL
-        </div>
+<div class="login-box">
 
-        <form id="loginForm">
-
-            <div class="input-group">
-                <label>Email</label>
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="Masukkan email"
-                    required
-                >
-            </div>
-
-            <div class="input-group">
-                <label>Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Masukkan password"
-                    required
-                >
-            </div>
-
-            <button type="submit" class="btn-login">
-                Login
-            </button>
-
-        </form>
-
-        <div class="register">
-            Belum punya akun?
-            <a href="register.html">Daftar</a>
-        </div>
-
-        <div id="message"></div>
-
+    <div class="logo">
+        XTRIMER TUNNEL
     </div>
 
-    <script src="app.js"></script>
+    <form id="loginForm">
+
+        <div class="input-group">
+            <label>Email</label>
+            <input
+                type="email"
+                id="email"
+                required
+                placeholder="Masukkan email">
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input
+                type="password"
+                id="password"
+                required
+                placeholder="Masukkan password">
+        </div>
+
+        <button
+            type="submit"
+            class="btn-login">
+            Login
+        </button>
+
+    </form>
+
+    <div id="message"></div>
+
+    <div class="register-link">
+        Belum punya akun?
+        <a href="register.html">Daftar</a>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
