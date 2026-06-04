@@ -1,290 +1,238 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout VPN - Xtrimer Tunnel</title><style>
+<title>Checkout VPN - Xtrimer Tunnel</title>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-body{
-    background:#0b132b;
-    color:white;
-    padding:20px;
+body {
+    background: #0b132b;
+    color: white;
+    padding: 20px;
 }
 
-.card{
-    background:#1f2937;
-    padding:20px;
-    border-radius:15px;
+.card {
+    background: #1f2937;
+    padding: 20px;
+    border-radius: 15px;
 }
 
-h2{
-    color:#facc15;
-    margin-bottom:20px;
+h2 {
+    color: #facc15;
+    margin-bottom: 20px;
 }
 
-.info{
-    margin-bottom:10px;
+.info {
+    margin-bottom: 10px;
 }
 
-input{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    margin-top:10px;
-    margin-bottom:10px;
-    select{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-margin-top:10px;
-margin-bottom:10px;
-}
+input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.btn{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#facc15;
-    color:black;
-    font-weight:bold;
-    cursor:pointer;
+select {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.back-btn{
-    margin-top:10px;
-    background:#374151;
-    color:white;
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #facc15;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-#result{
-    margin-top:20px;
+.back-btn {
+    margin-top: 10px;
+    background: #374151;
+    color: white;
 }
 
-</style></head>
-<body><div class="card"><h2>Checkout VPN</h2>
+#result {
+    margin-top: 20px;
+}
 
-<div id="serverInfo">
-    Loading...
+</style>
+</head>
+<body>
+
+<div class="card">
+
+    <h2>Checkout VPN</h2>
+
+    <div id="serverInfo">
+        Loading...
+    </div>
+
+    <input
+        id="username"
+        placeholder="Username VPN">
+
+    <div id="passwordBox">
+        <input
+            id="password"
+            type="password"
+            placeholder="Password VPN">
+    </div>
+
+    <select id="protocol">
+        <option value="SSH">SSH</option>
+        <option value="VMESS">VMESS</option>
+        <option value="VLESS">VLESS</option>
+        <option value="TROJAN">TROJAN</option>
+        <option value="SHADOWSOCKS">SHADOWSOCKS</option>
+    </select>
+
+    <button
+        class="btn"
+        onclick="createAccount()">
+        Buat Akun
+    </button>
+
+    <button
+        class="btn back-btn"
+        onclick="history.back()">
+        Kembali
+    </button>
+
+    <div id="result"></div>
+
 </div>
 
-<input
-    id="username"
-    placeholder="Username VPN">
+<script>
 
-<input
-    id="password"
-    type="password"
-    placeholder="Password VPN">
-<select id="protocol"><option value="SSH">SSH</option>
-<option value="VMESS">VMESS</option>
-<option value="VLESS">VLESS</option>
-<option value="TROJAN">TROJAN</option>
-<option value="SHADOWSOCKS">SHADOWSOCKS</option>
-
-</select>
-<button
-    class="btn"
-    onclick="createAccount()">
-    Buat Akun
-</button>
-
-<button
-    class="btn back-btn"
-    onclick="history.back()">
-    Kembali
-</button>
-
-<div id="result"></div>
-
-</div><script>
-
-const params =
-new URLSearchParams(
-window.location.search
-);
-
-const serverId =
-params.get('id');
+const params = new URLSearchParams(window.location.search);
+const serverId = params.get('id');
 
 let serverData = null;
 
 loadServer();
 
-async function loadServer(){
+// Sembunyikan password box saat pertama load jika bukan SSH
+document.getElementById('protocol').addEventListener('change', function () {
+    const passwordBox = document.getElementById('passwordBox');
+    if (this.value === 'SSH') {
+        passwordBox.style.display = 'block';
+    } else {
+        passwordBox.style.display = 'none';
+    }
+});
 
-    try{
+async function loadServer() {
 
-        const res =
-        await fetch(
-            '/api/server/' + serverId
-        );
+    try {
 
-        const data =
-        await res.json();
+        const res = await fetch('/api/server/' + serverId);
+        const data = await res.json();
 
-        if(!data.success){
-
-            alert(
-                'Server tidak ditemukan'
-            );
-
+        if (!data.success) {
+            alert('Server tidak ditemukan');
             return;
-
         }
 
-        serverData =
-        data.server;
+        serverData = data.server;
 
-        const harga30Hari =
-        Number(serverData.harga || 0) * 30;
+        const harga30Hari = Number(serverData.harga || 0) * 30;
+        const quota30Hari = (parseInt(serverData.quota) || 0) * 30;
 
-        const quota30Hari =
-        (parseInt(serverData.quota) || 0) * 30;
-
-        document.getElementById(
-        'serverInfo'
-        ).innerHTML = `
-
-        <div class="info">
-        🌐 ${serverData.nama_server}
-        </div>
-
-        <div class="info">
-        📍 ${serverData.lokasi || '-'}
-        </div>
-
-        <div class="info">
-        💰 Rp ${harga30Hari.toLocaleString('id-ID')}
-        </div>
-
-        <div class="info">
-        📦 ${quota30Hari} GB
-        </div>
-
-        <div class="info">
-        📱 ${serverData.iplimit || 0} Device
-        </div>
-
-        <div class="info">
-        🗓 30 Hari
-        </div>
-
-        <hr style="margin:15px 0">
-
+        document.getElementById('serverInfo').innerHTML = `
+            <div class="info">🌐 ${serverData.nama_server}</div>
+            <div class="info">📍 ${serverData.lokasi || '-'}</div>
+            <div class="info">💰 Rp ${harga30Hari.toLocaleString('id-ID')}</div>
+            <div class="info">📦 ${quota30Hari} GB</div>
+            <div class="info">📱 ${serverData.iplimit || 0} Device</div>
+            <div class="info">🗓 30 Hari</div>
+            <hr style="margin: 15px 0; border: none; border-top: 1px solid #374151;">
         `;
 
-    }catch(err){
+    } catch (err) {
 
         console.error(err);
-
-        alert(
-        'Gagal memuat server'
-        );
+        alert('Gagal memuat server');
 
     }
 
 }
 
-async function createAccount(){
+async function createAccount() {
 
-const localUser =
-JSON.parse(
-    localStorage.getItem('user')
-);
+    const localUser = JSON.parse(localStorage.getItem('user'));
 
-if(!localUser){
-
-    alert(
-    'Silakan login terlebih dahulu'
-    );
-
-    return;
-
-}
-
-const username =
-document.getElementById(
-'username'
-).value.trim();
-
-const password =
-document.getElementById(
-'password'
-).value.trim();
-
-const protocol =
-document.getElementById(
-'protocol'
-).value;
-
-if(!username){
-
-    alert(
-    'Username wajib diisi'
-    );
-
-    return;
-
-}
-
-if(!password){
-
-    alert(
-    'Password wajib diisi'
-    );
-
-    return;
-
-}
-
-const res =
-await fetch(
-    '/api/create-account',
-    {
-        method:'POST',
-        headers:{
-            'Content-Type':
-            'application/json'
-        },
-        body:JSON.stringify({
-            email:localUser.email,
-            server_id:serverId,
-            username,
-            password,
-            protocol
-        })
+    if (!localUser) {
+        alert('Silakan login terlebih dahulu');
+        return;
     }
-);
 
-const data =
-await res.json();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const protocol = document.getElementById('protocol').value;
 
-if(!data.success){
+    if (!username) {
+        alert('Username wajib diisi');
+        return;
+    }
 
-    alert(
-    data.message
-    );
+    if (protocol === 'SSH' && !password) {
+        alert('Password wajib diisi');
+        return;
+    }
 
-    return;
+    try {
+
+        const res = await fetch('/api/create-account', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: localUser.email,
+                server_id: serverId,
+                username,
+                password,
+                protocol
+            })
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+            alert(data.message);
+            return;
+        }
+
+        document.getElementById('result').innerHTML = data.html;
+
+    } catch (err) {
+
+        console.error(err);
+        alert('Gagal membuat akun, coba lagi');
+
+    }
 
 }
 
-document.getElementById(
-    'result'
-).innerHTML =
-data.html;
-
-}
-
-</script></body>
+</script>
+</body>
 </html>
