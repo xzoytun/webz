@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Kelola Produk</title>
+
+<style>
+
+body{
+background:#0b132b;
+color:white;
+font-family:Arial;
+padding:20px;
+}
+
+.card{
+background:#1f2937;
+padding:15px;
+border-radius:15px;
+margin-bottom:15px;
+}
+
+h2{
+color:#facc15;
+margin-bottom:20px;
+}
+
+.btn{
+width:100%;
+padding:10px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+background:#facc15;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+</head>
+<body>
+
+<h2>📦 Kelola Produk</h2>
+
+<div id="products"></div>
+
+<script>
+
+loadProducts();
+
+async function loadProducts(){
+
+const res =
+await fetch('/api/admin/products');
+
+const data =
+await res.json();
+
+let html='';
+
+data.products.forEach(product=>{
+
+html += `
+<div class="card">
+
+<b>${product.name}</b><br>
+
+Harga :
+Rp ${product.price}<br>
+
+Durasi :
+${product.duration} Hari<br>
+
+Status :
+${product.active ? 'Aktif' : 'Nonaktif'}
+
+<button
+class="btn"
+onclick="toggleProduct(
+${product.id},
+${product.active ? 0 : 1}
+)">
+${product.active ? 'Nonaktifkan' : 'Aktifkan'}
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById('products').innerHTML =
+html;
+
+}
+
+async function toggleProduct(id,active){
+
+await fetch(
+'/api/admin/toggle-product',
+{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify({
+id,
+active
+})
+}
+);
+
+loadProducts();
+
+}
+
+</script>
+
+</body>
+</html>
