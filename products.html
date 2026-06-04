@@ -6,6 +6,7 @@
 <title>Produk VPN - Xtrimer Tunnel</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -49,7 +50,7 @@ body{
 }
 
 .product p{
-    margin-bottom:10px;
+    margin-bottom:8px;
 }
 
 .btn{
@@ -74,6 +75,7 @@ body{
     color:white;
     cursor:pointer;
 }
+
 </style>
 </head>
 <body>
@@ -100,83 +102,96 @@ body{
 
 loadProducts();
 
-async function loadProducts() {
+async function loadProducts(){
 
-    try {
+    try{
 
-        const response =
-            await fetch('/api/products');
+        const res =
+        await fetch('/api/products');
 
-        const result =
-            await response.json();
+        const data =
+        await res.json();
 
-        if (!result.success) {
+        if(!data.success){
 
             alert('Gagal memuat produk');
-
             return;
 
         }
 
-        const container =
-            document.getElementById('products');
+        let html = '';
 
-        container.innerHTML = '';
+        data.products.forEach(server => {
 
-        result.products.forEach(product => {
+            html += `
+            <div class="product">
 
-            container.innerHTML += `
-                <div class="product">
+                <h3>
+                    ${server.nama_server}
+                </h3>
 
-                    <h3>${product.name}</h3>
+                <p>
+                    📍 ${server.lokasi || '-'}
+                </p>
 
-                    <p>
-                        Kategori:
-                        ${product.category}
-                    </p>
+                <p>
+                    🌐 ${server.domain || '-'}
+                </p>
 
-                    <p>
-                        Masa Aktif:
-                        ${product.duration} Hari
-                    </p>
+                <p>
+                    💰 Rp ${Number(server.harga || 0)
+                    .toLocaleString('id-ID')}
+                </p>
 
-                    <p>
-                        Harga:
-                        Rp ${Number(product.price).toLocaleString('id-ID')}
-                    </p>
+                <p>
+                    📦 Quota :
+                    ${server.quota || '-'}
+                </p>
 
-                    <button
-                        class="btn"
-                        onclick="selectProduct(${product.id})">
+                <p>
+                    📱 IP Limit :
+                    ${server.iplimit || '-'}
+                </p>
 
-                        Pilih Produk
+                <p>
+                    ✅ READY
+                    (${server.total_create_akun || 0}
+                    /
+                    ${server.batas_create_akun || 0})
+                </p>
 
-                    </button>
+                <button
+                    class="btn"
+                    onclick="buyServer(${server.id})">
 
-                </div>
+                    Beli Server
+
+                </button>
+
+            </div>
             `;
 
         });
 
-    } catch (err) {
+        document.getElementById('products')
+        .innerHTML = html;
+
+    }catch(err){
 
         console.error(err);
 
-        alert('Server tidak dapat dihubungi');
+        alert(
+            'Server tidak dapat dihubungi'
+        );
 
     }
 
 }
 
-function selectProduct(id) {
-
-    localStorage.setItem(
-        'selected_product',
-        id
-    );
+function buyServer(id){
 
     window.location.href =
-        'checkout.html';
+    'checkout.html?id=' + id;
 
 }
 
