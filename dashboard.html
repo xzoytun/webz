@@ -41,6 +41,7 @@ body{
     border-radius:15px;
     padding:20px;
     margin-bottom:15px;
+    cursor:pointer;
 }
 
 .card h3{
@@ -68,6 +69,7 @@ body{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:15px;
+    margin-bottom:15px;
 }
 
 .stat-box{
@@ -110,7 +112,7 @@ body{
 
 <div class="container">
 
-    <div class="card">
+    <div class="card" style="cursor:default;">
 
         <div class="avatar-box">
             <img
@@ -166,54 +168,56 @@ body{
 
     <div
     class="card"
-    onclick="location.href='products.html'"
-    style="cursor:pointer;">
+    onclick="location.href='products.html'">
 
-    <h3>📦 Produk VPN</h3>
-    <p>Lihat daftar produk VPN</p>
+        <h3>📦 Produk VPN</h3>
+        <p>Lihat daftar produk VPN</p>
 
-</div>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-    <h3>💰 Topup Saldo</h3>
-    <p>Segera hadir</p>
+        <h3>💰 Topup Saldo</h3>
+        <p>Segera hadir</p>
 
-</div>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-    <h3>📜 Riwayat Transaksi</h3>
-    <p>Segera hadir</p>
+        <h3>📜 Riwayat Transaksi</h3>
+        <p>Segera hadir</p>
 
-</div>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-    <h3>👤 Profil Saya</h3>
-    <p>Informasi akun</p>
+        <h3>👤 Profil Saya</h3>
+        <p>Informasi akun</p>
 
-</div>
+    </div>
 
-<button
-    class="logout-btn"
-    onclick="logout()">
-    Logout
-</button>
+    <!-- ADMIN MENU -->
+    <div id="adminMenu"></div>
+
+    <button
+        class="logout-btn"
+        onclick="logout()">
+        Logout
+    </button>
 
 </div>
 
 <script>
 
 const localUser =
-    JSON.parse(
-        localStorage.getItem('user')
-    );
+JSON.parse(
+    localStorage.getItem('user')
+);
 
 if (!localUser) {
 
     window.location.href =
-        'index.html';
+    'index.html';
 
 }
 
@@ -225,7 +229,7 @@ async function loadProfile() {
 
         const response =
         await fetch(
-            `/api/profile?email=${encodeURIComponent(localUser.email)}`
+        `/api/profile?email=${encodeURIComponent(localUser.email)}`
         );
 
         const result =
@@ -238,37 +242,56 @@ async function loadProfile() {
             localStorage.removeItem('user');
 
             window.location.href =
-                'index.html';
+            'index.html';
 
             return;
 
         }
 
         const user =
-            result.user;
+        result.user;
 
         document.getElementById('username').innerText =
-            user.username || '-';
+        user.username || '-';
 
         document.getElementById('email').innerText =
-            user.email || '-';
+        user.email || '-';
 
         document.getElementById('role').innerText =
-            user.role || 'user';
+        user.role || 'user';
 
         document.getElementById('balance').innerText =
-            user.balance || 0;
+        user.balance || 0;
 
         document.getElementById('avatar').src =
-            user.avatar ||
-            'https://via.placeholder.com/90';
+        user.avatar ||
+        'https://via.placeholder.com/90';
+
+        // ADMIN MENU
+        if(user.role === 'admin'){
+
+            document.getElementById('adminMenu').innerHTML = `
+                <div
+                class="card"
+                onclick="location.href='admin.html'">
+
+                    <h3>🛠 Admin Panel</h3>
+
+                    <p>
+                        Kelola User, Produk dan Transaksi
+                    </p>
+
+                </div>
+            `;
+
+        }
 
     } catch (err) {
 
         console.error(err);
 
         alert(
-            'Gagal memuat data profile'
+        'Gagal memuat data profile'
         );
 
     }
@@ -280,7 +303,7 @@ function logout() {
     localStorage.removeItem('user');
 
     window.location.href =
-        'index.html';
+    'index.html';
 
 }
 
