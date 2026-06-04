@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout Produk</title>
+<title>Checkout VPN - Xtrimer Tunnel</title><style>
 
-<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
 body{
     background:#0b132b;
     color:white;
-    font-family:Arial,sans-serif;
     padding:20px;
 }
 
@@ -21,10 +25,19 @@ body{
 
 h2{
     color:#facc15;
-    margin-bottom:15px;
+    margin-bottom:20px;
 }
 
 .info{
+    margin-bottom:10px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin-top:10px;
     margin-bottom:10px;
 }
 
@@ -36,126 +49,222 @@ h2{
     background:#facc15;
     color:black;
     font-weight:bold;
-    margin-top:15px;
     cursor:pointer;
 }
-</style>
-</head>
-<body>
 
-<div class="card">
+.back-btn{
+    margin-top:10px;
+    background:#374151;
+    color:white;
+}
 
-    <h2>Checkout Produk</h2>
+#result{
+    margin-top:20px;
+}
 
-    <div class="info">
-        Nama:
-        <span id="name">-</span>
-    </div>
+</style></head>
+<body><div class="card"><h2>Checkout VPN</h2>
 
-    <div class="info">
-        Kategori:
-        <span id="category">-</span>
-    </div>
-
-    <div class="info">
-        Masa Aktif:
-        <span id="duration">-</span>
-    </div>
-
-    <div class="info">
-        Harga:
-        <span id="price">-</span>
-    </div>
-
-    <button
-        class="btn"
-        onclick="buyProduct()">
-        Beli Produk
-    </button>
-
+<div id="serverInfo">
+    Loading...
 </div>
 
-<script>
+<input
+    id="username"
+    placeholder="Username VPN">
 
-const productId =
-    localStorage.getItem(
-        'selected_product'
-    );
+<input
+    id="password"
+    type="password"
+    placeholder="Password VPN">
 
-loadProduct();
+<button
+    class="btn"
+    onclick="createAccount()">
+    Buat Akun
+</button>
 
-async function loadProduct() {
+<button
+    class="btn back-btn"
+    onclick="history.back()">
+    Kembali
+</button>
 
-    const response =
+<div id="result"></div>
+
+</div><script>
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const serverId =
+params.get('id');
+
+let serverData = null;
+
+loadServer();
+
+async function loadServer(){
+
+    try{
+
+        const res =
         await fetch(
-            `/api/product/${productId}`
+            '/api/server/' + serverId
         );
 
-    const result =
-        await response.json();
+        const data =
+        await res.json();
 
-    if (!result.success) {
+        if(!data.success){
 
-        alert(result.message);
+            alert(
+                'Server tidak ditemukan'
+            );
+
+            return;
+
+        }
+
+        serverData =
+        data.server;
+
+        const harga30Hari =
+        Number(serverData.harga || 0) * 30;
+
+        const quota30Hari =
+        (parseInt(serverData.quota) || 0) * 30;
+
+        document.getElementById(
+        'serverInfo'
+        ).innerHTML = `
+
+        <div class="info">
+        🌐 ${serverData.nama_server}
+        </div>
+
+        <div class="info">
+        📍 ${serverData.lokasi || '-'}
+        </div>
+
+        <div class="info">
+        💰 Rp ${harga30Hari.toLocaleString('id-ID')}
+        </div>
+
+        <div class="info">
+        📦 ${quota30Hari} GB
+        </div>
+
+        <div class="info">
+        📱 ${serverData.iplimit || 0} Device
+        </div>
+
+        <div class="info">
+        🗓 30 Hari
+        </div>
+
+        <hr style="margin:15px 0">
+
+        `;
+
+    }catch(err){
+
+        console.error(err);
+
+        alert(
+        'Gagal memuat server'
+        );
+
+    }
+
+}
+
+async function createAccount(){
+
+    const localUser =
+    JSON.parse(
+        localStorage.getItem('user')
+    );
+
+    if(!localUser){
+
+        alert(
+        'Silakan login terlebih dahulu'
+        );
 
         return;
 
     }
 
-    const product =
-        result.product;
+    const username =
+    document.getElementById(
+    'username'
+    ).value.trim();
 
-    document.getElementById('name')
-        .innerText =
-        product.name;
+    const password =
+    document.getElementById(
+    'password'
+    ).value.trim();
 
-    document.getElementById('category')
-        .innerText =
-        product.category;
+    if(!username){
 
-    document.getElementById('duration')
-        .innerText =
-        product.duration + ' Hari';
+        alert(
+        'Username wajib diisi'
+        );
 
-    document.getElementById('price')
-        .innerText =
-        'Rp ' +
-        Number(product.price)
-        .toLocaleString('id-ID');
+        return;
+
+    }
+
+    if(!password){
+
+        alert(
+        'Password wajib diisi'
+        );
+
+        return;
+
+    }
+
+    const res =
+    await fetch(
+        '/api/create-account',
+        {
+            method:'POST',
+            headers:{
+                'Content-Type':
+                'application/json'
+            },
+            body:JSON.stringify({
+                email:localUser.email,
+                server_id:serverId,
+                username,
+                password
+            })
+        }
+    );
+
+    const data =
+    await res.json();
+
+    if(!data.success){
+
+        alert(
+        data.message
+        );
+
+        return;
+
+    }
+
+    document.getElementById(
+    'result'
+    ).innerHTML =
+    data.html;
 
 }
 
-async function buyProduct() {
-
-    const user =
-        JSON.parse(
-            localStorage.getItem('user')
-        );
-
-    const response =
-        await fetch(
-            '/api/buy-product',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type':
-                    'application/json'
-                },
-                body: JSON.stringify({
-                    email: user.email,
-                    product_id: productId
-                })
-            }
-        );
-
-    const result =
-        await response.json();
-
-    alert(result.message);
-
-}
-
-</script>
-
-</body>
+</script></body>
 </html>
