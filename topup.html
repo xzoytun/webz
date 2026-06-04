@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topup Saldo - Xtrimer Tunnel</title><style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0b132b;
+color:white;
+min-height:100vh;
+padding:20px;
+}
+
+.container{
+max-width:480px;
+margin:auto;
+}
+
+.header{
+text-align:center;
+margin-bottom:20px;
+}
+
+.header h2{
+color:#facc15;
+margin-bottom:5px;
+}
+
+.header p{
+font-size:13px;
+color:#9ca3af;
+}
+
+.card{
+background:#1f2937;
+border:1px solid #374151;
+border-radius:16px;
+padding:20px;
+margin-bottom:15px;
+}
+
+.label{
+font-size:12px;
+color:#9ca3af;
+margin-bottom:6px;
+display:block;
+}
+
+.input{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #374151;
+background:#111827;
+color:white;
+font-size:14px;
+outline:none;
+}
+
+.input:focus{
+border-color:#facc15;
+}
+
+.nominal-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:8px;
+margin-top:12px;
+}
+
+.nominal-btn{
+padding:12px;
+background:#111827;
+border:1px solid #374151;
+border-radius:10px;
+color:white;
+cursor:pointer;
+font-size:13px;
+}
+
+.nominal-btn:hover{
+border-color:#facc15;
+}
+
+.btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#facc15;
+color:#0b132b;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+margin-top:15px;
+}
+
+.btn:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+
+.qris-box{
+text-align:center;
+}
+
+.qris-box img{
+width:100%;
+max-width:300px;
+border-radius:12px;
+background:white;
+padding:10px;
+}
+
+.amount{
+font-size:28px;
+font-weight:bold;
+color:#facc15;
+margin-top:15px;
+}
+
+.info{
+margin-top:10px;
+font-size:13px;
+color:#d1d5db;
+}
+
+.success{
+background:#065f46;
+color:#6ee7b7;
+padding:12px;
+border-radius:10px;
+text-align:center;
+font-weight:bold;
+}
+
+.back-btn{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+background:#374151;
+color:white;
+margin-top:10px;
+cursor:pointer;
+}
+
+</style></head>
+<body><div class="container"><div class="header">
+<h2>💰 Topup Saldo</h2>
+<p>Isi saldo akun menggunakan QRIS</p>
+</div><div class="card"><label class="label">
+Nominal Topup
+</label><input
+type="number"
+id="amount"
+class="input"
+placeholder="Minimal 5000">
+
+<div class="nominal-grid"><button class="nominal-btn" onclick="setNominal(5000)">
+Rp 5.000
+</button><button class="nominal-btn" onclick="setNominal(10000)">
+Rp 10.000
+</button><button class="nominal-btn" onclick="setNominal(20000)">
+Rp 20.000
+</button><button class="nominal-btn" onclick="setNominal(50000)">
+Rp 50.000
+</button></div><button
+id="topupBtn"
+class="btn"
+onclick="createDeposit()">
+🚀 Buat QRIS
+</button>
+
+</div><div id="result"></div><button
+class="back-btn"
+onclick="window.location.href='dashboard.html'">
+← Kembali ke Dashboard
+</button>
+
+</div><script>
+
+function setNominal(value){
+document.getElementById('amount').value=value;
+}
+
+let depositCode=null;
+
+async function createDeposit(){
+
+const user=
+JSON.parse(
+localStorage.getItem('user')
+);
+
+if(!user){
+alert('Silakan login');
+return;
+}
+
+const amount=
+document.getElementById('amount').value;
+
+if(!amount || amount < 5000){
+alert('Minimal topup Rp 5.000');
+return;
+}
+
+const btn=
+document.getElementById('topupBtn');
+
+btn.disabled=true;
+btn.innerText='⏳ Membuat QRIS...';
+
+try{
+
+const res=
+await fetch('/api/deposit',{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify({
+email:user.email,
+amount
+})
+});
+
+const data=
+await res.json();
+
+btn.disabled=false;
+btn.innerText='🚀 Buat QRIS';
+
+if(!data.success){
+alert(data.message);
+return;
+}
+
+depositCode=data.uniqueCode;
+
+document.getElementById('result').innerHTML=`
+
+<div class="card qris-box">
+
+<h3>Scan QRIS</h3>
+
+<div class="amount">
+Rp ${Number(data.amount).toLocaleString('id-ID')}
+</div>
+
+<div class="info">
+Nominal Topup :
+Rp ${Number(data.originalAmount).toLocaleString('id-ID')}
+</div>
+
+<div class="info">
+Biaya Admin :
+Rp ${Number(data.adminFee).toLocaleString('id-ID')}
+</div>
+
+<br>
+
+<img src="${data.qrUrl}">
+
+<div class="info">
+⏱ QRIS berlaku 5 menit
+</div>
+
+<div id="statusArea" class="info">
+Menunggu pembayaran...
+</div>
+
+</div>
+`;
+
+startChecker();
+
+}catch(err){
+
+console.error(err);
+
+btn.disabled=false;
+btn.innerText='🚀 Buat QRIS';
+
+alert('Gagal membuat QRIS');
+
+}
+
+}
+
+function startChecker(){
+
+const interval=setInterval(async()=>{
+
+if(!depositCode){
+clearInterval(interval);
+return;
+}
+
+try{
+
+const res=
+await fetch(
+'/api/deposit-status/'+depositCode
+);
+
+const data=
+await res.json();
+
+if(
+data.success &&
+data.status==='paid'
+){
+
+document.getElementById(
+'statusArea'
+).innerHTML=
+'<div class="success">✅ Pembayaran Berhasil<br>Saldo sudah masuk</div>';
+
+clearInterval(interval);
+
+setTimeout(()=>{
+window.location.href='dashboard.html';
+},3000);
+
+}
+
+}catch(e){}
+
+},5000);
+
+}
+
+</script></body>
+</html>
