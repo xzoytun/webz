@@ -241,7 +241,8 @@ async function loadProducts() {
         let html = '';
 
         products.forEach(server => {
-            const harga30Hari = Number(server.harga || 0) * 30;
+            const hargaMulai =
+Number(server.harga || 0) * 7;
             const slotUsed    = server.total_create_akun || 0;
             const slotMax     = server.batas_create_akun || 0;
             const isFull      = slotMax > 0 && slotUsed >= slotMax;
@@ -272,7 +273,7 @@ async function loadProducts() {
     <div class="product-bottom">
         <div class="price-box">
             <div class="price-label">Mulai dari</div>
-            <div class="price-value">Rp ${harga30Hari.toLocaleString('id-ID')}</div>
+            <div class="price-value">Rp ${hargaMulai.toLocaleString('id-ID')}</div>
             <div class="price-period">/ 30 hari</div>
         </div>
         <button
