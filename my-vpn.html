@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>My VPN</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0b132b;
+    color:white;
+    padding:20px;
+}
+
+h2{
+    color:#facc15;
+    margin-bottom:20px;
+}
+
+.card{
+    background:#1f2937;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+
+.title{
+    color:#facc15;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.info{
+    margin-bottom:8px;
+    word-break:break-word;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.ssh{
+    background:#facc15;
+    color:black;
+}
+
+.vmess{
+    background:#10b981;
+}
+
+.vless{
+    background:#3b82f6;
+}
+
+.trojan{
+    background:#ef4444;
+}
+
+.ss{
+    background:#8b5cf6;
+}
+
+.result{
+    margin-top:15px;
+    background:#111827;
+    padding:15px;
+    border-radius:10px;
+    overflow:auto;
+}
+
+.back-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#374151;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+</style>
+</head>
+<body>
+
+<h2>📡 My VPN</h2>
+
+<div id="accounts"></div>
+
+<button
+class="back-btn"
+onclick="location.href='dashboard.html'">
+
+🏠 Kembali
+
+</button>
+
+<script>
+
+const localUser =
+JSON.parse(localStorage.getItem('user'));
+
+if(!localUser){
+
+    location.href = 'index.html';
+
+}
+
+loadAccounts();
+
+async function loadAccounts(){
+
+    try{
+
+        const res =
+        await fetch(
+        '/api/my-vpn?email='
+        + encodeURIComponent(localUser.email)
+        );
+
+        const data =
+        await res.json();
+
+        if(!data.success){
+
+            alert(data.message);
+            return;
+
+        }
+
+        let html = '';
+
+        data.accounts.forEach(acc => {
+
+            let badgeClass =
+            acc.product_type.toLowerCase();
+
+            if(
+            badgeClass ===
+            'shadowsocks'
+            ){
+                badgeClass = 'ss';
+            }
+
+            html += `
+            <div class="card">
+
+                <div class="title">
+                    👤 ${acc.username}
+                </div>
+
+                <div class="info">
+                    📦 ${acc.product_name}
+                </div>
+
+                <div class="info">
+                    🔐
+                    <span class="badge ${badgeClass}">
+                    ${acc.product_type}
+                    </span>
+                </div>
+
+                <div class="info">
+                    📅 ${acc.created_at}
+                </div>
+
+                <div class="result">
+                    ${acc.result}
+                </div>
+
+            </div>
+            `;
+
+        });
+
+        document.getElementById(
+        'accounts'
+        ).innerHTML = html;
+
+    }catch(err){
+
+        console.error(err);
+
+        alert('Gagal load akun');
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
