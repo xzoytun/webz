@@ -28,7 +28,7 @@ body{
 
 .logo{
     color:#facc15;
-    font-size:28px;
+    font-size:30px;
     font-weight:bold;
 }
 
@@ -73,6 +73,17 @@ body{
     color:black;
     font-weight:bold;
     cursor:pointer;
+    font-size:16px;
+}
+
+.back-btn{
+    background:#374151;
+    color:white;
+}
+
+.logout-btn{
+    background:#dc2626;
+    color:white;
 }
 
 </style>
@@ -120,9 +131,9 @@ body{
         </button>
 
         <button
-class="menu-btn"
-onclick="location.href='admin-products.html'">
-📦 Kelola Produk
+        class="menu-btn"
+        onclick="location.href='admin-products.html'">
+        📦 Kelola Produk
         </button>
 
         <button
@@ -132,13 +143,13 @@ onclick="location.href='admin-products.html'">
         </button>
 
         <button
-class="menu-btn"
-onclick="location.href='admin-users.html'">
-👥 Kelola User
+        class="menu-btn back-btn"
+        onclick="location.href='dashboard.html'">
+        🏠 Kembali ke Dashboard
         </button>
 
         <button
-        class="menu-btn"
+        class="menu-btn logout-btn"
         onclick="logout()">
         🚪 Logout
         </button>
@@ -149,32 +160,71 @@ onclick="location.href='admin-users.html'">
 
 <script>
 
+// CEK LOGIN
+const user =
+JSON.parse(
+localStorage.getItem('user')
+);
+
+if(!user){
+
+    window.location.href =
+    'index.html';
+
+}
+
+// CEK ADMIN
+if(user.role !== 'admin'){
+
+    alert(
+    'Akses ditolak'
+    );
+
+    window.location.href =
+    'dashboard.html';
+
+}
+
+// LOAD STATISTIK
 loadStats();
 
 async function loadStats(){
 
-    const res =
-    await fetch('/api/admin/stats');
+    try{
 
-    const data =
-    await res.json();
+        const res =
+        await fetch(
+        '/api/admin/stats'
+        );
 
-    if(!data.success) return;
+        const data =
+        await res.json();
 
-    document.getElementById('users').innerText =
-    data.stats.users;
+        if(!data.success) return;
 
-    document.getElementById('products').innerText =
-    data.stats.products;
+        document.getElementById('users').innerText =
+        data.stats.users;
 
-    document.getElementById('transactions').innerText =
-    data.stats.transactions;
+        document.getElementById('products').innerText =
+        data.stats.products;
 
-    document.getElementById('balance').innerText =
-    data.stats.balance;
+        document.getElementById('transactions').innerText =
+        data.stats.transactions;
+
+        document.getElementById('balance').innerText =
+        Number(
+            data.stats.balance || 0
+        ).toLocaleString('id-ID');
+
+    }catch(err){
+
+        console.error(err);
+
+    }
 
 }
 
+// LOGOUT
 function logout(){
 
     localStorage.removeItem('user');
