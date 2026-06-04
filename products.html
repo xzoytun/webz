@@ -129,11 +129,24 @@ async function loadProducts(){
             Number(server.quota || 0) * 30;
 
             html += `
-            <div class="product">
+<div class="product">
 
-                <h3>
-                    ${server.nama_server}
-                </h3>
+    <h3>
+        ${server.nama_server}
+    </h3>
+
+    <div style="
+        display:inline-block;
+        background:#facc15;
+        color:black;
+        padding:5px 10px;
+        border-radius:8px;
+        font-weight:bold;
+        margin-bottom:10px;
+    ">
+        🚀 ${server.protocol || 'SSH'}
+    </div>
+`
 
                 <p>
                     📍 ${server.lokasi || '-'}
