@@ -98,6 +98,21 @@ select {
     </div>
 
     <select id="protocol">
+    <select id="duration">
+
+    <option value="7">
+        7 Hari
+    </option>
+
+    <option value="15">
+        15 Hari
+    </option>
+
+    <option value="30" selected>
+        30 Hari
+    </option>
+
+</select>
         <option value="SSH">SSH</option>
         <option value="VMESS">VMESS</option>
         <option value="VLESS">VLESS</option>
@@ -188,6 +203,12 @@ async function createAccount() {
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
     const protocol = document.getElementById('protocol').value;
+    const duration =
+parseInt(
+document.getElementById(
+'duration'
+).value
+);
 
     if (!username) {
         alert('Username wajib diisi');
@@ -206,14 +227,15 @@ async function createAccount() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                email: localUser.email,
-                server_id: serverId,
-                username,
-                password,
-                protocol
-            })
-        });
+            body:JSON.stringify({
+    email:localUser.email,
+    server_id:serverId,
+    username,
+    password,
+    protocol,
+    duration
+})
+}) ;
 
         const data = await res.json();
 
