@@ -182,37 +182,47 @@ loadStats();
 
 async function loadStats(){
 
-    try{
+try{
 
-        const res =
-        await fetch(
-        '/api/admin/stats'
-        );
+    const res =
+    await fetch(
+    '/api/admin/stats',
+    {
+        headers:{
+            email:user.email
+        }
+    }
+    );
 
-        const data =
-        await res.json();
+    const data =
+    await res.json();
 
-        if(!data.success) return;
+    if(!data.success){
 
-        document.getElementById('users').innerText =
-        data.stats.users;
-
-        document.getElementById('products').innerText =
-        data.stats.products;
-
-        document.getElementById('transactions').innerText =
-        data.stats.transactions;
-
-        document.getElementById('balance').innerText =
-        Number(
-            data.stats.balance || 0
-        ).toLocaleString('id-ID');
-
-    }catch(err){
-
-        console.error(err);
+        alert(data.message);
+        return;
 
     }
+
+    document.getElementById('users').innerText =
+    data.stats.users;
+
+    document.getElementById('products').innerText =
+    data.stats.products;
+
+    document.getElementById('transactions').innerText =
+    data.stats.transactions;
+
+    document.getElementById('balance').innerText =
+    Number(
+        data.stats.balance || 0
+    ).toLocaleString('id-ID');
+
+}catch(err){
+
+    console.error(err);
+
+}
 
 }
 
