@@ -6,90 +6,186 @@
 <title>Login - Xtrimer Tunnel</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-body{
-    background:#111827;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    padding:20px;
+body {
+    background: #0b132b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-.login-box{
-    width:100%;
-    max-width:400px;
-    background:#1f2937;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 0 20px rgba(0,0,0,.3);
+/* ── Card ── */
+.login-box {
+    width: 100%;
+    max-width: 380px;
+    background: #1f2937;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid #2d3a55;
 }
 
-.logo{
-    text-align:center;
-    color:#facc15;
-    font-size:28px;
-    font-weight:bold;
-    margin-bottom:15px;
+/* ── Top banner ── */
+.login-banner {
+    background: linear-gradient(135deg, #1c2541 0%, #0b132b 100%);
+    padding: 36px 30px 28px;
+    text-align: center;
+    border-bottom: 2px solid #facc15;
 }
 
-.info{
-    text-align:center;
-    color:white;
-    margin-bottom:20px;
-    font-size:14px;
+.logo-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
 }
 
-.google-login{
-    display:flex;
-    justify-content:center;
-    margin-top:20px;
+.logo-text {
+    color: #facc15;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
 }
 
-#message{
-    text-align:center;
-    color:white;
-    margin-top:15px;
+.logo-sub {
+    color: #9ca3af;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
+
+/* ── Body ── */
+.login-body {
+    padding: 28px 24px 32px;
+}
+
+.login-title {
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.login-desc {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 13px;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+/* ── Divider ── */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: #374151;
+}
+
+.divider-text {
+    color: #6b7280;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+/* ── Google button wrapper ── */
+.google-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* ── Message ── */
+#message {
+    text-align: center;
+    font-size: 13px;
+    color: #facc15;
+    min-height: 20px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: transparent;
+    transition: background 0.2s;
+}
+
+#message.error {
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+#message.loading {
+    color: #9ca3af;
+}
+
+/* ── Footer ── */
+.login-footer {
+    text-align: center;
+    color: #4b5563;
+    font-size: 11px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #374151;
+}
+
 </style>
 </head>
 <body>
 
 <div class="login-box">
 
-    <div class="logo">
-        XTRIMER TUNNEL
+    <div class="login-banner">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">XTRIMER TUNNEL</div>
+        <div class="logo-sub">Fast & Secure VPN Service</div>
     </div>
 
-    <div class="info">
-        Login menggunakan akun Google Anda
-    </div>
+    <div class="login-body">
 
-    <div id="message"></div>
+        <div class="login-title">Selamat Datang</div>
+        <div class="login-desc">Masuk dengan akun Google Anda untuk melanjutkan</div>
 
-    <div class="google-login">
-
-        <div
-            id="g_id_onload"
-            data-client_id="480091956294-njvigllpnbqmh6p11nij99eavv101u3e.apps.googleusercontent.com"
-            data-callback="handleCredentialResponse"
-            data-auto_select="true">
+        <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">LOGIN DENGAN GOOGLE</div>
+            <div class="divider-line"></div>
         </div>
 
-        <div
-            class="g_id_signin"
-            data-type="standard"
-            data-size="large"
-            data-theme="filled_black"
-            data-text="signin_with"
-            data-shape="rectangular"
-            data-width="300">
+        <div class="google-wrap">
+            <div
+                id="g_id_onload"
+                data-client_id="480091956294-njvigllpnbqmh6p11nij99eavv101u3e.apps.googleusercontent.com"
+                data-callback="handleCredentialResponse"
+                data-auto_select="true">
+            </div>
+            <div
+                class="g_id_signin"
+                data-type="standard"
+                data-size="large"
+                data-theme="filled_black"
+                data-text="signin_with"
+                data-shape="rectangular"
+                data-width="300">
+            </div>
+        </div>
+
+        <div id="message"></div>
+
+        <div class="login-footer">
+            Dengan login, Anda menyetujui syarat &amp; ketentuan layanan kami
         </div>
 
     </div>
@@ -100,59 +196,39 @@ body{
 
 <script>
 
-// Auto Login
-const user =
-JSON.parse(
-    localStorage.getItem('user')
-);
+// Auto redirect jika sudah login
+const user = JSON.parse(localStorage.getItem('user'));
+if (user) window.location.href = 'dashboard.html';
 
-if (user) {
-    window.location.href =
-        'dashboard.html';
-}
-
-// Google Login Callback
 async function handleCredentialResponse(response) {
-    const message =
-        document.getElementById('message');
+    const message = document.getElementById('message');
+
+    message.className = 'loading';
+    message.innerText = '⏳ Memproses login...';
+
     try {
-        message.innerText =
-            'Memproses login...';
-        const res =
-        await fetch(
-            '/api/google-login',
-            {
-                method:'POST',
-                headers:{
-                    'Content-Type':
-                    'application/json'
-                },
-                body:JSON.stringify({
-                    credential:
-                    response.credential
-                })
-            }
-        );
-        const result =
-        await res.json();
-        if(result.success){
-            localStorage.setItem(
-                'user',
-                JSON.stringify(
-                    result.user
-                )
-            );
-            window.location.href =
-                'dashboard.html';
-        }else{
-            message.innerText =
-                result.message ||
-                'Login gagal';
+        const res = await fetch('/api/google-login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ credential: response.credential })
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+            message.className = '';
+            message.innerText = '✅ Login berhasil, mengalihkan...';
+            localStorage.setItem('user', JSON.stringify(result.user));
+            setTimeout(() => window.location.href = 'dashboard.html', 600);
+        } else {
+            message.className = 'error';
+            message.innerText = '❌ ' + (result.message || 'Login gagal');
         }
-    } catch(err){
+
+    } catch (err) {
         console.error(err);
-        message.innerText =
-            'Server tidak dapat dihubungi';
+        message.className = 'error';
+        message.innerText = '❌ Server tidak dapat dihubungi';
     }
 }
 
