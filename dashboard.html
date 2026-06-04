@@ -6,308 +6,397 @@
 <title>Dashboard - Xtrimer Tunnel</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-body{
-    background:#0b132b;
-    color:white;
-    min-height:100vh;
+body {
+    background: #0b132b;
+    color: white;
+    min-height: 100vh;
+    padding-bottom: 30px;
 }
 
-.header{
-    background:#1c2541;
-    padding:20px;
-    text-align:center;
-    border-bottom:2px solid #facc15;
+/* ── Header ── */
+.header {
+    background: #1c2541;
+    padding: 18px 20px;
+    text-align: center;
+    border-bottom: 2px solid #facc15;
 }
 
-.logo{
-    color:#facc15;
-    font-size:32px;
-    font-weight:bold;
+.logo {
+    color: #facc15;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
-.container{
-    padding:20px;
+.container {
+    padding: 20px;
+    max-width: 480px;
+    margin: 0 auto;
 }
 
-.card{
-    background:#1f2937;
-    border-radius:15px;
-    padding:20px;
-    margin-bottom:15px;
-    cursor:pointer;
+/* ── Profile card ── */
+.profile-card {
+    background: #1c2541;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid #2d3a55;
 }
 
-.card h3{
-    color:#facc15;
-    margin-bottom:15px;
+.avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid #facc15;
+    flex-shrink: 0;
+    object-fit: cover;
 }
 
-.avatar-box{
-    text-align:center;
-    margin-bottom:20px;
+.profile-info { flex: 1; }
+
+.profile-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 4px;
 }
 
-.avatar-box img{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    border:3px solid #facc15;
+.profile-email {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 8px;
+    word-break: break-all;
 }
 
-.info{
-    margin-bottom:10px;
+.role-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    background: #facc15;
+    color: #0b132b;
 }
 
-.stats{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-    margin-bottom:15px;
+.role-badge.admin {
+    background: #ef4444;
+    color: white;
 }
 
-.stat-box{
-    background:#1f2937;
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
+/* ── Stats row ── */
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
 }
 
-.stat-title{
-    color:#facc15;
-    margin-bottom:10px;
+.stat-box {
+    background: #1f2937;
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+    border: 1px solid #2d3a55;
 }
 
-.stat-value{
-    font-size:22px;
-    font-weight:bold;
+.stat-title {
+    color: #9ca3af;
+    font-size: 12px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.logout-btn{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:10px;
-    background:#facc15;
-    color:black;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:20px;
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #facc15;
 }
+
+.stat-value.active {
+    color: #22c55e;
+    font-size: 15px;
+}
+
+/* ── Section label ── */
+.section-label {
+    font-size: 11px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    margin-top: 4px;
+}
+
+/* ── Menu grid ── */
+.menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.menu-btn {
+    background: #1f2937;
+    border: 1px solid #2d3a55;
+    border-radius: 14px;
+    padding: 18px 12px;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    transition: background 0.15s, border-color 0.15s;
+    text-decoration: none;
+    display: block;
+}
+
+.menu-btn:hover {
+    background: #263044;
+    border-color: #facc15;
+}
+
+.menu-btn .menu-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.menu-btn .menu-label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #facc15;
+}
+
+.menu-btn .menu-desc {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 3px;
+}
+
+/* Full width menu button */
+.menu-btn-full {
+    background: #1f2937;
+    border: 1px solid #2d3a55;
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    color: white;
+    margin-bottom: 12px;
+    width: 100%;
+    text-align: left;
+    transition: background 0.15s, border-color 0.15s;
+    text-decoration: none;
+}
+
+.menu-btn-full:hover {
+    background: #263044;
+    border-color: #facc15;
+}
+
+.menu-btn-full .icon {
+    font-size: 24px;
+    width: 44px;
+    height: 44px;
+    background: #111827;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.menu-btn-full .label {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+.menu-btn-full .desc {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+.menu-btn-full .arrow {
+    margin-left: auto;
+    color: #6b7280;
+    font-size: 18px;
+}
+
+/* Admin menu */
+.admin-menu-btn {
+    border-color: #7f1d1d;
+    background: #1a1010;
+}
+
+.admin-menu-btn:hover {
+    border-color: #ef4444;
+    background: #1f1515;
+}
+
+/* ── Logout ── */
+.logout-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: #374151;
+    color: #d1d5db;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.15s;
+}
+
+.logout-btn:hover { background: #4b5563; }
+
 </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="logo">
-        XTRIMER TUNNEL
-    </div>
+    <div class="logo">⚡ XTRIMER TUNNEL</div>
 </div>
 
 <div class="container">
 
-    <div class="card" style="cursor:default;">
-
-        <div class="avatar-box">
-            <img
-                id="avatar"
-                src=""
-                alt="Avatar">
+    <!-- Profile -->
+    <div class="profile-card">
+        <img class="avatar" id="avatar" src="" alt="Avatar">
+        <div class="profile-info">
+            <div class="profile-name" id="username">-</div>
+            <div class="profile-email" id="email">-</div>
+            <span class="role-badge" id="roleBadge">User</span>
         </div>
-
-        <h3>Informasi Akun</h3>
-
-        <div class="info">
-            Username:
-            <span id="username">-</span>
-        </div>
-
-        <div class="info">
-            Email:
-            <span id="email">-</span>
-        </div>
-
-        <div class="info">
-            Role:
-            <span id="role">user</span>
-        </div>
-
     </div>
 
+    <!-- Stats -->
     <div class="stats">
-
         <div class="stat-box">
-            <div class="stat-title">
-                Saldo
-            </div>
-
-            <div
-                class="stat-value"
-                id="balance">
-                0
-            </div>
+            <div class="stat-title">Saldo</div>
+            <div class="stat-value" id="balance">0</div>
         </div>
-
         <div class="stat-box">
-            <div class="stat-title">
-                Status
-            </div>
-
-            <div class="stat-value">
-                Aktif
-            </div>
+            <div class="stat-title">Status</div>
+            <div class="stat-value active">● Aktif</div>
         </div>
-
     </div>
 
-    <div
-    class="card"
-    onclick="location.href='products.html'">
+    <!-- Main menu grid -->
+    <div class="section-label">Menu Utama</div>
 
-        <h3>📦 Produk VPN</h3>
-        <p>Lihat daftar produk VPN</p>
-
+    <div class="menu-grid">
+        <a class="menu-btn" href="products.html">
+            <div class="menu-icon">📦</div>
+            <div class="menu-label">Produk VPN</div>
+            <div class="menu-desc">Beli akun VPN</div>
+        </a>
+        <a class="menu-btn" href="my-vpn.html">
+            <div class="menu-icon">📡</div>
+            <div class="menu-label">My VPN</div>
+            <div class="menu-desc">Akun aktif saya</div>
+        </a>
+        <a class="menu-btn" href="topup.html">
+            <div class="menu-icon">💰</div>
+            <div class="menu-label">Topup</div>
+            <div class="menu-desc">Isi saldo</div>
+        </a>
+        <a class="menu-btn" href="transactions.html">
+            <div class="menu-icon">📜</div>
+            <div class="menu-label">Riwayat</div>
+            <div class="menu-desc">Transaksi saya</div>
+        </a>
     </div>
 
-    <div class="card">
+    <!-- Profile full-width -->
+    <a class="menu-btn-full" href="profile.html">
+        <div class="icon">👤</div>
+        <div>
+            <div class="label">Profil Saya</div>
+            <div class="desc">Edit informasi akun</div>
+        </div>
+        <div class="arrow">›</div>
+    </a>
 
-        <h3>💰 Topup Saldo</h3>
-        <p>Segera hadir</p>
-
-    </div>
-
-    <div class="card">
-
-        <h3>📜 Riwayat Transaksi</h3>
-        <p>Segera hadir</p>
-
-    </div>
-
-    <div class="card">
-
-        <h3>👤 Profil Saya</h3>
-        <p>Informasi akun</p>
-
-    </div>
-
-    <!-- ADMIN MENU -->
+    <!-- Admin menu (conditional) -->
     <div id="adminMenu"></div>
 
-    <button
-        class="logout-btn"
-        onclick="logout()">
-        Logout
-    </button>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
 
 </div>
 
 <script>
 
-const localUser =
-JSON.parse(
-    localStorage.getItem('user')
-);
-
-if (!localUser) {
-
-    window.location.href =
-    'index.html';
-
-}
+const localUser = JSON.parse(localStorage.getItem('user'));
+if (!localUser) window.location.href = 'index.html';
 
 loadProfile();
 
 async function loadProfile() {
-
     try {
-
-        const response =
-        await fetch(
-        `/api/profile?email=${encodeURIComponent(localUser.email)}`
+        const response = await fetch(
+            `/api/profile?email=${encodeURIComponent(localUser.email)}`
         );
-
-        const result =
-        await response.json();
+        const result = await response.json();
 
         if (!result.success) {
-
             alert(result.message);
-
             localStorage.removeItem('user');
-
-            window.location.href =
-            'index.html';
-
+            window.location.href = 'index.html';
             return;
-
         }
 
-        const user =
-        result.user;
+        const user = result.user;
 
-        document.getElementById('username').innerText =
-        user.username || '-';
-
-        document.getElementById('email').innerText =
-        user.email || '-';
-
-        document.getElementById('role').innerText =
-        user.role || 'user';
-
+        document.getElementById('username').innerText = user.username || '-';
+        document.getElementById('email').innerText = user.email || '-';
         document.getElementById('balance').innerText =
-        user.balance || 0;
+            'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
 
         document.getElementById('avatar').src =
-        user.avatar ||
-        'https://via.placeholder.com/90';
+            user.avatar || 'https://via.placeholder.com/70';
 
-        // ADMIN MENU
-        if(user.role === 'admin'){
+        const roleBadge = document.getElementById('roleBadge');
+        roleBadge.innerText = user.role === 'admin' ? 'Admin' : 'User';
+        if (user.role === 'admin') roleBadge.classList.add('admin');
 
+        if (user.role === 'admin') {
             document.getElementById('adminMenu').innerHTML = `
-                <div
-                class="card"
-                onclick="location.href='admin.html'">
-
-                    <h3>🛠 Admin Panel</h3>
-
-                    <p>
-                        Kelola User, Produk dan Transaksi
-                    </p>
-
-                </div>
+                <a class="menu-btn-full admin-menu-btn" href="admin.html">
+                    <div class="icon">🛠</div>
+                    <div>
+                        <div class="label">Admin Panel</div>
+                        <div class="desc">Kelola user, produk & transaksi</div>
+                    </div>
+                    <div class="arrow">›</div>
+                </a>
             `;
-
         }
 
     } catch (err) {
-
         console.error(err);
-
-        alert(
-        'Gagal memuat data profile'
-        );
-
+        alert('Gagal memuat data profile');
     }
-
 }
 
 function logout() {
-
     localStorage.removeItem('user');
-
-    window.location.href =
-    'index.html';
-
+    window.location.href = 'index.html';
 }
 
 </script>
-
 </body>
 </html>
