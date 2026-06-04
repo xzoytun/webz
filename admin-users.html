@@ -116,14 +116,31 @@ if(!localUser){
 
 }
 
+// CEK ADMIN
+if(localUser.is_admin != 1){
+
+    alert('Akses ditolak');
+
+    location.href = 'dashboard.html';
+
+}
+
 loadUsers();
 
 async function loadUsers(){
 
     try{
 
-        const res =
-        await fetch('/api/admin/users');
+        const localUser =
+JSON.parse(
+localStorage.getItem('user')
+);
+
+const res =
+await fetch(
+'/api/admin/users?email='
++ encodeURIComponent(localUser.email)
+);
 
         const data =
         await res.json();
