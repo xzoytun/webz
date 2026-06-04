@@ -7,73 +7,73 @@
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-body{
-    background:#0b132b;
-    color:white;
-    min-height:100vh;
+body {
+    background: #0b132b;
+    color: white;
+    min-height: 100vh;
 }
 
-.header{
-    background:#1c2541;
-    padding:20px;
-    text-align:center;
-    border-bottom:2px solid #facc15;
+.header {
+    background: #1c2541;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #facc15;
 }
 
-.logo{
-    color:#facc15;
-    font-size:28px;
-    font-weight:bold;
+.logo {
+    color: #facc15;
+    font-size: 28px;
+    font-weight: bold;
 }
 
-.container{
-    padding:20px;
+.container {
+    padding: 20px;
 }
 
-.product{
-    background:#1f2937;
-    border-radius:15px;
-    padding:20px;
-    margin-bottom:15px;
+.product {
+    background: #1f2937;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
 }
 
-.product h3{
-    color:#facc15;
-    margin-bottom:10px;
+.product h3 {
+    color: #facc15;
+    margin-bottom: 10px;
 }
 
-.product p{
-    margin-bottom:8px;
+.product p {
+    margin-bottom: 8px;
 }
 
-.btn{
-    width:100%;
-    border:none;
-    padding:12px;
-    border-radius:10px;
-    background:#facc15;
-    color:black;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:10px;
+.btn {
+    width: 100%;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    background: #facc15;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
-.back-btn{
-    margin-top:20px;
-    width:100%;
-    border:none;
-    padding:12px;
-    border-radius:10px;
-    background:#374151;
-    color:white;
-    cursor:pointer;
+.back-btn {
+    margin-top: 20px;
+    width: 100%;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    background: #374151;
+    color: white;
+    cursor: pointer;
 }
 
 </style>
@@ -97,120 +97,166 @@ body{
     </button>
 
 </div>
+
 <script>
 
 loadProducts();
 
-async function loadProducts(){
+async function loadProducts() {
 
-try{
+    try {
 
-    const res =
-    await fetch('/api/products');
+        const res = await fetch('/api/products');
+        const data = await res.json();
 
-    const data =
-    await res.json();
+        if (!data.success) {
+            alert('Gagal memuat produk');
+            return;
+        }
 
-    if(!data.success){
+        let html = '';
 
-        alert('Gagal memuat produk');
-        return;
+        data.products.forEach(server => {
+
+            const harga30Hari = Number(server.harga || 0) * 30;
+            const quota30Hari = Number(server.quota || 0) * 30;
+
+            html += `
+<div class="product">
+
+    <h3>
+        🌐 ${server.nama_server}
+    </h3>
+
+    <div style="
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-bottom: 15px;
+    ">
+
+        <span style="
+            background: #facc15;
+            color: black;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        ">
+            SSH
+        </span>
+
+        <span style="
+            background: #10b981;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        ">
+            VMESS
+        </span>
+
+        <span style="
+            background: #3b82f6;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        ">
+            VLESS
+        </span>
+
+        <span style="
+            background: #ef4444;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        ">
+            TROJAN
+        </span>
+
+        <span style="
+            background: #8b5cf6;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        ">
+            SS
+        </span>
+
+    </div>
+
+    <p>📍 ${server.lokasi || '-'}</p>
+
+    <p>🌐 ${server.domain || '-'}</p>
+
+    <hr style="
+        border: none;
+        border-top: 1px solid #374151;
+        margin: 15px 0;
+    ">
+
+    <p>
+        📦 Quota:
+        <strong>${quota30Hari} GB</strong>
+    </p>
+
+    <p>
+        📱 Device:
+        <strong>${server.iplimit || 0}</strong>
+    </p>
+
+    <p>
+        🗓 Masa Aktif:
+        <strong>30 Hari</strong>
+    </p>
+
+    <p style="
+        color: #22c55e;
+        font-weight: bold;
+        margin-top: 10px;
+    ">
+        ✅ READY
+        (${server.total_create_akun || 0}/${server.batas_create_akun || 0})
+    </p>
+
+    <div style="
+        font-size: 26px;
+        color: #facc15;
+        font-weight: bold;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    ">
+        Rp ${harga30Hari.toLocaleString('id-ID')}
+    </div>
+
+    <button
+        class="btn"
+        onclick="buyServer(${server.id})">
+        🚀 Beli Sekarang
+    </button>
+
+</div>
+`;
+
+        }); // ← fix: hapus forEach ganda, cukup satu closing
+
+        document.getElementById('products').innerHTML = html;
+
+    } catch (err) {
+
+        console.error(err);
+        alert('Server tidak dapat dihubungi');
 
     }
 
-    let html = '';
-
-    data.products.forEach(server => {
-
-        const harga30Hari =
-        Number(server.harga || 0) * 30;
-
-        const quota30Hari =
-        Number(server.quota || 0) * 30;
-
-        html += `
-        <div class="product">
-
-            <h3>
-                ${server.nama_server}
-            </h3>
-
-            <div style="
-                display:inline-block;
-                background:#facc15;
-                color:black;
-                padding:5px 10px;
-                border-radius:8px;
-                font-weight:bold;
-                margin-bottom:10px;
-            ">
-                🚀 ${server.protocol || 'SSH'}
-            </div>
-
-            <p>
-                📍 ${server.lokasi || '-'}
-            </p>
-
-            <p>
-                🌐 ${server.domain || '-'}
-            </p>
-
-            <p>
-                💰 Rp ${harga30Hari.toLocaleString('id-ID')}
-            </p>
-
-            <p>
-                📦 ${quota30Hari} GB
-            </p>
-
-            <p>
-                📱 ${server.iplimit || 0} Device
-            </p>
-
-            <p>
-                🗓 30 Hari
-            </p>
-
-            <p>
-                ✅ READY
-                (${server.total_create_akun || 0}/${server.batas_create_akun || 0})
-            </p>
-
-            <button
-                class="btn"
-                onclick="buyServer(${server.id})">
-
-                Beli Server
-
-            </button>
-
-        </div>
-        `;
-
-    });
-
-    document.getElementById('products')
-    .innerHTML = html;
-
-}catch(err){
-
-    console.error(err);
-
-    alert('Server tidak dapat dihubungi');
-
 }
 
-}
-    
-
-function buyServer(id){
-
-    window.location.href =
-    'checkout.html?id=' + id;
-
+function buyServer(id) {
+    window.location.href = 'checkout.html?id=' + id;
 }
 
 </script>
-    </body>
+</body>
 </html>
-    
