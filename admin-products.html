@@ -1,39 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kelola Produk</title>
 
 <style>
 
-body{
-background:#0b132b;
-color:white;
-font-family:Arial;
-padding:20px;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
-.card{
-background:#1f2937;
-padding:15px;
-border-radius:15px;
-margin-bottom:15px;
+body{
+    background:#0b132b;
+    color:white;
+    padding:20px;
 }
 
 h2{
-color:#facc15;
-margin-bottom:20px;
+    color:#facc15;
+    margin-bottom:20px;
+}
+
+.card{
+    background:#1f2937;
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+
+.card h3{
+    color:#facc15;
+    margin-bottom:10px;
 }
 
 .btn{
-width:100%;
-padding:10px;
-margin-top:10px;
-border:none;
-border-radius:10px;
-background:#facc15;
-font-weight:bold;
-cursor:pointer;
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.toggle{
+    background:#facc15;
+    color:black;
+}
+
+.delete{
+    background:#dc2626;
+    color:white;
+}
+
+.add{
+    background:#16a34a;
+    color:white;
+    margin-bottom:20px;
+}
+
+.back{
+    background:#374151;
+    color:white;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border:none;
+    border-radius:10px;
 }
 
 </style>
@@ -42,7 +82,19 @@ cursor:pointer;
 
 <h2>📦 Kelola Produk</h2>
 
+<button
+class="btn add"
+onclick="addProduct()">
+➕ Tambah Produk
+</button>
+
 <div id="products"></div>
+
+<button
+class="btn back"
+onclick="location.href='admin.html'">
+⬅ Kembali
+</button>
 
 <script>
 
@@ -50,70 +102,186 @@ loadProducts();
 
 async function loadProducts(){
 
-const res =
-await fetch('/api/admin/products');
+    const res =
+    await fetch('/api/admin/products');
 
-const data =
-await res.json();
+    const data =
+    await res.json();
 
-let html='';
+    let html = '';
 
-data.products.forEach(product=>{
+    data.products.forEach(product => {
 
-html += `
-<div class="card">
+        html += `
+        <div class="card">
 
-<b>${product.name}</b><br>
+            <h3>${product.name}</h3>
 
-Harga :
-Rp ${product.price}<br>
+            <p>
+            Kategori :
+            ${product.category}
+            </p>
 
-Durasi :
-${product.duration} Hari<br>
+            <p>
+            Durasi :
+            ${product.duration} Hari
+            </p>
 
-Status :
-${product.active ? 'Aktif' : 'Nonaktif'}
+            <p>
+            Harga :
+            Rp ${Number(product.price).toLocaleString('id-ID')}
+            </p>
 
-<button
-class="btn"
-onclick="toggleProduct(
-${product.id},
-${product.active ? 0 : 1}
-)">
-${product.active ? 'Nonaktifkan' : 'Aktifkan'}
-</button>
+            <p>
+            Status :
+            ${product.active ? 'Aktif' : 'Nonaktif'}
+            </p>
 
-</div>
-`;
+            <button
+            class="btn toggle"
+            onclick="toggleProduct(
+            ${product.id},
+            ${product.active ? 0 : 1}
+            )">
 
-});
+            ${product.active
+            ? 'Nonaktifkan'
+            : 'Aktifkan'}
 
-document.getElementById('products').innerHTML =
-html;
+            </button>
+
+            <button
+            class="btn delete"
+            onclick="deleteProduct(
+            ${product.id}
+            )">
+
+            Hapus Produk
+
+            </button>
+
+        </div>
+        `;
+
+    });
+
+    document.getElementById('products').innerHTML =
+    html;
 
 }
 
-async function toggleProduct(id,active){
+async function toggleProduct(
+    id,
+    active
+){
 
-await fetch(
-'/api/admin/toggle-product',
-{
-method:'POST',
-headers:{
-'Content-Type':'application/json'
-},
-body:JSON.stringify({
-id,
-active
-})
+    await fetch(
+        '/api/admin/toggle-product',
+        {
+            method:'POST',
+            headers:{
+                'Content-Type':
+                'application/json'
+            },
+            body:JSON.stringify({
+                id,
+                active
+            })
+        }
+    );
+
+    loadProducts();
+
 }
-);
 
-loadProducts();
+async function deleteProduct(id){
+
+    if(
+        !confirm(
+            'Hapus produk ini?'
+        )
+    ){
+        return;
+    }
+
+    await fetch(
+        '/api/admin/delete-product',
+        {
+            method:'POST',
+            headers:{
+                'Content-Type':
+                'application/json'
+            },
+            body:JSON.stringify({
+                id
+            })
+        }
+    );
+
+    loadProducts();
+
+}
+
+async function addProduct(){
+
+    const name =
+    prompt(
+        'Nama Produk'
+    );
+
+    if(!name) return;
+
+    const category =
+    prompt(
+        'Kategori (SSH/VMESS/VLESS/TROJAN)'
+    );
+
+    if(!category) return;
+
+    const duration =
+    prompt(
+        'Durasi (hari)'
+    );
+
+    if(!duration) return;
+
+    const price =
+    prompt(
+        'Harga'
+    );
+
+    if(!price) return;
+
+    const res =
+    await fetch(
+        '/api/admin/add-product',
+        {
+            method:'POST',
+            headers:{
+                'Content-Type':
+                'application/json'
+            },
+            body:JSON.stringify({
+                name,
+                category,
+                duration,
+                price
+            })
+        }
+    );
+
+    const data =
+    await res.json();
+
+    alert(
+        data.message
+    );
+
+    loadProducts();
 
 }
 
 </script>
 
 </body>
-</html>
+  </html>
