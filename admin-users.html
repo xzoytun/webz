@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kelola User</title>
+
+<style>
+
+body{
+    background:#0b132b;
+    color:white;
+    font-family:Arial,sans-serif;
+    padding:20px;
+}
+
+h2{
+    margin-bottom:20px;
+    color:#facc15;
+}
+
+.card{
+    background:#1f2937;
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+
+.username{
+    color:#facc15;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.btn{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+    background:#facc15;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.back{
+    background:#374151;
+    color:white;
+}
+
+</style>
+</head>
+<body>
+
+<h2>👥 Kelola User</h2>
+
+<div id="users"></div>
+
+<button
+class="btn back"
+onclick="location.href='admin.html'">
+Kembali
+</button>
+
+<script>
+
+loadUsers();
+
+async function loadUsers(){
+
+    const res =
+    await fetch('/api/admin/users');
+
+    const data =
+    await res.json();
+
+    let html = '';
+
+    data.users.forEach(user => {
+
+        html += `
+        <div class="card">
+
+            <div class="username">
+                ${user.username}
+            </div>
+
+            <div>Email : ${user.email}</div>
+
+            <div>Role : ${user.role}</div>
+
+            <div>Saldo : Rp ${user.balance}</div>
+
+            <button
+            class="btn"
+            onclick="addBalance(${user.id})">
+
+            Tambah Saldo
+
+            </button>
+
+        </div>
+        `;
+
+    });
+
+    document.getElementById('users').innerHTML =
+    html;
+
+}
+
+async function addBalance(userId){
+
+    const amount =
+    prompt('Masukkan nominal saldo');
+
+    if(!amount) return;
+
+    const res =
+    await fetch(
+        '/api/admin/add-balance',
+        {
+            method:'POST',
+            headers:{
+                'Content-Type':
+                'application/json'
+            },
+            body:JSON.stringify({
+                user_id:userId,
+                amount:Number(amount)
+            })
+        }
+    );
+
+    const data =
+    await res.json();
+
+    alert(data.message);
+
+    loadUsers();
+
+}
+
+</script>
+
+</body>
+</html>
