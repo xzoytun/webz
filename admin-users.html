@@ -7,41 +7,81 @@
 
 <style>
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
 body{
     background:#0b132b;
     color:white;
-    font-family:Arial,sans-serif;
     padding:20px;
 }
 
 h2{
     margin-bottom:20px;
     color:#facc15;
+    font-size:32px;
 }
 
 .card{
     background:#1f2937;
-    padding:15px;
+    padding:20px;
     border-radius:15px;
     margin-bottom:15px;
 }
 
 .username{
     color:#facc15;
-    font-size:18px;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.info{
+    margin-bottom:8px;
+    font-size:15px;
+}
+
+.badge-admin{
+    background:#dc2626;
+    color:white;
+    padding:4px 10px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.badge-user{
+    background:#374151;
+    color:white;
+    padding:4px 10px;
+    border-radius:8px;
+    font-size:12px;
     font-weight:bold;
 }
 
 .btn{
     width:100%;
-    padding:10px;
+    padding:12px;
     margin-top:10px;
     border:none;
     border-radius:10px;
-    background:#facc15;
-    color:black;
     font-weight:bold;
     cursor:pointer;
+    font-size:15px;
+}
+
+.balance-btn{
+    background:#facc15;
+    color:black;
+}
+
+.delete-btn{
+    background:#dc2626;
+    color:white;
 }
 
 .back{
@@ -60,53 +100,106 @@ h2{
 <button
 class="btn back"
 onclick="location.href='admin.html'">
-Kembali
+🏠 Kembali
 </button>
 
 <script>
+
+const localUser =
+JSON.parse(
+localStorage.getItem('user')
+);
+
+if(!localUser){
+
+    location.href = 'index.html';
+
+}
 
 loadUsers();
 
 async function loadUsers(){
 
-    const res =
-    await fetch('/api/admin/users');
+    try{
 
-    const data =
-    await res.json();
+        const res =
+        await fetch('/api/admin/users');
 
-    let html = '';
+        const data =
+        await res.json();
 
-    data.users.forEach(user => {
+        if(!data.success){
 
-        html += `
-        <div class="card">
+            alert('Gagal load users');
+            return;
 
-            <div class="username">
-                ${user.username}
+        }
+
+        let html = '';
+
+        data.users.forEach(user => {
+
+            html += `
+            <div class="card">
+
+                <div class="username">
+                    👤 ${user.username || '-'}
+                </div>
+
+                <div class="info">
+                    📧 ${user.email}
+                </div>
+
+                <div class="info">
+                    💰 Saldo:
+                    Rp ${Number(user.balance || 0)
+                    .toLocaleString('id-ID')}
+                </div>
+
+                <div class="info">
+                    🛡 Role:
+                    ${
+                        user.is_admin == 1
+                        ? '<span class="badge-admin">ADMIN</span>'
+                        : '<span class="badge-user">USER</span>'
+                    }
+                </div>
+
+                <div class="info">
+                    📅 ${user.created_at || '-'}
+                </div>
+
+                <button
+                class="btn balance-btn"
+                onclick="addBalance(${user.id})">
+
+                💵 Tambah Saldo
+
+                </button>
+
+                <button
+                class="btn delete-btn"
+                onclick="deleteUser(${user.id})">
+
+                🗑 Hapus User
+
+                </button>
+
             </div>
+            `;
 
-            <div>Email : ${user.email}</div>
+        });
 
-            <div>Role : ${user.role}</div>
+        document.getElementById('users')
+        .innerHTML = html;
 
-            <div>Saldo : Rp ${user.balance}</div>
+    }catch(err){
 
-            <button
-            class="btn"
-            onclick="addBalance(${user.id})">
+        console.error(err);
 
-            Tambah Saldo
+        alert('Server error');
 
-            </button>
-
-        </div>
-        `;
-
-    });
-
-    document.getElementById('users').innerHTML =
-    html;
+    }
 
 }
 
@@ -117,28 +210,75 @@ async function addBalance(userId){
 
     if(!amount) return;
 
-    const res =
-    await fetch(
-        '/api/admin/add-balance',
-        {
-            method:'POST',
-            headers:{
-                'Content-Type':
-                'application/json'
-            },
-            body:JSON.stringify({
-                user_id:userId,
-                amount:Number(amount)
-            })
+    try{
+
+        const res =
+        await fetch(
+            '/api/admin/add-balance',
+            {
+                method:'POST',
+                headers:{
+                    'Content-Type':
+                    'application/json'
+                },
+                body:JSON.stringify({
+                    user_id:userId,
+                    amount:Number(amount)
+                })
+            }
+        );
+
+        const data =
+        await res.json();
+
+        alert(data.message);
+
+        loadUsers();
+
+    }catch(err){
+
+        console.error(err);
+
+    }
+
+}
+
+async function deleteUser(id){
+
+    if(
+        !confirm(
+            'Yakin ingin hapus user?'
+        )
+    ){
+        return;
+    }
+
+    try{
+
+        const res =
+        await fetch(
+            '/api/admin/delete-user/' + id,
+            {
+                method:'DELETE'
+            }
+        );
+
+        const data =
+        await res.json();
+
+        alert(data.message);
+
+        if(data.success){
+
+            loadUsers();
+
         }
-    );
 
-    const data =
-    await res.json();
+    }catch(err){
 
-    alert(data.message);
+        console.error(err);
 
-    loadUsers();
+    }
 
 }
 
