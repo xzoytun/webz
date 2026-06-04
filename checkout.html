@@ -18,118 +18,301 @@ body {
     background: #0b132b;
     color: white;
     padding: 20px;
+    min-height: 100vh;
 }
 
-.card {
-    background: #1f2937;
-    padding: 20px;
-    border-radius: 15px;
+.container {
+    max-width: 480px;
+    margin: 0 auto;
 }
 
-h2 {
-    color: #facc15;
+/* ── Header ── */
+.page-header {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-.info {
-    margin-bottom: 10px;
+.page-header h2 {
+    color: #facc15;
+    font-size: 22px;
+    margin-bottom: 4px;
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.page-header p {
+    color: #9ca3af;
+    font-size: 13px;
 }
 
-select {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+/* ── Server Info Card ── */
+.server-card {
+    background: #1c2541;
+    border: 1px solid #2d3a55;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 16px;
 }
 
-.btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    background: #facc15;
-    color: black;
+.server-name {
+    color: #facc15;
+    font-size: 16px;
     font-weight: bold;
-    cursor: pointer;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.back-btn {
-    margin-top: 10px;
-    background: #374151;
+.server-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    padding: 6px 0;
+    border-bottom: 1px solid #2d3a55;
+    color: #d1d5db;
+}
+
+.server-row:last-child { border-bottom: none; }
+
+.server-row span:first-child { color: #9ca3af; }
+
+.server-row strong { color: white; }
+
+.price-highlight {
+    color: #facc15 !important;
+    font-size: 18px !important;
+    font-weight: bold;
+}
+
+/* ── Form Card ── */
+.form-card {
+    background: #1f2937;
+    border: 1px solid #2d3a55;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.form-card h3 {
+    color: #facc15;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #374151;
+    border-radius: 10px;
+    background: #111827;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    border-color: #facc15;
+}
+
+.form-input::placeholder {
+    color: #4b5563;
+}
+
+/* Duration selector */
+.duration-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.duration-opt {
+    padding: 10px;
+    border: 2px solid #374151;
+    border-radius: 10px;
+    background: #111827;
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.duration-opt:hover {
+    border-color: #facc15;
     color: white;
 }
 
-#result {
-    margin-top: 20px;
+.duration-opt.selected {
+    border-color: #facc15;
+    background: #78350f;
+    color: #facc15;
+}
+
+/* Protocol selector */
+.protocol-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.proto-opt {
+    padding: 10px 6px;
+    border: 2px solid #374151;
+    border-radius: 10px;
+    background: #111827;
+    color: #9ca3af;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.proto-opt:hover { border-color: #6b7280; color: white; }
+.proto-opt.selected { color: white; }
+
+.proto-opt[data-val="SSH"].selected       { border-color: #fde68a; background: #78350f; color: #fde68a; }
+.proto-opt[data-val="VMESS"].selected     { border-color: #6ee7b7; background: #065f46; color: #6ee7b7; }
+.proto-opt[data-val="VLESS"].selected     { border-color: #93c5fd; background: #1e3a5f; color: #93c5fd; }
+.proto-opt[data-val="TROJAN"].selected    { border-color: #fca5a5; background: #7f1d1d; color: #fca5a5; }
+.proto-opt[data-val="SHADOWSOCKS"].selected { border-color: #c4b5fd; background: #4c1d95; color: #c4b5fd; }
+
+/* ── Buttons ── */
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: #facc15;
+    color: #0b132b;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: opacity 0.15s;
+}
+
+.btn-primary:hover { opacity: 0.9; }
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-back {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: #374151;
+    color: #d1d5db;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.btn-back:hover { background: #4b5563; }
+
+/* ── Result ── */
+#result { margin-top: 16px; }
+
+/* ── Loading ── */
+.loading-text {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 13px;
+    padding: 10px 0;
 }
 
 </style>
 </head>
 <body>
 
-<div class="card">
+<div class="container">
 
-    <h2>Checkout VPN</h2>
-
-    <div id="serverInfo">
-        Loading...
+    <div class="page-header">
+        <h2>🛒 Checkout VPN</h2>
+        <p>Isi form di bawah untuk membuat akun</p>
     </div>
 
-    <input
-        id="username"
-        placeholder="Username VPN">
-
-    <div id="passwordBox">
-        <input
-            id="password"
-            type="password"
-            placeholder="Password VPN">
+    <!-- Server Info -->
+    <div class="server-card" id="serverInfo">
+        <div class="loading-text">⏳ Memuat info server...</div>
     </div>
 
-    <select id="protocol">
-    <select id="duration">
+    <!-- Form -->
+    <div class="form-card">
+        <h3>🔧 Konfigurasi Akun</h3>
 
-    <option value="7">
-        7 Hari
-    </option>
+        <!-- Username -->
+        <div class="form-group">
+            <label>Username</label>
+            <input
+                class="form-input"
+                id="username"
+                placeholder="Contoh: user123"
+                autocomplete="off">
+        </div>
 
-    <option value="15">
-        15 Hari
-    </option>
+        <!-- Password (SSH only) -->
+        <div class="form-group" id="passwordBox">
+            <label>Password</label>
+            <input
+                class="form-input"
+                id="password"
+                type="password"
+                placeholder="Password VPN">
+        </div>
 
-    <option value="30" selected>
-        30 Hari
-    </option>
+        <!-- Duration -->
+        <div class="form-group">
+            <label>Masa Aktif</label>
+            <div class="duration-grid">
+                <div class="duration-opt" data-val="7"  onclick="selectDuration(this)">7 Hari</div>
+                <div class="duration-opt" data-val="15" onclick="selectDuration(this)">15 Hari</div>
+                <div class="duration-opt selected" data-val="30" onclick="selectDuration(this)">30 Hari</div>
+            </div>
+        </div>
 
-</select>
-        <option value="SSH">SSH</option>
-        <option value="VMESS">VMESS</option>
-        <option value="VLESS">VLESS</option>
-        <option value="TROJAN">TROJAN</option>
-        <option value="SHADOWSOCKS">SHADOWSOCKS</option>
-    </select>
+        <!-- Protocol -->
+        <div class="form-group">
+            <label>Protocol</label>
+            <div class="protocol-grid">
+                <div class="proto-opt selected" data-val="SSH"         onclick="selectProto(this)">SSH</div>
+                <div class="proto-opt"          data-val="VMESS"       onclick="selectProto(this)">VMESS</div>
+                <div class="proto-opt"          data-val="VLESS"       onclick="selectProto(this)">VLESS</div>
+                <div class="proto-opt"          data-val="TROJAN"      onclick="selectProto(this)">TROJAN</div>
+                <div class="proto-opt"          data-val="SHADOWSOCKS" onclick="selectProto(this)">SS</div>
+            </div>
+        </div>
 
-    <button
-        class="btn"
-        onclick="createAccount()">
-        Buat Akun
+    </div>
+
+    <button class="btn-primary" id="buyBtn" onclick="createAccount()">
+        🚀 Buat Akun
     </button>
 
-    <button
-        class="btn back-btn"
-        onclick="history.back()">
-        Kembali
+    <button class="btn-back" onclick="history.back()">
+        ← Kembali
     </button>
 
     <div id="result"></div>
@@ -138,28 +321,37 @@ select {
 
 <script>
 
-const params = new URLSearchParams(window.location.search);
+const params   = new URLSearchParams(window.location.search);
 const serverId = params.get('id');
 
-let serverData = null;
+let serverData    = null;
+let selectedProto    = 'SSH';
+let selectedDuration = 30;
 
 loadServer();
 
-// Sembunyikan password box saat pertama load jika bukan SSH
-document.getElementById('protocol').addEventListener('change', function () {
+// ── Duration selector ──
+function selectDuration(el) {
+    document.querySelectorAll('.duration-opt').forEach(d => d.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedDuration = parseInt(el.dataset.val);
+    updatePrice();
+}
+
+// ── Protocol selector ──
+function selectProto(el) {
+    document.querySelectorAll('.proto-opt').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedProto = el.dataset.val;
+
     const passwordBox = document.getElementById('passwordBox');
-    if (this.value === 'SSH') {
-        passwordBox.style.display = 'block';
-    } else {
-        passwordBox.style.display = 'none';
-    }
-});
+    passwordBox.style.display = selectedProto === 'SSH' ? 'block' : 'none';
+}
 
+// ── Load server info ──
 async function loadServer() {
-
     try {
-
-        const res = await fetch('/api/server/' + serverId);
+        const res  = await fetch('/api/server/' + serverId);
         const data = await res.json();
 
         if (!data.success) {
@@ -168,91 +360,124 @@ async function loadServer() {
         }
 
         serverData = data.server;
-
-        const harga30Hari = Number(serverData.harga || 0) * 30;
-        const quota30Hari = (parseInt(serverData.quota) || 0) * 30;
-
-        document.getElementById('serverInfo').innerHTML = `
-            <div class="info">🌐 ${serverData.nama_server}</div>
-            <div class="info">📍 ${serverData.lokasi || '-'}</div>
-            <div class="info">💰 Rp ${harga30Hari.toLocaleString('id-ID')}</div>
-            <div class="info">📦 ${quota30Hari} GB</div>
-            <div class="info">📱 ${serverData.iplimit || 0} Device</div>
-            <div class="info">🗓 30 Hari</div>
-            <hr style="margin: 15px 0; border: none; border-top: 1px solid #374151;">
-        `;
+        renderServerInfo();
 
     } catch (err) {
-
         console.error(err);
-        alert('Gagal memuat server');
-
+        document.getElementById('serverInfo').innerHTML =
+            '<div class="loading-text" style="color:#f87171">❌ Gagal memuat server</div>';
     }
+}
+selectProto(
+document.querySelector(
+'.proto-opt.selected'
+)
+);
+function renderServerInfo() {
+    if (!serverData) return;
 
+    const hargaPerHari = Number(serverData.harga || 0);
+    const quotaPerHari = parseInt(serverData.quota) || 0;
+    const harga = hargaPerHari * selectedDuration;
+    const quota = quotaPerHari * selectedDuration;
+
+    document.getElementById('serverInfo').innerHTML = `
+        <div class="server-name">🌐 ${serverData.nama_server}</div>
+        <div class="server-row">
+            <span>📍 Lokasi</span>
+            <strong>${serverData.lokasi || '-'}</strong>
+        </div>
+        <div class="server-row">
+            <span>📦 Quota</span>
+            <strong>${quota} GB</strong>
+        </div>
+        <div class="server-row">
+            <span>📱 Device</span>
+            <strong>${serverData.iplimit || 0} IP</strong>
+        </div>
+        <div class="server-row">
+            <span>🗓 Masa Aktif</span>
+            <strong>${selectedDuration} Hari</strong>
+        </div>
+        <div class="server-row">
+            <span>💰 Total Harga</span>
+            <strong class="price-highlight">Rp ${harga.toLocaleString('id-ID')}</strong>
+        </div>
+    `;
 }
 
+function updatePrice() {
+    if (serverData) renderServerInfo();
+}
+
+// ── Create account ──
 async function createAccount() {
-
     const localUser = JSON.parse(localStorage.getItem('user'));
-
     if (!localUser) {
         alert('Silakan login terlebih dahulu');
         return;
     }
 
-    const username = document.getElementById('username').value.trim();
+    const username =
+document.getElementById('username')
+.value
+.trim()
+.toLowerCase();
     const password = document.getElementById('password').value.trim();
-    const protocol = document.getElementById('protocol').value;
-    const duration =
-parseInt(
-document.getElementById(
-'duration'
-).value
-);
 
     if (!username) {
-        alert('Username wajib diisi');
+    alert('Username wajib diisi');
+    return;
+}
+
+if (!/^[a-zA-Z0-9]+$/.test(username)) {
+    alert('Username hanya boleh huruf & angka');
+    return;
+}
+
+    if (selectedProto === 'SSH' && !password) {
+        alert('Password wajib diisi untuk SSH');
         return;
     }
 
-    if (protocol === 'SSH' && !password) {
-        alert('Password wajib diisi');
-        return;
-    }
+    const btn = document.getElementById('buyBtn');
+    btn.disabled = true;
+    btn.innerText = '⏳ Memproses...';
 
     try {
-
         const res = await fetch('/api/create-account', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body:JSON.stringify({
-    email:localUser.email,
-    server_id:serverId,
-    username,
-    password,
-    protocol,
-    duration
-})
-}) ;
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email:     localUser.email,
+                server_id: serverId,
+                username,
+                password,
+                protocol:  selectedProto,
+                duration:  selectedDuration
+            })
+        });
 
         const data = await res.json();
 
         if (!data.success) {
             alert(data.message);
+            btn.disabled = false;
+            btn.innerText = '🚀 Buat Akun';
             return;
         }
 
         document.getElementById('result').innerHTML = data.html;
+        document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        btn.disabled = false;
+        btn.innerText = '🚀 Buat Akun';
 
     } catch (err) {
-
         console.error(err);
         alert('Gagal membuat akun, coba lagi');
-
+        btn.disabled = false;
+        btn.innerText = '🚀 Buat Akun';
     }
-
 }
 
 </script>
