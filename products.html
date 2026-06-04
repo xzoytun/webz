@@ -97,7 +97,6 @@ body{
     </button>
 
 </div>
-
 <script>
 
 loadProducts();
@@ -123,6 +122,12 @@ async function loadProducts(){
 
         data.products.forEach(server => {
 
+            const harga30Hari =
+            Number(server.harga || 0) * 30;
+
+            const quota30Hari =
+            Number(server.quota || 0) * 30;
+
             html += `
             <div class="product">
 
@@ -139,18 +144,20 @@ async function loadProducts(){
                 </p>
 
                 <p>
-                    💰 Rp ${Number(server.harga || 0)
+                    💰 Rp ${harga30Hari
                     .toLocaleString('id-ID')}
                 </p>
 
                 <p>
-                    📦 Quota :
-                    ${server.quota || '-'}
+                    📦 ${quota30Hari} GB
                 </p>
 
                 <p>
-                    📱 IP Limit :
-                    ${server.iplimit || '-'}
+                    📱 ${server.iplimit || 0} Device
+                </p>
+
+                <p>
+                    🗓 30 Hari
                 </p>
 
                 <p>
@@ -187,6 +194,7 @@ async function loadProducts(){
     }
 
 }
+    
 
 function buyServer(id){
 
@@ -196,6 +204,6 @@ function buyServer(id){
 }
 
 </script>
-
-</body>
+    </body>
 </html>
+    
