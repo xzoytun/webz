@@ -103,108 +103,102 @@ loadProducts();
 
 async function loadProducts(){
 
-    try{
+try{
 
-        const res =
-        await fetch('/api/products');
+    const res =
+    await fetch('/api/products');
 
-        const data =
-        await res.json();
+    const data =
+    await res.json();
 
-        if(!data.success){
+    if(!data.success){
 
-            alert('Gagal memuat produk');
-            return;
-
-        }
-
-        let html = '';
-
-        data.products.forEach(server => {
-
-            const harga30Hari =
-            Number(server.harga || 0) * 30;
-
-            const quota30Hari =
-            Number(server.quota || 0) * 30;
-
-            html += `
-<div class="product">
-
-    <h3>
-        ${server.nama_server}
-    </h3>
-
-    <div style="
-        display:inline-block;
-        background:#facc15;
-        color:black;
-        padding:5px 10px;
-        border-radius:8px;
-        font-weight:bold;
-        margin-bottom:10px;
-    ">
-        🚀 ${server.protocol || 'SSH'}
-    </div>
-`
-
-                <p>
-                    📍 ${server.lokasi || '-'}
-                </p>
-
-                <p>
-                    🌐 ${server.domain || '-'}
-                </p>
-
-                <p>
-                    💰 Rp ${harga30Hari
-                    .toLocaleString('id-ID')}
-                </p>
-
-                <p>
-                    📦 ${quota30Hari} GB
-                </p>
-
-                <p>
-                    📱 ${server.iplimit || 0} Device
-                </p>
-
-                <p>
-                    🗓 30 Hari
-                </p>
-
-                <p>
-                    ✅ READY
-                    (${server.total_create_akun || 0}
-                    /
-                    ${server.batas_create_akun || 0})
-                </p>
-
-                <button
-                    class="btn"
-                    onclick="buyServer(${server.id})">
-
-                    Beli Server
-
-                </button>
-
-            </div>
-            `;
-
-        });
-
-        document.getElementById('products')
-        .innerHTML = html;
-
-    }catch(err){
-
-        console.error(err);
-
-        alert(
-            'Server tidak dapat dihubungi'
-        );
+        alert('Gagal memuat produk');
+        return;
 
     }
+
+    let html = '';
+
+    data.products.forEach(server => {
+
+        const harga30Hari =
+        Number(server.harga || 0) * 30;
+
+        const quota30Hari =
+        Number(server.quota || 0) * 30;
+
+        html += `
+        <div class="product">
+
+            <h3>
+                ${server.nama_server}
+            </h3>
+
+            <div style="
+                display:inline-block;
+                background:#facc15;
+                color:black;
+                padding:5px 10px;
+                border-radius:8px;
+                font-weight:bold;
+                margin-bottom:10px;
+            ">
+                🚀 ${server.protocol || 'SSH'}
+            </div>
+
+            <p>
+                📍 ${server.lokasi || '-'}
+            </p>
+
+            <p>
+                🌐 ${server.domain || '-'}
+            </p>
+
+            <p>
+                💰 Rp ${harga30Hari.toLocaleString('id-ID')}
+            </p>
+
+            <p>
+                📦 ${quota30Hari} GB
+            </p>
+
+            <p>
+                📱 ${server.iplimit || 0} Device
+            </p>
+
+            <p>
+                🗓 30 Hari
+            </p>
+
+            <p>
+                ✅ READY
+                (${server.total_create_akun || 0}/${server.batas_create_akun || 0})
+            </p>
+
+            <button
+                class="btn"
+                onclick="buyServer(${server.id})">
+
+                Beli Server
+
+            </button>
+
+        </div>
+        `;
+
+    });
+
+    document.getElementById('products')
+    .innerHTML = html;
+
+}catch(err){
+
+    console.error(err);
+
+    alert('Server tidak dapat dihubungi');
+
+}
 
 }
     
