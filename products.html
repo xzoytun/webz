@@ -18,82 +18,197 @@ body {
     background: #0b132b;
     color: white;
     min-height: 100vh;
+    padding-bottom: 30px;
 }
 
+/* ── Header ── */
 .header {
     background: #1c2541;
-    padding: 20px;
+    padding: 18px 20px;
     text-align: center;
     border-bottom: 2px solid #facc15;
 }
 
 .logo {
     color: #facc15;
-    font-size: 28px;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* ── Container ── */
+.container {
+    padding: 20px;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+/* ── Subtitle ── */
+.subtitle {
+    color: #9ca3af;
+    font-size: 13px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+/* ── Product Card ── */
+.product {
+    background: #1f2937;
+    border: 1px solid #2d3a55;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 14px;
+    transition: border-color 0.2s;
+}
+
+.product:hover {
+    border-color: #facc15;
+}
+
+/* Top row: name + status */
+.product-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 10px;
+}
+
+.product-name {
+    color: #facc15;
+    font-size: 16px;
     font-weight: bold;
 }
 
-.container {
-    padding: 20px;
+.product-location {
+    color: #9ca3af;
+    font-size: 12px;
+    margin-top: 3px;
 }
 
-.product {
-    background: #1f2937;
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 15px;
+.status-badge {
+    background: #065f46;
+    color: #6ee7b7;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-.product h3 {
+/* Protocol badges */
+.proto-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.proto-badge {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* Divider */
+.divider {
+    border: none;
+    border-top: 1px solid #374151;
+    margin-bottom: 14px;
+}
+
+/* Price + button row */
+.product-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.price-box {}
+
+.price-label {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-bottom: 2px;
+}
+
+.price-value {
+    font-size: 22px;
+    font-weight: bold;
     color: #facc15;
-    margin-bottom: 10px;
+    line-height: 1;
 }
 
-.product p {
-    margin-bottom: 8px;
+.price-period {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 2px;
 }
 
 .btn {
-    width: 100%;
+    padding: 12px 20px;
     border: none;
-    padding: 12px;
     border-radius: 10px;
     background: #facc15;
-    color: black;
+    color: #0b132b;
     font-weight: bold;
+    font-size: 14px;
     cursor: pointer;
-    margin-top: 10px;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
 }
 
+.btn:hover { opacity: 0.9; }
+
+/* ── Empty / Loading ── */
+.loading-text {
+    text-align: center;
+    color: #9ca3af;
+    padding: 40px 0;
+    font-size: 14px;
+}
+
+/* ── Back button ── */
 .back-btn {
-    margin-top: 20px;
     width: 100%;
     border: none;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 13px;
+    border-radius: 12px;
     background: #374151;
-    color: white;
+    color: #d1d5db;
+    font-weight: bold;
+    font-size: 14px;
     cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.15s;
 }
+
+.back-btn:hover { background: #4b5563; }
 
 </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="logo">
-        PRODUK VPN
-    </div>
+    <div class="logo">⚡ PRODUK VPN</div>
 </div>
 
 <div class="container">
 
-    <div id="products"></div>
+    <div class="subtitle" id="subtitle">Memuat produk...</div>
+
+    <div id="products">
+        <div class="loading-text">⏳ Memuat daftar produk...</div>
+    </div>
 
     <button
         class="back-btn"
         onclick="window.location.href='dashboard.html'">
-        Kembali ke Dashboard
+        ← Kembali ke Dashboard
     </button>
 
 </div>
@@ -103,10 +218,8 @@ body {
 loadProducts();
 
 async function loadProducts() {
-
     try {
-
-        const res = await fetch('/api/products');
+        const res  = await fetch('/api/products');
         const data = await res.json();
 
         if (!data.success) {
@@ -114,143 +227,73 @@ async function loadProducts() {
             return;
         }
 
+        const products = data.products;
+
+        document.getElementById('subtitle').textContent =
+            `${products.length} server tersedia`;
+
+        if (products.length === 0) {
+            document.getElementById('products').innerHTML =
+                '<div class="loading-text">Belum ada produk tersedia</div>';
+            return;
+        }
+
         let html = '';
 
-        data.products.forEach(server => {
-
+        products.forEach(server => {
             const harga30Hari = Number(server.harga || 0) * 30;
-            const quota30Hari = Number(server.quota || 0) * 30;
+            const slotUsed    = server.total_create_akun || 0;
+            const slotMax     = server.batas_create_akun || 0;
+            const isFull      = slotMax > 0 && slotUsed >= slotMax;
 
             html += `
 <div class="product">
 
-    <h3>
-        🌐 ${server.nama_server}
-    </h3>
-
-    <div style="
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-        margin-bottom: 15px;
-    ">
-
-        <span style="
-            background: #facc15;
-            color: black;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-        ">
-            SSH
-        </span>
-
-        <span style="
-            background: #10b981;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-        ">
-            VMESS
-        </span>
-
-        <span style="
-            background: #3b82f6;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-        ">
-            VLESS
-        </span>
-
-        <span style="
-            background: #ef4444;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-        ">
-            TROJAN
-        </span>
-
-        <span style="
-            background: #8b5cf6;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-        ">
-            SS
-        </span>
-
+    <div class="product-top">
+        <div>
+            <div class="product-name">🌐 ${server.nama_server}</div>
+            <div class="product-location">📍 ${server.lokasi || '-'}</div>
+        </div>
+        <div class="status-badge">
+            ${isFull ? '🔴 FULL' : `✅ ${slotUsed}/${slotMax}`}
+        </div>
     </div>
 
-    <p>📍 ${server.lokasi || '-'}</p>
-
-    <p>🌐 ${server.domain || '-'}</p>
-
-    <hr style="
-        border: none;
-        border-top: 1px solid #374151;
-        margin: 15px 0;
-    ">
-
-    <p>
-        📦 Quota:
-        <strong>${quota30Hari} GB</strong>
-    </p>
-
-    <p>
-        📱 Device:
-        <strong>${server.iplimit || 0}</strong>
-    </p>
-
-    <p>
-        🗓 Masa Aktif:
-        <strong>30 Hari</strong>
-    </p>
-
-    <p style="
-        color: #22c55e;
-        font-weight: bold;
-        margin-top: 10px;
-    ">
-        ✅ READY
-        (${server.total_create_akun || 0}/${server.batas_create_akun || 0})
-    </p>
-
-    <div style="
-        font-size: 26px;
-        color: #facc15;
-        font-weight: bold;
-        margin-top: 15px;
-        margin-bottom: 15px;
-    ">
-        Rp ${harga30Hari.toLocaleString('id-ID')}
+    <div class="proto-row">
+        <span class="proto-badge" style="background:#78350f;color:#fde68a">SSH</span>
+        <span class="proto-badge" style="background:#065f46;color:#6ee7b7">VMESS</span>
+        <span class="proto-badge" style="background:#1e3a5f;color:#93c5fd">VLESS</span>
+        <span class="proto-badge" style="background:#7f1d1d;color:#fca5a5">TROJAN</span>
+        <span class="proto-badge" style="background:#4c1d95;color:#c4b5fd">SS</span>
     </div>
 
-    <button
-        class="btn"
-        onclick="buyServer(${server.id})">
-        🚀 Beli Sekarang
-    </button>
+    <hr class="divider">
+
+    <div class="product-bottom">
+        <div class="price-box">
+            <div class="price-label">Mulai dari</div>
+            <div class="price-value">Rp ${harga30Hari.toLocaleString('id-ID')}</div>
+            <div class="price-period">/ 30 hari</div>
+        </div>
+        <button
+            class="btn"
+            ${isFull ? 'disabled style="opacity:0.4;cursor:not-allowed"' : ''}
+            onclick="buyServer(${server.id})">
+            🚀 Beli
+        </button>
+    </div>
 
 </div>
 `;
-
-        }); // ← fix: hapus forEach ganda, cukup satu closing
+        });
 
         document.getElementById('products').innerHTML = html;
 
     } catch (err) {
-
         console.error(err);
-        alert('Server tidak dapat dihubungi');
-
+        document.getElementById('products').innerHTML =
+            '<div class="loading-text" style="color:#f87171">❌ Server tidak dapat dihubungi</div>';
     }
-
 }
 
 function buyServer(id) {
