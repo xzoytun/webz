@@ -3,350 +3,629 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kelola User</title>
-
+<title>Kelola User - Xtrimer Tunnel</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<!-- Phosphor Icons (clean, rounded - mirip style AXIS) -->
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+:root {
+  --purple:    #6B21D6;
+  --purple2:   #8B3FF5;
+  --pink:      #E8007A;
+  --pink2:     #FF3D9A;
+  --orange:    #FF6B2C;
+  --yellow:    #FFD600;
+  --green:     #00C853;
+  --red:       #EF4444;
+  --blue:      #1ABCFE;
+  --white:     #FFFFFF;
+  --text-dark: #1a0033;
+  --text-mid:  #5B3A8C;
+  --bg-light:  #F6F0FF;
+  --border:    #EDE0FF;
 }
 
-body{
-    background:#0b132b;
-    color:white;
-    padding:20px;
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg-light);
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 40px;
+  overflow-x: hidden;
 }
 
-h2{
-    margin-bottom:20px;
-    color:#facc15;
-    font-size:32px;
+.blob1 {
+  position:fixed; top:-80px; left:-60px;
+  width:300px; height:300px;
+  background:radial-gradient(circle,rgba(107,33,214,0.12) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.blob2 {
+  position:fixed; bottom:-60px; right:-60px;
+  width:260px; height:260px;
+  background:radial-gradient(circle,rgba(232,0,122,0.10) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
 }
 
-.card{
-    background:#1f2937;
-    padding:20px;
-    border-radius:15px;
-    margin-bottom:15px;
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(145deg, var(--purple) 0%, var(--purple2) 60%, #A855F7 100%);
+  padding: 22px 20px 32px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.header::before {
+  content:'';
+  position:absolute; top:-40px; right:-30px;
+  width:180px; height:180px;
+  background:rgba(255,255,255,0.07); border-radius:50%;
+}
+.header::after {
+  content:'';
+  position:absolute; bottom:-50px; left:-20px;
+  width:130px; height:130px;
+  background:rgba(255,255,255,0.05); border-radius:50%;
 }
 
-.username{
-    color:#facc15;
-    font-size:20px;
-    font-weight:bold;
-    margin-bottom:10px;
+.header-inner {
+  display:flex; align-items:center; gap:14px;
+  position:relative; z-index:2;
 }
 
-.info{
-    margin-bottom:8px;
-    font-size:15px;
+.back-btn-hdr {
+  width:40px; height:40px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.15);
+  border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; text-decoration:none;
+  flex-shrink:0; transition:background 0.15s;
+}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
+
+.header-title { flex:1; }
+.header-title h1 {
+  font-family:'Fredoka One',cursive;
+  font-size:22px; color:#fff; line-height:1;
+  display:flex; align-items:center; gap:8px;
+}
+.header-title p {
+  font-size:12px; color:rgba(255,255,255,0.7);
+  font-weight:600; margin-top:4px;
 }
 
-.badge-admin{
-    background:#dc2626;
-    color:white;
-    padding:4px 10px;
-    border-radius:8px;
-    font-size:12px;
-    font-weight:bold;
+.header-count {
+  background:rgba(255,255,255,0.2);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px; padding:5px 14px;
+  font-size:11px; font-weight:800; color:#fff;
+  white-space:nowrap;
 }
 
-.badge-user{
-    background:#374151;
-    color:white;
-    padding:4px 10px;
-    border-radius:8px;
-    font-size:12px;
-    font-weight:bold;
+/* ── SEARCH BAR ── */
+.search-wrap {
+  max-width:480px; margin: -18px auto 0;
+  padding: 0 18px;
+  position:relative; z-index:5;
+  margin-bottom: 16px;
 }
 
-.btn{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:10px;
-    font-weight:bold;
-    cursor:pointer;
-    font-size:15px;
+.search-box {
+  width:100%;
+  background:#fff;
+  border-radius:16px;
+  border:1.5px solid var(--border);
+  box-shadow:0 4px 16px rgba(107,33,214,0.12);
+  display:flex; align-items:center; gap:10px;
+  padding:12px 16px;
 }
 
-.balance-btn{
-    background:#facc15;
-    color:black;
+.search-box ph-icon { color:#B0A0C0; flex-shrink:0; }
+
+.search-input {
+  flex:1; border:none; outline:none;
+  font-family:'Nunito',sans-serif;
+  font-size:14px; font-weight:700;
+  color:var(--text-dark);
+  background:transparent;
+}
+.search-input::placeholder { color:#C4B0D8; font-weight:600; }
+
+/* ── CONTAINER ── */
+.container {
+  max-width:480px;
+  margin:0 auto;
+  padding:0 18px;
+  position:relative; z-index:2;
 }
 
-.delete-btn{
-    background:#dc2626;
-    color:white;
+/* ── LOADING ── */
+.loading-state {
+  text-align:center; padding:50px 20px;
+  color:var(--text-mid); font-weight:700; font-size:14px;
+}
+.loading-icon {
+  font-size:40px; display:block; margin-bottom:12px;
+  animation: spin 1.2s linear infinite;
+  display:flex; justify-content:center; margin-bottom:12px;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── USER CARD ── */
+.user-card {
+  background:var(--white);
+  border-radius:20px;
+  margin-bottom:14px;
+  overflow:hidden;
+  border:1.5px solid var(--border);
+  box-shadow:0 4px 14px rgba(107,33,214,0.09);
+  animation: fadeUp 0.35s ease both;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
-.back{
-    background:#374151;
-    color:white;
+/* card header row */
+.user-card-head {
+  padding:16px 18px 12px;
+  display:flex; align-items:center; gap:14px;
+  border-bottom:1.5px dashed var(--border);
 }
+
+.user-avatar {
+  width:46px; height:46px;
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  font-size:20px; color:#fff;
+  overflow:hidden;
+}
+.user-avatar img {
+  width:100%; height:100%; object-fit:cover;
+}
+
+.user-head-info { flex:1; min-width:0; }
+.user-name {
+  font-family:'Fredoka One',cursive;
+  font-size:17px; color:var(--text-dark);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  margin-bottom:3px;
+}
+.user-email {
+  font-size:11px; font-weight:600; color:#B0A0C0;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+.role-badge {
+  padding:4px 12px; border-radius:20px;
+  font-size:10px; font-weight:900;
+  letter-spacing:0.8px; text-transform:uppercase;
+  flex-shrink:0;
+}
+.role-admin { background:linear-gradient(135deg,#EF4444,#F97316); color:#fff; }
+.role-user  { background:#EDE0FF; color:var(--purple); }
+
+/* info grid */
+.user-info-grid {
+  padding:14px 18px;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:10px;
+  border-bottom:1.5px dashed var(--border);
+}
+
+.info-item {}
+.info-lbl {
+  font-size:10px; font-weight:800;
+  color:#B0A0C0; text-transform:uppercase;
+  letter-spacing:0.8px; margin-bottom:2px;
+  display:flex; align-items:center; gap:4px;
+}
+.info-lbl ph-icon { font-size:12px; }
+
+.info-val {
+  font-family:'Fredoka One',cursive;
+  font-size:16px; color:var(--text-dark);
+}
+.info-val.balance-val { color:var(--purple); }
+
+/* actions */
+.user-actions {
+  padding:12px 14px;
+  display:grid; grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+}
+
+.act-btn {
+  padding:10px 6px;
+  border:none; border-radius:14px;
+  font-family:'Nunito',sans-serif;
+  font-weight:800; font-size:11px;
+  cursor:pointer;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:4px; line-height:1.2;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.act-btn ph-icon { font-size:20px; }
+.act-btn:hover  { transform:translateY(-2px); }
+.act-btn:active { transform:translateY(0); }
+
+.btn-add-bal {
+  background:linear-gradient(135deg,#00C853,#00E676);
+  color:#fff;
+  box-shadow:0 3px 10px rgba(0,200,83,0.28);
+}
+.btn-reduce-bal {
+  background:linear-gradient(135deg,var(--orange),var(--yellow));
+  color:#fff;
+  box-shadow:0 3px 10px rgba(255,107,44,0.28);
+}
+.btn-delete-user {
+  background:linear-gradient(135deg,var(--red),#F87171);
+  color:#fff;
+  box-shadow:0 3px 10px rgba(239,68,68,0.25);
+}
+
+/* ── EMPTY ── */
+.empty-state {
+  text-align:center; padding:50px 20px;
+}
+.empty-icon { margin:0 auto 12px; display:flex; justify-content:center; }
+.empty-title {
+  font-family:'Fredoka One',cursive;
+  font-size:20px; color:var(--text-dark); margin-bottom:6px;
+}
+.empty-sub { font-size:13px; color:var(--text-mid); font-weight:600; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position:fixed; inset:0;
+  background:rgba(26,0,51,0.55);
+  backdrop-filter:blur(6px);
+  z-index:100;
+  display:flex; align-items:flex-end; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.25s;
+}
+.modal-overlay.open { opacity:1; pointer-events:all; }
+
+.modal {
+  background:var(--white);
+  border-radius:28px 28px 0 0;
+  width:100%; max-width:480px;
+  padding:28px 24px 40px;
+  transform:translateY(100%);
+  transition:transform 0.3s cubic-bezier(0.34,1.2,0.64,1);
+}
+.modal-overlay.open .modal { transform:translateY(0); }
+
+.modal-handle {
+  width:40px; height:4px; background:#DDD;
+  border-radius:4px; margin:0 auto 20px;
+}
+
+.modal-title {
+  font-family:'Fredoka One',cursive;
+  font-size:20px; color:var(--text-dark);
+  margin-bottom:6px;
+}
+.modal-sub {
+  font-size:13px; font-weight:600; color:var(--text-mid);
+  margin-bottom:20px;
+}
+
+.field-label {
+  font-size:12px; font-weight:800;
+  color:var(--text-mid); text-transform:uppercase;
+  letter-spacing:0.8px; margin-bottom:6px; display:block;
+}
+.field-input {
+  width:100%; padding:14px 16px;
+  border:2px solid var(--border); border-radius:14px;
+  font-family:'Nunito',sans-serif;
+  font-size:15px; font-weight:700;
+  color:var(--text-dark); background:#FBF8FF;
+  outline:none; margin-bottom:18px;
+  transition:border-color 0.15s;
+}
+.field-input:focus { border-color:var(--purple2); background:#fff; }
+
+.modal-actions {
+  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+}
+.modal-cancel {
+  padding:14px; border:2px solid var(--border); border-radius:14px;
+  background:#fff; color:var(--text-mid);
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:14px;
+  cursor:pointer;
+}
+.modal-submit {
+  padding:14px; border:none; border-radius:14px;
+  font-family:'Nunito',sans-serif; font-weight:900; font-size:14px;
+  color:#fff; cursor:pointer;
+  transition:transform 0.15s;
+}
+.modal-submit:hover { transform:translateY(-2px); }
+.submit-green  { background:linear-gradient(135deg,#00C853,#00E676); box-shadow:0 4px 14px rgba(0,200,83,0.3); }
+.submit-orange { background:linear-gradient(135deg,var(--orange),var(--yellow)); box-shadow:0 4px 14px rgba(255,107,44,0.3); }
+
+/* ── TOAST ── */
+.toast {
+  position:fixed; top:20px; left:50%;
+  transform:translateX(-50%) translateY(-80px);
+  z-index:999; padding:12px 22px;
+  border-radius:16px; font-weight:700; font-size:13px;
+  display:flex; align-items:center; gap:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  transition:transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s;
+  opacity:0; white-space:nowrap; color:#fff;
+  background:var(--text-dark);
+}
+.toast.show   { transform:translateX(-50%) translateY(0); opacity:1; }
+.toast.success{ background:linear-gradient(135deg,#00C853,#00E676); }
+.toast.error  { background:linear-gradient(135deg,#EF4444,#F87171); }
+.toast.warn   { background:linear-gradient(135deg,var(--orange),var(--yellow)); color:var(--text-dark); }
 
 </style>
 </head>
 <body>
 
-<h2>👥 Kelola User</h2>
+<div class="blob1"></div>
+<div class="blob2"></div>
 
-<div id="users"></div>
+<!-- Header -->
+<div class="header">
+  <div class="header-inner">
+    <a class="back-btn-hdr" href="admin.html">
+      <ph-icon name="arrow-left" weight="bold" size="20"></ph-icon>
+    </a>
+    <div class="header-title">
+      <h1>
+        <ph-icon name="users-three" weight="fill" size="24"></ph-icon>
+        Kelola User
+      </h1>
+      <p id="userCountLabel">Memuat data...</p>
+    </div>
+    <div class="header-count" id="userCountBadge">—</div>
+  </div>
+</div>
 
-<button
-class="btn back"
-onclick="location.href='admin.html'">
-🏠 Kembali
-</button>
+<!-- Search -->
+<div class="search-wrap">
+  <div class="search-box">
+    <ph-icon name="magnifying-glass" weight="bold" size="18"></ph-icon>
+    <input class="search-input" id="searchInput" type="text"
+      placeholder="Cari nama atau email..."
+      oninput="filterUsers()">
+  </div>
+</div>
+
+<div class="container">
+  <div id="users">
+    <div class="loading-state">
+      <div class="loading-icon">
+        <ph-icon name="spinner-gap" weight="bold" size="40" style="animation:spin 1s linear infinite;display:block;"></ph-icon>
+      </div>
+      Memuat data user...
+    </div>
+  </div>
+</div>
+
+<!-- Modal Saldo -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalTitle">Tambah Saldo</div>
+    <div class="modal-sub" id="modalSub">Masukkan nominal saldo</div>
+    <label class="field-label">Nominal (Rp)</label>
+    <input class="field-input" id="fAmount" type="number" placeholder="Contoh: 50000" min="1">
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">Batal</button>
+      <button class="modal-submit" id="modalSubmit" onclick="submitBalance()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
 
-const localUser =
-JSON.parse(
-localStorage.getItem('user')
-);
-
-if(!localUser){
-
-    location.href = 'index.html';
-
+const localUser = JSON.parse(localStorage.getItem('user'));
+if (!localUser) location.href = 'index.html';
+if (localUser.is_admin != 1) {
+  showToast('Akses ditolak', 'error');
+  setTimeout(() => location.href = 'dashboard.html', 1200);
 }
 
-// CEK ADMIN
-if(localUser.is_admin != 1){
-
-    alert('Akses ditolak');
-
-    location.href = 'dashboard.html';
-
-}
+let allUsers = [];
+let modalMode = ''; // 'add' | 'reduce'
+let modalUserId = null;
 
 loadUsers();
 
-async function loadUsers(){
+async function loadUsers() {
+  try {
+    const res  = await fetch('/api/admin/users?email=' + encodeURIComponent(localUser.email));
+    const data = await res.json();
 
-    try{
+    if (!data.success) { showToast('Gagal memuat user', 'error'); return; }
 
-        const localUser =
-JSON.parse(
-localStorage.getItem('user')
-);
+    allUsers = data.users || [];
+    document.getElementById('userCountLabel').innerText = allUsers.length + ' user terdaftar';
+    document.getElementById('userCountBadge').innerText = allUsers.length + ' User';
+    renderUsers(allUsers);
 
-const res =
-await fetch(
-'/api/admin/users?email='
-+ encodeURIComponent(localUser.email)
-);
-
-        const data =
-        await res.json();
-
-        if(!data.success){
-
-            alert('Gagal load users');
-            return;
-
-        }
-
-        let html = '';
-
-        data.users.forEach(user => {
-
-            html += `
-            <div class="card">
-
-                <div class="username">
-                    👤 ${user.username || '-'}
-                </div>
-
-                <div class="info">
-                    📧 ${user.email}
-                </div>
-
-                <div class="info">
-                    💰 Saldo:
-                    Rp ${Number(user.balance || 0)
-                    .toLocaleString('id-ID')}
-                </div>
-
-                <div class="info">
-                    🛡 Role:
-                    ${
-                        user.is_admin == 1
-                        ? '<span class="badge-admin">ADMIN</span>'
-                        : '<span class="badge-user">USER</span>'
-                    }
-                </div>
-
-                <div class="info">
-                    📅 ${user.created_at || '-'}
-                </div>
-
-                <button
-                class="btn balance-btn"
-                onclick="addBalance(${user.id})">
-
-                💵 Tambah Saldo
-
-                </button>
-                
-                <button
-class="btn delete-btn"
-onclick="reduceBalance(${user.id})">
-
-💸 Kurangi Saldo
-
-</button>
-
-                <button
-                class="btn delete-btn"
-                onclick="deleteUser(${user.id})">
-
-                🗑 Hapus User
-
-                </button>
-
-            </div>
-            `;
-
-        });
-
-        document.getElementById('users')
-        .innerHTML = html;
-
-    }catch(err){
-
-        console.error(err);
-
-        alert('Server error');
-
-    }
-
+  } catch(err) {
+    console.error(err);
+    showToast('Server error', 'error');
+  }
 }
 
-async function addBalance(userId){
-
-    const amount =
-    prompt('Masukkan nominal saldo');
-
-    if(!amount) return;
-
-    try{
-
-        const res =
-        await fetch(
-            '/api/admin/add-balance',
-            {
-                method:'POST',
-                headers:{
-                    'Content-Type':
-                    'application/json'
-                },
-                body:JSON.stringify({
-                    user_id:userId,
-                    amount:Number(amount)
-                })
-            }
-        );
-
-        const data =
-        await res.json();
-
-        alert(data.message);
-
-        loadUsers();
-
-    }catch(err){
-
-        console.error(err);
-
-    }
-
+function filterUsers() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = allUsers.filter(u =>
+    (u.username||'').toLowerCase().includes(q) ||
+    (u.email||'').toLowerCase().includes(q)
+  );
+  renderUsers(filtered);
 }
-async function reduceBalance(userId){
 
-    const amount =
-    prompt('Masukkan nominal pengurangan');
+function renderUsers(users) {
+  if (!users.length) {
+    document.getElementById('users').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">
+          <ph-icon name="users-three" weight="duotone" size="56" style="color:#C4B0D8;"></ph-icon>
+        </div>
+        <div class="empty-title">Tidak Ada User</div>
+        <div class="empty-sub">Belum ada user yang terdaftar</div>
+      </div>`;
+    return;
+  }
 
-    if(!amount) return;
+  let html = '';
+  users.forEach((u, i) => {
+    const isAdmin = u.is_admin == 1;
+    const avatarContent = u.avatar
+      ? `<img src="${u.avatar}" alt="">`
+      : `<ph-icon name="user" weight="fill" size="22"></ph-icon>`;
 
-    try{
+    html += `
+    <div class="user-card" style="animation-delay:${i * 0.055}s">
+      <div class="user-card-head">
+        <div class="user-avatar">${avatarContent}</div>
+        <div class="user-head-info">
+          <div class="user-name">${u.username || '—'}</div>
+          <div class="user-email">${u.email}</div>
+        </div>
+        <span class="role-badge ${isAdmin ? 'role-admin' : 'role-user'}">
+          ${isAdmin ? 'Admin' : 'User'}
+        </span>
+      </div>
 
-        const res =
-        await fetch(
-            '/api/admin/reduce-balance',
-            {
-                method:'POST',
-                headers:{
-                    'Content-Type':
-                    'application/json'
-                },
-                body:JSON.stringify({
-                    user_id:userId,
-                    amount:Number(amount),
-                    email:localUser.email
-                })
-            }
-        );
+      <div class="user-info-grid">
+        <div class="info-item">
+          <div class="info-lbl">
+            <ph-icon name="wallet" weight="fill" size="12"></ph-icon> Saldo
+          </div>
+          <div class="info-val balance-val">Rp ${Number(u.balance||0).toLocaleString('id-ID')}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-lbl">
+            <ph-icon name="calendar-blank" weight="fill" size="12"></ph-icon> Bergabung
+          </div>
+          <div class="info-val" style="font-size:13px;font-family:'Nunito',sans-serif;font-weight:700;">
+            ${u.created_at ? u.created_at.split('T')[0] : '—'}
+          </div>
+        </div>
+      </div>
 
-        const data =
-        await res.json();
+      <div class="user-actions">
+        <button class="act-btn btn-add-bal" onclick="openBalanceModal(${u.id}, 'add', '${(u.username||'User').replace(/'/g,"\\'")}')">
+          <ph-icon name="plus-circle" weight="fill" size="20"></ph-icon>
+          Tambah Saldo
+        </button>
+        <button class="act-btn btn-reduce-bal" onclick="openBalanceModal(${u.id}, 'reduce', '${(u.username||'User').replace(/'/g,"\\'")}')">
+          <ph-icon name="minus-circle" weight="fill" size="20"></ph-icon>
+          Kurangi Saldo
+        </button>
+        <button class="act-btn btn-delete-user" onclick="deleteUser(${u.id}, '${(u.username||'User').replace(/'/g,"\\'")}')">
+          <ph-icon name="trash" weight="fill" size="20"></ph-icon>
+          Hapus User
+        </button>
+      </div>
+    </div>`;
+  });
 
-        alert(data.message);
-
-        loadUsers();
-
-    }catch(err){
-
-        console.error(err);
-
-    }
-
+  document.getElementById('users').innerHTML = html;
 }
-async function deleteUser(id){
 
-    if(
-        !confirm(
-            'Yakin ingin hapus user?'
-        )
-    ){
-        return;
-    }
+/* ── Modal ── */
+function openBalanceModal(userId, mode, name) {
+  modalUserId = userId;
+  modalMode   = mode;
+  document.getElementById('fAmount').value = '';
 
-    try{
+  if (mode === 'add') {
+    document.getElementById('modalTitle').innerHTML =
+      '<ph-icon name="plus-circle" weight="fill" size="22" style="color:#00C853;vertical-align:middle;margin-right:6px;"></ph-icon>Tambah Saldo';
+    document.getElementById('modalSub').innerText  = 'Tambah saldo untuk ' + name;
+    document.getElementById('modalSubmit').className = 'modal-submit submit-green';
+    document.getElementById('modalSubmit').innerText  = 'Tambah ✓';
+  } else {
+    document.getElementById('modalTitle').innerHTML =
+      '<ph-icon name="minus-circle" weight="fill" size="22" style="color:#FF6B2C;vertical-align:middle;margin-right:6px;"></ph-icon>Kurangi Saldo';
+    document.getElementById('modalSub').innerText  = 'Kurangi saldo dari ' + name;
+    document.getElementById('modalSubmit').className = 'modal-submit submit-orange';
+    document.getElementById('modalSubmit').innerText  = 'Kurangi ✓';
+  }
 
-        const res =
-        await fetch(
-            '/api/admin/delete-user/' + id,
-            {
-                method:'DELETE'
-            }
-        );
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('fAmount').focus(), 350);
+}
 
-        const data =
-        await res.json();
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
 
-        alert(data.message);
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
 
-        if(data.success){
+async function submitBalance() {
+  const amount = Number(document.getElementById('fAmount').value);
+  if (!amount || amount <= 0) { showToast('Masukkan nominal yang valid', 'warn'); return; }
 
-            loadUsers();
+  const endpoint = modalMode === 'add'
+    ? '/api/admin/add-balance'
+    : '/api/admin/reduce-balance';
 
-        }
+  try {
+    const res  = await fetch(endpoint, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ user_id: modalUserId, amount, email: localUser.email })
+    });
+    const data = await res.json();
+    showToast((data.success ? '✓ ' : '✗ ') + (data.message || 'Selesai'),
+      data.success ? 'success' : 'error');
+    closeModal();
+    loadUsers();
+  } catch(err) {
+    console.error(err);
+    showToast('Server error', 'error');
+  }
+}
 
-    }catch(err){
+/* ── Delete ── */
+async function deleteUser(id, name) {
+  if (!confirm(`Hapus user "${name}"? Tindakan ini tidak bisa dibatalkan.`)) return;
+  try {
+    const res  = await fetch('/api/admin/delete-user/' + id, { method:'DELETE' });
+    const data = await res.json();
+    showToast((data.success ? '✓ ' : '✗ ') + (data.message || 'Selesai'),
+      data.success ? 'success' : 'error');
+    if (data.success) loadUsers();
+  } catch(err) {
+    console.error(err);
+    showToast('Server error', 'error');
+  }
+}
 
-        console.error(err);
-
-    }
-
+/* ── Toast ── */
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.className = 'toast ' + type, 2600);
 }
 
 </script>
-
 </body>
 </html>
