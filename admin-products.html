@@ -3,285 +3,621 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kelola Produk</title>
-
+<title>Kelola Produk - Xtrimer Tunnel</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+:root {
+  --purple:    #6B21D6;
+  --purple2:   #8B3FF5;
+  --pink:      #E8007A;
+  --pink2:     #FF3D9A;
+  --orange:    #FF6B2C;
+  --yellow:    #FFD600;
+  --green:     #00C853;
+  --red:       #EF4444;
+  --blue:      #1ABCFE;
+  --white:     #FFFFFF;
+  --text-dark: #1a0033;
+  --text-mid:  #5B3A8C;
+  --bg-light:  #F6F0FF;
+  --border:    #EDE0FF;
 }
 
-body{
-    background:#0b132b;
-    color:white;
-    padding:20px;
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg-light);
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 40px;
+  position: relative;
+  overflow-x: hidden;
 }
 
-h2{
-    color:#facc15;
-    margin-bottom:20px;
+/* blobs */
+.blob1 {
+  position: fixed; top:-80px; left:-60px;
+  width:300px; height:300px;
+  background: radial-gradient(circle,rgba(107,33,214,0.12) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.blob2 {
+  position: fixed; bottom:-60px; right:-60px;
+  width:260px; height:260px;
+  background: radial-gradient(circle,rgba(232,0,122,0.10) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
 }
 
-.card{
-    background:#1f2937;
-    padding:15px;
-    border-radius:15px;
-    margin-bottom:15px;
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(145deg, var(--purple) 0%, var(--purple2) 60%, #A855F7 100%);
+  padding: 20px 20px 28px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.header::before {
+  content:'';
+  position:absolute; top:-40px; right:-30px;
+  width:160px; height:160px;
+  background:rgba(255,255,255,0.07); border-radius:50%;
+}
+.header::after {
+  content:'';
+  position:absolute; bottom:-50px; left:-20px;
+  width:120px; height:120px;
+  background:rgba(255,255,255,0.05); border-radius:50%;
 }
 
-.card h3{
-    color:#facc15;
-    margin-bottom:10px;
+.header-inner {
+  display: flex; align-items: center; gap: 14px;
+  position: relative; z-index:2;
 }
 
-.btn{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
+.back-btn {
+  width:40px; height:40px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.15);
+  border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:#fff; text-decoration:none;
+  transition: background 0.15s;
+  flex-shrink:0;
+}
+.back-btn:hover { background:rgba(255,255,255,0.25); }
+
+.header-title {
+  flex:1;
+}
+.header-title h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size:22px; color:#fff; line-height:1;
+}
+.header-title p {
+  font-size:12px; color:rgba(255,255,255,0.7);
+  font-weight:600; margin-top:3px;
 }
 
-.toggle{
-    background:#facc15;
-    color:black;
+.header-badge {
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:20px; padding:4px 14px;
+  font-size:11px; font-weight:800; color:#fff;
+  letter-spacing:0.5px;
 }
 
-.delete{
-    background:#dc2626;
-    color:white;
+/* ── CONTAINER ── */
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 18px;
+  position: relative; z-index:2;
 }
 
-.add{
-    background:#16a34a;
-    color:white;
-    margin-bottom:20px;
+/* ── ADD BUTTON ── */
+.add-btn {
+  width:100%;
+  margin-top:-18px;
+  margin-bottom:20px;
+  padding:16px;
+  background: linear-gradient(135deg, var(--green), #00E676);
+  border:none; border-radius:18px;
+  color:#fff; font-family:'Nunito',sans-serif;
+  font-weight:900; font-size:15px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  box-shadow:0 6px 20px rgba(0,200,83,0.35);
+  position:relative; z-index:3;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.add-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,200,83,0.45); }
+.add-btn:active { transform:translateY(0); }
+
+/* ── LOADING ── */
+.loading-state {
+  text-align:center;
+  padding:40px 20px;
+  color:var(--text-mid);
+  font-weight:700;
+  font-size:14px;
+}
+.loading-spinner {
+  font-size:36px;
+  display:block;
+  margin-bottom:12px;
+  animation: spin 1.2s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── PRODUCT CARD ── */
+.product-card {
+  background: var(--white);
+  border-radius:20px;
+  margin-bottom:14px;
+  overflow:hidden;
+  box-shadow:0 4px 16px rgba(107,33,214,0.10);
+  border:1.5px solid var(--border);
+  animation: fadeUp 0.35s ease both;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
-.back{
-    background:#374151;
-    color:white;
+.card-top {
+  padding:18px 18px 14px;
+  border-bottom:1.5px dashed var(--border);
+  display:flex; align-items:flex-start; gap:14px;
 }
 
-input{
-    width:100%;
-    padding:12px;
-    margin-bottom:10px;
-    border:none;
-    border-radius:10px;
+.card-icon-wrap {
+  width:48px; height:48px;
+  border-radius:16px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px;
+  flex-shrink:0;
 }
+.ic-ssh     { background:linear-gradient(135deg,#6B21D6,#A855F7); }
+.ic-vmess   { background:linear-gradient(135deg,#1ABCFE,#0098DB); }
+.ic-vless   { background:linear-gradient(135deg,#E8007A,#FF3D9A); }
+.ic-trojan  { background:linear-gradient(135deg,#FF6B2C,#FFD600); }
+.ic-default { background:linear-gradient(135deg,#6B21D6,#8B3FF5); }
+
+.card-title-wrap { flex:1; min-width:0; }
+
+.card-name {
+  font-family:'Fredoka One',cursive;
+  font-size:17px; color:var(--text-dark);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  margin-bottom:4px;
+}
+
+.cat-badge {
+  display:inline-block;
+  padding:2px 10px;
+  border-radius:20px;
+  font-size:10px; font-weight:800;
+  letter-spacing:0.8px; text-transform:uppercase;
+}
+.cat-SSH    { background:#EDE0FF; color:var(--purple); }
+.cat-VMESS  { background:#E0F7FF; color:#0077AA; }
+.cat-VLESS  { background:#FFE0F0; color:var(--pink); }
+.cat-TROJAN { background:#FFF0E0; color:var(--orange); }
+.cat-default{ background:#EDE0FF; color:var(--purple); }
+
+.status-pill {
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:10px; font-weight:800;
+  flex-shrink:0;
+}
+.status-active   { background:#E0FFF0; color:#00A040; }
+.status-inactive { background:#FFE0E0; color:#CC2222; }
+
+/* ── Info rows ── */
+.card-info {
+  padding:14px 18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.info-item {}
+.info-label {
+  font-size:10px; font-weight:700;
+  color:#B0A0C0; text-transform:uppercase;
+  letter-spacing:0.8px; margin-bottom:2px;
+}
+.info-val {
+  font-family:'Fredoka One',cursive;
+  font-size:16px; color:var(--text-dark);
+}
+.info-val.price { color:var(--purple); }
+
+/* ── Card actions ── */
+.card-actions {
+  padding:0 14px 14px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.action-btn {
+  padding:11px 10px;
+  border:none; border-radius:14px;
+  font-family:'Nunito',sans-serif;
+  font-weight:800; font-size:13px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  transition: transform 0.15s, opacity 0.15s;
+}
+.action-btn:hover  { opacity:0.88; transform:translateY(-1px); }
+.action-btn:active { transform:translateY(0); }
+
+.btn-toggle-on  { background:linear-gradient(135deg,#FFD600,#FF6B2C); color:#fff; box-shadow:0 4px 12px rgba(255,107,44,0.3); }
+.btn-toggle-off { background:linear-gradient(135deg,#00C853,#00E676); color:#fff; box-shadow:0 4px 12px rgba(0,200,83,0.3); }
+.btn-delete { background:linear-gradient(135deg,#EF4444,#F87171); color:#fff; box-shadow:0 4px 12px rgba(239,68,68,0.25); }
+
+/* ── Empty state ── */
+.empty-state {
+  text-align:center; padding:50px 20px;
+}
+.empty-icon { font-size:52px; margin-bottom:12px; display:block; }
+.empty-title {
+  font-family:'Fredoka One',cursive;
+  font-size:20px; color:var(--text-dark); margin-bottom:6px;
+}
+.empty-sub { font-size:13px; color:var(--text-mid); font-weight:600; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position:fixed; inset:0;
+  background:rgba(26,0,51,0.55);
+  backdrop-filter:blur(6px);
+  z-index:100;
+  display:flex; align-items:flex-end; justify-content:center;
+  padding:0;
+  opacity:0; pointer-events:none;
+  transition: opacity 0.25s;
+}
+.modal-overlay.open {
+  opacity:1; pointer-events:all;
+}
+
+.modal {
+  background:var(--white);
+  border-radius:28px 28px 0 0;
+  width:100%; max-width:480px;
+  padding:28px 24px 36px;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1);
+  max-height:90vh; overflow-y:auto;
+}
+.modal-overlay.open .modal {
+  transform: translateY(0);
+}
+
+.modal-handle {
+  width:40px; height:4px;
+  background:#DDD;
+  border-radius:4px;
+  margin:0 auto 20px;
+}
+
+.modal-title {
+  font-family:'Fredoka One',cursive;
+  font-size:22px; color:var(--text-dark);
+  margin-bottom:20px;
+  display:flex; align-items:center; gap:8px;
+}
+
+.field-label {
+  font-size:12px; font-weight:800;
+  color:var(--text-mid);
+  text-transform:uppercase; letter-spacing:0.8px;
+  margin-bottom:6px; display:block;
+}
+
+.field-input {
+  width:100%; padding:14px 16px;
+  border:2px solid var(--border);
+  border-radius:14px;
+  font-family:'Nunito',sans-serif;
+  font-size:14px; font-weight:700;
+  color:var(--text-dark);
+  background:#FBF8FF;
+  outline:none; margin-bottom:14px;
+  transition: border-color 0.15s;
+}
+.field-input:focus { border-color:var(--purple2); background:#fff; }
+
+.field-select {
+  width:100%; padding:14px 16px;
+  border:2px solid var(--border);
+  border-radius:14px;
+  font-family:'Nunito',sans-serif;
+  font-size:14px; font-weight:700;
+  color:var(--text-dark);
+  background:#FBF8FF;
+  outline:none; margin-bottom:14px;
+  appearance:none;
+  transition: border-color 0.15s;
+}
+.field-select:focus { border-color:var(--purple2); background:#fff; }
+
+.modal-actions {
+  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  margin-top:4px;
+}
+
+.modal-cancel {
+  padding:14px;
+  border:2px solid var(--border); border-radius:14px;
+  background:#fff; color:var(--text-mid);
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:14px;
+  cursor:pointer; transition:background 0.15s;
+}
+.modal-cancel:hover { background:var(--bg-light); }
+
+.modal-submit {
+  padding:14px;
+  border:none; border-radius:14px;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  color:#fff;
+  font-family:'Nunito',sans-serif; font-weight:900; font-size:14px;
+  cursor:pointer;
+  box-shadow:0 4px 14px rgba(107,33,214,0.35);
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.modal-submit:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(107,33,214,0.45); }
+
+/* ── Toast ── */
+.toast {
+  position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-80px);
+  z-index:999;
+  background:var(--text-dark); color:#fff;
+  padding:12px 22px; border-radius:16px;
+  font-weight:700; font-size:13px;
+  display:flex; align-items:center; gap:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s;
+  opacity:0; white-space:nowrap;
+}
+.toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+.toast.success { background:linear-gradient(135deg,#00C853,#00E676); }
+.toast.error   { background:linear-gradient(135deg,#EF4444,#F87171); }
 
 </style>
 </head>
 <body>
 
-<h2>📦 Kelola Produk</h2>
+<div class="blob1"></div>
+<div class="blob2"></div>
 
-<button
-class="btn add"
-onclick="addProduct()">
-➕ Tambah Produk
-</button>
+<!-- Header -->
+<div class="header">
+  <div class="header-inner">
+    <a class="back-btn" href="admin.html">←</a>
+    <div class="header-title">
+      <h1>📦 Kelola Produk</h1>
+      <p id="productCount">Memuat data...</p>
+    </div>
+    <div class="header-badge" id="totalBadge">—</div>
+  </div>
+</div>
 
-<div id="products"></div>
+<div class="container">
 
-<button
-class="btn back"
-onclick="location.href='admin.html'">
-⬅ Kembali
-</button>
+  <!-- Add button -->
+  <button class="add-btn" onclick="openAddModal()">
+    ➕ Tambah Produk Baru
+  </button>
+
+  <!-- Product list -->
+  <div id="products">
+    <div class="loading-state">
+      <span class="loading-spinner">⚙️</span>
+      Memuat produk...
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal Tambah Produk -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">✨ Tambah Produk</div>
+
+    <label class="field-label">Nama Produk</label>
+    <input class="field-input" id="fName" type="text" placeholder="Contoh: SSH 30 Hari Premium">
+
+    <label class="field-label">Kategori</label>
+    <select class="field-select" id="fCategory">
+      <option value="SSH">SSH</option>
+      <option value="VMESS">VMESS</option>
+      <option value="VLESS">VLESS</option>
+      <option value="TROJAN">TROJAN</option>
+    </select>
+
+    <label class="field-label">Durasi (hari)</label>
+    <input class="field-input" id="fDuration" type="number" placeholder="Contoh: 30" min="1">
+
+    <label class="field-label">Harga (Rp)</label>
+    <input class="field-input" id="fPrice" type="number" placeholder="Contoh: 25000" min="0">
+
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">Batal</button>
+      <button class="modal-submit" onclick="submitProduct()">Simpan ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
 <script>
 
 loadProducts();
 
-async function loadProducts(){
+/* ── Helpers ── */
+function catIcon(cat) {
+  const map = { SSH:'🔐', VMESS:'🌐', VLESS:'🚀', TROJAN:'🛡' };
+  return map[cat] || '📦';
+}
+function catClass(cat) {
+  return ['SSH','VMESS','VLESS','TROJAN'].includes(cat) ? 'ic-'+cat.toLowerCase() : 'ic-default';
+}
+function badgeClass(cat) {
+  return ['SSH','VMESS','VLESS','TROJAN'].includes(cat) ? 'cat-'+cat : 'cat-default';
+}
 
-    const res =
-    await fetch('/api/admin/products');
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.className = 'toast ' + type, 2600);
+}
 
-    const data =
-    await res.json();
+/* ── Load ── */
+async function loadProducts() {
+  const container = document.getElementById('products');
+  container.innerHTML = `
+    <div class="loading-state">
+      <span class="loading-spinner">⚙️</span>
+      Memuat produk...
+    </div>`;
 
-    let html = '';
+  const res  = await fetch('/api/admin/products');
+  const data = await res.json();
+  const products = data.products || [];
 
-    data.products.forEach(product => {
+  document.getElementById('productCount').innerText =
+    products.length + ' produk terdaftar';
+  document.getElementById('totalBadge').innerText =
+    products.length + ' Produk';
 
-        html += `
-        <div class="card">
+  if (!products.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <span class="empty-icon">📭</span>
+        <div class="empty-title">Belum Ada Produk</div>
+        <div class="empty-sub">Tambah produk pertamamu sekarang!</div>
+      </div>`;
+    return;
+  }
 
-            <h3>${product.name}</h3>
-
-            <p>
-            Kategori :
-            ${product.category}
-            </p>
-
-            <p>
-            Durasi :
-            ${product.duration} Hari
-            </p>
-
-            <p>
-            Harga :
-            Rp ${Number(product.price).toLocaleString('id-ID')}
-            </p>
-
-            <p>
-            Status :
-            ${product.active ? 'Aktif' : 'Nonaktif'}
-            </p>
-
-            <button
-            class="btn toggle"
-            onclick="toggleProduct(
-            ${product.id},
-            ${product.active ? 0 : 1}
-            )">
-
-            ${product.active
-            ? 'Nonaktifkan'
-            : 'Aktifkan'}
-
-            </button>
-
-            <button
-            class="btn delete"
-            onclick="deleteProduct(
-            ${product.id}
-            )">
-
-            Hapus Produk
-
-            </button>
-
+  let html = '';
+  products.forEach((p, i) => {
+    const isActive = Boolean(p.active);
+    html += `
+    <div class="product-card" style="animation-delay:${i * 0.06}s">
+      <div class="card-top">
+        <div class="menu-icon-wrap ${catClass(p.category)} card-icon-wrap">
+          ${catIcon(p.category)}
         </div>
-        `;
+        <div class="card-title-wrap">
+          <div class="card-name">${p.name}</div>
+          <span class="cat-badge ${badgeClass(p.category)}">${p.category}</span>
+        </div>
+        <span class="status-pill ${isActive ? 'status-active' : 'status-inactive'}">
+          ${isActive ? '● Aktif' : '○ Nonaktif'}
+        </span>
+      </div>
 
-    });
+      <div class="card-info">
+        <div class="info-item">
+          <div class="info-label">⏱ Durasi</div>
+          <div class="info-val">${p.duration} Hari</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">💰 Harga</div>
+          <div class="info-val price">Rp ${Number(p.price).toLocaleString('id-ID')}</div>
+        </div>
+      </div>
 
-    document.getElementById('products').innerHTML =
-    html;
+      <div class="card-actions">
+        <button
+          class="action-btn ${isActive ? 'btn-toggle-on' : 'btn-toggle-off'}"
+          onclick="toggleProduct(${p.id}, ${isActive ? 0 : 1})">
+          ${isActive ? '⏸ Nonaktifkan' : '▶ Aktifkan'}
+        </button>
+        <button
+          class="action-btn btn-delete"
+          onclick="deleteProduct(${p.id}, '${p.name.replace(/'/g,"\\'")}')">
+          🗑 Hapus
+        </button>
+      </div>
+    </div>`;
+  });
 
+  container.innerHTML = html;
 }
 
-async function toggleProduct(
-    id,
-    active
-){
-
-    await fetch(
-        '/api/admin/toggle-product',
-        {
-            method:'POST',
-            headers:{
-                'Content-Type':
-                'application/json'
-            },
-            body:JSON.stringify({
-                id,
-                active
-            })
-        }
-    );
-
-    loadProducts();
-
+/* ── Toggle ── */
+async function toggleProduct(id, active) {
+  await fetch('/api/admin/toggle-product', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ id, active })
+  });
+  showToast(active ? '✅ Produk diaktifkan' : '⏸ Produk dinonaktifkan');
+  loadProducts();
 }
 
-async function deleteProduct(id){
-
-    if(
-        !confirm(
-            'Hapus produk ini?'
-        )
-    ){
-        return;
-    }
-
-    await fetch(
-        '/api/admin/delete-product',
-        {
-            method:'POST',
-            headers:{
-                'Content-Type':
-                'application/json'
-            },
-            body:JSON.stringify({
-                id
-            })
-        }
-    );
-
-    loadProducts();
-
+/* ── Delete ── */
+async function deleteProduct(id, name) {
+  if (!confirm(`Hapus produk "${name}"?`)) return;
+  await fetch('/api/admin/delete-product', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ id })
+  });
+  showToast('🗑 Produk dihapus', 'error');
+  loadProducts();
 }
 
-async function addProduct(){
+/* ── Modal ── */
+function openAddModal() {
+  document.getElementById('fName').value = '';
+  document.getElementById('fDuration').value = '';
+  document.getElementById('fPrice').value = '';
+  document.getElementById('fCategory').value = 'SSH';
+  document.getElementById('modalOverlay').classList.add('open');
+}
 
-    const name =
-    prompt(
-        'Nama Produk'
-    );
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
 
-    if(!name) return;
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
 
-    const category =
-    prompt(
-        'Kategori (SSH/VMESS/VLESS/TROJAN)'
-    );
+async function submitProduct() {
+  const name     = document.getElementById('fName').value.trim();
+  const category = document.getElementById('fCategory').value;
+  const duration = document.getElementById('fDuration').value;
+  const price    = document.getElementById('fPrice').value;
 
-    if(!category) return;
+  if (!name || !duration || !price) {
+    showToast('⚠️ Lengkapi semua field!', 'error');
+    return;
+  }
 
-    const duration =
-    prompt(
-        'Durasi (hari)'
-    );
-
-    if(!duration) return;
-
-    const price =
-    prompt(
-        'Harga'
-    );
-
-    if(!price) return;
-
-    const res =
-    await fetch(
-        '/api/admin/add-product',
-        {
-            method:'POST',
-            headers:{
-                'Content-Type':
-                'application/json'
-            },
-            body:JSON.stringify({
-                name,
-                category,
-                duration,
-                price
-            })
-        }
-    );
-
-    const data =
-    await res.json();
-
-    alert(
-        data.message
-    );
-
-    loadProducts();
-
+  const res  = await fetch('/api/admin/add-product', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ name, category, duration, price })
+  });
+  const data = await res.json();
+  showToast('✅ ' + (data.message || 'Produk ditambahkan'));
+  closeModal();
+  loadProducts();
 }
 
 </script>
-
 </body>
-  </html>
+</html>
