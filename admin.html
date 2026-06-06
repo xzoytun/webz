@@ -4,234 +4,431 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Panel - Xtrimer Tunnel</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+:root {
+  --purple:    #6B21D6;
+  --purple2:   #8B3FF5;
+  --pink:      #E8007A;
+  --pink2:     #FF3D9A;
+  --orange:    #FF6B2C;
+  --yellow:    #FFD600;
+  --green:     #00C853;
+  --red:       #EF4444;
+  --blue:      #1ABCFE;
+  --white:     #FFFFFF;
+  --text-dark: #1a0033;
+  --text-mid:  #5B3A8C;
+  --bg-light:  #F6F0FF;
+  --border:    #EDE0FF;
 }
 
-body{
-    background:#0b132b;
-    color:white;
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg-light);
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 40px;
+  overflow-x: hidden;
 }
 
-.header{
-    background:#1c2541;
-    padding:20px;
-    text-align:center;
-    border-bottom:2px solid #facc15;
+/* blobs */
+.blob1 {
+  position:fixed; top:-80px; left:-60px;
+  width:300px; height:300px;
+  background:radial-gradient(circle,rgba(107,33,214,0.12) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.blob2 {
+  position:fixed; bottom:-60px; right:-60px;
+  width:260px; height:260px;
+  background:radial-gradient(circle,rgba(239,68,68,0.10) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
 }
 
-.logo{
-    color:#facc15;
-    font-size:30px;
-    font-weight:bold;
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(145deg, #7f1d1d 0%, #991b1b 45%, #EF4444 100%);
+  padding: 22px 20px 32px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.header::before {
+  content:'';
+  position:absolute; top:-40px; right:-30px;
+  width:180px; height:180px;
+  background:rgba(255,255,255,0.07); border-radius:50%;
+}
+.header::after {
+  content:'';
+  position:absolute; bottom:-50px; left:-20px;
+  width:130px; height:130px;
+  background:rgba(255,255,255,0.05); border-radius:50%;
 }
 
-.container{
-    padding:20px;
+.header-inner {
+  display:flex; align-items:center; gap:14px;
+  position:relative; z-index:2;
 }
 
-.stats{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+.back-btn-hdr {
+  width:40px; height:40px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.15);
+  border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:#fff; text-decoration:none;
+  flex-shrink:0; transition:background 0.15s;
+}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
+
+.header-title { flex:1; }
+.header-title h1 {
+  font-family:'Fredoka One',cursive;
+  font-size:23px; color:#fff; line-height:1;
+}
+.header-title p {
+  font-size:12px; color:rgba(255,255,255,0.7);
+  font-weight:600; margin-top:3px;
 }
 
-.card{
-    background:#1f2937;
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
+.admin-badge {
+  background:rgba(255,255,255,0.2);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px; padding:5px 14px;
+  font-size:11px; font-weight:800; color:#fff;
+  letter-spacing:0.5px; white-space:nowrap;
 }
 
-.card h3{
-    color:#facc15;
-    margin-bottom:10px;
+/* ── CONTAINER ── */
+.container {
+  max-width:480px;
+  margin:0 auto;
+  padding:0 18px;
+  position:relative; z-index:2;
 }
 
-.value{
-    font-size:24px;
-    font-weight:bold;
+/* ── STATS GRID ── */
+.stats-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:-20px;
+  margin-bottom:22px;
 }
 
-.menu{
-    margin-top:20px;
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
-.menu-btn{
-    width:100%;
-    margin-bottom:10px;
-    padding:15px;
-    border:none;
-    border-radius:10px;
-    background:#facc15;
-    color:black;
-    font-weight:bold;
-    cursor:pointer;
-    font-size:16px;
+.stat-card {
+  background:var(--white);
+  border-radius:20px;
+  padding:18px 16px;
+  box-shadow:0 4px 16px rgba(107,33,214,0.10);
+  border:1.5px solid var(--border);
+  position:relative; overflow:hidden;
+  animation: fadeUp 0.4s ease both;
+}
+.stat-card:nth-child(1) { animation-delay:0.05s; }
+.stat-card:nth-child(2) { animation-delay:0.10s; }
+.stat-card:nth-child(3) { animation-delay:0.15s; }
+.stat-card:nth-child(4) { animation-delay:0.20s; }
+
+.stat-card-accent {
+  position:absolute; top:0; left:0; right:0; height:3px;
+  border-radius:20px 20px 0 0;
+}
+.accent-red    { background:linear-gradient(90deg,#EF4444,#F97316); }
+.accent-blue   { background:linear-gradient(90deg,#1ABCFE,#6B21D6); }
+.accent-green  { background:linear-gradient(90deg,#00C853,#00E676); }
+.accent-purple { background:linear-gradient(90deg,#6B21D6,#A855F7); }
+
+.stat-icon { font-size:26px; margin-bottom:8px; display:block; }
+
+.stat-label {
+  font-size:10px; font-weight:800;
+  color:#B0A0C0; text-transform:uppercase;
+  letter-spacing:0.8px; margin-bottom:4px;
 }
 
-.back-btn{
-    background:#374151;
-    color:white;
+.stat-value {
+  font-family:'Fredoka One',cursive;
+  font-size:26px; color:var(--text-dark); line-height:1;
 }
 
-.logout-btn{
-    background:#dc2626;
-    color:white;
+.stat-loading {
+  width:60%; height:22px;
+  background:linear-gradient(90deg,#EDE0FF 25%,#F6F0FF 50%,#EDE0FF 75%);
+  background-size:200% 100%;
+  border-radius:8px;
+  animation: shimmer 1.4s infinite;
 }
+@keyframes shimmer {
+  0%   { background-position:200% 0; }
+  100% { background-position:-200% 0; }
+}
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-family:'Fredoka One',cursive;
+  font-size:18px; color:var(--text-dark);
+  margin-bottom:12px;
+  display:flex; align-items:center; gap:8px;
+}
+.sec-pill {
+  font-family:'Nunito',sans-serif;
+  font-size:11px; font-weight:800;
+  background:var(--red); color:#fff;
+  border-radius:20px; padding:2px 10px;
+  letter-spacing:0.5px;
+}
+
+/* ── MENU ITEMS ── */
+.menu-item {
+  background:var(--white);
+  border-radius:18px;
+  padding:18px 18px;
+  display:flex; align-items:center; gap:16px;
+  margin-bottom:12px;
+  text-decoration:none; cursor:pointer;
+  border:1.5px solid var(--border);
+  box-shadow:0 2px 10px rgba(107,33,214,0.07);
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  animation: fadeUp 0.4s ease both;
+  width:100%;
+  text-align:left;
+  font-family:'Nunito',sans-serif;
+}
+.menu-item:nth-child(1) { animation-delay:0.25s; }
+.menu-item:nth-child(2) { animation-delay:0.30s; }
+.menu-item:nth-child(3) { animation-delay:0.35s; }
+
+.menu-item:hover {
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(107,33,214,0.14);
+  border-color:rgba(107,33,214,0.25);
+}
+.menu-item:active { transform:translateY(0); }
+
+.menu-item-icon {
+  width:50px; height:50px;
+  border-radius:16px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; flex-shrink:0;
+}
+.ic-users { background:linear-gradient(135deg,#6B21D6,#A855F7); }
+.ic-trx   { background:linear-gradient(135deg,#E8007A,#FF3D9A); }
+
+.menu-item-text { flex:1; }
+.menu-item-label {
+  font-size:15px; font-weight:800;
+  color:var(--text-dark); margin-bottom:2px;
+}
+.menu-item-desc {
+  font-size:12px; font-weight:600;
+  color:#B0A0C0;
+}
+
+.menu-item-arrow {
+  font-size:20px; color:#C4B0D8;
+  transition: color 0.15s, transform 0.15s;
+}
+.menu-item:hover .menu-item-arrow {
+  color:var(--purple); transform:translateX(3px);
+}
+
+/* ── DIVIDER ACTIONS ── */
+.action-row {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:12px; margin-top:4px;
+}
+
+.action-btn {
+  padding:14px 10px;
+  border:none; border-radius:16px;
+  font-family:'Nunito',sans-serif;
+  font-weight:800; font-size:14px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  animation: fadeUp 0.4s ease both;
+  text-decoration:none;
+}
+.action-btn:nth-child(1) { animation-delay:0.40s; }
+.action-btn:nth-child(2) { animation-delay:0.45s; }
+
+.action-btn:hover  { transform:translateY(-2px); }
+.action-btn:active { transform:translateY(0); }
+
+.btn-dashboard {
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  color:#fff;
+  box-shadow:0 4px 14px rgba(107,33,214,0.30);
+}
+.btn-dashboard:hover { box-shadow:0 6px 18px rgba(107,33,214,0.40); }
+
+.btn-logout {
+  background:linear-gradient(135deg,var(--red),#F97316);
+  color:#fff;
+  box-shadow:0 4px 14px rgba(239,68,68,0.28);
+}
+.btn-logout:hover { box-shadow:0 6px 18px rgba(239,68,68,0.38); }
+
+/* ── Toast ── */
+.toast {
+  position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-80px);
+  z-index:999;
+  background:var(--text-dark); color:#fff;
+  padding:12px 22px; border-radius:16px;
+  font-weight:700; font-size:13px;
+  display:flex; align-items:center; gap:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  transition:transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s;
+  opacity:0; white-space:nowrap;
+}
+.toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+.toast.error { background:linear-gradient(135deg,#EF4444,#F87171); }
 
 </style>
 </head>
 <body>
 
+<div class="blob1"></div>
+<div class="blob2"></div>
+
+<!-- Header -->
 <div class="header">
-    <div class="logo">
-        ADMIN PANEL
+  <div class="header-inner">
+    <a class="back-btn-hdr" href="dashboard.html">←</a>
+    <div class="header-title">
+      <h1>🛠 Admin Panel</h1>
+      <p id="adminEmail">Memuat data...</p>
     </div>
+    <div class="admin-badge">⬡ ADMIN</div>
+  </div>
 </div>
 
 <div class="container">
 
-    <div class="stats">
-
-        <div class="card">
-            <h3>Total User</h3>
-            <div class="value" id="users">0</div>
-        </div>
-
-        <div class="card">
-            <h3>Total Produk</h3>
-            <div class="value" id="products">0</div>
-        </div>
-
-        <div class="card">
-            <h3>Total Transaksi</h3>
-            <div class="value" id="transactions">0</div>
-        </div>
-
-        <div class="card">
-            <h3>Total Saldo</h3>
-            <div class="value" id="balance">0</div>
-        </div>
-
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-card-accent accent-red"></div>
+      <span class="stat-icon">👥</span>
+      <div class="stat-label">Total User</div>
+      <div class="stat-value" id="statUsers"><div class="stat-loading"></div></div>
     </div>
-
-    <div class="menu">
-
-        <button
-        class="menu-btn"
-        onclick="location.href='admin-users.html'">
-        👥 Kelola User
-        </button>
-
-        
-        <button
-        class="menu-btn"
-        onclick="location.href='admin-transactions.html'">
-        📜 Riwayat Transaksi
-        </button>
-
-        <button
-        class="menu-btn back-btn"
-        onclick="location.href='dashboard.html'">
-        🏠 Kembali ke Dashboard
-        </button>
-
-        <button
-        class="menu-btn logout-btn"
-        onclick="logout()">
-        🚪 Logout
-        </button>
-
+    <div class="stat-card">
+      <div class="stat-card-accent accent-blue"></div>
+      <span class="stat-icon">📦</span>
+      <div class="stat-label">Total Produk</div>
+      <div class="stat-value" id="statProducts"><div class="stat-loading"></div></div>
     </div>
+    <div class="stat-card">
+      <div class="stat-card-accent accent-green"></div>
+      <span class="stat-icon">📜</span>
+      <div class="stat-label">Transaksi</div>
+      <div class="stat-value" id="statTransactions"><div class="stat-loading"></div></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-accent accent-purple"></div>
+      <span class="stat-icon">💰</span>
+      <div class="stat-label">Total Saldo</div>
+      <div class="stat-value" id="statBalance" style="font-size:18px;"><div class="stat-loading"></div></div>
+    </div>
+  </div>
+
+  <!-- Menu -->
+  <div class="sec-title">Menu <span class="sec-pill">Admin</span></div>
+
+  <a class="menu-item" href="admin-users.html">
+    <div class="menu-item-icon ic-users">👥</div>
+    <div class="menu-item-text">
+      <div class="menu-item-label">Kelola User</div>
+      <div class="menu-item-desc">Lihat & atur semua pengguna</div>
+    </div>
+    <div class="menu-item-arrow">›</div>
+  </a>
+
+  <a class="menu-item" href="admin-products.html">
+    <div class="menu-item-icon ic-users" style="background:linear-gradient(135deg,#FF6B2C,#FFD600);">📦</div>
+    <div class="menu-item-text">
+      <div class="menu-item-label">Kelola Produk</div>
+      <div class="menu-item-desc">Tambah, edit & hapus produk</div>
+    </div>
+    <div class="menu-item-arrow">›</div>
+  </a>
+
+  <a class="menu-item" href="admin-transactions.html">
+    <div class="menu-item-icon ic-trx">📜</div>
+    <div class="menu-item-text">
+      <div class="menu-item-label">Riwayat Transaksi</div>
+      <div class="menu-item-desc">Monitor semua transaksi</div>
+    </div>
+    <div class="menu-item-arrow">›</div>
+  </a>
+
+  <!-- Action buttons -->
+  <div class="action-row" style="margin-top:8px;">
+    <a class="action-btn btn-dashboard" href="dashboard.html">🏠 Dashboard</a>
+    <button class="action-btn btn-logout" onclick="logout()">🚪 Logout</button>
+  </div>
 
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
 
-// CEK LOGIN
-const user =
-JSON.parse(
-localStorage.getItem('user')
-);
+const user = JSON.parse(localStorage.getItem('user'));
+if (!user) window.location.href = 'index.html';
 
-if(!user){
+document.getElementById('adminEmail').innerText = user.email || 'Admin';
 
-    window.location.href =
-    'index.html';
-
-}
-
-// CEK ADMIN
-
-
-
-// LOAD STATISTIK
 loadStats();
 
-async function loadStats(){
+async function loadStats() {
+  try {
+    const res  = await fetch('/api/admin/stats', {
+      headers: { email: user.email }
+    });
+    const data = await res.json();
 
-try{
-
-    const res =
-    await fetch(
-    '/api/admin/stats',
-    {
-        headers:{
-            email:user.email
-        }
-    }
-    );
-
-    const data =
-    await res.json();
-
-    if(!data.success){
-
-        alert(data.message);
-        return;
-
+    if (!data.success) {
+      showToast('⚠️ ' + data.message, 'error');
+      return;
     }
 
-    document.getElementById('users').innerText =
-    data.stats.users;
+    document.getElementById('statUsers').innerText        = data.stats.users;
+    document.getElementById('statProducts').innerText     = data.stats.products;
+    document.getElementById('statTransactions').innerText = data.stats.transactions;
+    document.getElementById('statBalance').innerText      =
+      'Rp ' + Number(data.stats.balance || 0).toLocaleString('id-ID');
 
-    document.getElementById('products').innerText =
-    data.stats.products;
-
-    document.getElementById('transactions').innerText =
-    data.stats.transactions;
-
-    document.getElementById('balance').innerText =
-    Number(
-        data.stats.balance || 0
-    ).toLocaleString('id-ID');
-
-}catch(err){
-
+  } catch (err) {
     console.error(err);
-
+    showToast('❌ Gagal memuat statistik', 'error');
+  }
 }
 
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.className = 'toast ' + type, 2600);
 }
 
-// LOGOUT
-function logout(){
-
-    localStorage.removeItem('user');
-
-    window.location.href =
-    'index.html';
-
+function logout() {
+  localStorage.removeItem('user');
+  window.location.href = 'index.html';
 }
 
 </script>
-
 </body>
 </html>
