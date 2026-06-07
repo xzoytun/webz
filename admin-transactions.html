@@ -3,266 +3,373 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Riwayat Transaksi</title>
-
+<title>Riwayat Transaksi - Xtrimer Tunnel</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
 <style>
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+:root {
+  --purple:    #6B21D6;
+  --purple2:   #8B3FF5;
+  --pink:      #E8007A;
+  --pink2:     #FF3D9A;
+  --orange:    #FF6B2C;
+  --yellow:    #FFD600;
+  --green:     #00C853;
+  --red:       #EF4444;
+  --blue:      #1ABCFE;
+  --white:     #FFFFFF;
+  --text-dark: #1a0033;
+  --text-mid:  #5B3A8C;
+  --bg-light:  #F6F0FF;
+  --border:    #EDE0FF;
 }
+
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-    background: #0b132b;
-    color: white;
-    padding: 20px;
+  background: var(--bg-light);
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 40px;
+  overflow-x: hidden;
 }
 
-h2 {
-    color: #facc15;
-    margin-bottom: 8px;
+.blob1 {
+  position:fixed; top:-80px; left:-60px;
+  width:300px; height:300px;
+  background:radial-gradient(circle,rgba(107,33,214,0.12) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.blob2 {
+  position:fixed; bottom:-60px; right:-60px;
+  width:260px; height:260px;
+  background:radial-gradient(circle,rgba(232,0,122,0.10) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
 }
 
-.subtitle {
-    color: #9ca3af;
-    font-size: 13px;
-    margin-bottom: 16px;
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(145deg, var(--purple) 0%, var(--purple2) 60%, #A855F7 100%);
+  padding: 22px 20px 32px;
+  position: relative; overflow: hidden; z-index: 2;
+}
+.header::before {
+  content:''; position:absolute; top:-40px; right:-30px;
+  width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%;
+}
+.header::after {
+  content:''; position:absolute; bottom:-50px; left:-20px;
+  width:130px; height:130px; background:rgba(255,255,255,0.05); border-radius:50%;
+}
+.header-inner {
+  display:flex; align-items:center; gap:14px; position:relative; z-index:2;
+}
+.back-btn-hdr {
+  width:40px; height:40px; border-radius:12px;
+  background:rgba(255,255,255,0.15); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; text-decoration:none; flex-shrink:0; transition:background 0.15s;
+}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
+.header-title { flex:1; }
+.header-title h1 {
+  font-family:'Fredoka One',cursive;
+  font-size:22px; color:#fff; line-height:1;
+  display:flex; align-items:center; gap:8px;
+}
+.header-title p { font-size:12px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:4px; }
+.header-count {
+  background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px; padding:5px 14px;
+  font-size:11px; font-weight:800; color:#fff; white-space:nowrap;
 }
 
-/* ── Search & Filter ── */
+/* ── CONTAINER ── */
+.container {
+  max-width:480px; margin:0 auto;
+  padding:0 18px; position:relative; z-index:2;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── TOOLBAR ── */
 .toolbar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
+  background:var(--white);
+  border-radius:18px; padding:14px;
+  border:1.5px solid var(--border);
+  box-shadow:0 4px 14px rgba(107,33,214,0.10);
+  margin-top:-18px; margin-bottom:14px;
+  position:relative; z-index:5;
+  display:flex; flex-direction:column; gap:10px;
+  animation: fadeUp 0.4s 0.05s ease both;
 }
-
-.search-box {
-    flex: 1;
-    min-width: 160px;
-    padding: 10px 14px;
-    border: none;
-    border-radius: 10px;
-    background: #1f2937;
-    color: white;
-    font-size: 14px;
-    outline: none;
+.search-row {
+  display:flex; align-items:center; gap:10px;
+  background:#FBF8FF; border-radius:12px;
+  border:1.5px solid var(--border); padding:10px 14px;
+  transition:border-color 0.15s;
 }
-
-.search-box::placeholder { color: #6b7280; }
-
-.filter-select {
-    padding: 10px 14px;
-    border: none;
-    border-radius: 10px;
-    background: #1f2937;
-    color: white;
-    font-size: 14px;
-    outline: none;
-    cursor: pointer;
+.search-row:focus-within { border-color:var(--purple2); }
+.search-row ph-icon { color:#B0A0C0; flex-shrink:0; }
+.search-input {
+  flex:1; border:none; outline:none;
+  font-family:'Nunito',sans-serif; font-size:14px; font-weight:700;
+  color:var(--text-dark); background:transparent;
 }
+.search-input::placeholder { color:#C4B0D8; font-weight:600; }
 
-/* ── Stats bar ── */
-.stats-bar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
+.filter-row { display:flex; gap:8px; flex-wrap:wrap; }
+.filter-chip {
+  padding:7px 14px; border-radius:20px;
+  font-family:'Nunito',sans-serif; font-size:12px; font-weight:800;
+  cursor:pointer; border:2px solid var(--border);
+  background:#FBF8FF; color:var(--text-mid);
+  transition:all 0.15s; white-space:nowrap;
+  display:flex; align-items:center; gap:5px;
 }
+.filter-chip:hover { border-color:var(--purple2); color:var(--purple); }
+.filter-chip.active {
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  border-color:transparent; color:#fff;
+  box-shadow:0 3px 10px rgba(107,33,214,0.28);
+}
+.filter-chip[data-val="SSH"].active       { background:linear-gradient(135deg,#FF6B2C,#FFD600); }
+.filter-chip[data-val="VMESS"].active     { background:linear-gradient(135deg,#1ABCFE,#0098DB); }
+.filter-chip[data-val="VLESS"].active     { background:linear-gradient(135deg,#6B21D6,#8B3FF5); }
+.filter-chip[data-val="TROJAN"].active    { background:linear-gradient(135deg,#EF4444,#F97316); }
+.filter-chip[data-val="SHADOWSOCKS"].active { background:linear-gradient(135deg,#E8007A,#FF3D9A); }
 
+/* ── STATS CHIPS ── */
+.stats-row {
+  display:flex; gap:8px; flex-wrap:wrap;
+  margin-bottom:14px;
+  animation: fadeUp 0.4s 0.10s ease both;
+}
 .stat-chip {
-    background: #1f2937;
-    border-radius: 20px;
-    padding: 6px 14px;
-    font-size: 12px;
-    color: #9ca3af;
+  background:var(--white); border:1.5px solid var(--border);
+  border-radius:20px; padding:6px 14px;
+  font-size:12px; font-weight:700; color:var(--text-mid);
+  display:flex; align-items:center; gap:5px;
+  box-shadow:0 2px 8px rgba(107,33,214,0.07);
+}
+.stat-chip strong { color:var(--purple); font-weight:900; }
+
+/* ── TRANSACTION CARDS ── */
+.tx-list { animation: fadeUp 0.4s 0.15s ease both; }
+
+.tx-card {
+  background:var(--white);
+  border-radius:18px; margin-bottom:10px;
+  border:1.5px solid var(--border);
+  box-shadow:0 2px 10px rgba(107,33,214,0.07);
+  overflow:hidden;
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.tx-card:hover {
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(107,33,214,0.12);
 }
 
-.stat-chip span {
-    color: #facc15;
-    font-weight: bold;
+.tx-card-inner {
+  padding:14px 16px;
+  display:flex; align-items:center; gap:12px;
 }
 
-/* ── Table layout ── */
-.table-wrap {
-    background: #1f2937;
-    border-radius: 15px;
-    overflow: hidden;
+/* left accent bar per protocol */
+.tx-card[data-proto="SSH"]         { border-left:4px solid #FF6B2C; }
+.tx-card[data-proto="VMESS"]       { border-left:4px solid #1ABCFE; }
+.tx-card[data-proto="VLESS"]       { border-left:4px solid var(--purple); }
+.tx-card[data-proto="TROJAN"]      { border-left:4px solid var(--red); }
+.tx-card[data-proto="SHADOWSOCKS"] { border-left:4px solid var(--pink); }
+.tx-card[data-proto=""]            { border-left:4px solid #B0A0C0; }
+
+.tx-proto-icon {
+  width:42px; height:42px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-size:20px; color:#fff;
+}
+.pi-ssh    { background:linear-gradient(135deg,#FF6B2C,#FFD600); }
+.pi-vmess  { background:linear-gradient(135deg,#1ABCFE,#0098DB); }
+.pi-vless  { background:linear-gradient(135deg,var(--purple),var(--purple2)); }
+.pi-trojan { background:linear-gradient(135deg,var(--red),#F97316); }
+.pi-ss     { background:linear-gradient(135deg,var(--pink),var(--pink2)); }
+.pi-other  { background:linear-gradient(135deg,#9CA3AF,#6B7280); }
+
+.tx-main { flex:1; min-width:0; }
+.tx-user {
+  font-family:'Fredoka One',cursive;
+  font-size:15px; color:var(--text-dark); line-height:1.1;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.tx-email {
+  font-size:11px; color:#B0A0C0; font-weight:600; margin-top:2px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.tx-product {
+  font-size:12px; font-weight:700; color:var(--text-mid); margin-top:4px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
+.tx-right { text-align:right; flex-shrink:0; }
+.proto-badge {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:4px 10px; border-radius:20px;
+  font-size:10px; font-weight:800; letter-spacing:0.5px;
+  margin-bottom:6px;
+}
+.pb-ssh    { background:#FFF0E0; color:var(--orange); }
+.pb-vmess  { background:#E0F7FF; color:#0077AA; }
+.pb-vless  { background:#EDE0FF; color:var(--purple); }
+.pb-trojan { background:#FFE0E0; color:var(--red); }
+.pb-ss     { background:#FFE0F5; color:var(--pink); }
+.pb-other  { background:#F3F4F6; color:#6B7280; }
+
+.tx-date {
+  font-size:10px; font-weight:700; color:#B0A0C0;
+  display:flex; align-items:center; gap:3px; justify-content:flex-end;
 }
 
-thead {
-    background: #111827;
+/* ── EMPTY / LOADING ── */
+.empty-state, .loading-state {
+  text-align:center; padding:44px 20px;
+  display:flex; flex-direction:column; align-items:center; gap:12px;
 }
-
-thead th {
-    padding: 12px 16px;
-    text-align: left;
-    color: #facc15;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
+.empty-title {
+  font-family:'Fredoka One',cursive;
+  font-size:18px; color:var(--text-dark);
 }
+.empty-sub { font-size:13px; color:var(--text-mid); font-weight:600; }
 
-tbody tr {
-    border-bottom: 1px solid #374151;
-    transition: background 0.15s;
-}
-
-tbody tr:last-child { border-bottom: none; }
-
-tbody tr:hover { background: #263044; }
-
-tbody td {
-    padding: 12px 16px;
-    vertical-align: middle;
-    color: #d1d5db;
-}
-
-.td-user strong {
-    display: block;
-    color: white;
-    font-size: 14px;
-}
-
-.td-user small {
-    color: #6b7280;
-    font-size: 11px;
-}
-
-.badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.ssh        { background: #78350f; color: #fde68a; }
-.vmess      { background: #065f46; color: #6ee7b7; }
-.vless      { background: #1e3a5f; color: #93c5fd; }
-.trojan     { background: #7f1d1d; color: #fca5a5; }
-.ss         { background: #4c1d95; color: #c4b5fd; }
-
-.td-date {
-    color: #9ca3af;
-    font-size: 12px;
-    white-space: nowrap;
-}
-
-/* ── Empty state ── */
-.empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: #6b7280;
-}
-
-/* ── Pagination ── */
+/* ── PAGINATION ── */
 .pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    background: #111827;
-    font-size: 12px;
-    color: #9ca3af;
-    border-top: 1px solid #374151;
+  background:var(--white); border-radius:16px;
+  border:1.5px solid var(--border);
+  padding:12px 16px; margin-top:4px;
+  display:flex; align-items:center; justify-content:space-between;
+  box-shadow:0 2px 10px rgba(107,33,214,0.07);
 }
-
-.page-btns {
-    display: flex;
-    gap: 6px;
-}
-
+.page-info { font-size:12px; font-weight:700; color:var(--text-mid); }
+.page-btns { display:flex; gap:6px; align-items:center; }
 .page-btn {
-    padding: 5px 12px;
-    border: none;
-    border-radius: 8px;
-    background: #1f2937;
-    color: white;
-    cursor: pointer;
-    font-size: 12px;
+  width:34px; height:34px; border:none; border-radius:10px;
+  background:#FBF8FF; color:var(--text-mid);
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:13px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:background 0.15s, color 0.15s;
+  border:1.5px solid var(--border);
 }
-
-.page-btn:disabled {
-    opacity: 0.3;
-    cursor: default;
-}
-
+.page-btn:hover:not(:disabled) { border-color:var(--purple2); color:var(--purple); }
+.page-btn:disabled { opacity:0.3; cursor:default; }
 .page-btn.active {
-    background: #facc15;
-    color: #0b132b;
-    font-weight: bold;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  border-color:transparent; color:#fff;
+  box-shadow:0 3px 10px rgba(107,33,214,0.28);
 }
+.page-dots { color:#B0A0C0; font-weight:700; padding:0 2px; }
 
-/* ── Back button ── */
+/* ── BACK BTN ── */
 .back-btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    background: #374151;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 16px;
+  width:100%; padding:14px; margin-top:14px;
+  border:2px solid var(--border); border-radius:16px;
+  background:var(--white); color:var(--text-mid);
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:14px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  transition:border-color 0.15s, color 0.15s;
 }
+.back-btn:hover { border-color:var(--purple2); color:var(--purple); }
 
 </style>
 </head>
 <body>
 
-<h2>📜 Riwayat Transaksi</h2>
-<div class="subtitle" id="subtitle">Memuat data...</div>
+<div class="blob1"></div>
+<div class="blob2"></div>
 
-<div class="toolbar">
-    <input
-        class="search-box"
-        id="searchInput"
-        placeholder="🔍 Cari username / email..."
-        oninput="applyFilter()">
-    <select class="filter-select" id="filterProtocol" onchange="applyFilter()">
-        <option value="">Semua Protocol</option>
-        <option value="SSH">SSH</option>
-        <option value="VMESS">VMESS</option>
-        <option value="VLESS">VLESS</option>
-        <option value="TROJAN">TROJAN</option>
-        <option value="SHADOWSOCKS">Shadowsocks</option>
-    </select>
-</div>
-
-<div class="stats-bar" id="statsBar"></div>
-
-<div class="table-wrap">
-    <table>
-        <thead>
-            <tr>
-                <th>User</th>
-                <th>Produk</th>
-                <th>Protocol</th>
-                <th>Tanggal</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            <tr><td colspan="4" class="empty">Memuat...</td></tr>
-        </tbody>
-    </table>
-    <div class="pagination" id="pagination" style="display:none">
-        <span id="pageInfo"></span>
-        <div class="page-btns" id="pageBtns"></div>
+<!-- Header -->
+<div class="header">
+  <div class="header-inner">
+    <a class="back-btn-hdr" href="admin.html">
+      <ph-icon name="arrow-left" weight="bold" size="20"></ph-icon>
+    </a>
+    <div class="header-title">
+      <h1>
+        <ph-icon name="receipt" weight="fill" size="22"></ph-icon>
+        Riwayat Transaksi
+      </h1>
+      <p id="subtitle">Memuat data...</p>
     </div>
+    <div class="header-count" id="countBadge">—</div>
+  </div>
 </div>
 
-<button class="back-btn" onclick="location.href='admin.html'">🏠 Kembali</button>
+<div class="container">
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-row">
+      <ph-icon name="magnifying-glass" weight="bold" size="18"></ph-icon>
+      <input class="search-input" id="searchInput" type="text"
+        placeholder="Cari username / email / produk..."
+        oninput="applyFilter()">
+    </div>
+    <div class="filter-row" id="filterRow">
+      <div class="filter-chip active" data-val="" onclick="setProtocolFilter(this)">
+        <ph-icon name="funnel-simple" weight="fill" size="13"></ph-icon>
+        Semua
+      </div>
+      <div class="filter-chip" data-val="SSH" onclick="setProtocolFilter(this)">
+        <ph-icon name="terminal-window" weight="fill" size="13"></ph-icon>
+        SSH
+      </div>
+      <div class="filter-chip" data-val="VMESS" onclick="setProtocolFilter(this)">
+        <ph-icon name="globe" weight="fill" size="13"></ph-icon>
+        VMESS
+      </div>
+      <div class="filter-chip" data-val="VLESS" onclick="setProtocolFilter(this)">
+        <ph-icon name="lightning" weight="fill" size="13"></ph-icon>
+        VLESS
+      </div>
+      <div class="filter-chip" data-val="TROJAN" onclick="setProtocolFilter(this)">
+        <ph-icon name="shield-warning" weight="fill" size="13"></ph-icon>
+        TROJAN
+      </div>
+      <div class="filter-chip" data-val="SHADOWSOCKS" onclick="setProtocolFilter(this)">
+        <ph-icon name="eye-slash" weight="fill" size="13"></ph-icon>
+        SS
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row" id="statsBar"></div>
+
+  <!-- Transaction list -->
+  <div id="txList">
+    <div class="loading-state">
+      <ph-icon name="spinner-gap" weight="bold" size="36" style="color:var(--purple);animation:spin 1s linear infinite;"></ph-icon>
+      <div class="empty-title">Memuat transaksi...</div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" id="pagination" style="display:none;">
+    <div class="page-info" id="pageInfo"></div>
+    <div class="page-btns" id="pageBtns"></div>
+  </div>
+
+  <button class="back-btn" onclick="location.href='admin.html'">
+    <ph-icon name="arrow-left" weight="bold" size="16"></ph-icon>
+    Kembali ke Admin Panel
+  </button>
+
+</div>
 
 <script>
 
@@ -270,147 +377,180 @@ const localUser = JSON.parse(localStorage.getItem('user'));
 if (!localUser) location.href = 'index.html';
 
 const PER_PAGE = 10;
-let allData = [];
-let filtered = [];
+let allData    = [];
+let filtered   = [];
 let currentPage = 1;
+let activeProto = '';
+
+const PROTO_CONFIG = {
+  SSH:         { cls:'pi-ssh',    badge:'pb-ssh',    icon:'terminal-window',  label:'SSH' },
+  VMESS:       { cls:'pi-vmess',  badge:'pb-vmess',  icon:'globe',            label:'VMESS' },
+  VLESS:       { cls:'pi-vless',  badge:'pb-vless',  icon:'lightning',        label:'VLESS' },
+  TROJAN:      { cls:'pi-trojan', badge:'pb-trojan', icon:'shield-warning',   label:'TROJAN' },
+  SHADOWSOCKS: { cls:'pi-ss',     badge:'pb-ss',     icon:'eye-slash',        label:'SS' },
+};
+
+function getProtoConf(p) {
+  return PROTO_CONFIG[(p||'').toUpperCase()] || { cls:'pi-other', badge:'pb-other', icon:'question', label: p || '—' };
+}
 
 loadTransactions();
 
 async function loadTransactions() {
-    try {
-        const res = await fetch('/api/admin/transactions?email=' + encodeURIComponent(localUser.email));
-        const data = await res.json();
+  try {
+    const res  = await fetch('/api/admin/transactions?email=' + encodeURIComponent(localUser.email));
+    const data = await res.json();
+    if (!data.success) { document.getElementById('txList').innerHTML = errorState(data.message); return; }
+    allData = data.transactions || [];
+    applyFilter();
+  } catch (err) {
+    console.error(err);
+    document.getElementById('txList').innerHTML = errorState('Server tidak dapat dihubungi');
+  }
+}
 
-        if (!data.success) {
-            alert(data.message);
-            return;
-        }
-
-        allData = data.transactions;
-        applyFilter();
-
-    } catch (err) {
-        console.error(err);
-        document.getElementById('tableBody').innerHTML =
-            '<tr><td colspan="4" class="empty">❌ Gagal load transaksi</td></tr>';
-    }
+function setProtocolFilter(el) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  activeProto = el.dataset.val;
+  applyFilter();
 }
 
 function applyFilter() {
-    const keyword = document.getElementById('searchInput').value.toLowerCase();
-    const protocol = document.getElementById('filterProtocol').value.toLowerCase();
-
-    filtered = allData.filter(tx => {
-        const matchSearch =
-            (tx.username || '').toLowerCase().includes(keyword) ||
-            (tx.email || '').toLowerCase().includes(keyword) ||
-            (tx.product_name || '').toLowerCase().includes(keyword);
-
-        const matchProtocol = !protocol ||
-            (tx.product_type || '').toLowerCase() === protocol;
-
-        return matchSearch && matchProtocol;
-    });
-
-    currentPage = 1;
-    renderStats();
-    renderTable();
-    renderPagination();
+  const kw = document.getElementById('searchInput').value.toLowerCase();
+  filtered = allData.filter(tx => {
+    const matchSearch =
+      (tx.username    || '').toLowerCase().includes(kw) ||
+      (tx.email       || '').toLowerCase().includes(kw) ||
+      (tx.product_name|| '').toLowerCase().includes(kw);
+    const matchProto = !activeProto ||
+      (tx.product_type || '').toUpperCase() === activeProto;
+    return matchSearch && matchProto;
+  });
+  currentPage = 1;
+  renderStats();
+  renderList();
+  renderPagination();
 }
 
 function renderStats() {
-    const counts = {};
-    allData.forEach(tx => {
-        const p = tx.product_type || 'Unknown';
-        counts[p] = (counts[p] || 0) + 1;
-    });
+  const counts = {};
+  allData.forEach(tx => {
+    const p = (tx.product_type || 'Unknown').toUpperCase();
+    counts[p] = (counts[p] || 0) + 1;
+  });
+  document.getElementById('subtitle').textContent =
+    `${filtered.length} dari ${allData.length} transaksi`;
+  document.getElementById('countBadge').textContent = allData.length + ' Total';
 
-    let html = `<div class="stat-chip">Total <span>${allData.length}</span></div>`;
-    Object.entries(counts).forEach(([p, c]) => {
-        html += `<div class="stat-chip">${p} <span>${c}</span></div>`;
-    });
-
-    document.getElementById('statsBar').innerHTML = html;
-    document.getElementById('subtitle').textContent =
-        `Menampilkan ${filtered.length} dari ${allData.length} transaksi`;
+  let html = `
+    <div class="stat-chip">
+      <ph-icon name="list-bullets" weight="fill" size="13" style="color:var(--purple);"></ph-icon>
+      Total <strong>${allData.length}</strong>
+    </div>`;
+  Object.entries(counts).forEach(([p, c]) => {
+    const conf = getProtoConf(p);
+    html += `
+      <div class="stat-chip">
+        <ph-icon name="${conf.icon}" weight="fill" size="13" style="color:var(--purple);"></ph-icon>
+        ${conf.label} <strong>${c}</strong>
+      </div>`;
+  });
+  document.getElementById('statsBar').innerHTML = html;
 }
 
-function renderTable() {
-    if (filtered.length === 0) {
-        document.getElementById('tableBody').innerHTML =
-            '<tr><td colspan="4" class="empty">Tidak ada data ditemukan</td></tr>';
-        return;
-    }
+function renderList() {
+  if (!filtered.length) {
+    document.getElementById('txList').innerHTML = `
+      <div class="empty-state">
+        <ph-icon name="magnifying-glass" weight="duotone" size="52" style="color:#C4B0D8;"></ph-icon>
+        <div class="empty-title">Tidak Ada Data</div>
+        <div class="empty-sub">Coba ubah filter atau kata kunci</div>
+      </div>`;
+    return;
+  }
 
-    const start = (currentPage - 1) * PER_PAGE;
-    const slice = filtered.slice(start, start + PER_PAGE);
+  const start = (currentPage - 1) * PER_PAGE;
+  const slice = filtered.slice(start, start + PER_PAGE);
+  const proto = (p) => (p || '').toUpperCase();
 
-    let html = '';
-    slice.forEach(tx => {
-        let badgeClass = (tx.product_type || '').toLowerCase();
-        if (badgeClass === 'shadowsocks') badgeClass = 'ss';
+  let html = '<div class="tx-list">';
+  slice.forEach((tx, i) => {
+    const p    = proto(tx.product_type);
+    const conf = getProtoConf(p);
+    const date = (tx.created_at || '').replace('T',' ').slice(0,16) || '—';
 
-        const date = tx.created_at
-            ? tx.created_at.replace('T', ' ').slice(0, 16)
-            : '-';
-
-        html += `
-        <tr>
-            <td class="td-user">
-                <strong>${tx.username || '-'}</strong>
-                <small>${tx.email || '-'}</small>
-            </td>
-            <td>${tx.product_name || '-'}</td>
-            <td>
-                <span class="badge ${badgeClass}">
-                    ${tx.product_type || '-'}
-                </span>
-            </td>
-            <td class="td-date">${date}</td>
-        </tr>`;
-    });
-
-    document.getElementById('tableBody').innerHTML = html;
+    html += `
+    <div class="tx-card" data-proto="${p}" style="animation:fadeUp 0.35s ${i*0.04}s ease both;">
+      <div class="tx-card-inner">
+        <div class="tx-proto-icon ${conf.cls}">
+          <ph-icon name="${conf.icon}" weight="fill" size="20"></ph-icon>
+        </div>
+        <div class="tx-main">
+          <div class="tx-user">${tx.username || '—'}</div>
+          <div class="tx-email">${tx.email || '—'}</div>
+          <div class="tx-product">
+            <ph-icon name="package" weight="fill" size="11" style="vertical-align:middle;margin-right:2px;"></ph-icon>
+            ${tx.product_name || '—'}
+          </div>
+        </div>
+        <div class="tx-right">
+          <div class="proto-badge ${conf.badge}">
+            <ph-icon name="${conf.icon}" weight="fill" size="10"></ph-icon>
+            ${conf.label}
+          </div>
+          <div class="tx-date">
+            <ph-icon name="clock" weight="fill" size="10"></ph-icon>
+            ${date}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('txList').innerHTML = html;
 }
 
 function renderPagination() {
-    const totalPages = Math.ceil(filtered.length / PER_PAGE);
-    const pag = document.getElementById('pagination');
+  const total = Math.ceil(filtered.length / PER_PAGE);
+  const pag   = document.getElementById('pagination');
+  if (total <= 1) { pag.style.display = 'none'; return; }
+  pag.style.display = 'flex';
+  document.getElementById('pageInfo').textContent = `Hal ${currentPage} / ${total}`;
 
-    if (totalPages <= 1) {
-        pag.style.display = 'none';
-        return;
+  let btns = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>
+    <ph-icon name="caret-left" weight="bold" size="14"></ph-icon>
+  </button>`;
+
+  for (let i = 1; i <= total; i++) {
+    if (i===1 || i===total || (i>=currentPage-1 && i<=currentPage+1)) {
+      btns += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    } else if (i===currentPage-2 || i===currentPage+2) {
+      btns += `<span class="page-dots">…</span>`;
     }
+  }
 
-    pag.style.display = 'flex';
-    document.getElementById('pageInfo').textContent =
-        `Hal ${currentPage} / ${totalPages}`;
-
-    let btns = '';
-    btns += `<button class="page-btn" onclick="goPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
-
-    for (let i = 1; i <= totalPages; i++) {
-        if (
-            i === 1 || i === totalPages ||
-            (i >= currentPage - 1 && i <= currentPage + 1)
-        ) {
-            btns += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
-        } else if (i === currentPage - 2 || i === currentPage + 2) {
-            btns += `<span style="color:#6b7280;padding:0 4px">…</span>`;
-        }
-    }
-
-    btns += `<button class="page-btn" onclick="goPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>›</button>`;
-    document.getElementById('pageBtns').innerHTML = btns;
+  btns += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total?'disabled':''}>
+    <ph-icon name="caret-right" weight="bold" size="14"></ph-icon>
+  </button>`;
+  document.getElementById('pageBtns').innerHTML = btns;
 }
 
-function goPage(page) {
-    const totalPages = Math.ceil(filtered.length / PER_PAGE);
-    if (page < 1 || page > totalPages) return;
-    currentPage = page;
-    renderTable();
-    renderPagination();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+function goPage(p) {
+  const total = Math.ceil(filtered.length / PER_PAGE);
+  if (p < 1 || p > total) return;
+  currentPage = p;
+  renderList();
+  renderPagination();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function errorState(msg) {
+  return `<div class="empty-state">
+    <ph-icon name="wifi-x" weight="duotone" size="52" style="color:#C4B0D8;"></ph-icon>
+    <div class="empty-title">Gagal Memuat</div>
+    <div class="empty-sub">${msg}</div>
+  </div>`;
 }
 
 </script>
