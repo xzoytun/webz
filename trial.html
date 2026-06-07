@@ -500,29 +500,42 @@ async function loadServers(){
 
 try{
 
-const res=
+const res =
 await fetch('/api/servers');
 
-const data=
+const data =
 await res.json();
 
-const select=
+console.log('SERVER API:', data);
+
+const select =
 document.getElementById('server');
 
-if(!data.success || !data.data){
+// support banyak format response
+const servers =
+data.data ||
+data.servers ||
+data;
 
-select.innerHTML=
+if(
+!servers ||
+!Array.isArray(servers) ||
+servers.length <= 0
+){
+
+select.innerHTML =
 '<option value="">Server tidak tersedia</option>';
 
 return;
 
 }
 
-select.innerHTML='';
+select.innerHTML =
+'<option value="">Pilih Server</option>';
 
-data.data.forEach(server=>{
+servers.forEach(server=>{
 
-select.innerHTML+=`
+select.innerHTML += `
 <option value="${server.id}">
 ${server.nama_server}
 </option>
@@ -532,7 +545,10 @@ ${server.nama_server}
 
 }catch(err){
 
-console.error(err);
+console.error('LOAD SERVER ERROR:', err);
+
+document.getElementById('server').innerHTML =
+'<option value="">Gagal memuat server</option>';
 
 }
 
