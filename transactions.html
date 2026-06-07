@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Riwayat Topup</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0b132b;
+color:white;
+padding:20px;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+}
+
+.header{
+text-align:center;
+margin-bottom:20px;
+}
+
+.header h2{
+color:#facc15;
+margin-bottom:5px;
+}
+
+.card{
+background:#1f2937;
+border:1px solid #374151;
+border-radius:14px;
+padding:15px;
+margin-bottom:12px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+font-size:13px;
+}
+
+.label{
+color:#9ca3af;
+}
+
+.value{
+font-weight:bold;
+text-align:right;
+}
+
+.amount{
+color:#22c55e;
+font-size:18px;
+}
+
+.empty{
+text-align:center;
+padding:30px;
+color:#9ca3af;
+}
+
+.back-btn{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+background:#374151;
+color:white;
+margin-top:15px;
+cursor:pointer;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="header">
+<h2>📜 Riwayat Topup</h2>
+<p>Daftar topup saldo akun</p>
+</div>
+
+<div id="historyArea">
+
+<div class="empty">
+Loading...
+</div>
+
+</div>
+
+<button
+class="back-btn"
+onclick="window.location.href='dashboard.html'">
+← Kembali
+</button>
+
+</div>
+
+<script>
+
+loadHistory();
+
+async function loadHistory(){
+
+const user =
+JSON.parse(localStorage.getItem('user'));
+
+if(!user){
+window.location.href='index.html';
+return;
+}
+
+try{
+
+const res =
+await fetch(
+`/api/topup-history?email=${encodeURIComponent(user.email)}`
+);
+
+const data =
+await res.json();
+
+const area =
+document.getElementById('historyArea');
+
+if(
+!data.success ||
+!data.data ||
+data.data.length <= 0
+){
+
+area.innerHTML = `
+<div class="empty">
+Belum ada riwayat topup
+</div>
+`;
+
+return;
+}
+
+area.innerHTML =
+data.data.map(item => `
+
+<div class="card">
+
+<div class="row">
+<div class="label">Nominal</div>
+<div class="value amount">
+Rp ${Number(item.amount).toLocaleString('id-ID')}
+</div>
+</div>
+
+<div class="row">
+<div class="label">Metode</div>
+<div class="value">
+${item.metode}
+</div>
+</div>
+
+<div class="row">
+<div class="label">Referensi</div>
+<div class="value">
+${item.reference}
+</div>
+</div>
+
+<div class="row">
+<div class="label">Waktu</div>
+<div class="value">
+${item.created_at}
+</div>
+</div>
+
+</div>
+
+`).join('');
+
+}catch(err){
+
+console.error(err);
+
+document.getElementById('historyArea').innerHTML = `
+<div class="empty">
+Gagal memuat riwayat
+</div>
+`;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
