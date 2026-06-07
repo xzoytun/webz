@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Produk VPN - Xtrimer Tunnel</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
 <style>
 
 :root {
@@ -77,11 +76,21 @@ body {
   text-decoration:none;
 }
 .back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
+.back-btn-hdr svg {
+  width:20px; height:20px;
+  fill:none; stroke:#fff;
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
+}
 .header-title { flex:1; }
 .header-title h1 {
   font-family:'Fredoka One',cursive;
   font-size:22px; color:#fff; line-height:1;
   display:flex; align-items:center; gap:8px;
+}
+.header-title h1 svg {
+  width:22px; height:22px;
+  fill:none; stroke:#fff;
+  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
 }
 .header-title p { font-size:12px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:4px; }
 .header-count {
@@ -103,6 +112,12 @@ body {
   border-radius:16px; border:1.5px solid var(--border);
   box-shadow:0 4px 16px rgba(107,33,214,0.12);
   display:flex; align-items:center; gap:10px; padding:12px 16px;
+}
+.search-box svg {
+  width:18px; height:18px;
+  fill:none; stroke:#C4B0D8;
+  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  flex-shrink:0;
 }
 .search-input {
   flex:1; border:none; outline:none;
@@ -130,10 +145,21 @@ body {
   color:var(--text-mid); font-weight:700; font-size:14px;
   display:flex; flex-direction:column; align-items:center; gap:12px;
 }
+.loading-state svg {
+  width:36px; height:36px;
+  fill:none; stroke:var(--purple);
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
+  animation: spin 1s linear infinite;
+}
 
 /* ── EMPTY ── */
 .empty-state {
   text-align:center; padding:50px 20px;
+}
+.empty-state svg {
+  width:52px; height:52px;
+  fill:none; stroke:#C4B0D8;
+  stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round;
 }
 .empty-title {
   font-family:'Fredoka One',cursive;
@@ -157,9 +183,7 @@ body {
   box-shadow:0 10px 28px rgba(107,33,214,0.15);
   border-color:rgba(107,33,214,0.3);
 }
-.product-card.is-full {
-  opacity:0.72;
-}
+.product-card.is-full { opacity:0.72; }
 .product-card.is-full:hover { transform:none; }
 
 /* card top banner */
@@ -178,7 +202,12 @@ body {
   width:44px; height:44px; border-radius:14px;
   background:rgba(255,255,255,0.18);
   display:flex; align-items:center; justify-content:center;
-  color:#fff; flex-shrink:0;
+  flex-shrink:0;
+}
+.server-icon svg {
+  width:22px; height:22px;
+  fill:none; stroke:#fff;
+  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
 }
 .server-name-wrap { flex:1; min-width:0; }
 .server-name {
@@ -191,14 +220,27 @@ body {
   font-weight:600; margin-top:3px;
   display:flex; align-items:center; gap:4px;
 }
+.server-loc svg {
+  width:11px; height:11px;
+  fill:none; stroke:rgba(255,255,255,0.7);
+  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  flex-shrink:0;
+}
 
 .slot-badge {
   padding:5px 12px; border-radius:20px;
   font-size:11px; font-weight:800; flex-shrink:0;
   display:flex; align-items:center; gap:4px;
 }
+.slot-badge svg {
+  width:12px; height:12px;
+  fill:none; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round;
+}
 .slot-ok   { background:rgba(0,200,83,0.2); border:1px solid rgba(0,200,83,0.4); color:#00E676; }
+.slot-ok svg { stroke:#00E676; }
 .slot-full { background:rgba(239,68,68,0.2); border:1px solid rgba(239,68,68,0.4); color:#F87171; }
+.slot-full svg { stroke:#F87171; }
 
 /* proto row */
 .proto-row {
@@ -211,18 +253,27 @@ body {
   font-size:11px; font-weight:800; letter-spacing:0.3px;
   display:flex; align-items:center; gap:4px;
 }
+.proto-badge svg {
+  width:11px; height:11px;
+  fill:none; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round;
+}
 .pb-ssh    { background:#FFF0E0; color:var(--orange); }
+.pb-ssh svg { stroke:var(--orange); }
 .pb-vmess  { background:#E0F7FF; color:#0077AA; }
+.pb-vmess svg { stroke:#0077AA; }
 .pb-vless  { background:#EDE0FF; color:var(--purple); }
+.pb-vless svg { stroke:var(--purple); }
 .pb-trojan { background:#FFE0E0; color:var(--red); }
+.pb-trojan svg { stroke:var(--red); }
 .pb-ss     { background:#FFE0F5; color:var(--pink); }
+.pb-ss svg { stroke:var(--pink); }
 
 /* bottom row */
 .card-bottom {
   padding:14px 18px;
   display:flex; align-items:center; justify-content:space-between; gap:12px;
 }
-.price-box {}
 .price-label {
   font-size:10px; font-weight:800; color:#B0A0C0;
   text-transform:uppercase; letter-spacing:0.8px; margin-bottom:2px;
@@ -244,6 +295,11 @@ body {
   box-shadow:0 4px 14px rgba(107,33,214,0.30);
   transition:transform 0.15s, box-shadow 0.15s;
 }
+.buy-btn svg {
+  width:16px; height:16px;
+  fill:none; stroke:#fff;
+  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+}
 .buy-btn:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(107,33,214,0.40); }
 .buy-btn:active { transform:translateY(0); }
 .buy-btn:disabled {
@@ -262,6 +318,11 @@ body {
   display:flex; align-items:center; justify-content:center; gap:6px;
   transition:border-color 0.15s, color 0.15s;
 }
+.back-btn-bottom svg {
+  width:16px; height:16px;
+  fill:none; stroke:currentColor;
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
+}
 .back-btn-bottom:hover { border-color:var(--purple2); color:var(--purple); }
 
 </style>
@@ -275,11 +336,20 @@ body {
 <div class="header">
   <div class="header-inner">
     <a class="back-btn-hdr" href="dashboard.html">
-      <ph-icon name="arrow-left" weight="bold" size="20"></ph-icon>
+      <!-- arrow-left -->
+      <svg viewBox="0 0 24 24">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
     </a>
     <div class="header-title">
       <h1>
-        <ph-icon name="package" weight="fill" size="22"></ph-icon>
+        <!-- package/box icon -->
+        <svg viewBox="0 0 24 24">
+          <path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+          <line x1="12" y1="22.08" x2="12" y2="12"/>
+        </svg>
         Produk VPN
       </h1>
       <p id="subtitle">Memuat produk...</p>
@@ -291,7 +361,11 @@ body {
 <!-- Search -->
 <div class="search-wrap">
   <div class="search-box">
-    <ph-icon name="magnifying-glass" weight="bold" size="18" style="color:#B0A0C0;flex-shrink:0;"></ph-icon>
+    <!-- search icon -->
+    <svg viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
     <input class="search-input" id="searchInput" type="text"
       placeholder="Cari server atau lokasi..."
       oninput="filterProducts()">
@@ -301,13 +375,19 @@ body {
 <div class="container">
   <div id="products">
     <div class="loading-state">
-      <ph-icon name="spinner-gap" weight="bold" size="36" style="color:var(--purple);animation:spin 1s linear infinite;"></ph-icon>
+      <!-- spinner: circle with gap -->
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2a10 10 0 0 1 10 10"/>
+      </svg>
       Memuat daftar produk...
     </div>
   </div>
 
   <button class="back-btn-bottom" onclick="window.location.href='dashboard.html'">
-    <ph-icon name="arrow-left" weight="bold" size="16"></ph-icon>
+    <svg viewBox="0 0 24 24">
+      <line x1="19" y1="12" x2="5" y2="12"/>
+      <polyline points="12 19 5 12 12 5"/>
+    </svg>
     Kembali ke Dashboard
   </button>
 </div>
@@ -326,7 +406,11 @@ async function loadProducts() {
     if (!data.success) {
       document.getElementById('products').innerHTML = `
         <div class="empty-state">
-          <ph-icon name="warning-circle" weight="duotone" size="52" style="color:#C4B0D8;"></ph-icon>
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/>
+          </svg>
           <div class="empty-title">Gagal Memuat</div>
           <div class="empty-sub">Tidak dapat terhubung ke server</div>
         </div>`;
@@ -342,7 +426,15 @@ async function loadProducts() {
     console.error(err);
     document.getElementById('products').innerHTML = `
       <div class="empty-state">
-        <ph-icon name="wifi-x" weight="duotone" size="52" style="color:#C4B0D8;"></ph-icon>
+        <svg viewBox="0 0 24 24">
+          <line x1="1" y1="1" x2="23" y2="23"/>
+          <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+          <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+          <path d="M10.71 5.05A16 16 0 0 1 22.56 9"/>
+          <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+          <line x1="12" y1="20" x2="12.01" y2="20" stroke-width="3"/>
+        </svg>
         <div class="empty-title">Koneksi Gagal</div>
         <div class="empty-sub">Periksa koneksi internet kamu</div>
       </div>`;
@@ -362,7 +454,10 @@ function renderProducts(products) {
   if (!products.length) {
     document.getElementById('products').innerHTML = `
       <div class="empty-state">
-        <ph-icon name="magnifying-glass" weight="duotone" size="52" style="color:#C4B0D8;"></ph-icon>
+        <svg viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
         <div class="empty-title">Tidak Ditemukan</div>
         <div class="empty-sub">Coba kata kunci lain</div>
       </div>`;
@@ -376,40 +471,63 @@ function renderProducts(products) {
     const slotMax    = server.batas_create_akun  || 0;
     const isFull     = slotMax > 0 && slotUsed >= slotMax;
 
+    // slot badge SVG: check-circle or x-circle
+    const slotIconOk   = `<svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+    const slotIconFull = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
+
     html += `
     <div class="product-card ${isFull ? 'is-full' : ''}" style="animation-delay:${i * 0.06}s">
       <div class="card-banner">
         <div class="server-icon">
-          <ph-icon name="globe-hemisphere-west" weight="fill" size="22"></ph-icon>
+          <!-- globe icon -->
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
         </div>
         <div class="server-name-wrap">
           <div class="server-name">${server.nama_server}</div>
           <div class="server-loc">
-            <ph-icon name="map-pin" weight="fill" size="11"></ph-icon>
+            <!-- map-pin -->
+            <svg viewBox="0 0 24 24">
+              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
             ${server.lokasi || '—'}
           </div>
         </div>
         <div class="slot-badge ${isFull ? 'slot-full' : 'slot-ok'}">
-          <ph-icon name="${isFull ? 'x-circle' : 'check-circle'}" weight="fill" size="12"></ph-icon>
+          ${isFull ? slotIconFull : slotIconOk}
           ${isFull ? 'FULL' : slotUsed + '/' + slotMax}
         </div>
       </div>
 
       <div class="proto-row">
         <span class="proto-badge pb-ssh">
-          <ph-icon name="terminal-window" weight="fill" size="11"></ph-icon> SSH
+          <!-- terminal -->
+          <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          SSH
         </span>
         <span class="proto-badge pb-vmess">
-          <ph-icon name="globe" weight="fill" size="11"></ph-icon> VMESS
+          <!-- globe small -->
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          VMESS
         </span>
         <span class="proto-badge pb-vless">
-          <ph-icon name="lightning" weight="fill" size="11"></ph-icon> VLESS
+          <!-- lightning / zap -->
+          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          VLESS
         </span>
         <span class="proto-badge pb-trojan">
-          <ph-icon name="shield-warning" weight="fill" size="11"></ph-icon> TROJAN
+          <!-- shield -->
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          TROJAN
         </span>
         <span class="proto-badge pb-ss">
-          <ph-icon name="eye-slash" weight="fill" size="11"></ph-icon> SS
+          <!-- eye-off -->
+          <svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          SS
         </span>
       </div>
 
@@ -420,7 +538,8 @@ function renderProducts(products) {
           <div class="price-period">/ 7 hari</div>
         </div>
         <button class="buy-btn" ${isFull ? 'disabled' : ''} onclick="buyServer(${server.id})">
-          <ph-icon name="rocket-launch" weight="fill" size="16"></ph-icon>
+          <!-- rocket -->
+          <svg viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2"/><path d="M12 8L8 12l1.5 4L15.5 9.5z"/><path d="M22 2L15.5 9.5"/><path d="M22 2s-4 0-9 5c-2 2-3 4-3 4"/></svg>
           ${isFull ? 'Penuh' : 'Beli'}
         </button>
       </div>
