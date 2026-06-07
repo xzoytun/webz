@@ -3,109 +3,262 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Riwayat Topup</title>
-
+<title>Riwayat Topup - Xtrimer Tunnel</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+:root {
+  --purple:    #6B21D6;
+  --purple2:   #8B3FF5;
+  --green:     #059669;
+  --green2:    #10B981;
+  --white:     #FFFFFF;
+  --text-dark: #1a0033;
+  --text-mid:  #5B3A8C;
+  --bg-light:  #F6F0FF;
+  --border:    #EDE0FF;
 }
 
-body{
-background:#0b132b;
-color:white;
-padding:20px;
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg-light);
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 40px;
+  overflow-x: hidden;
 }
 
-.container{
-max-width:500px;
-margin:auto;
+.blob1 {
+  position:fixed; top:-80px; left:-60px;
+  width:300px; height:300px;
+  background:radial-gradient(circle,rgba(107,33,214,0.12) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.blob2 {
+  position:fixed; bottom:-60px; right:-60px;
+  width:260px; height:260px;
+  background:radial-gradient(circle,rgba(0,200,83,0.10) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
 }
 
-.header{
-text-align:center;
-margin-bottom:20px;
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(145deg, #065f46 0%, #059669 55%, #10B981 100%);
+  padding: 22px 20px 36px;
+  position: relative; overflow: hidden; z-index: 2;
+}
+.header::before {
+  content:''; position:absolute; top:-40px; right:-30px;
+  width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%;
+}
+.header::after {
+  content:''; position:absolute; bottom:-50px; left:-20px;
+  width:130px; height:130px; background:rgba(255,255,255,0.05); border-radius:50%;
+}
+.header-inner {
+  display:flex; align-items:center; gap:14px; position:relative; z-index:2;
+}
+.back-btn-hdr {
+  width:40px; height:40px; border-radius:12px;
+  background:rgba(255,255,255,0.15); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; text-decoration:none; flex-shrink:0; transition:background 0.15s;
+}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
+.header-title { flex:1; }
+.header-title h1 {
+  font-family:'Fredoka One',cursive;
+  font-size:22px; color:#fff; line-height:1;
+  display:flex; align-items:center; gap:8px;
+}
+.header-title p { font-size:12px; color:rgba(255,255,255,0.75); font-weight:600; margin-top:4px; }
+.header-badge {
+  background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px; padding:5px 14px;
+  font-size:11px; font-weight:800; color:#fff; white-space:nowrap;
 }
 
-.header h2{
-color:#facc15;
-margin-bottom:5px;
+/* ── CONTAINER ── */
+.container {
+  max-width:480px; margin:0 auto;
+  padding:0 18px; position:relative; z-index:2;
 }
 
-.card{
-background:#1f2937;
-border:1px solid #374151;
-border-radius:14px;
-padding:15px;
-margin-bottom:12px;
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── SUMMARY CARD ── */
+.summary-card {
+  background:var(--white);
+  border-radius:20px; padding:18px;
+  border:1.5px solid var(--border);
+  box-shadow:0 4px 16px rgba(107,33,214,0.10);
+  margin-top:-20px; margin-bottom:16px;
+  position:relative; z-index:3;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:12px;
+  animation: fadeUp 0.4s 0.05s ease both;
+}
+.summary-item {
+  background:#F6F0FF; border-radius:14px; padding:14px;
+}
+.summary-item:first-child { background:#E0FFF0; }
+.summary-label {
+  font-size:10px; font-weight:800; color:#B0A0C0;
+  text-transform:uppercase; letter-spacing:0.8px;
+  margin-bottom:4px; display:flex; align-items:center; gap:4px;
+}
+.summary-label ph-icon { flex-shrink:0; }
+.summary-val {
+  font-family:'Fredoka One',cursive;
+  font-size:20px; color:var(--text-dark);
+}
+.summary-val.green-val { color:var(--green); }
+
+/* ── TOPUP CARD ── */
+.topup-card {
+  background:var(--white);
+  border-radius:18px; margin-bottom:10px;
+  border:1.5px solid var(--border);
+  box-shadow:0 2px 10px rgba(107,33,214,0.07);
+  overflow:hidden;
+  animation: fadeUp 0.35s ease both;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.topup-card:hover {
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(5,150,105,0.12);
+}
+/* green left border */
+.topup-card { border-left:4px solid var(--green2); }
+
+.topup-card-inner {
+  padding:14px 16px;
+  display:flex; align-items:center; gap:12px;
 }
 
-.row{
-display:flex;
-justify-content:space-between;
-margin-bottom:8px;
-font-size:13px;
+.topup-icon {
+  width:44px; height:44px; border-radius:14px;
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; flex-shrink:0;
 }
 
-.label{
-color:#9ca3af;
+.topup-main { flex:1; min-width:0; }
+.topup-amount {
+  font-family:'Fredoka One',cursive;
+  font-size:20px; color:var(--green); line-height:1; margin-bottom:4px;
+}
+.topup-method {
+  font-size:12px; font-weight:700; color:var(--text-mid);
+  display:flex; align-items:center; gap:4px;
 }
 
-.value{
-font-weight:bold;
-text-align:right;
+.topup-right { text-align:right; flex-shrink:0; }
+.topup-ref {
+  font-size:10px; font-weight:800; color:#B0A0C0;
+  margin-bottom:5px; max-width:120px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  text-align:right;
+}
+.topup-date {
+  font-size:10px; font-weight:700; color:#B0A0C0;
+  display:flex; align-items:center; gap:3px; justify-content:flex-end;
 }
 
-.amount{
-color:#22c55e;
-font-size:18px;
+.success-badge {
+  display:inline-flex; align-items:center; gap:4px;
+  background:#E0FFF0; border:1px solid #A5F3C4;
+  border-radius:20px; padding:3px 10px;
+  font-size:10px; font-weight:800; color:var(--green);
+  margin-top:4px;
 }
 
-.empty{
-text-align:center;
-padding:30px;
-color:#9ca3af;
+/* ── EMPTY / LOADING ── */
+.empty-state, .loading-state {
+  text-align:center; padding:50px 20px;
+  display:flex; flex-direction:column; align-items:center; gap:12px;
 }
+.empty-title {
+  font-family:'Fredoka One',cursive;
+  font-size:18px; color:var(--text-dark);
+}
+.empty-sub { font-size:13px; color:var(--text-mid); font-weight:600; }
 
-.back-btn{
-width:100%;
-padding:12px;
-border:none;
-border-radius:12px;
-background:#374151;
-color:white;
-margin-top:15px;
-cursor:pointer;
+/* ── BACK BTN ── */
+.back-btn {
+  width:100%; padding:14px; margin-top:6px;
+  border:2px solid var(--border); border-radius:16px;
+  background:var(--white); color:var(--text-mid);
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:14px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  transition:border-color 0.15s, color 0.15s;
 }
+.back-btn:hover { border-color:var(--purple2); color:var(--purple); }
 
 </style>
 </head>
 <body>
 
+<div class="blob1"></div>
+<div class="blob2"></div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-inner">
+    <a class="back-btn-hdr" href="dashboard.html">
+      <ph-icon name="arrow-left" weight="bold" size="20"></ph-icon>
+    </a>
+    <div class="header-title">
+      <h1>
+        <ph-icon name="clock-counter-clockwise" weight="fill" size="22"></ph-icon>
+        Riwayat Topup
+      </h1>
+      <p id="subtitle">Memuat data...</p>
+    </div>
+    <div class="header-badge" id="countBadge">—</div>
+  </div>
+</div>
+
 <div class="container">
 
-<div class="header">
-<h2>📜 Riwayat Topup</h2>
-<p>Daftar topup saldo akun</p>
-</div>
+  <!-- Summary -->
+  <div class="summary-card" id="summaryCard" style="display:none;">
+    <div class="summary-item">
+      <div class="summary-label">
+        <ph-icon name="trend-up" weight="fill" size="12" style="color:var(--green);"></ph-icon>
+        Total Topup
+      </div>
+      <div class="summary-val green-val" id="sumTotal">Rp 0</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-label">
+        <ph-icon name="receipt" weight="fill" size="12" style="color:var(--purple);"></ph-icon>
+        Transaksi
+      </div>
+      <div class="summary-val" id="sumCount">0x</div>
+    </div>
+  </div>
 
-<div id="historyArea">
+  <!-- History list -->
+  <div id="historyArea">
+    <div class="loading-state">
+      <ph-icon name="spinner-gap" weight="bold" size="36" style="color:var(--green);animation:spin 1s linear infinite;"></ph-icon>
+      <div class="empty-title">Memuat riwayat...</div>
+    </div>
+  </div>
 
-<div class="empty">
-Loading...
-</div>
-
-</div>
-
-<button
-class="back-btn"
-onclick="window.location.href='dashboard.html'">
-← Kembali
-</button>
+  <button class="back-btn" onclick="window.location.href='dashboard.html'">
+    <ph-icon name="arrow-left" weight="bold" size="16"></ph-icon>
+    Kembali ke Dashboard
+  </button>
 
 </div>
 
@@ -113,96 +266,77 @@ onclick="window.location.href='dashboard.html'">
 
 loadHistory();
 
-async function loadHistory(){
+async function loadHistory() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user) { window.location.href = 'index.html'; return; }
 
-const user =
-JSON.parse(localStorage.getItem('user'));
+  try {
+    const res  = await fetch(`/api/topup-history?email=${encodeURIComponent(user.email)}`);
+    const data = await res.json();
+    const area = document.getElementById('historyArea');
 
-if(!user){
-window.location.href='index.html';
-return;
-}
+    if (!data.success || !data.data || data.data.length <= 0) {
+      document.getElementById('subtitle').textContent = 'Belum ada transaksi';
+      document.getElementById('countBadge').textContent = '0 Topup';
+      area.innerHTML = `
+        <div class="empty-state">
+          <ph-icon name="receipt-x" weight="duotone" size="56" style="color:#C4B0D8;"></ph-icon>
+          <div class="empty-title">Belum Ada Riwayat</div>
+          <div class="empty-sub">Topup pertamamu akan muncul di sini</div>
+        </div>`;
+      return;
+    }
 
-try{
+    const items    = data.data;
+    const totalSum = items.reduce((s, i) => s + Number(i.amount || 0), 0);
 
-const res =
-await fetch(
-`/api/topup-history?email=${encodeURIComponent(user.email)}`
-);
+    document.getElementById('subtitle').textContent  = items.length + ' transaksi topup';
+    document.getElementById('countBadge').textContent = items.length + ' Topup';
+    document.getElementById('sumTotal').textContent  = 'Rp ' + totalSum.toLocaleString('id-ID');
+    document.getElementById('sumCount').textContent  = items.length + 'x';
+    document.getElementById('summaryCard').style.display = 'grid';
 
-const data =
-await res.json();
+    area.innerHTML = items.map((item, i) => {
+      const date = (item.created_at || '').replace('T',' ').slice(0,16) || '—';
+      return `
+      <div class="topup-card" style="animation-delay:${i * 0.05}s;">
+        <div class="topup-card-inner">
+          <div class="topup-icon">
+            <ph-icon name="arrow-circle-up" weight="fill" size="22"></ph-icon>
+          </div>
+          <div class="topup-main">
+            <div class="topup-amount">+ Rp ${Number(item.amount).toLocaleString('id-ID')}</div>
+            <div class="topup-method">
+              <ph-icon name="scan" weight="fill" size="12"></ph-icon>
+              ${item.metode || 'QRIS'}
+            </div>
+            <div class="success-badge">
+              <ph-icon name="check-circle" weight="fill" size="10"></ph-icon>
+              Berhasil
+            </div>
+          </div>
+          <div class="topup-right">
+            <div class="topup-ref">${item.reference || '—'}</div>
+            <div class="topup-date">
+              <ph-icon name="clock" weight="fill" size="10"></ph-icon>
+              ${date}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
 
-const area =
-document.getElementById('historyArea');
-
-if(
-!data.success ||
-!data.data ||
-data.data.length <= 0
-){
-
-area.innerHTML = `
-<div class="empty">
-Belum ada riwayat topup
-</div>
-`;
-
-return;
-}
-
-area.innerHTML =
-data.data.map(item => `
-
-<div class="card">
-
-<div class="row">
-<div class="label">Nominal</div>
-<div class="value amount">
-Rp ${Number(item.amount).toLocaleString('id-ID')}
-</div>
-</div>
-
-<div class="row">
-<div class="label">Metode</div>
-<div class="value">
-${item.metode}
-</div>
-</div>
-
-<div class="row">
-<div class="label">Referensi</div>
-<div class="value">
-${item.reference}
-</div>
-</div>
-
-<div class="row">
-<div class="label">Waktu</div>
-<div class="value">
-${item.created_at}
-</div>
-</div>
-
-</div>
-
-`).join('');
-
-}catch(err){
-
-console.error(err);
-
-document.getElementById('historyArea').innerHTML = `
-<div class="empty">
-Gagal memuat riwayat
-</div>
-`;
-
-}
-
+  } catch (err) {
+    console.error(err);
+    document.getElementById('historyArea').innerHTML = `
+      <div class="empty-state">
+        <ph-icon name="wifi-x" weight="duotone" size="52" style="color:#C4B0D8;"></ph-icon>
+        <div class="empty-title">Koneksi Gagal</div>
+        <div class="empty-sub">Tidak dapat memuat riwayat topup</div>
+      </div>`;
+  }
 }
 
 </script>
-
 </body>
 </html>
