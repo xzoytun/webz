@@ -4,301 +4,434 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Produk VPN - Xtrimer Tunnel</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
 <style>
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+:root {
+  --purple:    #6B21D6;
+  --purple2:   #8B3FF5;
+  --pink:      #E8007A;
+  --pink2:     #FF3D9A;
+  --orange:    #FF6B2C;
+  --yellow:    #FFD600;
+  --green:     #00C853;
+  --red:       #EF4444;
+  --blue:      #1ABCFE;
+  --white:     #FFFFFF;
+  --text-dark: #1a0033;
+  --text-mid:  #5B3A8C;
+  --bg-light:  #F6F0FF;
+  --border:    #EDE0FF;
 }
+
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-    background: #0b132b;
-    color: white;
-    min-height: 100vh;
-    padding-bottom: 30px;
+  background: var(--bg-light);
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 40px;
+  overflow-x: hidden;
 }
 
-/* ── Header ── */
+.blob1 {
+  position:fixed; top:-80px; left:-60px;
+  width:300px; height:300px;
+  background:radial-gradient(circle,rgba(107,33,214,0.12) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.blob2 {
+  position:fixed; bottom:-60px; right:-60px;
+  width:260px; height:260px;
+  background:radial-gradient(circle,rgba(232,0,122,0.10) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+
+/* ── HEADER ── */
 .header {
-    background: #1c2541;
-    padding: 18px 20px;
-    text-align: center;
-    border-bottom: 2px solid #facc15;
+  background: linear-gradient(145deg, var(--purple) 0%, var(--purple2) 60%, #A855F7 100%);
+  padding: 22px 20px 36px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.header::before {
+  content:''; position:absolute; top:-40px; right:-30px;
+  width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%;
+}
+.header::after {
+  content:''; position:absolute; bottom:-50px; left:-20px;
+  width:130px; height:130px; background:rgba(255,255,255,0.05); border-radius:50%;
+}
+.header-inner {
+  display:flex; align-items:center; gap:14px;
+  position:relative; z-index:2;
+}
+.back-btn-hdr {
+  width:40px; height:40px; border-radius:12px;
+  background:rgba(255,255,255,0.15); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; flex-shrink:0; transition:background 0.15s;
+  text-decoration:none;
+}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
+.header-title { flex:1; }
+.header-title h1 {
+  font-family:'Fredoka One',cursive;
+  font-size:22px; color:#fff; line-height:1;
+  display:flex; align-items:center; gap:8px;
+}
+.header-title p { font-size:12px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:4px; }
+.header-count {
+  background:rgba(255,255,255,0.2);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px; padding:5px 14px;
+  font-size:11px; font-weight:800; color:#fff; white-space:nowrap;
 }
 
-.logo {
-    color: #facc15;
-    font-size: 22px;
-    font-weight: bold;
-    letter-spacing: 1px;
+/* ── SEARCH ── */
+.search-wrap {
+  max-width:480px; margin:-18px auto 0;
+  padding:0 18px;
+  position:relative; z-index:5;
+  margin-bottom:16px;
 }
+.search-box {
+  width:100%; background:#fff;
+  border-radius:16px; border:1.5px solid var(--border);
+  box-shadow:0 4px 16px rgba(107,33,214,0.12);
+  display:flex; align-items:center; gap:10px; padding:12px 16px;
+}
+.search-input {
+  flex:1; border:none; outline:none;
+  font-family:'Nunito',sans-serif;
+  font-size:14px; font-weight:700; color:var(--text-dark); background:transparent;
+}
+.search-input::placeholder { color:#C4B0D8; font-weight:600; }
 
-/* ── Container ── */
+/* ── CONTAINER ── */
 .container {
-    padding: 20px;
-    max-width: 480px;
-    margin: 0 auto;
+  max-width:480px; margin:0 auto;
+  padding:0 18px;
+  position:relative; z-index:2;
 }
 
-/* ── Subtitle ── */
-.subtitle {
-    color: #9ca3af;
-    font-size: 13px;
-    margin-bottom: 16px;
-    text-align: center;
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── LOADING ── */
+.loading-state {
+  text-align:center; padding:50px 20px;
+  color:var(--text-mid); font-weight:700; font-size:14px;
+  display:flex; flex-direction:column; align-items:center; gap:12px;
 }
 
-/* ── Product Card ── */
-.product {
-    background: #1f2937;
-    border: 1px solid #2d3a55;
-    border-radius: 16px;
-    padding: 18px;
-    margin-bottom: 14px;
-    transition: border-color 0.2s;
+/* ── EMPTY ── */
+.empty-state {
+  text-align:center; padding:50px 20px;
+}
+.empty-title {
+  font-family:'Fredoka One',cursive;
+  font-size:20px; color:var(--text-dark); margin:12px 0 6px;
+}
+.empty-sub { font-size:13px; color:var(--text-mid); font-weight:600; }
+
+/* ── PRODUCT CARD ── */
+.product-card {
+  background:var(--white);
+  border-radius:22px;
+  margin-bottom:14px;
+  overflow:hidden;
+  border:1.5px solid var(--border);
+  box-shadow:0 4px 16px rgba(107,33,214,0.09);
+  animation: fadeUp 0.35s ease both;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+}
+.product-card:hover {
+  transform:translateY(-3px);
+  box-shadow:0 10px 28px rgba(107,33,214,0.15);
+  border-color:rgba(107,33,214,0.3);
+}
+.product-card.is-full {
+  opacity:0.72;
+}
+.product-card.is-full:hover { transform:none; }
+
+/* card top banner */
+.card-banner {
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  padding:16px 18px;
+  display:flex; align-items:center; gap:12px;
+  position:relative; overflow:hidden;
+}
+.card-banner::after {
+  content:''; position:absolute; top:-20px; right:-20px;
+  width:90px; height:90px;
+  background:rgba(255,255,255,0.07); border-radius:50%;
+}
+.server-icon {
+  width:44px; height:44px; border-radius:14px;
+  background:rgba(255,255,255,0.18);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; flex-shrink:0;
+}
+.server-name-wrap { flex:1; min-width:0; }
+.server-name {
+  font-family:'Fredoka One',cursive;
+  font-size:16px; color:#fff; line-height:1.1;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.server-loc {
+  font-size:11px; color:rgba(255,255,255,0.7);
+  font-weight:600; margin-top:3px;
+  display:flex; align-items:center; gap:4px;
 }
 
-.product:hover {
-    border-color: #facc15;
+.slot-badge {
+  padding:5px 12px; border-radius:20px;
+  font-size:11px; font-weight:800; flex-shrink:0;
+  display:flex; align-items:center; gap:4px;
 }
+.slot-ok   { background:rgba(0,200,83,0.2); border:1px solid rgba(0,200,83,0.4); color:#00E676; }
+.slot-full { background:rgba(239,68,68,0.2); border:1px solid rgba(239,68,68,0.4); color:#F87171; }
 
-/* Top row: name + status */
-.product-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 12px;
-    gap: 10px;
-}
-
-.product-name {
-    color: #facc15;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.product-location {
-    color: #9ca3af;
-    font-size: 12px;
-    margin-top: 3px;
-}
-
-.status-badge {
-    background: #065f46;
-    color: #6ee7b7;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 4px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-/* Protocol badges */
+/* proto row */
 .proto-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 14px;
+  padding:12px 18px;
+  display:flex; flex-wrap:wrap; gap:7px;
+  border-bottom:1.5px dashed var(--border);
 }
-
 .proto-badge {
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: bold;
+  padding:4px 12px; border-radius:20px;
+  font-size:11px; font-weight:800; letter-spacing:0.3px;
+  display:flex; align-items:center; gap:4px;
 }
+.pb-ssh    { background:#FFF0E0; color:var(--orange); }
+.pb-vmess  { background:#E0F7FF; color:#0077AA; }
+.pb-vless  { background:#EDE0FF; color:var(--purple); }
+.pb-trojan { background:#FFE0E0; color:var(--red); }
+.pb-ss     { background:#FFE0F5; color:var(--pink); }
 
-/* Divider */
-.divider {
-    border: none;
-    border-top: 1px solid #374151;
-    margin-bottom: 14px;
+/* bottom row */
+.card-bottom {
+  padding:14px 18px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
 }
-
-/* Price + button row */
-.product-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-}
-
 .price-box {}
-
 .price-label {
-    font-size: 11px;
-    color: #9ca3af;
-    margin-bottom: 2px;
+  font-size:10px; font-weight:800; color:#B0A0C0;
+  text-transform:uppercase; letter-spacing:0.8px; margin-bottom:2px;
+}
+.price-val {
+  font-family:'Fredoka One',cursive;
+  font-size:22px; color:var(--purple); line-height:1;
+}
+.price-period { font-size:11px; color:#B0A0C0; font-weight:600; margin-top:2px; }
+
+.buy-btn {
+  padding:12px 22px;
+  border:none; border-radius:14px;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  color:#fff; font-family:'Nunito',sans-serif;
+  font-weight:900; font-size:14px;
+  cursor:pointer; flex-shrink:0;
+  display:flex; align-items:center; gap:6px;
+  box-shadow:0 4px 14px rgba(107,33,214,0.30);
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.buy-btn:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(107,33,214,0.40); }
+.buy-btn:active { transform:translateY(0); }
+.buy-btn:disabled {
+  background:linear-gradient(135deg,#9CA3AF,#6B7280);
+  cursor:not-allowed; box-shadow:none; transform:none;
 }
 
-.price-value {
-    font-size: 22px;
-    font-weight: bold;
-    color: #facc15;
-    line-height: 1;
+/* ── BACK BTN ── */
+.back-btn-bottom {
+  width:100%; padding:14px;
+  border:2px solid var(--border); border-radius:16px;
+  background:var(--white); color:var(--text-mid);
+  font-family:'Nunito',sans-serif;
+  font-weight:800; font-size:14px;
+  cursor:pointer; margin-top:6px;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  transition:border-color 0.15s, color 0.15s;
 }
-
-.price-period {
-    font-size: 11px;
-    color: #6b7280;
-    margin-top: 2px;
-}
-
-.btn {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 10px;
-    background: #facc15;
-    color: #0b132b;
-    font-weight: bold;
-    font-size: 14px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: opacity 0.15s;
-    flex-shrink: 0;
-}
-
-.btn:hover { opacity: 0.9; }
-
-/* ── Empty / Loading ── */
-.loading-text {
-    text-align: center;
-    color: #9ca3af;
-    padding: 40px 0;
-    font-size: 14px;
-}
-
-/* ── Back button ── */
-.back-btn {
-    width: 100%;
-    border: none;
-    padding: 13px;
-    border-radius: 12px;
-    background: #374151;
-    color: #d1d5db;
-    font-weight: bold;
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 8px;
-    transition: background 0.15s;
-}
-
-.back-btn:hover { background: #4b5563; }
+.back-btn-bottom:hover { border-color:var(--purple2); color:var(--purple); }
 
 </style>
 </head>
 <body>
 
+<div class="blob1"></div>
+<div class="blob2"></div>
+
+<!-- Header -->
 <div class="header">
-    <div class="logo">⚡ PRODUK VPN</div>
+  <div class="header-inner">
+    <a class="back-btn-hdr" href="dashboard.html">
+      <ph-icon name="arrow-left" weight="bold" size="20"></ph-icon>
+    </a>
+    <div class="header-title">
+      <h1>
+        <ph-icon name="package" weight="fill" size="22"></ph-icon>
+        Produk VPN
+      </h1>
+      <p id="subtitle">Memuat produk...</p>
+    </div>
+    <div class="header-count" id="countBadge">—</div>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="search-wrap">
+  <div class="search-box">
+    <ph-icon name="magnifying-glass" weight="bold" size="18" style="color:#B0A0C0;flex-shrink:0;"></ph-icon>
+    <input class="search-input" id="searchInput" type="text"
+      placeholder="Cari server atau lokasi..."
+      oninput="filterProducts()">
+  </div>
 </div>
 
 <div class="container">
-
-    <div class="subtitle" id="subtitle">Memuat produk...</div>
-
-    <div id="products">
-        <div class="loading-text">⏳ Memuat daftar produk...</div>
+  <div id="products">
+    <div class="loading-state">
+      <ph-icon name="spinner-gap" weight="bold" size="36" style="color:var(--purple);animation:spin 1s linear infinite;"></ph-icon>
+      Memuat daftar produk...
     </div>
+  </div>
 
-    <button
-        class="back-btn"
-        onclick="window.location.href='dashboard.html'">
-        ← Kembali ke Dashboard
-    </button>
-
+  <button class="back-btn-bottom" onclick="window.location.href='dashboard.html'">
+    <ph-icon name="arrow-left" weight="bold" size="16"></ph-icon>
+    Kembali ke Dashboard
+  </button>
 </div>
 
 <script>
 
+let allProducts = [];
+
 loadProducts();
 
 async function loadProducts() {
-    try {
-        const res  = await fetch('/api/products');
-        const data = await res.json();
+  try {
+    const res  = await fetch('/api/products');
+    const data = await res.json();
 
-        if (!data.success) {
-            alert('Gagal memuat produk');
-            return;
-        }
-
-        const products = data.products;
-
-        document.getElementById('subtitle').textContent =
-            `${products.length} server tersedia`;
-
-        if (products.length === 0) {
-            document.getElementById('products').innerHTML =
-                '<div class="loading-text">Belum ada produk tersedia</div>';
-            return;
-        }
-
-        let html = '';
-
-        products.forEach(server => {
-            const hargaMulai =
-Number(server.harga || 0) * 7;
-            const slotUsed    = server.total_create_akun || 0;
-            const slotMax     = server.batas_create_akun || 0;
-            const isFull      = slotMax > 0 && slotUsed >= slotMax;
-
-            html += `
-<div class="product">
-
-    <div class="product-top">
-        <div>
-            <div class="product-name">🌐 ${server.nama_server}</div>
-            <div class="product-location">📍 ${server.lokasi || '-'}</div>
-        </div>
-        <div class="status-badge">
-            ${isFull ? '🔴 FULL' : `✅ ${slotUsed}/${slotMax}`}
-        </div>
-    </div>
-
-    <div class="proto-row">
-        <span class="proto-badge" style="background:#78350f;color:#fde68a">SSH</span>
-        <span class="proto-badge" style="background:#065f46;color:#6ee7b7">VMESS</span>
-        <span class="proto-badge" style="background:#1e3a5f;color:#93c5fd">VLESS</span>
-        <span class="proto-badge" style="background:#7f1d1d;color:#fca5a5">TROJAN</span>
-        <span class="proto-badge" style="background:#4c1d95;color:#c4b5fd">SS</span>
-    </div>
-
-    <hr class="divider">
-
-    <div class="product-bottom">
-        <div class="price-box">
-            <div class="price-label">Mulai dari</div>
-            <div class="price-value">Rp ${hargaMulai.toLocaleString('id-ID')}</div>
-            <div class="price-period">/ 7 hari</div>
-        </div>
-        <button
-            class="btn"
-            ${isFull ? 'disabled style="opacity:0.4;cursor:not-allowed"' : ''}
-            onclick="buyServer(${server.id})">
-            🚀 Beli
-        </button>
-    </div>
-
-</div>
-`;
-        });
-
-        document.getElementById('products').innerHTML = html;
-
-    } catch (err) {
-        console.error(err);
-        document.getElementById('products').innerHTML =
-            '<div class="loading-text" style="color:#f87171">❌ Server tidak dapat dihubungi</div>';
+    if (!data.success) {
+      document.getElementById('products').innerHTML = `
+        <div class="empty-state">
+          <ph-icon name="warning-circle" weight="duotone" size="52" style="color:#C4B0D8;"></ph-icon>
+          <div class="empty-title">Gagal Memuat</div>
+          <div class="empty-sub">Tidak dapat terhubung ke server</div>
+        </div>`;
+      return;
     }
+
+    allProducts = data.products || [];
+    document.getElementById('subtitle').textContent   = allProducts.length + ' server tersedia';
+    document.getElementById('countBadge').textContent = allProducts.length + ' Server';
+    renderProducts(allProducts);
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('products').innerHTML = `
+      <div class="empty-state">
+        <ph-icon name="wifi-x" weight="duotone" size="52" style="color:#C4B0D8;"></ph-icon>
+        <div class="empty-title">Koneksi Gagal</div>
+        <div class="empty-sub">Periksa koneksi internet kamu</div>
+      </div>`;
+  }
+}
+
+function filterProducts() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = allProducts.filter(s =>
+    (s.nama_server||'').toLowerCase().includes(q) ||
+    (s.lokasi||'').toLowerCase().includes(q)
+  );
+  renderProducts(filtered);
+}
+
+function renderProducts(products) {
+  if (!products.length) {
+    document.getElementById('products').innerHTML = `
+      <div class="empty-state">
+        <ph-icon name="magnifying-glass" weight="duotone" size="52" style="color:#C4B0D8;"></ph-icon>
+        <div class="empty-title">Tidak Ditemukan</div>
+        <div class="empty-sub">Coba kata kunci lain</div>
+      </div>`;
+    return;
+  }
+
+  let html = '';
+  products.forEach((server, i) => {
+    const hargaMulai = Number(server.harga || 0) * 7;
+    const slotUsed   = server.total_create_akun || 0;
+    const slotMax    = server.batas_create_akun  || 0;
+    const isFull     = slotMax > 0 && slotUsed >= slotMax;
+
+    html += `
+    <div class="product-card ${isFull ? 'is-full' : ''}" style="animation-delay:${i * 0.06}s">
+      <div class="card-banner">
+        <div class="server-icon">
+          <ph-icon name="globe-hemisphere-west" weight="fill" size="22"></ph-icon>
+        </div>
+        <div class="server-name-wrap">
+          <div class="server-name">${server.nama_server}</div>
+          <div class="server-loc">
+            <ph-icon name="map-pin" weight="fill" size="11"></ph-icon>
+            ${server.lokasi || '—'}
+          </div>
+        </div>
+        <div class="slot-badge ${isFull ? 'slot-full' : 'slot-ok'}">
+          <ph-icon name="${isFull ? 'x-circle' : 'check-circle'}" weight="fill" size="12"></ph-icon>
+          ${isFull ? 'FULL' : slotUsed + '/' + slotMax}
+        </div>
+      </div>
+
+      <div class="proto-row">
+        <span class="proto-badge pb-ssh">
+          <ph-icon name="terminal-window" weight="fill" size="11"></ph-icon> SSH
+        </span>
+        <span class="proto-badge pb-vmess">
+          <ph-icon name="globe" weight="fill" size="11"></ph-icon> VMESS
+        </span>
+        <span class="proto-badge pb-vless">
+          <ph-icon name="lightning" weight="fill" size="11"></ph-icon> VLESS
+        </span>
+        <span class="proto-badge pb-trojan">
+          <ph-icon name="shield-warning" weight="fill" size="11"></ph-icon> TROJAN
+        </span>
+        <span class="proto-badge pb-ss">
+          <ph-icon name="eye-slash" weight="fill" size="11"></ph-icon> SS
+        </span>
+      </div>
+
+      <div class="card-bottom">
+        <div class="price-box">
+          <div class="price-label">Mulai dari</div>
+          <div class="price-val">Rp ${hargaMulai.toLocaleString('id-ID')}</div>
+          <div class="price-period">/ 7 hari</div>
+        </div>
+        <button class="buy-btn" ${isFull ? 'disabled' : ''} onclick="buyServer(${server.id})">
+          <ph-icon name="rocket-launch" weight="fill" size="16"></ph-icon>
+          ${isFull ? 'Penuh' : 'Beli'}
+        </button>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('products').innerHTML = html;
 }
 
 function buyServer(id) {
-    window.location.href = 'checkout.html?id=' + id;
+  window.location.href = 'checkout.html?id=' + id;
 }
 
 </script>
