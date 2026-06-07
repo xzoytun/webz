@@ -1,359 +1,566 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Topup Saldo - Xtrimer Tunnel</title><style>
+<title>Topup Saldo - Xtrimer Tunnel</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
+<style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+:root {
+  --purple:    #6B21D6;
+  --purple2:   #8B3FF5;
+  --pink:      #E8007A;
+  --pink2:     #FF3D9A;
+  --orange:    #FF6B2C;
+  --yellow:    #FFD600;
+  --green:     #00C853;
+  --red:       #EF4444;
+  --white:     #FFFFFF;
+  --text-dark: #1a0033;
+  --text-mid:  #5B3A8C;
+  --bg-light:  #F6F0FF;
+  --border:    #EDE0FF;
 }
 
-body{
-background:#0b132b;
-color:white;
-min-height:100vh;
-padding:20px;
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg-light);
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 40px;
+  overflow-x: hidden;
 }
 
-.container{
-max-width:480px;
-margin:auto;
+.blob1 {
+  position:fixed; top:-80px; left:-60px;
+  width:300px; height:300px;
+  background:radial-gradient(circle,rgba(107,33,214,0.12) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.blob2 {
+  position:fixed; bottom:-60px; right:-60px;
+  width:260px; height:260px;
+  background:radial-gradient(circle,rgba(0,200,83,0.10) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
 }
 
-.header{
-text-align:center;
-margin-bottom:20px;
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(145deg, #065f46 0%, #059669 55%, #10B981 100%);
+  padding: 22px 20px 36px;
+  position: relative; overflow: hidden; z-index: 2;
+}
+.header::before {
+  content:''; position:absolute; top:-40px; right:-30px;
+  width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%;
+}
+.header::after {
+  content:''; position:absolute; bottom:-50px; left:-20px;
+  width:130px; height:130px; background:rgba(255,255,255,0.05); border-radius:50%;
+}
+.header-inner {
+  display:flex; align-items:center; gap:14px; position:relative; z-index:2;
+}
+.back-btn-hdr {
+  width:40px; height:40px; border-radius:12px;
+  background:rgba(255,255,255,0.15); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; text-decoration:none; flex-shrink:0; transition:background 0.15s;
+}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
+.header-title { flex:1; }
+.header-title h1 {
+  font-family:'Fredoka One',cursive;
+  font-size:22px; color:#fff; line-height:1;
+  display:flex; align-items:center; gap:8px;
+}
+.header-title p { font-size:12px; color:rgba(255,255,255,0.75); font-weight:600; margin-top:4px; }
+.balance-hdr-chip {
+  background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px; padding:5px 14px;
+  font-size:11px; font-weight:800; color:#fff; white-space:nowrap;
+  display:flex; align-items:center; gap:5px;
 }
 
-.header h2{
-color:#facc15;
-margin-bottom:5px;
+/* ── CONTAINER ── */
+.container {
+  max-width:480px; margin:0 auto;
+  padding:0 18px; position:relative; z-index:2;
 }
 
-.header p{
-font-size:13px;
-color:#9ca3af;
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+@keyframes pulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(0,200,83,0.4); }
+  50%      { box-shadow:0 0 0 10px rgba(0,200,83,0); }
 }
 
-.card{
-background:#1f2937;
-border:1px solid #374151;
-border-radius:16px;
-padding:20px;
-margin-bottom:15px;
+/* ── INPUT CARD ── */
+.input-card {
+  background:var(--white);
+  border-radius:22px; padding:20px 18px;
+  border:1.5px solid var(--border);
+  box-shadow:0 4px 16px rgba(107,33,214,0.10);
+  margin-top:-20px; margin-bottom:14px;
+  position:relative; z-index:3;
+  animation: fadeUp 0.4s 0.05s ease both;
 }
 
-.label{
-font-size:12px;
-color:#9ca3af;
-margin-bottom:6px;
-display:block;
+.field-label {
+  font-size:11px; font-weight:800; color:var(--text-mid);
+  text-transform:uppercase; letter-spacing:0.8px;
+  margin-bottom:8px; display:flex; align-items:center; gap:5px;
 }
 
-.input{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:1px solid #374151;
-background:#111827;
-color:white;
-font-size:14px;
-outline:none;
+.amount-wrap {
+  display:flex; align-items:center;
+  background:#FBF8FF; border:2px solid var(--border);
+  border-radius:14px; padding:12px 16px; gap:10px;
+  transition:border-color 0.15s;
+}
+.amount-wrap:focus-within { border-color:#10B981; }
+.amount-prefix {
+  font-family:'Fredoka One',cursive;
+  font-size:18px; color:var(--text-mid); white-space:nowrap;
+}
+.amount-input {
+  flex:1; border:none; outline:none;
+  font-family:'Fredoka One',cursive;
+  font-size:22px; color:var(--text-dark); background:transparent;
+  min-width:0;
+}
+.amount-input::placeholder { color:#C4B0D8; font-size:18px; }
+
+/* ── NOMINAL GRID ── */
+.nominal-label {
+  font-size:11px; font-weight:800; color:var(--text-mid);
+  text-transform:uppercase; letter-spacing:0.8px;
+  margin:16px 0 10px; display:flex; align-items:center; gap:5px;
+}
+.nominal-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:8px;
+}
+.nominal-btn {
+  padding:12px 10px;
+  border:2px solid var(--border); border-radius:14px;
+  background:#FBF8FF; color:var(--text-mid);
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:13px;
+  cursor:pointer; text-align:center;
+  transition:all 0.15s;
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+}
+.nominal-btn:hover {
+  border-color:#10B981; color:#059669; background:#F0FFF8;
+}
+.nominal-btn:active { transform:scale(0.96); }
+.nominal-btn.selected {
+  border-color:#10B981;
+  background:linear-gradient(135deg,#059669,#10B981);
+  color:#fff;
+  box-shadow:0 4px 12px rgba(16,185,129,0.3);
+}
+.nominal-btn .nom-label { font-size:11px; font-weight:600; opacity:0.75; }
+.nominal-btn .nom-val { font-size:14px; font-weight:900; }
+
+/* ── PROMO CHIPS ── */
+.promo-chips {
+  display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;
+}
+.promo-chip {
+  background:#E0FFF0; border:1px solid #A5F3C4;
+  border-radius:20px; padding:5px 12px;
+  font-size:11px; font-weight:800; color:#059669;
+  display:flex; align-items:center; gap:4px;
 }
 
-.input:focus{
-border-color:#facc15;
+/* ── SUBMIT BTN ── */
+.submit-btn {
+  width:100%; padding:16px; margin-top:18px;
+  border:none; border-radius:18px;
+  background:linear-gradient(135deg,#059669,#10B981);
+  color:#fff; font-family:'Nunito',sans-serif;
+  font-weight:900; font-size:15px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  box-shadow:0 6px 20px rgba(5,150,105,0.35);
+  transition:transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+.submit-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(5,150,105,0.45); }
+.submit-btn:active { transform:translateY(0); }
+.submit-btn:disabled { opacity:0.55; cursor:not-allowed; transform:none; }
+
+/* ── QRIS CARD ── */
+.qris-card {
+  background:var(--white);
+  border-radius:22px; overflow:hidden;
+  border:1.5px solid var(--border);
+  box-shadow:0 4px 20px rgba(107,33,214,0.12);
+  margin-bottom:14px;
+  animation: fadeUp 0.4s ease both;
 }
 
-.nominal-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:8px;
-margin-top:12px;
+.qris-card-head {
+  background:linear-gradient(135deg,#059669,#10B981);
+  padding:16px 18px;
+  display:flex; align-items:center; gap:12px;
+}
+.qris-head-icon {
+  width:44px; height:44px; border-radius:14px;
+  background:rgba(255,255,255,0.2);
+  display:flex; align-items:center; justify-content:center; color:#fff;
+}
+.qris-head-text {}
+.qris-head-title {
+  font-family:'Fredoka One',cursive;
+  font-size:17px; color:#fff;
+}
+.qris-head-sub { font-size:11px; color:rgba(255,255,255,0.75); font-weight:600; margin-top:2px; }
+
+.qris-body { padding:20px 18px; }
+
+.qris-amount-row {
+  text-align:center; margin-bottom:18px;
+}
+.qris-amount-label {
+  font-size:11px; font-weight:800; color:#B0A0C0;
+  text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px;
+}
+.qris-amount-val {
+  font-family:'Fredoka One',cursive;
+  font-size:32px; color:var(--text-dark); line-height:1;
 }
 
-.nominal-btn{
-padding:12px;
-background:#111827;
-border:1px solid #374151;
-border-radius:10px;
-color:white;
-cursor:pointer;
-font-size:13px;
+.qris-fee-row {
+  display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;
+}
+.fee-item {
+  background:#F6F0FF; border-radius:12px; padding:12px;
+  text-align:center;
+}
+.fee-label { font-size:10px; font-weight:800; color:#B0A0C0; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:3px; }
+.fee-val { font-family:'Fredoka One',cursive; font-size:15px; color:var(--text-dark); }
+
+.qr-img-wrap {
+  display:flex; justify-content:center; margin-bottom:16px;
+}
+.qr-img-wrap img {
+  width:240px; height:240px;
+  border-radius:16px; padding:10px;
+  background:var(--white);
+  border:2px solid var(--border);
+  box-shadow:0 4px 16px rgba(0,0,0,0.08);
+  object-fit:contain;
 }
 
-.nominal-btn:hover{
-border-color:#facc15;
+.timer-row {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  background:#FFF8E0; border:1px solid #FFE580; border-radius:12px;
+  padding:10px 14px; margin-bottom:14px;
+  font-size:13px; font-weight:800; color:#B45309;
 }
 
-.btn{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-background:#facc15;
-color:#0b132b;
-font-weight:bold;
-font-size:15px;
-cursor:pointer;
-margin-top:15px;
+/* ── STATUS AREA ── */
+#statusArea {
+  text-align:center; padding:12px;
+  font-size:13px; font-weight:700; color:var(--text-mid);
+  display:flex; align-items:center; justify-content:center; gap:8px;
 }
 
-.btn:disabled{
-opacity:.5;
-cursor:not-allowed;
+.status-waiting {
+  color:var(--text-mid);
+  animation: pulse-text 2s ease-in-out infinite;
+}
+@keyframes pulse-text {
+  0%,100% { opacity:1; } 50% { opacity:0.5; }
 }
 
-.qris-box{
-text-align:center;
+.status-paid {
+  background:linear-gradient(135deg,#E0FFF0,#C8FFE0);
+  border:1.5px solid #A5F3C4;
+  border-radius:14px; padding:14px 18px;
+  color:#059669;
+  font-family:'Fredoka One',cursive;
+  font-size:17px;
+  animation: pulse 1s ease;
 }
 
-.qris-box img{
-width:100%;
-max-width:300px;
-border-radius:12px;
-background:white;
-padding:10px;
+.status-expired {
+  background:#FFF0F0; border:1.5px solid #FECACA;
+  border-radius:14px; padding:12px 16px;
+  color:var(--red); font-weight:800;
 }
 
-.amount{
-font-size:28px;
-font-weight:bold;
-color:#facc15;
-margin-top:15px;
+/* ── BACK BTN ── */
+.back-btn {
+  width:100%; padding:14px;
+  border:2px solid var(--border); border-radius:16px;
+  background:var(--white); color:var(--text-mid);
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:14px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  transition:border-color 0.15s, color 0.15s;
 }
+.back-btn:hover { border-color:var(--purple2); color:var(--purple); }
 
-.info{
-margin-top:10px;
-font-size:13px;
-color:#d1d5db;
+/* ── TOAST ── */
+.toast {
+  position:fixed; top:20px; left:50%;
+  transform:translateX(-50%) translateY(-80px);
+  z-index:999; padding:12px 22px;
+  border-radius:16px; font-weight:700; font-size:13px;
+  display:flex; align-items:center; gap:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  transition:transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s;
+  opacity:0; white-space:nowrap; color:#fff; background:var(--text-dark);
 }
+.toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+.toast.error { background:linear-gradient(135deg,#EF4444,#F87171); }
+.toast.warn  { background:linear-gradient(135deg,#FF6B2C,#FFD600); color:var(--text-dark); }
 
-.success{
-background:#065f46;
-color:#6ee7b7;
-padding:12px;
-border-radius:10px;
-text-align:center;
-font-weight:bold;
-}
+</style>
+</head>
+<body>
 
-.back-btn{
-width:100%;
-padding:12px;
-border:none;
-border-radius:12px;
-background:#374151;
-color:white;
-margin-top:10px;
-cursor:pointer;
-}
+<div class="blob1"></div>
+<div class="blob2"></div>
 
-</style></head>
-<body><div class="container"><div class="header">
-<h2>💰 Topup Saldo</h2>
-<p>Isi saldo akun menggunakan QRIS</p>
-</div><div class="card"><label class="label">
-Nominal Topup
-</label><input
-type="number"
-id="amount"
-class="input"
-placeholder="Minimal 500">
-
-<div class="nominal-grid"><button class="nominal-btn" onclick="setNominal(5000)">
-Rp 500
-</button><button class="nominal-btn" onclick="setNominal(10000)">
-Rp 10.000
-</button><button class="nominal-btn" onclick="setNominal(20000)">
-Rp 20.000
-</button><button class="nominal-btn" onclick="setNominal(50000)">
-Rp 50.000
-</button></div><button
-id="topupBtn"
-class="btn"
-onclick="createDeposit()">
-🚀 Buat QRIS
-</button>
-
-</div><div id="result"></div><button
-class="back-btn"
-onclick="window.location.href='dashboard.html'">
-← Kembali ke Dashboard
-</button>
-
-</div><script>
-
-function setNominal(value){
-document.getElementById('amount').value=value;
-}
-
-let depositCode=null;
-
-async function createDeposit(){
-
-const user=
-JSON.parse(
-localStorage.getItem('user')
-);
-
-if(!user){
-alert('Silakan login');
-return;
-}
-
-const amount=
-document.getElementById('amount').value;
-
-if(!amount || amount < 500){
-alert('Minimal topup Rp 500');
-return;
-}
-
-const btn=
-document.getElementById('topupBtn');
-
-btn.disabled=true;
-btn.innerText='⏳ Membuat QRIS...';
-
-try{
-
-const res=
-await fetch('/api/deposit',{
-method:'POST',
-headers:{
-'Content-Type':'application/json'
-},
-body:JSON.stringify({
-email:user.email,
-amount
-})
-});
-
-const data=
-await res.json();
-
-btn.disabled=false;
-btn.innerText='🚀 Buat QRIS';
-
-if(!data.success){
-alert(data.message);
-return;
-}
-
-depositCode=data.uniqueCode;
-
-document.getElementById('result').innerHTML=`
-
-<div class="card qris-box">
-
-<h3>Scan QRIS</h3>
-
-<div class="amount">
-Rp ${Number(data.amount).toLocaleString('id-ID')}
+<!-- Header -->
+<div class="header">
+  <div class="header-inner">
+    <a class="back-btn-hdr" href="dashboard.html">
+      <ph-icon name="arrow-left" weight="bold" size="20"></ph-icon>
+    </a>
+    <div class="header-title">
+      <h1>
+        <ph-icon name="wallet" weight="fill" size="22"></ph-icon>
+        Topup Saldo
+      </h1>
+      <p>Isi saldo via QRIS, instan & aman</p>
+    </div>
+    <div class="balance-hdr-chip">
+      <ph-icon name="scan" weight="bold" size="13"></ph-icon>
+      QRIS
+    </div>
+  </div>
 </div>
 
-<div class="info">
-Nominal Topup :
-Rp ${Number(data.originalAmount).toLocaleString('id-ID')}
+<div class="container">
+
+  <!-- Input Card -->
+  <div class="input-card">
+    <div class="field-label">
+      <ph-icon name="currency-circle-dollar" weight="fill" size="14"></ph-icon>
+      Nominal Topup
+    </div>
+    <div class="amount-wrap">
+      <span class="amount-prefix">Rp</span>
+      <input class="amount-input" type="number" id="amount"
+        placeholder="0" min="500" oninput="clearSelected()">
+    </div>
+
+    <div class="nominal-label">
+      <ph-icon name="lightning" weight="fill" size="13"></ph-icon>
+      Pilih Cepat
+    </div>
+    <div class="nominal-grid">
+      <button class="nominal-btn" onclick="setNominal(5000, this)">
+        <span class="nom-label">Lima Ribu</span>
+        <span class="nom-val">Rp 5.000</span>
+      </button>
+      <button class="nominal-btn" onclick="setNominal(10000, this)">
+        <span class="nom-label">Sepuluh Ribu</span>
+        <span class="nom-val">Rp 10.000</span>
+      </button>
+      <button class="nominal-btn" onclick="setNominal(20000, this)">
+        <span class="nom-label">Dua Puluh Ribu</span>
+        <span class="nom-val">Rp 20.000</span>
+      </button>
+      <button class="nominal-btn" onclick="setNominal(50000, this)">
+        <span class="nom-label">Lima Puluh Ribu</span>
+        <span class="nom-val">Rp 50.000</span>
+      </button>
+    </div>
+
+    <div class="promo-chips">
+      <div class="promo-chip">
+        <ph-icon name="check-circle" weight="fill" size="13"></ph-icon>
+        Instan masuk
+      </div>
+      <div class="promo-chip">
+        <ph-icon name="lock-key" weight="fill" size="13"></ph-icon>
+        Transaksi aman
+      </div>
+      <div class="promo-chip">
+        <ph-icon name="clock" weight="fill" size="13"></ph-icon>
+        Berlaku 5 menit
+      </div>
+    </div>
+
+    <button class="submit-btn" id="topupBtn" onclick="createDeposit()">
+      <ph-icon name="qr-code" weight="fill" size="18"></ph-icon>
+      Buat QRIS Sekarang
+    </button>
+  </div>
+
+  <!-- QRIS Result -->
+  <div id="result"></div>
+
+  <button class="back-btn" onclick="window.location.href='dashboard.html'">
+    <ph-icon name="arrow-left" weight="bold" size="16"></ph-icon>
+    Kembali ke Dashboard
+  </button>
+
 </div>
 
-<div class="info">
-Biaya Admin :
-Rp ${Number(data.adminFee).toLocaleString('id-ID')}
-</div>
+<div class="toast" id="toast"></div>
 
-<br>
+<script>
 
-<img src="${data.qrUrl}">
+let depositCode = null;
 
-<div class="info">
-⏱ QRIS berlaku 5 menit
-</div>
-
-<div id="statusArea" class="info">
-Menunggu pembayaran...
-</div>
-
-</div>
-`;
-
-startChecker();
-
-}catch(err){
-
-console.error(err);
-
-btn.disabled=false;
-btn.innerText='🚀 Buat QRIS';
-
-alert('Gagal membuat QRIS');
-
+function setNominal(value, el) {
+  document.getElementById('amount').value = value;
+  document.querySelectorAll('.nominal-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
 }
 
+function clearSelected() {
+  document.querySelectorAll('.nominal-btn').forEach(b => b.classList.remove('selected'));
 }
 
-function startChecker(){
+async function createDeposit() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user) { showToast('Silakan login terlebih dahulu', 'error'); return; }
 
-const interval=setInterval(async()=>{
+  const amount = document.getElementById('amount').value;
+  if (!amount || amount < 500) {
+    showToast('Minimal topup Rp 500', 'warn'); return;
+  }
 
-if(!depositCode){
-clearInterval(interval);
-return;
+  const btn = document.getElementById('topupBtn');
+  btn.disabled = true;
+  btn.innerHTML = `<ph-icon name="spinner-gap" weight="bold" size="18" style="animation:spin 1s linear infinite;"></ph-icon> Membuat QRIS...`;
+
+  try {
+    const res  = await fetch('/api/deposit', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email: user.email, amount })
+    });
+    const data = await res.json();
+
+    btn.disabled = false;
+    btn.innerHTML = `<ph-icon name="qr-code" weight="fill" size="18"></ph-icon> Buat QRIS Sekarang`;
+
+    if (!data.success) { showToast(data.message || 'Gagal membuat QRIS', 'error'); return; }
+
+    depositCode = data.uniqueCode;
+
+    document.getElementById('result').innerHTML = `
+      <div class="qris-card">
+        <div class="qris-card-head">
+          <div class="qris-head-icon">
+            <ph-icon name="qr-code" weight="fill" size="22"></ph-icon>
+          </div>
+          <div class="qris-head-text">
+            <div class="qris-head-title">Scan & Bayar</div>
+            <div class="qris-head-sub">Gunakan aplikasi e-wallet apapun</div>
+          </div>
+        </div>
+        <div class="qris-body">
+          <div class="qris-amount-row">
+            <div class="qris-amount-label">
+              <ph-icon name="tag" weight="fill" size="11" style="vertical-align:middle;"></ph-icon>
+              Total Pembayaran
+            </div>
+            <div class="qris-amount-val">Rp ${Number(data.amount).toLocaleString('id-ID')}</div>
+          </div>
+
+          <div class="qris-fee-row">
+            <div class="fee-item">
+              <div class="fee-label">Topup</div>
+              <div class="fee-val">Rp ${Number(data.originalAmount).toLocaleString('id-ID')}</div>
+            </div>
+            <div class="fee-item">
+              <div class="fee-label">Admin</div>
+              <div class="fee-val">Rp ${Number(data.adminFee).toLocaleString('id-ID')}</div>
+            </div>
+          </div>
+
+          <div class="qr-img-wrap">
+            <img src="${data.qrUrl}" alt="QRIS Code">
+          </div>
+
+          <div class="timer-row">
+            <ph-icon name="hourglass-medium" weight="fill" size="16"></ph-icon>
+            QRIS berlaku selama <strong>5 menit</strong>
+          </div>
+
+          <div id="statusArea">
+            <div class="status-waiting">
+              <ph-icon name="spinner-gap" weight="bold" size="16" style="animation:spin 1.5s linear infinite;"></ph-icon>
+              Menunggu pembayaran...
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('result').scrollIntoView({ behavior:'smooth' });
+    startChecker();
+
+  } catch(err) {
+    console.error(err);
+    btn.disabled = false;
+    btn.innerHTML = `<ph-icon name="qr-code" weight="fill" size="18"></ph-icon> Buat QRIS Sekarang`;
+    showToast('Gagal membuat QRIS', 'error');
+  }
 }
 
-try{
+function startChecker() {
+  const interval = setInterval(async () => {
+    if (!depositCode) { clearInterval(interval); return; }
+    try {
+      const res  = await fetch('/api/deposit-status/' + depositCode);
+      const data = await res.json();
 
-const res=
-await fetch(
-'/api/deposit-status/'+depositCode
-);
+      if (data.success && data.status === 'expired') {
+        document.getElementById('statusArea').innerHTML = `
+          <div class="status-expired">
+            <ph-icon name="x-circle" weight="fill" size="18" style="vertical-align:middle;margin-right:6px;"></ph-icon>
+            QRIS sudah expired. Buat ulang untuk melanjutkan.
+          </div>`;
+        clearInterval(interval);
+      }
 
-const data=
-await res.json();
-
-if(
-data.success &&
-data.status==='expired'
-){
-
-document.getElementById(
-'statusArea'
-).innerHTML=
-'<div style="color:#f87171;font-weight:bold">❌ QRIS Expired</div>';
-
-clearInterval(interval);
-
-return;
-
+      if (data.success && data.status === 'paid') {
+        document.getElementById('statusArea').innerHTML = `
+          <div class="status-paid">
+            <ph-icon name="check-circle" weight="fill" size="22" style="vertical-align:middle;margin-right:8px;"></ph-icon>
+            Pembayaran Berhasil!<br>
+            <span style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#059669;">
+              Saldo sudah masuk ke akun kamu
+            </span>
+          </div>`;
+        clearInterval(interval);
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 3000);
+      }
+    } catch(e) {}
+  }, 5000);
 }
 
-if(
-data.success &&
-data.status==='paid'
-){
-
-document.getElementById(
-'statusArea'
-).innerHTML=
-'<div class="success">✅ Pembayaran Berhasil<br>Saldo sudah masuk</div>';
-
-clearInterval(interval);
-
-setTimeout(()=>{
-window.location.href='dashboard.html';
-},3000);
-
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.className = 'toast ' + type, 2600);
 }
 
-}catch(e){}
-
-},5000);
-
-}
-
-</script></body>
+</script>
+</body>
 </html>
