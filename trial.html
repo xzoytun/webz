@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Trial VPN - Xtrimer Tunnel</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+<style>
+
+:root{
+--bg:#0b132b;
+--card:#1c2541;
+--card2:#111827;
+--yellow:#facc15;
+--text:#ffffff;
+--muted:#9ca3af;
+--green:#10b981;
+--red:#ef4444;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Nunito',sans-serif;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+padding-bottom:40px;
+}
+
+.header{
+background:linear-gradient(135deg,#1c2541,#111827);
+padding:24px 20px;
+border-bottom:2px solid var(--yellow);
+}
+
+.header-top{
+display:flex;
+align-items:center;
+gap:14px;
+max-width:480px;
+margin:auto;
+}
+
+.back-btn{
+width:42px;
+height:42px;
+border:none;
+border-radius:12px;
+background:rgba(255,255,255,.08);
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+.title-wrap{
+flex:1;
+}
+
+.title{
+font-family:'Fredoka One',cursive;
+font-size:24px;
+color:var(--yellow);
+}
+
+.subtitle{
+font-size:12px;
+color:var(--muted);
+margin-top:4px;
+}
+
+.container{
+max-width:480px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:var(--card);
+border-radius:18px;
+padding:18px;
+border:1px solid #2d3a55;
+margin-bottom:16px;
+}
+
+.label{
+font-size:12px;
+font-weight:800;
+color:var(--muted);
+margin-bottom:8px;
+display:block;
+text-transform:uppercase;
+letter-spacing:.5px;
+}
+
+.select{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:var(--card2);
+color:#fff;
+font-size:14px;
+outline:none;
+margin-bottom:14px;
+border:1px solid #2d3a55;
+}
+
+.select:focus{
+border-color:var(--yellow);
+}
+
+.protocol-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:12px;
+}
+
+.protocol-btn{
+background:var(--card2);
+border:1px solid #2d3a55;
+border-radius:14px;
+padding:16px;
+text-align:center;
+cursor:pointer;
+transition:.15s;
+}
+
+.protocol-btn.active{
+border-color:var(--yellow);
+background:#263044;
+}
+
+.protocol-icon{
+font-size:26px;
+margin-bottom:8px;
+}
+
+.protocol-name{
+font-size:13px;
+font-weight:800;
+color:var(--yellow);
+}
+
+.protocol-desc{
+font-size:11px;
+color:var(--muted);
+margin-top:4px;
+}
+
+.create-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:14px;
+background:var(--yellow);
+color:#111827;
+font-size:15px;
+font-weight:900;
+cursor:pointer;
+margin-top:18px;
+transition:.15s;
+}
+
+.create-btn:hover{
+opacity:.9;
+}
+
+.create-btn:disabled{
+opacity:.5;
+cursor:not-allowed;
+}
+
+.result-box{
+background:#111827;
+border-radius:16px;
+padding:16px;
+margin-top:16px;
+border:1px solid #2d3a55;
+overflow:hidden;
+}
+
+.loading{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:30px;
+gap:14px;
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:4px solid rgba(255,255,255,.1);
+border-top:4px solid var(--yellow);
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+.alert{
+padding:14px;
+border-radius:12px;
+font-size:13px;
+font-weight:700;
+margin-top:16px;
+}
+
+.alert.error{
+background:rgba(239,68,68,.12);
+border:1px solid rgba(239,68,68,.4);
+color:#fecaca;
+}
+
+.alert.success{
+background:rgba(16,185,129,.12);
+border:1px solid rgba(16,185,129,.4);
+color:#a7f3d0;
+}
+
+.note-box{
+background:#111827;
+border:1px solid #2d3a55;
+padding:16px;
+border-radius:16px;
+font-size:12px;
+line-height:1.7;
+color:#d1d5db;
+}
+
+.note-box b{
+color:var(--yellow);
+}
+
+.trial-account-card{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.info-box{
+background:#1c2541;
+border-radius:14px;
+padding:14px;
+border:1px solid #2d3a55;
+}
+
+.info-title{
+font-size:13px;
+font-weight:900;
+color:var(--yellow);
+margin-bottom:10px;
+}
+
+.info-content{
+font-size:13px;
+line-height:1.7;
+word-break:break-word;
+}
+
+.config-link{
+width:100%;
+height:120px;
+border:none;
+border-radius:10px;
+background:#0b132b;
+color:#fff;
+padding:10px;
+resize:none;
+font-size:12px;
+margin-bottom:10px;
+}
+
+.copy-btn{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+background:var(--yellow);
+font-weight:900;
+cursor:pointer;
+}
+
+.download-link{
+display:inline-block;
+padding:10px 14px;
+background:var(--yellow);
+border-radius:10px;
+color:#111827;
+font-weight:900;
+text-decoration:none;
+margin-top:6px;
+}
+
+.badge{
+display:inline-block;
+padding:4px 10px;
+border-radius:999px;
+font-size:11px;
+font-weight:800;
+}
+
+.badge-warning{
+background:#f59e0b;
+color:#111827;
+}
+
+.badge-info{
+background:#3b82f6;
+color:#fff;
+}
+
+.badge-success{
+background:#10b981;
+color:#fff;
+}
+
+.footer-btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:14px;
+background:#374151;
+color:#fff;
+font-weight:800;
+cursor:pointer;
+margin-top:14px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="header">
+
+<div class="header-top">
+
+<button
+class="back-btn"
+onclick="window.location.href='dashboard.html'">
+
+<ph-icon name="arrow-left" size="22"></ph-icon>
+
+</button>
+
+<div class="title-wrap">
+<div class="title">🎁 Trial VPN</div>
+<div class="subtitle">
+Coba akun gratis sebelum topup
+</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<label class="label">
+🌍 Pilih Server
+</label>
+
+<select id="server" class="select">
+<option value="">Memuat server...</option>
+</select>
+
+<label class="label">
+⚡ Pilih Protocol
+</label>
+
+<div class="protocol-grid">
+
+<div
+class="protocol-btn active"
+data-protocol="SSH">
+
+<div class="protocol-icon">🔐</div>
+<div class="protocol-name">SSH</div>
+<div class="protocol-desc">
+Cocok semua aplikasi
+</div>
+
+</div>
+
+<div
+class="protocol-btn"
+data-protocol="VMESS">
+
+<div class="protocol-icon">🚀</div>
+<div class="protocol-name">VMESS</div>
+<div class="protocol-desc">
+Cepat & stabil
+</div>
+
+</div>
+
+<div
+class="protocol-btn"
+data-protocol="VLESS">
+
+<div class="protocol-icon">⚡</div>
+<div class="protocol-name">VLESS</div>
+<div class="protocol-desc">
+Ringan & irit
+</div>
+
+</div>
+
+<div
+class="protocol-btn"
+data-protocol="TROJAN">
+
+<div class="protocol-icon">🛡️</div>
+<div class="protocol-name">TROJAN</div>
+<div class="protocol-desc">
+Anti blokir
+</div>
+
+</div>
+
+</div>
+
+<button
+id="createBtn"
+class="create-btn"
+onclick="createTrial()">
+
+🎁 Buat Trial Gratis
+
+</button>
+
+<div id="resultArea"></div>
+
+</div>
+
+<div class="note-box">
+
+<b>📌 Ketentuan Trial:</b><br>
+
+• Trial hanya 1x setiap 24 jam<br>
+• User yang pernah topup bisa trial lagi<br>
+• Akun trial otomatis expired<br>
+• Jangan disalahgunakan spam trial
+
+</div>
+
+<button
+class="footer-btn"
+onclick="window.location.href='dashboard.html'">
+
+← Kembali ke Dashboard
+
+</button>
+
+</div>
+
+<script>
+
+let selectedProtocol='SSH';
+
+document.querySelectorAll('.protocol-btn')
+.forEach(btn=>{
+
+btn.onclick=()=>{
+
+document
+.querySelectorAll('.protocol-btn')
+.forEach(x=>x.classList.remove('active'));
+
+btn.classList.add('active');
+
+selectedProtocol=
+btn.dataset.protocol;
+
+};
+
+});
+
+async function loadServers(){
+
+try{
+
+const res=
+await fetch('/api/servers');
+
+const data=
+await res.json();
+
+const select=
+document.getElementById('server');
+
+if(!data.success || !data.data){
+
+select.innerHTML=
+'<option value="">Server tidak tersedia</option>';
+
+return;
+
+}
+
+select.innerHTML='';
+
+data.data.forEach(server=>{
+
+select.innerHTML+=`
+<option value="${server.id}">
+${server.nama_server}
+</option>
+`;
+
+});
+
+}catch(err){
+
+console.error(err);
+
+}
+
+}
+
+async function createTrial(){
+
+const user=
+JSON.parse(
+localStorage.getItem('user')
+);
+
+if(!user){
+
+window.location.href='index.html';
+return;
+
+}
+
+const server_id=
+document.getElementById('server').value;
+
+if(!server_id){
+
+alert('Pilih server dulu');
+return;
+
+}
+
+const btn=
+document.getElementById('createBtn');
+
+btn.disabled=true;
+btn.innerHTML='⏳ Membuat Trial...';
+
+document.getElementById('resultArea').innerHTML=`
+<div class="result-box">
+<div class="loading">
+<div class="spinner"></div>
+<div>Sedang membuat akun trial...</div>
+</div>
+</div>
+`;
+
+try{
+
+const res=
+await fetch('/api/create-trial',{
+
+method:'POST',
+
+headers:{
+'Content-Type':'application/json'
+},
+
+body:JSON.stringify({
+
+email:user.email,
+protocol:selectedProtocol,
+server_id
+
+})
+
+});
+
+const data=
+await res.json();
+
+btn.disabled=false;
+btn.innerHTML='🎁 Buat Trial Gratis';
+
+if(!data.success){
+
+document.getElementById('resultArea').innerHTML=`
+<div class="alert error">
+❌ ${data.message}
+</div>
+`;
+
+return;
+
+}
+
+document.getElementById('resultArea').innerHTML=`
+<div class="alert success">
+✅ Trial berhasil dibuat
+</div>
+
+<div class="result-box">
+${data.html}
+</div>
+`;
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:'smooth'
+});
+
+}catch(err){
+
+console.error(err);
+
+btn.disabled=false;
+btn.innerHTML='🎁 Buat Trial Gratis';
+
+document.getElementById('resultArea').innerHTML=`
+<div class="alert error">
+❌ Gagal membuat trial
+</div>
+`;
+
+}
+
+}
+
+function copyToClipboard(btn){
+
+const textarea=
+btn.parentElement.querySelector('textarea');
+
+textarea.select();
+
+document.execCommand('copy');
+
+btn.innerHTML='✅ Copied';
+
+setTimeout(()=>{
+
+btn.innerHTML='📋 Copy';
+
+},2000);
+
+}
+
+loadServers();
+
+</script>
+
+</body>
+</html>
