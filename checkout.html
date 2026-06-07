@@ -4,480 +4,555 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout VPN - Xtrimer Tunnel</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
 <style>
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+:root {
+  --purple:    #6B21D6;
+  --purple2:   #8B3FF5;
+  --pink:      #E8007A;
+  --pink2:     #FF3D9A;
+  --orange:    #FF6B2C;
+  --yellow:    #FFD600;
+  --green:     #00C853;
+  --red:       #EF4444;
+  --blue:      #1ABCFE;
+  --white:     #FFFFFF;
+  --text-dark: #1a0033;
+  --text-mid:  #5B3A8C;
+  --bg-light:  #F6F0FF;
+  --border:    #EDE0FF;
 }
+
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-    background: #0b132b;
-    color: white;
-    padding: 20px;
-    min-height: 100vh;
+  background: var(--bg-light);
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 40px;
+  overflow-x: hidden;
 }
 
+.blob1 {
+  position:fixed; top:-80px; left:-60px;
+  width:300px; height:300px;
+  background:radial-gradient(circle,rgba(107,33,214,0.12) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+.blob2 {
+  position:fixed; bottom:-60px; right:-60px;
+  width:260px; height:260px;
+  background:radial-gradient(circle,rgba(232,0,122,0.10) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(145deg, var(--purple) 0%, var(--purple2) 60%, #A855F7 100%);
+  padding: 22px 20px 32px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.header::before {
+  content:''; position:absolute; top:-40px; right:-30px;
+  width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%;
+}
+.header::after {
+  content:''; position:absolute; bottom:-50px; left:-20px;
+  width:130px; height:130px; background:rgba(255,255,255,0.05); border-radius:50%;
+}
+.header-inner {
+  display:flex; align-items:center; gap:14px;
+  position:relative; z-index:2;
+}
+.back-btn-hdr {
+  width:40px; height:40px; border-radius:12px;
+  background:rgba(255,255,255,0.15); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; flex-shrink:0; transition:background 0.15s;
+}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
+.header-title { flex:1; }
+.header-title h1 {
+  font-family:'Fredoka One',cursive;
+  font-size:22px; color:#fff; line-height:1;
+  display:flex; align-items:center; gap:8px;
+}
+.header-title p { font-size:12px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:4px; }
+
+/* ── CONTAINER ── */
 .container {
-    max-width: 480px;
-    margin: 0 auto;
+  max-width:480px; margin:0 auto;
+  padding:0 18px;
+  position:relative; z-index:2;
 }
 
-/* ── Header ── */
-.page-header {
-    text-align: center;
-    margin-bottom: 20px;
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 
-.page-header h2 {
-    color: #facc15;
-    font-size: 22px;
-    margin-bottom: 4px;
-}
-
-.page-header p {
-    color: #9ca3af;
-    font-size: 13px;
-}
-
-/* ── Server Info Card ── */
+/* ── SERVER CARD ── */
 .server-card {
-    background: #1c2541;
-    border: 1px solid #2d3a55;
-    border-radius: 16px;
-    padding: 18px;
-    margin-bottom: 16px;
+  background:var(--white);
+  border-radius:20px;
+  margin-top:-18px;
+  margin-bottom:14px;
+  overflow:hidden;
+  border:1.5px solid var(--border);
+  box-shadow:0 4px 16px rgba(107,33,214,0.12);
+  position:relative; z-index:3;
+  animation: fadeUp 0.4s 0.05s ease both;
 }
 
+.server-card-head {
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  padding:16px 18px;
+  display:flex; align-items:center; gap:12px;
+}
+.server-icon {
+  width:44px; height:44px; border-radius:14px;
+  background:rgba(255,255,255,0.18);
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px; color:#fff; flex-shrink:0;
+}
+.server-head-text {}
 .server-name {
-    color: #facc15;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  font-family:'Fredoka One',cursive;
+  font-size:17px; color:#fff; line-height:1.1;
 }
+.server-sub { font-size:11px; color:rgba(255,255,255,0.7); font-weight:600; margin-top:2px; }
 
-.server-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    padding: 6px 0;
-    border-bottom: 1px solid #2d3a55;
-    color: #d1d5db;
+.server-info-grid {
+  padding:16px 18px;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:12px;
 }
-
-.server-row:last-child { border-bottom: none; }
-
-.server-row span:first-child { color: #9ca3af; }
-
-.server-row strong { color: white; }
-
-.price-highlight {
-    color: #facc15 !important;
-    font-size: 18px !important;
-    font-weight: bold;
+.server-info-item {}
+.si-label {
+  font-size:10px; font-weight:800; color:#B0A0C0;
+  text-transform:uppercase; letter-spacing:0.8px;
+  margin-bottom:2px; display:flex; align-items:center; gap:4px;
 }
+.si-val {
+  font-family:'Fredoka One',cursive;
+  font-size:16px; color:var(--text-dark);
+}
+.si-val.price-val { color:var(--purple); font-size:20px; }
 
-/* ── Form Card ── */
+.server-loading {
+  padding:30px; text-align:center;
+  color:var(--text-mid); font-weight:700; font-size:14px;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── FORM CARD ── */
 .form-card {
-    background: #1f2937;
-    border: 1px solid #2d3a55;
-    border-radius: 16px;
-    padding: 20px;
-    margin-bottom: 16px;
+  background:var(--white);
+  border-radius:20px;
+  padding:20px 18px;
+  margin-bottom:14px;
+  border:1.5px solid var(--border);
+  box-shadow:0 4px 14px rgba(107,33,214,0.08);
+  animation: fadeUp 0.4s 0.12s ease both;
 }
 
-.form-card h3 {
-    color: #facc15;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 16px;
+.form-section-title {
+  font-family:'Fredoka One',cursive;
+  font-size:17px; color:var(--text-dark);
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:18px;
+}
+.form-section-title ph-icon { color:var(--purple); }
+
+.form-group { margin-bottom:16px; }
+.form-group:last-child { margin-bottom:0; }
+
+.field-label {
+  font-size:11px; font-weight:800;
+  color:var(--text-mid); text-transform:uppercase;
+  letter-spacing:0.8px; margin-bottom:7px;
+  display:flex; align-items:center; gap:5px;
 }
 
-.form-group {
-    margin-bottom: 14px;
+.field-input {
+  width:100%; padding:13px 16px;
+  border:2px solid var(--border); border-radius:14px;
+  font-family:'Nunito',sans-serif;
+  font-size:14px; font-weight:700;
+  color:var(--text-dark); background:#FBF8FF;
+  outline:none; transition:border-color 0.15s;
 }
+.field-input:focus { border-color:var(--purple2); background:#fff; }
+.field-input::placeholder { color:#C4B0D8; font-weight:600; }
 
-.form-group label {
-    display: block;
-    font-size: 12px;
-    color: #9ca3af;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.form-input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #374151;
-    border-radius: 10px;
-    background: #111827;
-    color: white;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-}
-
-.form-input:focus {
-    border-color: #facc15;
-}
-
-.form-input::placeholder {
-    color: #4b5563;
-}
-
-/* Duration selector */
+/* ── DURATION GRID ── */
 .duration-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
 }
-
 .duration-opt {
-    padding: 10px;
-    border: 2px solid #374151;
-    border-radius: 10px;
-    background: #111827;
-    color: #9ca3af;
-    font-size: 13px;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s;
+  padding:11px 6px;
+  border:2px solid var(--border); border-radius:14px;
+  background:#FBF8FF; color:var(--text-mid);
+  font-family:'Nunito',sans-serif;
+  font-size:13px; font-weight:800;
+  text-align:center; cursor:pointer;
+  transition:all 0.15s;
 }
-
-.duration-opt:hover {
-    border-color: #facc15;
-    color: white;
-}
-
+.duration-opt:hover { border-color:var(--purple2); color:var(--purple); background:#fff; }
 .duration-opt.selected {
-    border-color: #facc15;
-    background: #78350f;
-    color: #facc15;
+  border-color:var(--purple);
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  color:#fff;
+  box-shadow:0 4px 12px rgba(107,33,214,0.28);
 }
 
-/* Protocol selector */
+/* ── PROTOCOL GRID ── */
 .protocol-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
 }
-
 .proto-opt {
-    padding: 10px 6px;
-    border: 2px solid #374151;
-    border-radius: 10px;
-    background: #111827;
-    color: #9ca3af;
-    font-size: 12px;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s;
+  padding:12px 6px;
+  border:2px solid var(--border); border-radius:14px;
+  background:#FBF8FF; color:var(--text-mid);
+  font-family:'Nunito',sans-serif;
+  font-size:12px; font-weight:800;
+  text-align:center; cursor:pointer;
+  transition:all 0.15s;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
 }
+.proto-opt:hover { border-color:var(--purple2); color:var(--purple); background:#fff; }
+.proto-opt .proto-icon { font-size:20px; line-height:1; }
+.proto-opt .proto-name { font-size:11px; font-weight:800; }
 
-.proto-opt:hover { border-color: #6b7280; color: white; }
-.proto-opt.selected { color: white; }
+/* Per-protocol selected colors */
+.proto-opt[data-val="SSH"].selected       { border-color:#FF6B2C; background:linear-gradient(135deg,#FF6B2C,#FFD600); color:#fff; box-shadow:0 4px 12px rgba(255,107,44,0.3); }
+.proto-opt[data-val="VMESS"].selected     { border-color:#1ABCFE; background:linear-gradient(135deg,#1ABCFE,#0098DB); color:#fff; box-shadow:0 4px 12px rgba(26,188,254,0.3); }
+.proto-opt[data-val="VLESS"].selected     { border-color:var(--purple); background:linear-gradient(135deg,var(--purple),var(--purple2)); color:#fff; box-shadow:0 4px 12px rgba(107,33,214,0.3); }
+.proto-opt[data-val="TROJAN"].selected    { border-color:var(--red); background:linear-gradient(135deg,var(--red),#F97316); color:#fff; box-shadow:0 4px 12px rgba(239,68,68,0.3); }
+.proto-opt[data-val="SHADOWSOCKS"].selected { border-color:var(--pink); background:linear-gradient(135deg,var(--pink),var(--pink2)); color:#fff; box-shadow:0 4px 12px rgba(232,0,122,0.3); }
 
-.proto-opt[data-val="SSH"].selected       { border-color: #fde68a; background: #78350f; color: #fde68a; }
-.proto-opt[data-val="VMESS"].selected     { border-color: #6ee7b7; background: #065f46; color: #6ee7b7; }
-.proto-opt[data-val="VLESS"].selected     { border-color: #93c5fd; background: #1e3a5f; color: #93c5fd; }
-.proto-opt[data-val="TROJAN"].selected    { border-color: #fca5a5; background: #7f1d1d; color: #fca5a5; }
-.proto-opt[data-val="SHADOWSOCKS"].selected { border-color: #c4b5fd; background: #4c1d95; color: #c4b5fd; }
-
-/* ── Buttons ── */
-.btn-primary {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    background: #facc15;
-    color: #0b132b;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-    margin-bottom: 10px;
-    transition: opacity 0.15s;
+/* ── BUTTONS ── */
+.btn-checkout {
+  width:100%; padding:16px;
+  border:none; border-radius:18px;
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  color:#fff; font-family:'Nunito',sans-serif;
+  font-weight:900; font-size:15px;
+  cursor:pointer; margin-bottom:10px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  box-shadow:0 6px 20px rgba(107,33,214,0.35);
+  transition:transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  animation: fadeUp 0.4s 0.2s ease both;
 }
-
-.btn-primary:hover { opacity: 0.9; }
-
-.btn-primary:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+.btn-checkout:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(107,33,214,0.45); }
+.btn-checkout:active { transform:translateY(0); }
+.btn-checkout:disabled { opacity:0.55; cursor:not-allowed; transform:none; }
 
 .btn-back {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 12px;
-    background: #374151;
-    color: #d1d5db;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.15s;
+  width:100%; padding:14px;
+  border:2px solid var(--border); border-radius:16px;
+  background:var(--white); color:var(--text-mid);
+  font-family:'Nunito',sans-serif;
+  font-weight:800; font-size:14px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  transition:border-color 0.15s, color 0.15s;
+  animation: fadeUp 0.4s 0.25s ease both;
+}
+.btn-back:hover { border-color:var(--purple2); color:var(--purple); }
+
+/* ── RESULT ── */
+#result {
+  margin-top:14px;
+  animation: fadeUp 0.4s ease both;
 }
 
-.btn-back:hover { background: #4b5563; }
-
-/* ── Result ── */
-#result { margin-top: 16px; }
-
-/* ── Loading ── */
-.loading-text {
-    text-align: center;
-    color: #9ca3af;
-    font-size: 13px;
-    padding: 10px 0;
+/* ── TOAST ── */
+.toast {
+  position:fixed; top:20px; left:50%;
+  transform:translateX(-50%) translateY(-80px);
+  z-index:999; padding:12px 22px;
+  border-radius:16px; font-weight:700; font-size:13px;
+  display:flex; align-items:center; gap:8px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  transition:transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s;
+  opacity:0; white-space:nowrap; color:#fff;
+  background:var(--text-dark);
 }
+.toast.show   { transform:translateX(-50%) translateY(0); opacity:1; }
+.toast.success{ background:linear-gradient(135deg,#00C853,#00E676); }
+.toast.error  { background:linear-gradient(135deg,#EF4444,#F87171); }
 
 </style>
 </head>
 <body>
 
+<div class="blob1"></div>
+<div class="blob2"></div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-inner">
+    <button class="back-btn-hdr" onclick="history.back()">
+      <ph-icon name="arrow-left" weight="bold" size="20"></ph-icon>
+    </button>
+    <div class="header-title">
+      <h1>
+        <ph-icon name="shopping-cart-simple" weight="fill" size="22"></ph-icon>
+        Checkout VPN
+      </h1>
+      <p>Konfigurasi & buat akun VPN kamu</p>
+    </div>
+  </div>
+</div>
+
 <div class="container">
 
-    <div class="page-header">
-        <h2>🛒 Checkout VPN</h2>
-        <p>Isi form di bawah untuk membuat akun</p>
+  <!-- Server Info Card -->
+  <div class="server-card" id="serverInfo">
+    <div class="server-loading">
+      <ph-icon name="spinner-gap" weight="bold" size="32" style="color:var(--purple);animation:spin 1s linear infinite;"></ph-icon>
+      Memuat info server...
+    </div>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card">
+    <div class="form-section-title">
+      <ph-icon name="sliders-horizontal" weight="fill" size="20"></ph-icon>
+      Konfigurasi Akun
     </div>
 
-    <!-- Server Info -->
-    <div class="server-card" id="serverInfo">
-        <div class="loading-text">⏳ Memuat info server...</div>
+    <!-- Username -->
+    <div class="form-group">
+      <div class="field-label">
+        <ph-icon name="user-circle" weight="fill" size="13"></ph-icon>
+        Username
+      </div>
+      <input class="field-input" id="username"
+        placeholder="Contoh: user123 (huruf & angka)" autocomplete="off">
     </div>
 
-    <!-- Form -->
-    <div class="form-card">
-        <h3>🔧 Konfigurasi Akun</h3>
-
-        <!-- Username -->
-        <div class="form-group">
-            <label>Username</label>
-            <input
-                class="form-input"
-                id="username"
-                placeholder="Contoh: user123"
-                autocomplete="off">
-        </div>
-
-        <!-- Password (SSH only) -->
-        <div class="form-group" id="passwordBox">
-            <label>Password</label>
-            <input
-                class="form-input"
-                id="password"
-                type="password"
-                placeholder="Password VPN">
-        </div>
-
-        <!-- Duration -->
-        <div class="form-group">
-            <label>Masa Aktif</label>
-            <div class="duration-grid">
-                <div class="duration-opt" data-val="7"  onclick="selectDuration(this)">7 Hari</div>
-                <div class="duration-opt" data-val="15" onclick="selectDuration(this)">15 Hari</div>
-                <div class="duration-opt selected" data-val="30" onclick="selectDuration(this)">30 Hari</div>
-            </div>
-        </div>
-
-        <!-- Protocol -->
-        <div class="form-group">
-            <label>Protocol</label>
-            <div class="protocol-grid">
-                <div class="proto-opt selected" data-val="SSH"         onclick="selectProto(this)">SSH</div>
-                <div class="proto-opt"          data-val="VMESS"       onclick="selectProto(this)">VMESS</div>
-                <div class="proto-opt"          data-val="VLESS"       onclick="selectProto(this)">VLESS</div>
-                <div class="proto-opt"          data-val="TROJAN"      onclick="selectProto(this)">TROJAN</div>
-                <div class="proto-opt"          data-val="SHADOWSOCKS" onclick="selectProto(this)">SS</div>
-            </div>
-        </div>
-
+    <!-- Password (SSH only) -->
+    <div class="form-group" id="passwordBox">
+      <div class="field-label">
+        <ph-icon name="lock-key" weight="fill" size="13"></ph-icon>
+        Password
+      </div>
+      <input class="field-input" id="password" type="password"
+        placeholder="Password untuk SSH">
     </div>
 
-    <button class="btn-primary" id="buyBtn" onclick="createAccount()">
-        🚀 Buat Akun
-    </button>
+    <!-- Duration -->
+    <div class="form-group">
+      <div class="field-label">
+        <ph-icon name="calendar-blank" weight="fill" size="13"></ph-icon>
+        Masa Aktif
+      </div>
+      <div class="duration-grid">
+        <div class="duration-opt" data-val="7"  onclick="selectDuration(this)">7 Hari</div>
+        <div class="duration-opt" data-val="15" onclick="selectDuration(this)">15 Hari</div>
+        <div class="duration-opt selected" data-val="30" onclick="selectDuration(this)">30 Hari</div>
+      </div>
+    </div>
 
-    <button class="btn-back" onclick="history.back()">
-        ← Kembali
-    </button>
+    <!-- Protocol -->
+    <div class="form-group">
+      <div class="field-label">
+        <ph-icon name="git-branch" weight="fill" size="13"></ph-icon>
+        Protocol
+      </div>
+      <div class="protocol-grid">
+        <div class="proto-opt selected" data-val="SSH" onclick="selectProto(this)">
+          <span class="proto-icon"><ph-icon name="terminal-window" weight="fill" size="20"></ph-icon></span>
+          <span class="proto-name">SSH</span>
+        </div>
+        <div class="proto-opt" data-val="VMESS" onclick="selectProto(this)">
+          <span class="proto-icon"><ph-icon name="globe" weight="fill" size="20"></ph-icon></span>
+          <span class="proto-name">VMESS</span>
+        </div>
+        <div class="proto-opt" data-val="VLESS" onclick="selectProto(this)">
+          <span class="proto-icon"><ph-icon name="lightning" weight="fill" size="20"></ph-icon></span>
+          <span class="proto-name">VLESS</span>
+        </div>
+        <div class="proto-opt" data-val="TROJAN" onclick="selectProto(this)">
+          <span class="proto-icon"><ph-icon name="shield-warning" weight="fill" size="20"></ph-icon></span>
+          <span class="proto-name">TROJAN</span>
+        </div>
+        <div class="proto-opt" data-val="SHADOWSOCKS" onclick="selectProto(this)">
+          <span class="proto-icon"><ph-icon name="eye-slash" weight="fill" size="20"></ph-icon></span>
+          <span class="proto-name">SS</span>
+        </div>
+      </div>
+    </div>
 
-    <div id="result"></div>
+  </div>
+
+  <!-- Buttons -->
+  <button class="btn-checkout" id="buyBtn" onclick="createAccount()">
+    <ph-icon name="rocket-launch" weight="fill" size="18"></ph-icon>
+    Buat Akun Sekarang
+  </button>
+
+  <button class="btn-back" onclick="history.back()">
+    <ph-icon name="arrow-left" weight="bold" size="16"></ph-icon>
+    Kembali
+  </button>
+
+  <div id="result"></div>
 
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
 
-const params   = new URLSearchParams(window.location.search);
-const serverId = params.get('id');
-
-let serverData    = null;
+const params         = new URLSearchParams(window.location.search);
+const serverId       = params.get('id');
+let serverData       = null;
 let selectedProto    = 'SSH';
 let selectedDuration = 30;
 
 loadServer();
+selectProto(document.querySelector('.proto-opt.selected'));
 
-// ── Duration selector ──
+/* ── Duration ── */
 function selectDuration(el) {
-    document.querySelectorAll('.duration-opt').forEach(d => d.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedDuration = parseInt(el.dataset.val);
-    updatePrice();
+  document.querySelectorAll('.duration-opt').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDuration = parseInt(el.dataset.val);
+  updatePrice();
 }
 
-// ── Protocol selector ──
+/* ── Protocol ── */
 function selectProto(el) {
-    document.querySelectorAll('.proto-opt').forEach(p => p.classList.remove('selected'));
-    el.classList.add('selected');
-    selectedProto = el.dataset.val;
-
-    const passwordBox = document.getElementById('passwordBox');
-    passwordBox.style.display = selectedProto === 'SSH' ? 'block' : 'none';
+  document.querySelectorAll('.proto-opt').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedProto = el.dataset.val;
+  document.getElementById('passwordBox').style.display =
+    selectedProto === 'SSH' ? 'block' : 'none';
 }
 
-// ── Load server info ──
+/* ── Load Server ── */
 async function loadServer() {
-    try {
-        const res  = await fetch('/api/server/' + serverId);
-        const data = await res.json();
-
-        if (!data.success) {
-            alert('Server tidak ditemukan');
-            return;
-        }
-
-        serverData = data.server;
-        renderServerInfo();
-
-    } catch (err) {
-        console.error(err);
-        document.getElementById('serverInfo').innerHTML =
-            '<div class="loading-text" style="color:#f87171">❌ Gagal memuat server</div>';
-    }
-}
-selectProto(
-document.querySelector(
-'.proto-opt.selected'
-)
-);
-function renderServerInfo() {
-    if (!serverData) return;
-
-    const hargaPerHari = Number(serverData.harga || 0);
-    const quotaPerHari = parseInt(serverData.quota) || 0;
-    const harga = hargaPerHari * selectedDuration;
-    const quota = quotaPerHari * selectedDuration;
-
+  try {
+    const res  = await fetch('/api/server/' + serverId);
+    const data = await res.json();
+    if (!data.success) { showToast('Server tidak ditemukan', 'error'); return; }
+    serverData = data.server;
+    renderServerInfo();
+  } catch (err) {
+    console.error(err);
     document.getElementById('serverInfo').innerHTML = `
-        <div class="server-name">🌐 ${serverData.nama_server}</div>
-        <div class="server-row">
-            <span>📍 Lokasi</span>
-            <strong>${serverData.lokasi || '-'}</strong>
-        </div>
-        <div class="server-row">
-            <span>📦 Quota</span>
-            <strong>${quota} GB</strong>
-        </div>
-        <div class="server-row">
-            <span>📱 Device</span>
-            <strong>${serverData.iplimit || 0} IP</strong>
-        </div>
-        <div class="server-row">
-            <span>🗓 Masa Aktif</span>
-            <strong>${selectedDuration} Hari</strong>
-        </div>
-        <div class="server-row">
-            <span>💰 Total Harga</span>
-            <strong class="price-highlight">Rp ${harga.toLocaleString('id-ID')}</strong>
-        </div>
-    `;
+      <div class="server-loading" style="color:#EF4444;">
+        <ph-icon name="warning-circle" weight="fill" size="32" style="color:#EF4444;"></ph-icon>
+        Gagal memuat server
+      </div>`;
+  }
+}
+
+function renderServerInfo() {
+  if (!serverData) return;
+  const harga = Number(serverData.harga || 0) * selectedDuration;
+  const quota = (parseInt(serverData.quota) || 0) * selectedDuration;
+
+  document.getElementById('serverInfo').innerHTML = `
+    <div class="server-card-head">
+      <div class="server-icon">
+        <ph-icon name="globe-hemisphere-west" weight="fill" size="22"></ph-icon>
+      </div>
+      <div class="server-head-text">
+        <div class="server-name">${serverData.nama_server}</div>
+        <div class="server-sub">${serverData.lokasi || 'Server VPN'}</div>
+      </div>
+    </div>
+    <div class="server-info-grid">
+      <div class="server-info-item">
+        <div class="si-label"><ph-icon name="database" weight="fill" size="11"></ph-icon> Quota</div>
+        <div class="si-val">${quota} GB</div>
+      </div>
+      <div class="server-info-item">
+        <div class="si-label"><ph-icon name="devices" weight="fill" size="11"></ph-icon> Device</div>
+        <div class="si-val">${serverData.iplimit || 0} IP</div>
+      </div>
+      <div class="server-info-item">
+        <div class="si-label"><ph-icon name="calendar" weight="fill" size="11"></ph-icon> Masa Aktif</div>
+        <div class="si-val">${selectedDuration} Hari</div>
+      </div>
+      <div class="server-info-item">
+        <div class="si-label"><ph-icon name="tag" weight="fill" size="11"></ph-icon> Total Harga</div>
+        <div class="si-val price-val">Rp ${harga.toLocaleString('id-ID')}</div>
+      </div>
+    </div>`;
 }
 
 function updatePrice() {
-    if (serverData) renderServerInfo();
+  if (serverData) renderServerInfo();
 }
 
-// ── Create account ──
+/* ── Create Account ── */
 async function createAccount() {
-    const localUser = JSON.parse(localStorage.getItem('user'));
-    if (!localUser) {
-        alert('Silakan login terlebih dahulu');
-        return;
+  const localUser = JSON.parse(localStorage.getItem('user'));
+  if (!localUser) { showToast('Silakan login terlebih dahulu', 'error'); return; }
+
+  const username = document.getElementById('username').value.trim().toLowerCase();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username) { showToast('Username wajib diisi', 'error'); return; }
+  if (!/^[a-zA-Z0-9]+$/.test(username)) { showToast('Username hanya huruf & angka', 'error'); return; }
+  if (selectedProto === 'SSH' && !password) { showToast('Password wajib untuk SSH', 'error'); return; }
+
+  const btn = document.getElementById('buyBtn');
+  btn.disabled = true;
+  btn.innerHTML = `<ph-icon name="spinner-gap" weight="bold" size="18" style="animation:spin 1s linear infinite;"></ph-icon> Memproses...`;
+
+  try {
+    const res  = await fetch('/api/create-account', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        email:     localUser.email,
+        server_id: serverId,
+        username, password,
+        protocol:  selectedProto,
+        duration:  selectedDuration
+      })
+    });
+    const data = await res.json();
+
+    if (!data.success) {
+      showToast(data.message || 'Gagal membuat akun', 'error');
+      btn.disabled = false;
+      btn.innerHTML = `<ph-icon name="rocket-launch" weight="fill" size="18"></ph-icon> Buat Akun Sekarang`;
+      return;
     }
 
-    const username =
-document.getElementById('username')
-.value
-.trim()
-.toLowerCase();
-    const password = document.getElementById('password').value.trim();
+    showToast('Akun berhasil dibuat!', 'success');
+    document.getElementById('result').innerHTML = data.html;
+    document.getElementById('result').scrollIntoView({ behavior:'smooth' });
+    btn.disabled = false;
+    btn.innerHTML = `<ph-icon name="rocket-launch" weight="fill" size="18"></ph-icon> Buat Akun Sekarang`;
 
-    if (!username) {
-    alert('Username wajib diisi');
-    return;
+  } catch (err) {
+    console.error(err);
+    showToast('Gagal membuat akun, coba lagi', 'error');
+    btn.disabled = false;
+    btn.innerHTML = `<ph-icon name="rocket-launch" weight="fill" size="18"></ph-icon> Buat Akun Sekarang`;
+  }
 }
 
-if (!/^[a-zA-Z0-9]+$/.test(username)) {
-    alert('Username hanya boleh huruf & angka');
-    return;
-}
-
-    if (selectedProto === 'SSH' && !password) {
-        alert('Password wajib diisi untuk SSH');
-        return;
-    }
-
-    const btn = document.getElementById('buyBtn');
-    btn.disabled = true;
-    btn.innerText = '⏳ Memproses...';
-
-    try {
-        const res = await fetch('/api/create-account', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email:     localUser.email,
-                server_id: serverId,
-                username,
-                password,
-                protocol:  selectedProto,
-                duration:  selectedDuration
-            })
-        });
-
-        const data = await res.json();
-
-        if (!data.success) {
-            alert(data.message);
-            btn.disabled = false;
-            btn.innerText = '🚀 Buat Akun';
-            return;
-        }
-
-        document.getElementById('result').innerHTML = data.html;
-        document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-        btn.disabled = false;
-        btn.innerText = '🚀 Buat Akun';
-
-    } catch (err) {
-        console.error(err);
-        alert('Gagal membuat akun, coba lagi');
-        btn.disabled = false;
-        btn.innerText = '🚀 Buat Akun';
-    }
+/* ── Toast ── */
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.className = 'toast ' + type, 2600);
 }
 
 </script>
