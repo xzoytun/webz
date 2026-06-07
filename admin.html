@@ -340,16 +340,7 @@ body {
       </div>
       <div class="stat-label">Total User</div>
       <div class="stat-value" id="statUsers"><div class="stat-loading"></div></div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-accent accent-blue"></div>
-      <div class="stat-icon-wrap ic-blue">
-        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-      </div>
-      <div class="stat-label">Total Produk</div>
-      <div class="stat-value" id="statProducts"><div class="stat-loading"></div></div>
-    </div>
+    </div>    
 
     <div class="stat-card">
       <div class="stat-accent accent-green"></div>
@@ -433,8 +424,7 @@ async function loadStats() {
       return;
     }
 
-    document.getElementById('statUsers').textContent        = data.stats.users;
-    document.getElementById('statProducts').textContent     = data.stats.products;
+    document.getElementById('statUsers').textContent        = data.stats.users;    
     document.getElementById('statTransactions').textContent = data.stats.transactions;
     document.getElementById('statBalance').textContent      =
       'Rp ' + Number(data.stats.balance || 0).toLocaleString('id-ID');
