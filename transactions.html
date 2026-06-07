@@ -236,14 +236,18 @@ body {
         <ph-icon name="trend-up" weight="fill" size="12" style="color:var(--green);"></ph-icon>
         Total Topup
       </div>
-      <div class="summary-val green-val" id="sumTotal">Rp 0</div>
+      <div class="summary-val green-val" id="sumTotal">
+💰 Rp 0
+</div>
     </div>
     <div class="summary-item">
       <div class="summary-label">
         <ph-icon name="receipt" weight="fill" size="12" style="color:var(--purple);"></ph-icon>
         Transaksi
       </div>
-      <div class="summary-val" id="sumCount">0x</div>
+      <div class="summary-val" id="sumCount">
+📦 0x
+</div>
     </div>
   </div>
 
@@ -305,19 +309,24 @@ async function loadHistory() {
             <ph-icon name="arrow-circle-up" weight="fill" size="22"></ph-icon>
           </div>
           <div class="topup-main">
-            <div class="topup-amount">+ Rp ${Number(item.amount).toLocaleString('id-ID')}</div>
+            <div class="topup-amount">
+💸 + Rp ${Number(item.amount).toLocaleString('id-ID')}
+</div>
             <div class="topup-method">
-              <ph-icon name="scan" weight="fill" size="12"></ph-icon>
-              ${item.metode || 'QRIS'}
-            </div>
+💳 ${item.metode || 'QRIS'}
+</div>
             <div class="success-badge">
               <ph-icon name="check-circle" weight="fill" size="10"></ph-icon>
               Berhasil
             </div>
           </div>
           <div class="topup-right">
-            <div class="topup-ref">${item.reference || '—'}</div>
+            <div class="topup-ref">
+🧾 ${item.reference || '—'}
+</div>
             <div class="topup-date">
+🕒 ${date}
+</div>
               <ph-icon name="clock" weight="fill" size="10"></ph-icon>
               ${date}
             </div>
