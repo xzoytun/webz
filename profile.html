@@ -359,6 +359,19 @@ Rp 0
 Role
 </div>
 
+<div class="info-item">
+<div class="info-label">
+Terdaftar Sejak
+</div>
+
+<div
+class="info-value"
+id="created_at"
+>
+—
+</div>
+</div>
+
 <div class="info-value">
 <span
 class="role-badge"
@@ -380,34 +393,11 @@ User
 </div>
 
 <button
-class="menu-btn primary-btn"
-onclick="alert('Coming Soon')"
->
-✏️ Edit Profile
-</button>
-
-<button
-class="menu-btn outline-btn"
-onclick="alert('Coming Soon')"
->
-🔒 Ganti Password
-</button>
-
-<button
-class="menu-btn outline-btn"
-onclick="window.location.href='topup.html'"
->
-💳 Topup Saldo
-</button>
-
-<button
 class="menu-btn logout-btn"
 onclick="logout()"
 >
-🚪 Logout
+🚪 Logout Akun
 </button>
-
-</div>
 
 </div>
 
@@ -516,6 +506,11 @@ user.avatar ||
 
 document.getElementById('role').innerText =
 user.role || 'user';
+
+document.getElementById('created_at').innerText =
+user.created_at
+? new Date(user.created_at).toLocaleString('id-ID')
+: '-';
 
 }catch(err){
 
