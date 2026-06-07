@@ -56,8 +56,6 @@ body {
   overflow: hidden;
   animation: fadeUp 0.45s ease both;
 }
-
-/* decorative circles */
 .hero::before {
   content:'';
   position:absolute; top:-50px; right:-30px;
@@ -72,19 +70,16 @@ body {
   border:36px solid rgba(255,214,0,0.12);
   border-radius:50%;
 }
-
 .hero-dots {
   position:absolute; inset:0;
   background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
   background-size: 22px 22px;
   pointer-events:none;
 }
-
 .hero-top {
   display:flex; align-items:center; gap:14px;
   position:relative; z-index:2;
 }
-
 .avatar-wrap { position:relative; flex-shrink:0; }
 .avatar {
   width:54px; height:54px; border-radius:50%;
@@ -99,7 +94,6 @@ body {
   border:2.5px solid var(--purple-deep);
   animation: pulse 2s infinite;
 }
-
 .hero-greeting { flex:1; }
 .greeting-hi {
   font-size:12px; font-weight:700;
@@ -115,7 +109,6 @@ body {
   font-size:11px; color:rgba(255,255,255,0.5);
   margin-top:2px;
 }
-
 .notif-btn {
   width:40px; height:40px; border-radius:13px;
   background:rgba(255,255,255,0.14);
@@ -138,11 +131,7 @@ body {
   box-shadow: 0 10px 36px rgba(90,26,154,0.22), 0 2px 8px rgba(0,0,0,0.06);
   animation: fadeUp 0.45s 0.1s ease both;
 }
-
-.balance-inner {
-  display:flex; align-items:center;
-}
-
+.balance-inner { display:flex; align-items:center; }
 .balance-left { flex:1; }
 .balance-label {
   font-size:11px; font-weight:800;
@@ -155,13 +144,11 @@ body {
   color:var(--text-dark); line-height:1;
   letter-spacing:-0.5px;
 }
-
 .balance-divider {
   width:1px; height:44px;
   background:var(--gray-line);
   margin:0 18px;
 }
-
 .balance-topup {
   background:linear-gradient(135deg, var(--purple), var(--purple-light));
   border:none; border-radius:13px;
@@ -191,7 +178,6 @@ body {
   margin:20px 0;
   animation: fadeUp 0.45s 0.15s ease both;
 }
-
 .status-chip {
   flex:1; border-radius:14px;
   padding:12px 14px;
@@ -210,7 +196,6 @@ body {
   background:var(--red-bg);
   border-color:rgba(232,64,64,0.2);
 }
-
 .chip-icon { font-size:20px; }
 .chip-text-label {
   font-size:10px; font-weight:800;
@@ -251,7 +236,7 @@ body {
   padding:2px 10px; letter-spacing:0.5px;
 }
 
-/* ─── PROMO BANNER (AxisNet style swipeable cards) ─── */
+/* ─── PROMO BANNER ─── */
 .promo-scroll {
   display:flex; gap:12px;
   overflow-x:auto; padding-bottom:4px;
@@ -260,23 +245,15 @@ body {
   animation: fadeUp 0.45s 0.22s ease both;
 }
 .promo-scroll::-webkit-scrollbar { display:none; }
-
 .promo-card {
   border-radius:18px; overflow:hidden;
   min-width:260px; padding:20px 18px;
   position:relative; flex-shrink:0;
   box-shadow:0 6px 22px rgba(90,26,154,0.2);
 }
-.promo-card-1 {
-  background:linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 70%, var(--purple-light) 100%);
-}
-.promo-card-2 {
-  background:linear-gradient(135deg, #FF6B2B 0%, #FFD600 100%);
-}
-.promo-card-3 {
-  background:linear-gradient(135deg, #12C28A 0%, #0070E0 100%);
-}
-
+.promo-card-1 { background:linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 70%, var(--purple-light) 100%); }
+.promo-card-2 { background:linear-gradient(135deg, #FF6B2B 0%, #FFD600 100%); }
+.promo-card-3 { background:linear-gradient(135deg, #12C28A 0%, #0070E0 100%); }
 .promo-tag {
   display:inline-block;
   background:rgba(255,255,255,0.22);
@@ -286,9 +263,7 @@ body {
   border-radius:8px; padding:3px 10px;
   margin-bottom:10px;
 }
-.promo-card-2 .promo-tag { background:rgba(0,0,0,0.15); }
-.promo-card-3 .promo-tag { background:rgba(0,0,0,0.15); }
-
+.promo-card-2 .promo-tag, .promo-card-3 .promo-tag { background:rgba(0,0,0,0.15); }
 .promo-title {
   font-size:19px; font-weight:900;
   color:#fff; line-height:1.2;
@@ -310,7 +285,6 @@ body {
 .promo-card-2 .promo-cta { color:#FF6B2B; }
 .promo-card-3 .promo-cta { color:#12C28A; }
 .promo-cta:hover { transform:scale(1.04); }
-
 .promo-emoji {
   position:absolute; right:14px; bottom:10px;
   font-size:48px; opacity:0.2;
@@ -325,7 +299,6 @@ body {
   margin-bottom:22px;
   animation: fadeUp 0.45s 0.2s ease both;
 }
-
 .menu-item {
   display:flex; flex-direction:column;
   align-items:center; gap:7px;
@@ -343,13 +316,11 @@ body {
   box-shadow:0 10px 24px rgba(0,0,0,0.16);
 }
 .menu-item:active .menu-icon-wrap { transform:scale(0.93); }
-
 .ic-vpn    { background:linear-gradient(135deg, var(--purple-dark), var(--purple)); }
 .ic-ppob   { background:linear-gradient(135deg, #FF6B2B, #FFD600); }
 .ic-trial  { background:linear-gradient(135deg, var(--purple-light), #FF6B2B); }
 .ic-myvpn  { background:linear-gradient(135deg, var(--green), #0070E0); }
 .ic-admin  { background:linear-gradient(135deg, #E84040, #FF7A00); }
-
 .menu-label {
   font-size:10px; font-weight:800;
   color:var(--text-mid); text-align:center; line-height:1.2;
@@ -373,7 +344,6 @@ body {
   transform:translateY(-3px);
   box-shadow:0 8px 24px rgba(90,26,154,0.18);
 }
-
 .tg-icon {
   width:46px; height:46px; border-radius:14px;
   background:linear-gradient(135deg, #229ED9, #27A7E5);
@@ -381,7 +351,6 @@ body {
   font-size:24px; flex-shrink:0;
   box-shadow:0 4px 12px rgba(34,158,217,0.35);
 }
-
 .admin-contact-body { flex:1; }
 .admin-contact-label {
   font-size:11px; font-weight:800;
@@ -465,13 +434,26 @@ body {
   align-items:center; gap:3px;
   text-decoration:none; cursor:pointer;
 }
-.nav-icon { font-size:21px; line-height:1; }
+.nav-icon {
+  width:24px; height:24px;
+  display:flex; align-items:center; justify-content:center;
+}
+.nav-icon svg {
+  width:22px; height:22px;
+  fill:none;
+  stroke: var(--text-light);
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  transition: stroke 0.2s;
+}
 .nav-label {
   font-size:10px; font-weight:800;
   color:var(--text-light);
+  transition: color 0.2s;
 }
 .nav-item.active .nav-label { color:var(--purple); }
-.nav-item.active .nav-icon { filter: drop-shadow(0 0 4px rgba(123,47,190,0.4)); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); }
 
 /* ─── ADMIN SECTION ─── */
 #adminSection a { text-decoration:none; }
@@ -560,13 +542,12 @@ body {
     </a>
   </div>
 
-  <!-- PROMO BANNERS (swipeable, AxisNet style) -->
+  <!-- PROMO BANNERS -->
   <div class="sec-title">
     Promo <span class="sec-title-pill">🔥 Hot</span>
   </div>
 
   <div class="promo-scroll">
-
     <div class="promo-card promo-card-1">
       <div class="promo-tag">⚡ Spesial Buat Kamu</div>
       <div class="promo-title">VPN Kenceng,<br>Harga Oke!</div>
@@ -574,7 +555,6 @@ body {
       <a class="promo-cta" href="products.html">Lihat Paket →</a>
       <div class="promo-emoji">⚡</div>
     </div>
-
     <div class="promo-card promo-card-2">
       <div class="promo-tag">🎁 Bonus Trial</div>
       <div class="promo-title">Coba Gratis<br>3 Hari!</div>
@@ -582,7 +562,6 @@ body {
       <a class="promo-cta" href="trial.html">Coba Sekarang →</a>
       <div class="promo-emoji">🎁</div>
     </div>
-
     <div class="promo-card promo-card-3">
       <div class="promo-tag">📱 PPOB Hemat</div>
       <div class="promo-title">Pulsa &amp; Paket<br>Termurah!</div>
@@ -590,7 +569,6 @@ body {
       <a class="promo-cta" href="ppob.html">Beli Sekarang →</a>
       <div class="promo-emoji">📱</div>
     </div>
-
   </div>
 
   <!-- ADMIN CONTACT -->
@@ -621,15 +599,21 @@ body {
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <a class="nav-item active" href="#">
-    <div class="nav-icon">🏠</div>
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+    </div>
     <div class="nav-label">Home</div>
   </a>
   <a class="nav-item" href="transactions.html">
-    <div class="nav-icon">📈</div>
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
+    </div>
     <div class="nav-label">Riwayat</div>
   </a>
   <a class="nav-item" href="profile.html">
-    <div class="nav-icon">👤</div>
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </div>
     <div class="nav-label">Profile</div>
   </a>
 </nav>
