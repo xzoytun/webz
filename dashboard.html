@@ -4,155 +4,157 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard - Xtrimer Tunnel</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 
 :root {
-  --purple:    #6B21D6;
-  --purple2:   #8B3FF5;
-  --purple-bg: #5A18BE;
-  --pink:      #E8007A;
-  --pink2:     #FF3D9A;
-  --orange:    #FF6B2C;
-  --yellow:    #FFD600;
-  --green:     #00C853;
-  --blue:      #1ABCFE;
-  --white:     #FFFFFF;
-  --text-dark: #1a0033;
-  --text-mid:  #5B3A8C;
-  --card-bg:   #FFFFFF;
-  --bg-light:  #F6F0FF;
+  --blue-deep:   #003D7A;
+  --blue-mid:    #004FA3;
+  --blue-bright: #0070E0;
+  --blue-light:  #E8F1FD;
+  --teal:        #00ADB5;
+  --teal-light:  #00C9D4;
+  --green:       #00C48C;
+  --green-bg:    #E6FBF5;
+  --red:         #E84040;
+  --red-bg:      #FFECEC;
+  --orange:      #FF7A00;
+  --white:       #FFFFFF;
+  --gray-soft:   #F2F6FB;
+  --gray-card:   #FAFCFF;
+  --gray-line:   #D8E5F5;
+  --text-dark:   #0A1F44;
+  --text-mid:    #4A6A9C;
+  --text-light:  #8BA8CC;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  background: var(--bg-light);
+  background: var(--gray-soft);
   min-height: 100vh;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   overflow-x: hidden;
   padding-bottom: 90px;
 }
 
-/* ── Stagger animation ── */
 @keyframes popIn {
-  from { opacity:0; transform:translateY(22px) scale(0.97); }
-  to   { opacity:1; transform:translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── HEADER HERO ── */
+/* ── HERO ── */
 .hero {
-  background: linear-gradient(145deg, var(--purple) 0%, var(--purple2) 60%, #A855F7 100%);
-  padding: 22px 22px 70px;
+  background: linear-gradient(160deg, var(--blue-deep) 0%, var(--blue-mid) 50%, var(--blue-bright) 100%);
+  padding: 20px 20px 68px;
   position: relative;
   overflow: hidden;
   animation: popIn 0.4s ease both;
 }
 
-/* Decorative blobs */
 .hero::before {
-  content:'';
-  position:absolute;
-  top:-40px; right:-30px;
-  width:180px; height:180px;
-  background: rgba(255,255,255,0.07);
+  content: '';
+  position: absolute;
+  top: -60px; right: -40px;
+  width: 200px; height: 200px;
+  border: 50px solid rgba(255,255,255,0.05);
   border-radius: 50%;
 }
 .hero::after {
-  content:'';
-  position:absolute;
-  bottom:-50px; left:-20px;
-  width:140px; height:140px;
-  background: rgba(255,255,255,0.05);
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -30px;
+  width: 160px; height: 160px;
+  border: 35px solid rgba(0,173,181,0.1);
   border-radius: 50%;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
 }
 
 .hero-top {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   position: relative;
   z-index: 2;
 }
 
-.avatar-wrap {
-  position: relative;
-  flex-shrink: 0;
-}
+.avatar-wrap { position: relative; flex-shrink: 0; }
 
 .avatar {
-  width: 56px; height: 56px;
+  width: 52px; height: 52px;
   border-radius: 50%;
-  border: 3px solid rgba(255,255,255,0.5);
+  border: 2.5px solid rgba(255,255,255,0.4);
   object-fit: cover;
   display: block;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.15);
 }
 
 .online-dot {
   position: absolute;
   bottom: 2px; right: 2px;
-  width: 12px; height: 12px;
+  width: 11px; height: 11px;
   border-radius: 50%;
   background: var(--green);
-  border: 2px solid var(--purple);
+  border: 2px solid var(--blue-deep);
 }
 
-.hero-greeting { flex:1; }
+.hero-greeting { flex: 1; }
 
 .greeting-hi {
-  font-size: 13px;
-  color: rgba(255,255,255,0.75);
+  font-size: 12px;
+  color: rgba(255,255,255,0.65);
   font-weight: 600;
   margin-bottom: 1px;
 }
 
 .greeting-name {
-  font-family: 'Fredoka One', cursive;
-  font-size: 22px;
+  font-size: 20px;
+  font-weight: 800;
   color: #fff;
-  line-height: 1;
-  letter-spacing: 0.3px;
+  line-height: 1.1;
+  letter-spacing: -0.3px;
 }
 
 .greeting-email {
   font-size: 11px;
-  color: rgba(255,255,255,0.55);
-  margin-top: 3px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 2px;
 }
 
 .notif-btn {
-  width: 40px; height: 40px;
+  width: 38px; height: 38px;
   border-radius: 12px;
-  background: rgba(255,255,255,0.15);
-  border: none;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
+  font-size: 17px;
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.15s;
+  backdrop-filter: blur(6px);
 }
-.notif-btn:hover { background: rgba(255,255,255,0.25); }
+.notif-btn:hover { background: rgba(255,255,255,0.22); }
 
-/* decorative blob in hero */
-.hero-blob {
-  position: absolute;
-  right: -10px; top: -10px;
-  width: 130px; height: 130px;
-  background: radial-gradient(circle at 40% 40%, rgba(255,255,255,0.13), transparent 70%);
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* ── FLOATING BALANCE CARD ── */
+/* ── BALANCE FLOAT CARD ── */
 .balance-card {
   background: var(--white);
-  border-radius: 22px;
-  padding: 20px 22px 18px;
+  border-radius: 20px;
+  padding: 18px 20px;
   margin: -48px 18px 0;
   position: relative;
   z-index: 10;
-  box-shadow: 0 8px 32px rgba(107,33,214,0.18), 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow:
+    0 8px 32px rgba(0,61,122,0.18),
+    0 2px 8px rgba(0,0,0,0.07);
   animation: popIn 0.4s 0.1s ease both;
 }
 
@@ -167,51 +169,50 @@ body {
 .balance-label {
   font-size: 11px;
   font-weight: 700;
-  color: var(--text-mid);
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 1.2px;
   margin-bottom: 4px;
 }
 
 .balance-amount {
-  font-family: 'Fredoka One', cursive;
-  font-size: 32px;
+  font-size: 28px;
+  font-weight: 800;
   color: var(--text-dark);
   line-height: 1;
   letter-spacing: -0.5px;
 }
 
+.balance-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--gray-line);
+  margin: 0 18px;
+}
+
 .balance-topup {
-  background: linear-gradient(135deg, var(--pink), var(--pink2));
+  background: linear-gradient(135deg, var(--blue-bright), var(--teal));
   border: none;
-  border-radius: 14px;
-  padding: 12px 18px;
+  border-radius: 12px;
+  padding: 11px 16px;
   color: #fff;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
   font-size: 13px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  box-shadow: 0 4px 14px rgba(232,0,122,0.35);
+  gap: 5px;
+  box-shadow: 0 4px 14px rgba(0,112,224,0.35);
   text-decoration: none;
   transition: transform 0.15s, box-shadow 0.15s;
   white-space: nowrap;
 }
-.balance-topup:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(232,0,122,0.45); }
-.balance-topup:active { transform: translateY(0); }
-
-.balance-divider {
-  width: 1px;
-  height: 42px;
-  background: #EDE0FF;
-  margin: 0 18px;
-}
+.balance-topup:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,112,224,0.45); }
 
 /* ── CONTAINER ── */
 .container {
-  padding: 18px 18px 0;
+  padding: 16px 18px 0;
   max-width: 480px;
   margin: 0 auto;
 }
@@ -220,43 +221,42 @@ body {
 .status-row {
   display: flex;
   gap: 10px;
-  margin-bottom: 18px;
+  margin-top: 16px;
+  margin-bottom: 20px;
   animation: popIn 0.4s 0.15s ease both;
 }
 
 .status-chip {
   flex: 1;
   border-radius: 14px;
-  padding: 13px 14px;
+  padding: 12px 14px;
   display: flex;
   align-items: center;
   gap: 10px;
+  border: 1.5px solid transparent;
 }
 
 .status-chip.active-chip {
-  background: linear-gradient(135deg, #E8FFF0, #C8FFE0);
-  border: 1.5px solid #A5F3C4;
+  background: var(--green-bg);
+  border-color: rgba(0,196,140,0.25);
 }
 .status-chip.role-chip {
-  background: linear-gradient(135deg, #F3E8FF, #E8D5FF);
-  border: 1.5px solid #D8B4FE;
+  background: var(--blue-light);
+  border-color: rgba(0,112,224,0.2);
 }
 .status-chip.admin-chip {
-  background: linear-gradient(135deg, #FEE2E2, #FECACA);
-  border: 1.5px solid #F87171;
+  background: var(--red-bg);
+  border-color: rgba(232,64,64,0.2);
 }
 
-.chip-icon {
-  font-size: 22px;
-  line-height: 1;
-}
+.chip-icon { font-size: 20px; line-height: 1; }
 
 .chip-text-label {
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  color: #666;
+  color: var(--text-light);
   margin-bottom: 1px;
 }
 
@@ -268,20 +268,20 @@ body {
 
 /* ── SECTION TITLE ── */
 .sec-title {
-  font-family: 'Fredoka One', cursive;
-  font-size: 18px;
+  font-size: 15px;
+  font-weight: 800;
   color: var(--text-dark);
   margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 8px;
+  letter-spacing: -0.2px;
 }
 
 .sec-title-pill {
-  font-family: 'Nunito', sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  background: var(--purple);
+  background: var(--blue-bright);
   color: #fff;
   border-radius: 20px;
   padding: 2px 10px;
@@ -292,7 +292,7 @@ body {
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 22px;
   animation: popIn 0.4s 0.2s ease both;
 }
@@ -301,68 +301,68 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   text-decoration: none;
   cursor: pointer;
 }
 
 .menu-icon-wrap {
-  width: 56px; height: 56px;
-  border-radius: 18px;
+  width: 54px; height: 54px;
+  border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
+  font-size: 22px;
   transition: transform 0.18s, box-shadow 0.18s;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.10);
 }
 
 .menu-item:hover .menu-icon-wrap {
-  transform: translateY(-4px) scale(1.08);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.16);
+  transform: translateY(-4px) scale(1.06);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.14);
 }
 .menu-item:active .menu-icon-wrap { transform: scale(0.94); }
 
-.ic-vpn    { background: linear-gradient(135deg, #6B21D6, #A855F7); }
-.ic-myvpn  { background: linear-gradient(135deg, #1ABCFE, #0098DB); }
-.ic-topup  { background: linear-gradient(135deg, #FF6B2C, #FFD600); }
-.ic-hist   { background: linear-gradient(135deg, #E8007A, #FF3D9A); }
-.ic-profile{ background: linear-gradient(135deg, #00C853, #00E676); }
-.ic-admin  { background: linear-gradient(135deg, #EF4444, #F97316); }
+.ic-vpn    { background: linear-gradient(135deg, #004FA3, #0070E0); }
+.ic-myvpn  { background: linear-gradient(135deg, #00ADB5, #00C9D4); }
+.ic-hist   { background: linear-gradient(135deg, #0070E0, #00ADB5); }
+.ic-profile{ background: linear-gradient(135deg, #00C48C, #00E0A0); }
+.ic-admin  { background: linear-gradient(135deg, #E84040, #FF7A00); }
+.ic-topup  { background: linear-gradient(135deg, #FF7A00, #FFD600); }
 
 .menu-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--text-mid);
   text-align: center;
   line-height: 1.2;
 }
 
 /* ── PROMO BANNER ── */
 .promo-banner {
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
   margin-bottom: 22px;
   position: relative;
-  background: linear-gradient(130deg, var(--pink) 0%, #FF6B2C 100%);
-  padding: 22px 20px;
+  background: linear-gradient(130deg, var(--blue-deep) 0%, var(--blue-bright) 70%, var(--teal) 100%);
+  padding: 20px 20px;
   animation: popIn 0.4s 0.25s ease both;
-  box-shadow: 0 6px 24px rgba(232,0,122,0.25);
+  box-shadow: 0 6px 24px rgba(0,61,122,0.25);
 }
 
-.promo-banner::after {
+.promo-banner::before {
   content: '';
   position: absolute;
-  top: -30px; right: -20px;
-  width: 150px; height: 150px;
-  background: rgba(255,255,255,0.08);
+  top: -40px; right: -20px;
+  width: 160px; height: 160px;
+  border: 40px solid rgba(255,255,255,0.06);
   border-radius: 50%;
 }
 
 .promo-tag {
   display: inline-block;
-  background: var(--yellow);
-  color: var(--text-dark);
+  background: var(--teal-light);
+  color: var(--blue-deep);
   font-size: 10px;
-  font-weight: 900;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
   border-radius: 8px;
@@ -371,17 +371,18 @@ body {
 }
 
 .promo-title {
-  font-family: 'Fredoka One', cursive;
-  font-size: 22px;
+  font-size: 20px;
+  font-weight: 800;
   color: #fff;
-  line-height: 1.15;
-  margin-bottom: 6px;
+  line-height: 1.2;
+  margin-bottom: 5px;
   position: relative; z-index: 2;
+  letter-spacing: -0.3px;
 }
 
 .promo-sub {
   font-size: 12px;
-  color: rgba(255,255,255,0.82);
+  color: rgba(255,255,255,0.75);
   margin-bottom: 14px;
   position: relative; z-index: 2;
 }
@@ -389,26 +390,27 @@ body {
 .promo-cta {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: #fff;
-  color: var(--pink);
-  font-weight: 900;
-  font-size: 13px;
-  border-radius: 12px;
-  padding: 10px 18px;
+  color: var(--blue-bright);
+  font-weight: 800;
+  font-size: 12px;
+  border-radius: 10px;
+  padding: 9px 16px;
   text-decoration: none;
   border: none;
   cursor: pointer;
   transition: transform 0.15s;
   position: relative; z-index: 2;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
 }
 .promo-cta:hover { transform: scale(1.04); }
 
 .promo-emoji {
   position: absolute;
-  right: 18px; bottom: 14px;
-  font-size: 52px;
-  opacity: 0.25;
+  right: 16px; bottom: 12px;
+  font-size: 50px;
+  opacity: 0.18;
   z-index: 1;
   transform: rotate(-10deg);
 }
@@ -424,38 +426,40 @@ body {
 
 .info-card {
   background: var(--white);
-  border-radius: 18px;
+  border-radius: 16px;
   padding: 16px;
-  box-shadow: 0 2px 12px rgba(107,33,214,0.08);
+  box-shadow: 0 2px 12px rgba(0,61,122,0.07);
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--gray-line);
 }
 
 .info-card-accent {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 3px;
-  border-radius: 18px 18px 0 0;
+  border-radius: 16px 16px 0 0;
 }
 
-.accent-purple { background: linear-gradient(90deg, var(--purple), var(--purple2)); }
-.accent-pink   { background: linear-gradient(90deg, var(--pink), var(--orange)); }
+.accent-blue { background: linear-gradient(90deg, var(--blue-mid), var(--teal)); }
+.accent-teal { background: linear-gradient(90deg, var(--teal), var(--green)); }
 
-.info-card-icon { font-size: 24px; margin-bottom: 8px; }
+.info-card-icon { font-size: 22px; margin-bottom: 8px; }
 
 .info-card-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  color: var(--text-mid);
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 0.8px;
   margin-bottom: 4px;
 }
 
 .info-card-val {
-  font-family: 'Fredoka One', cursive;
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 800;
   color: var(--text-dark);
+  letter-spacing: -0.2px;
 }
 
 /* ── LOGOUT ── */
@@ -466,13 +470,13 @@ body {
 
 .logout-btn {
   width: 100%;
-  padding: 15px;
-  border: 2px solid #EDE0FF;
-  border-radius: 16px;
+  padding: 14px;
+  border: 1.5px solid var(--gray-line);
+  border-radius: 14px;
   background: var(--white);
   color: var(--text-mid);
-  font-family: 'Nunito', sans-serif;
-  font-weight: 800;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
   font-size: 14px;
   cursor: pointer;
   display: flex;
@@ -481,11 +485,10 @@ body {
   gap: 8px;
   transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
-
 .logout-btn:hover {
-  border-color: var(--pink);
-  color: var(--pink);
-  background: #FFF0F7;
+  border-color: var(--red);
+  color: var(--red);
+  background: var(--red-bg);
 }
 
 /* ── BOTTOM NAV ── */
@@ -493,10 +496,10 @@ body {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   background: #fff;
-  border-top: 1px solid #EDE0FF;
+  border-top: 1px solid var(--gray-line);
   display: flex;
   padding: 10px 0 14px;
-  box-shadow: 0 -4px 20px rgba(107,33,214,0.08);
+  box-shadow: 0 -4px 20px rgba(0,61,122,0.08);
   z-index: 100;
   max-width: 480px;
   margin: 0 auto;
@@ -512,43 +515,40 @@ body {
   cursor: pointer;
 }
 
-.nav-icon {
-  font-size: 22px;
-  line-height: 1;
-}
+.nav-icon { font-size: 21px; line-height: 1; }
 
 .nav-label {
   font-size: 10px;
   font-weight: 700;
-  color: #B0A0C0;
+  color: var(--text-light);
 }
 
-.nav-item.active .nav-label { color: var(--purple); }
+.nav-item.active .nav-label { color: var(--blue-bright); }
 
 .nav-fab {
   position: relative;
   top: -16px;
 }
 
-.nav-fab .nav-icon-wrap {
-  width: 52px; height: 52px;
+.nav-icon-wrap {
+  width: 50px; height: 50px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--pink), var(--purple2));
+  background: linear-gradient(135deg, var(--blue-bright), var(--teal));
   display: flex; align-items: center; justify-content: center;
-  font-size: 26px;
-  box-shadow: 0 4px 16px rgba(232,0,122,0.4);
+  font-size: 24px;
+  box-shadow: 0 4px 16px rgba(0,112,224,0.4);
 }
 
 </style>
 </head>
 <body>
 
-<!-- Hero Header -->
+<!-- Hero -->
 <div class="hero">
-  <div class="hero-blob"></div>
+  <div class="hero-grid"></div>
   <div class="hero-top">
     <div class="avatar-wrap">
-      <img class="avatar" id="avatar" src="https://via.placeholder.com/56" alt="Avatar">
+      <img class="avatar" id="avatar" src="https://via.placeholder.com/52" alt="Avatar">
       <div class="online-dot"></div>
     </div>
     <div class="hero-greeting">
@@ -560,7 +560,7 @@ body {
   </div>
 </div>
 
-<!-- Balance Float Card -->
+<!-- Balance Float -->
 <div style="max-width:480px;margin:0 auto;padding:0 18px;">
   <div class="balance-card">
     <div class="balance-inner">
@@ -569,9 +569,7 @@ body {
         <div class="balance-amount" id="balance">Rp 0</div>
       </div>
       <div class="balance-divider"></div>
-      <a class="balance-topup" href="topup.html">
-        ＋ Top Up
-      </a>
+      <a class="balance-topup" href="topup.html">＋ Top Up</a>
     </div>
   </div>
 </div>
@@ -579,7 +577,7 @@ body {
 <div class="container">
 
   <!-- Status chips -->
-  <div class="status-row" style="margin-top:14px;">
+  <div class="status-row">
     <div class="status-chip active-chip">
       <div class="chip-icon">✅</div>
       <div>
@@ -597,10 +595,7 @@ body {
   </div>
 
   <!-- Menu Utama -->
-  <div class="sec-title">
-    Menu <span class="sec-title-pill">Utama</span>
-  </div>
-
+  <div class="sec-title">Menu <span class="sec-title-pill">Utama</span></div>
   <div class="menu-grid" id="menuGrid">
     <a class="menu-item" href="products.html">
       <div class="menu-icon-wrap ic-vpn">📦</div>
@@ -622,7 +617,7 @@ body {
 
   <!-- Promo Banner -->
   <div class="promo-banner">
-    <div class="promo-tag">🔥 Spesial Buat Kamu</div>
+    <div class="promo-tag">⚡ Spesial Buat Kamu</div>
     <div class="promo-title">VPN Kenceng,<br>Harga Oke!</div>
     <div class="promo-sub">Koneksi stabil tanpa gangguan, bayar sekali nikmati terus.</div>
     <a class="promo-cta" href="products.html">Lihat Paket →</a>
@@ -631,23 +626,22 @@ body {
 
   <!-- Info Cards -->
   <div class="sec-title">Info <span class="sec-title-pill">Akun</span></div>
-
   <div class="info-cards">
     <div class="info-card">
-      <div class="info-card-accent accent-purple"></div>
+      <div class="info-card-accent accent-blue"></div>
       <div class="info-card-icon">🔐</div>
       <div class="info-card-label">VPN Aktif</div>
       <div class="info-card-val">— Akun</div>
     </div>
     <div class="info-card">
-      <div class="info-card-accent accent-pink"></div>
+      <div class="info-card-accent accent-teal"></div>
       <div class="info-card-icon">📊</div>
       <div class="info-card-label">Transaksi</div>
       <div class="info-card-val">— Total</div>
     </div>
   </div>
 
-  <!-- Admin panel inject -->
+  <!-- Admin inject -->
   <div id="adminSection"></div>
 
 </div>
@@ -669,9 +663,9 @@ body {
     <div class="nav-icon">📡</div>
     <div class="nav-label">My VPN</div>
   </a>
-  <div class="nav-item nav-fab" href="products.html">
+  <div class="nav-item nav-fab">
     <div class="nav-icon-wrap">📦</div>
-    <div class="nav-label" style="color:#fff; margin-top:4px;">Paket</div>
+    <div class="nav-label" style="color:var(--blue-bright);margin-top:4px;">Paket</div>
   </div>
   <a class="nav-item" href="transactions.html">
     <div class="nav-icon">📜</div>
@@ -691,9 +685,7 @@ loadProfile();
 
 async function loadProfile() {
   try {
-    const response = await fetch(
-      `/api/profile?email=${encodeURIComponent(localUser.email)}`
-    );
+    const response = await fetch(`/api/profile?email=${encodeURIComponent(localUser.email)}`);
     const result = await response.json();
 
     if (!result.success) {
@@ -707,11 +699,8 @@ async function loadProfile() {
 
     document.getElementById('username').innerText = user.username || '—';
     document.getElementById('email').innerText    = user.email    || '—';
-    document.getElementById('balance').innerText  =
-      'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
-
-    document.getElementById('avatar').src =
-      user.avatar || 'https://via.placeholder.com/56';
+    document.getElementById('balance').innerText  = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
+    document.getElementById('avatar').src = user.avatar || 'https://via.placeholder.com/52';
 
     const roleVal  = document.getElementById('roleVal');
     const roleChip = document.getElementById('roleChip');
@@ -722,26 +711,25 @@ async function loadProfile() {
       roleChip.querySelector('.chip-icon').innerText = '🛠';
 
       document.getElementById('adminSection').innerHTML = `
-        <div class="sec-title">Panel <span class="sec-title-pill" style="background:#EF4444;">Admin</span></div>
+        <div class="sec-title">Panel <span class="sec-title-pill" style="background:var(--red);">Admin</span></div>
         <a href="admin.html" style="text-decoration:none;">
           <div style="
-            background: linear-gradient(135deg,#EF4444,#F97316);
-            border-radius:18px; padding:18px 20px;
+            background: linear-gradient(135deg, #C0392B, #E84040);
+            border-radius:16px; padding:16px 18px;
             display:flex; align-items:center; gap:14px;
             margin-bottom:20px;
-            box-shadow:0 6px 20px rgba(239,68,68,0.3);
+            box-shadow:0 6px 20px rgba(232,64,64,0.28);
           ">
-            <div style="font-size:32px;">🛠</div>
+            <div style="font-size:28px;">🛠</div>
             <div style="flex:1;">
-              <div style="font-family:'Fredoka One',cursive;font-size:17px;color:#fff;">Admin Panel</div>
-              <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:2px;">Kelola user, produk &amp; transaksi</div>
+              <div style="font-size:16px;font-weight:800;color:#fff;letter-spacing:-0.2px;">Admin Panel</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:2px;">Kelola user, produk &amp; transaksi</div>
             </div>
-            <div style="font-size:22px;color:rgba(255,255,255,0.7);">›</div>
+            <div style="font-size:20px;color:rgba(255,255,255,0.6);">›</div>
           </div>
         </a>
       `;
 
-      // Add admin to menu grid
       const grid = document.getElementById('menuGrid');
       const adminItem = document.createElement('a');
       adminItem.className = 'menu-item';
