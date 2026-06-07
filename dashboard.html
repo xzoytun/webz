@@ -538,147 +538,376 @@ body {
   font-size: 24px;
   box-shadow: 0 4px 16px rgba(0,112,224,0.4);
 }
+.server-card{
+  background:#fff;
+  padding:14px 16px;
+  border-radius:14px;
+  margin-bottom:20px;
+  font-weight:800;
+  color:var(--green);
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
 
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:22px;
+}
 </style>
 </head>
 <body>
 
-<!-- Hero -->
+<!-- HERO -->
 <div class="hero">
   <div class="hero-grid"></div>
+
   <div class="hero-top">
+
     <div class="avatar-wrap">
-      <img class="avatar" id="avatar" src="https://via.placeholder.com/52" alt="Avatar">
+      <img
+        class="avatar"
+        id="avatar"
+        src="https://via.placeholder.com/52"
+      >
       <div class="online-dot"></div>
     </div>
+
     <div class="hero-greeting">
-      <div class="greeting-hi">Halo, selamat datang 👋</div>
-      <div class="greeting-name" id="username">—</div>
-      <div class="greeting-email" id="email">—</div>
-    </div>
-    <button class="notif-btn">🔔</button>
-  </div>
-</div>
-
-<!-- Balance Float -->
-<div style="max-width:480px;margin:0 auto;padding:0 18px;">
-  <div class="balance-card">
-    <div class="balance-inner">
-      <div class="balance-left">
-        <div class="balance-label">💳 Saldo Kamu</div>
-        <div class="balance-amount" id="balance">Rp 0</div>
+      <div class="greeting-hi">
+        Halo, selamat datang 👋
       </div>
-      <div class="balance-divider"></div>
-      <a class="balance-topup" href="topup.html">＋ Top Up</a>
+
+      <div class="greeting-name" id="username">
+        —
+      </div>
+
+      <div class="greeting-email" id="email">
+        —
+      </div>
     </div>
+
+    <button class="notif-btn">
+      🔔
+    </button>
+
   </div>
 </div>
 
+<!-- BALANCE -->
+<div style="max-width:480px;margin:0 auto;padding:0 18px;">
+
+  <div class="balance-card">
+
+    <div class="balance-inner">
+
+      <div class="balance-left">
+
+        <div class="balance-label">
+          💳 Saldo Kamu
+        </div>
+
+        <div
+          class="balance-amount"
+          id="balance"
+        >
+          Rp 0
+        </div>
+
+      </div>
+
+      <div class="balance-divider"></div>
+
+      <a
+        class="balance-topup"
+        href="topup.html"
+      >
+        ＋ Top Up
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- CONTENT -->
 <div class="container">
 
-  <!-- Status chips -->
+  <!-- STATUS -->
   <div class="status-row">
+
     <div class="status-chip active-chip">
+
       <div class="chip-icon">✅</div>
+
       <div>
-        <div class="chip-text-label">Status</div>
-        <div class="chip-text-val">Aktif</div>
+        <div class="chip-text-label">
+          Status
+        </div>
+
+        <div class="chip-text-val">
+          Aktif
+        </div>
       </div>
+
     </div>
-    <div class="status-chip role-chip" id="roleChip">
+
+    <div
+      class="status-chip role-chip"
+      id="roleChip"
+    >
+
       <div class="chip-icon">👤</div>
+
       <div>
-        <div class="chip-text-label">Role</div>
-        <div class="chip-text-val" id="roleVal">User</div>
+
+        <div class="chip-text-label">
+          Role
+        </div>
+
+        <div
+          class="chip-text-val"
+          id="roleVal"
+        >
+          User
+        </div>
+
       </div>
+
     </div>
+
   </div>
 
-  <!-- Menu Utama -->
-  <div class="sec-title">Menu <span class="sec-title-pill">Utama</span></div>
+  <!-- SERVER STATUS -->
+  <div class="server-card">
+    🟢 Semua Server Online
+  </div>
+
+  <!-- MENU -->
+  <div class="sec-title">
+    Menu
+    <span class="sec-title-pill">
+      Utama
+    </span>
+  </div>
+
   <div class="menu-grid" id="menuGrid">
+
     <a class="menu-item" href="products.html">
-      <div class="menu-icon-wrap ic-vpn">📦</div>
-      <div class="menu-label">Produk VPN</div>
+
+      <div class="menu-icon-wrap ic-vpn">
+        📦
+      </div>
+
+      <div class="menu-label">
+        Produk VPN
+      </div>
+
     </a>
-    <a class="menu-item" href="my-vpn.html">
-      <div class="menu-icon-wrap ic-myvpn">📡</div>
-      <div class="menu-label">My VPN</div>
-    </a>
+
     <a class="menu-item" href="ppob.html">
-      <div class="menu-icon-wrap ic-hist">📱</div>
-      <div class="menu-label">PPOB</div>
+
+      <div class="menu-icon-wrap ic-topup">
+        📱
+      </div>
+
+      <div class="menu-label">
+        PPOB
+      </div>
+
     </a>
+
     <a class="menu-item" href="trial.html">
-      <div class="menu-icon-wrap ic-hist">⏳</div>
-      <div class="menu-label">Trial Vpn</div>
+
+      <div class="menu-icon-wrap ic-hist">
+        🎁
+      </div>
+
+      <div class="menu-label">
+        Trial VPN
+      </div>
+
     </a>
-    <a class="menu-item" href="transactions.html">
-      <div class="menu-icon-wrap ic-profile">📜</div>
-      <div class="menu-label">Riwayat</div>
+
+    <a class="menu-item" href="#">
+
+      <div class="menu-icon-wrap ic-myvpn">
+        🚀
+      </div>
+
+      <div class="menu-label">
+        Akan Hadir
+      </div>
+
     </a>
+
   </div>
 
-  <!-- Promo Banner -->
+  <!-- PROMO -->
   <div class="promo-banner">
-    <div class="promo-tag">⚡ Spesial Buat Kamu</div>
-    <div class="promo-title">VPN Kenceng,<br>Harga Oke!</div>
-    <div class="promo-sub">Koneksi stabil tanpa gangguan, bayar sekali nikmati terus.</div>
-    <a class="promo-cta" href="products.html">Lihat Paket →</a>
-    <div class="promo-emoji">⚡</div>
+
+    <div class="promo-tag">
+      ⚡ Spesial Buat Kamu
+    </div>
+
+    <div class="promo-title">
+      VPN Kenceng,<br>
+      Harga Oke!
+    </div>
+
+    <div class="promo-sub">
+      Koneksi stabil tanpa gangguan,
+      bayar sekali nikmati terus.
+    </div>
+
+    <a
+      class="promo-cta"
+      href="products.html"
+    >
+      Lihat Paket →
+    </a>
+
+    <div class="promo-emoji">
+      ⚡
+    </div>
+
   </div>
 
-  <!-- Info Cards -->
-  <div class="sec-title">Info <span class="sec-title-pill">Akun</span></div>
+  <!-- INFO -->
+  <div class="sec-title">
+    Info
+    <span class="sec-title-pill">
+      Akun
+    </span>
+  </div>
+
   <div class="info-cards">
+
     <div class="info-card">
+
       <div class="info-card-accent accent-blue"></div>
-      <div class="info-card-icon">🔐</div>
-      <div class="info-card-label">VPN Aktif</div>
-      <div class="info-card-val">— Akun</div>
+
+      <div class="info-card-icon">
+        🔐
+      </div>
+
+      <div class="info-card-label">
+        VPN AKTIF
+      </div>
+
+      <div class="info-card-val">
+        — Akun
+      </div>
+
     </div>
+
     <div class="info-card">
+
       <div class="info-card-accent accent-teal"></div>
-      <div class="info-card-icon">📊</div>
-      <div class="info-card-label">Transaksi</div>
-      <div class="info-card-val">— Total</div>
+
+      <div class="info-card-icon">
+        📊
+      </div>
+
+      <div class="info-card-label">
+        TRANSAKSI
+      </div>
+
+      <div class="info-card-val">
+        — Total
+      </div>
+
     </div>
+
   </div>
 
-  <!-- Admin inject -->
+  <!-- AKAN HADIR -->
+  <div class="sec-title">
+    🚀 Akan Hadir
+  </div>
+
+  <div class="info-cards">
+
+    <div class="info-card">
+
+      <div class="info-card-icon">
+        🎮
+      </div>
+
+      <div class="info-card-label">
+        TOPUP GAME
+      </div>
+
+      <div class="info-card-val">
+        Soon
+      </div>
+
+    </div>
+
+    <div class="info-card">
+
+      <div class="info-card-icon">
+        💡
+      </div>
+
+      <div class="info-card-label">
+        TOKEN PLN
+      </div>
+
+      <div class="info-card-val">
+        Soon
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ADMIN -->
   <div id="adminSection"></div>
 
 </div>
 
-<!-- Logout -->
+<!-- LOGOUT -->
 <div class="logout-wrap">
-  <button class="logout-btn" onclick="logout()">
-    <span>🚪</span> Keluar dari Akun
+
+  <button
+    class="logout-btn"
+    onclick="logout()"
+  >
+    🚪 Keluar dari Akun
   </button>
+
 </div>
 
-<!-- Bottom Nav -->
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
+
   <a class="nav-item active" href="#">
     <div class="nav-icon">🏠</div>
     <div class="nav-label">Home</div>
   </a>
+
+  <a class="nav-item" href="products.html">
+    <div class="nav-icon">📦</div>
+    <div class="nav-label">Produk</div>
+  </a>
+
   <a class="nav-item" href="my-vpn.html">
     <div class="nav-icon">📡</div>
-    <div class="nav-label">My VPN</div>
+    <div class="nav-label">MyVPN</div>
   </a>
-  <div class="nav-item nav-fab">
-    <div class="nav-icon-wrap">📦</div>
-    <div class="nav-label" style="color:var(--blue-bright);margin-top:4px;">Paket</div>
-  </div>
-  <a class="nav-item" href="trial.html">
-    <div class="nav-icon">⏳</div>
-    <div class="nav-label">Trial Vpn</div>
+
+  <a class="nav-item" href="ppob.html">
+    <div class="nav-icon">📱</div>
+    <div class="nav-label">PPOB</div>
   </a>
-  <a class="nav-item" href="transactions.html">
-    <div class="nav-icon">📜</div>
-    <div class="nav-label">Riwayat</div>
+
+  <a class="nav-item" href="profile.html">
+    <div class="nav-icon">👤</div>
+    <div class="nav-label">Profile</div>
   </a>
+
 </nav>
 
 <script>
@@ -733,16 +962,7 @@ async function loadProfile() {
           </div>
         </a>
       `;
-
-      const grid = document.getElementById('menuGrid');
-      const adminItem = document.createElement('a');
-      adminItem.className = 'menu-item';
-      adminItem.href = 'admin.html';
-      adminItem.innerHTML = `
-        <div class="menu-icon-wrap ic-admin">🛠</div>
-        <div class="menu-label">Admin</div>
-      `;
-      grid.appendChild(adminItem);
+      
     }
 
   } catch (err) {
