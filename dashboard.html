@@ -4,631 +4,510 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard - Xtrimer Tunnel</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-
 :root {
-  --blue-deep:   #003D7A;
-  --blue-mid:    #004FA3;
-  --blue-bright: #0070E0;
-  --blue-light:  #E8F1FD;
-  --teal:        #00ADB5;
-  --teal-light:  #00C9D4;
-  --green:       #00C48C;
-  --green-bg:    #E6FBF5;
-  --red:         #E84040;
-  --red-bg:      #FFECEC;
-  --orange:      #FF7A00;
-  --white:       #FFFFFF;
-  --gray-soft:   #F2F6FB;
-  --gray-card:   #FAFCFF;
-  --gray-line:   #D8E5F5;
-  --text-dark:   #0A1F44;
-  --text-mid:    #4A6A9C;
-  --text-light:  #8BA8CC;
+  --purple:       #7B2FBE;
+  --purple-dark:  #5A1A9A;
+  --purple-deep:  #3D0F72;
+  --purple-light: #9B4FDE;
+  --purple-soft:  #F3EAFD;
+  --purple-mid:   #EAD5FA;
+  --accent:       #FF6B2B;
+  --accent2:      #FFD600;
+  --green:        #12C28A;
+  --green-bg:     #E6FAF4;
+  --red:          #E84040;
+  --red-bg:       #FFECEC;
+  --white:        #FFFFFF;
+  --bg:           #F7F0FD;
+  --card:         #FFFFFF;
+  --gray-line:    #E8D8F8;
+  --text-dark:    #1A0533;
+  --text-mid:     #6B3FA0;
+  --text-light:   #A882CC;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  background: var(--gray-soft);
+  background: var(--bg);
   min-height: 100vh;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Nunito', sans-serif;
   overflow-x: hidden;
   padding-bottom: 90px;
 }
 
-@keyframes popIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pulse {
+  0%,100% { transform:scale(1); }
+  50%      { transform:scale(1.12); }
 }
 
-/* ── HERO ── */
+/* ─── HERO ─── */
 .hero {
-  background: linear-gradient(160deg, var(--blue-deep) 0%, var(--blue-mid) 50%, var(--blue-bright) 100%);
-  padding: 20px 20px 68px;
+  background: linear-gradient(150deg, var(--purple-deep) 0%, var(--purple) 55%, var(--purple-light) 100%);
+  padding: 24px 20px 72px;
   position: relative;
   overflow: hidden;
-  animation: popIn 0.4s ease both;
+  animation: fadeUp 0.45s ease both;
 }
 
+/* decorative circles */
 .hero::before {
-  content: '';
-  position: absolute;
-  top: -60px; right: -40px;
-  width: 200px; height: 200px;
-  border: 50px solid rgba(255,255,255,0.05);
-  border-radius: 50%;
+  content:'';
+  position:absolute; top:-50px; right:-30px;
+  width:200px; height:200px;
+  border:48px solid rgba(255,255,255,0.07);
+  border-radius:50%;
 }
 .hero::after {
-  content: '';
-  position: absolute;
-  bottom: -60px; left: -30px;
-  width: 160px; height: 160px;
-  border: 35px solid rgba(0,173,181,0.1);
-  border-radius: 50%;
+  content:'';
+  position:absolute; bottom:-60px; left:-30px;
+  width:170px; height:170px;
+  border:36px solid rgba(255,214,0,0.12);
+  border-radius:50%;
 }
 
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
+.hero-dots {
+  position:absolute; inset:0;
+  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events:none;
 }
 
 .hero-top {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  z-index: 2;
+  display:flex; align-items:center; gap:14px;
+  position:relative; z-index:2;
 }
 
-.avatar-wrap { position: relative; flex-shrink: 0; }
-
+.avatar-wrap { position:relative; flex-shrink:0; }
 .avatar {
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  border: 2.5px solid rgba(255,255,255,0.4);
-  object-fit: cover;
-  display: block;
-  background: rgba(255,255,255,0.15);
+  width:54px; height:54px; border-radius:50%;
+  border:3px solid rgba(255,255,255,0.45);
+  object-fit:cover;
+  background:rgba(255,255,255,0.18);
 }
-
 .online-dot {
-  position: absolute;
-  bottom: 2px; right: 2px;
-  width: 11px; height: 11px;
-  border-radius: 50%;
-  background: var(--green);
-  border: 2px solid var(--blue-deep);
+  position:absolute; bottom:2px; right:2px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--green);
+  border:2.5px solid var(--purple-deep);
+  animation: pulse 2s infinite;
 }
 
-.hero-greeting { flex: 1; }
-
+.hero-greeting { flex:1; }
 .greeting-hi {
-  font-size: 12px;
-  color: rgba(255,255,255,0.65);
-  font-weight: 600;
-  margin-bottom: 1px;
+  font-size:12px; font-weight:700;
+  color:rgba(255,255,255,0.6);
+  margin-bottom:2px; letter-spacing:0.4px;
 }
-
 .greeting-name {
-  font-size: 20px;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1.1;
-  letter-spacing: -0.3px;
+  font-size:21px; font-weight:900;
+  color:#fff; line-height:1.1;
+  letter-spacing:-0.3px;
 }
-
 .greeting-email {
-  font-size: 11px;
-  color: rgba(255,255,255,0.5);
-  margin-top: 2px;
+  font-size:11px; color:rgba(255,255,255,0.5);
+  margin-top:2px;
 }
 
 .notif-btn {
-  width: 38px; height: 38px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.18);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.15s;
-  backdrop-filter: blur(6px);
+  width:40px; height:40px; border-radius:13px;
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; cursor:pointer;
+  backdrop-filter:blur(8px);
+  transition:background 0.15s;
+  flex-shrink:0;
 }
-.notif-btn:hover { background: rgba(255,255,255,0.22); }
+.notif-btn:hover { background:rgba(255,255,255,0.24); }
 
-/* ── BALANCE FLOAT CARD ── */
+/* ─── BALANCE CARD ─── */
 .balance-card {
-  background: var(--white);
-  border-radius: 20px;
-  padding: 18px 20px;
-  margin: -48px 18px 0;
-  position: relative;
-  z-index: 10;
-  box-shadow:
-    0 8px 32px rgba(0,61,122,0.18),
-    0 2px 8px rgba(0,0,0,0.07);
-  animation: popIn 0.4s 0.1s ease both;
+  background:var(--white);
+  border-radius:22px;
+  padding:18px 20px;
+  margin: -52px 18px 0;
+  position:relative; z-index:10;
+  box-shadow: 0 10px 36px rgba(90,26,154,0.22), 0 2px 8px rgba(0,0,0,0.06);
+  animation: fadeUp 0.45s 0.1s ease both;
 }
 
 .balance-inner {
-  display: flex;
-  align-items: center;
-  gap: 0;
+  display:flex; align-items:center;
 }
 
-.balance-left { flex: 1; }
-
+.balance-left { flex:1; }
 .balance-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-light);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  margin-bottom: 4px;
+  font-size:11px; font-weight:800;
+  color:var(--text-light);
+  text-transform:uppercase; letter-spacing:1.2px;
+  margin-bottom:4px;
 }
-
 .balance-amount {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--text-dark);
-  line-height: 1;
-  letter-spacing: -0.5px;
+  font-size:30px; font-weight:900;
+  color:var(--text-dark); line-height:1;
+  letter-spacing:-0.5px;
 }
 
 .balance-divider {
-  width: 1px;
-  height: 40px;
-  background: var(--gray-line);
-  margin: 0 18px;
+  width:1px; height:44px;
+  background:var(--gray-line);
+  margin:0 18px;
 }
 
 .balance-topup {
-  background: linear-gradient(135deg, var(--blue-bright), var(--teal));
-  border: none;
-  border-radius: 12px;
-  padding: 11px 16px;
-  color: #fff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800;
-  font-size: 13px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  box-shadow: 0 4px 14px rgba(0,112,224,0.35);
-  text-decoration: none;
-  transition: transform 0.15s, box-shadow 0.15s;
-  white-space: nowrap;
+  background:linear-gradient(135deg, var(--purple), var(--purple-light));
+  border:none; border-radius:13px;
+  padding:12px 18px;
+  color:#fff; font-family:'Nunito',sans-serif;
+  font-weight:900; font-size:13px;
+  cursor:pointer; display:flex; align-items:center; gap:5px;
+  box-shadow:0 4px 16px rgba(123,47,190,0.4);
+  text-decoration:none; white-space:nowrap;
+  transition:transform 0.15s, box-shadow 0.15s;
 }
-.balance-topup:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,112,224,0.45); }
+.balance-topup:hover {
+  transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(123,47,190,0.5);
+}
 
-/* ── CONTAINER ── */
+/* ─── CONTAINER ─── */
 .container {
-  padding: 16px 18px 0;
-  max-width: 480px;
-  margin: 0 auto;
+  padding:16px 18px 0;
+  max-width:480px;
+  margin:0 auto;
 }
 
-/* ── STATUS ROW ── */
+/* ─── STATUS ROW ─── */
 .status-row {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-  margin-bottom: 20px;
-  animation: popIn 0.4s 0.15s ease both;
+  display:flex; gap:10px;
+  margin:20px 0;
+  animation: fadeUp 0.45s 0.15s ease both;
 }
 
 .status-chip {
-  flex: 1;
-  border-radius: 14px;
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border: 1.5px solid transparent;
+  flex:1; border-radius:14px;
+  padding:12px 14px;
+  display:flex; align-items:center; gap:10px;
+  border:1.5px solid transparent;
 }
-
 .status-chip.active-chip {
-  background: var(--green-bg);
-  border-color: rgba(0,196,140,0.25);
+  background:var(--green-bg);
+  border-color:rgba(18,194,138,0.25);
 }
 .status-chip.role-chip {
-  background: var(--blue-light);
-  border-color: rgba(0,112,224,0.2);
+  background:var(--purple-soft);
+  border-color:rgba(123,47,190,0.2);
 }
 .status-chip.admin-chip {
-  background: var(--red-bg);
-  border-color: rgba(232,64,64,0.2);
+  background:var(--red-bg);
+  border-color:rgba(232,64,64,0.2);
 }
 
-.chip-icon { font-size: 20px; line-height: 1; }
-
+.chip-icon { font-size:20px; }
 .chip-text-label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--text-light);
-  margin-bottom: 1px;
+  font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.8px;
+  color:var(--text-light); margin-bottom:1px;
 }
-
 .chip-text-val {
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--text-dark);
+  font-size:13px; font-weight:900;
+  color:var(--text-dark);
 }
 
-/* ── SECTION TITLE ── */
+/* ─── SERVER STATUS ─── */
+.server-card {
+  background:var(--white);
+  border:1.5px solid rgba(18,194,138,0.25);
+  padding:13px 16px;
+  border-radius:14px;
+  margin-bottom:20px;
+  font-weight:800; font-size:13px;
+  color:var(--green);
+  display:flex; align-items:center; gap:8px;
+  box-shadow:0 2px 10px rgba(18,194,138,0.08);
+  animation: fadeUp 0.45s 0.18s ease both;
+}
+
+/* ─── SECTION TITLE ─── */
 .sec-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--text-dark);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  letter-spacing: -0.2px;
+  font-size:15px; font-weight:900;
+  color:var(--text-dark);
+  margin-bottom:12px;
+  display:flex; align-items:center; gap:8px;
+  letter-spacing:-0.2px;
 }
-
 .sec-title-pill {
-  font-size: 10px;
-  font-weight: 700;
-  background: var(--blue-bright);
-  color: #fff;
-  border-radius: 20px;
-  padding: 2px 10px;
-  letter-spacing: 0.5px;
+  font-size:10px; font-weight:800;
+  background:var(--purple);
+  color:#fff; border-radius:20px;
+  padding:2px 10px; letter-spacing:0.5px;
 }
 
-/* ── MENU GRID ── */
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 22px;
-  animation: popIn 0.4s 0.2s ease both;
+/* ─── PROMO BANNER (AxisNet style swipeable cards) ─── */
+.promo-scroll {
+  display:flex; gap:12px;
+  overflow-x:auto; padding-bottom:4px;
+  margin-bottom:22px;
+  scrollbar-width:none;
+  animation: fadeUp 0.45s 0.22s ease both;
 }
+.promo-scroll::-webkit-scrollbar { display:none; }
 
-.menu-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
-  text-decoration: none;
-  cursor: pointer;
+.promo-card {
+  border-radius:18px; overflow:hidden;
+  min-width:260px; padding:20px 18px;
+  position:relative; flex-shrink:0;
+  box-shadow:0 6px 22px rgba(90,26,154,0.2);
 }
-
-.menu-icon-wrap {
-  width: 54px; height: 54px;
-  border-radius: 16px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-  transition: transform 0.18s, box-shadow 0.18s;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.10);
+.promo-card-1 {
+  background:linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 70%, var(--purple-light) 100%);
 }
-
-.menu-item:hover .menu-icon-wrap {
-  transform: translateY(-4px) scale(1.06);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.14);
+.promo-card-2 {
+  background:linear-gradient(135deg, #FF6B2B 0%, #FFD600 100%);
 }
-.menu-item:active .menu-icon-wrap { transform: scale(0.94); }
-
-.ic-vpn    { background: linear-gradient(135deg, #004FA3, #0070E0); }
-.ic-myvpn  { background: linear-gradient(135deg, #00ADB5, #00C9D4); }
-.ic-hist   { background: linear-gradient(135deg, #0070E0, #00ADB5); }
-.ic-profile{ background: linear-gradient(135deg, #00C48C, #00E0A0); }
-.ic-admin  { background: linear-gradient(135deg, #E84040, #FF7A00); }
-.ic-topup  { background: linear-gradient(135deg, #FF7A00, #FFD600); }
-
-.menu-label {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--text-mid);
-  text-align: center;
-  line-height: 1.2;
-}
-
-/* ── PROMO BANNER ── */
-.promo-banner {
-  border-radius: 18px;
-  overflow: hidden;
-  margin-bottom: 22px;
-  position: relative;
-  background: linear-gradient(130deg, var(--blue-deep) 0%, var(--blue-bright) 70%, var(--teal) 100%);
-  padding: 20px 20px;
-  animation: popIn 0.4s 0.25s ease both;
-  box-shadow: 0 6px 24px rgba(0,61,122,0.25);
-}
-
-.promo-banner::before {
-  content: '';
-  position: absolute;
-  top: -40px; right: -20px;
-  width: 160px; height: 160px;
-  border: 40px solid rgba(255,255,255,0.06);
-  border-radius: 50%;
+.promo-card-3 {
+  background:linear-gradient(135deg, #12C28A 0%, #0070E0 100%);
 }
 
 .promo-tag {
-  display: inline-block;
-  background: var(--teal-light);
-  color: var(--blue-deep);
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-radius: 8px;
-  padding: 3px 10px;
-  margin-bottom: 10px;
+  display:inline-block;
+  background:rgba(255,255,255,0.22);
+  color:#fff;
+  font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:1px;
+  border-radius:8px; padding:3px 10px;
+  margin-bottom:10px;
 }
+.promo-card-2 .promo-tag { background:rgba(0,0,0,0.15); }
+.promo-card-3 .promo-tag { background:rgba(0,0,0,0.15); }
 
 .promo-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1.2;
-  margin-bottom: 5px;
-  position: relative; z-index: 2;
-  letter-spacing: -0.3px;
+  font-size:19px; font-weight:900;
+  color:#fff; line-height:1.2;
+  margin-bottom:5px; letter-spacing:-0.3px;
 }
-
 .promo-sub {
-  font-size: 12px;
-  color: rgba(255,255,255,0.75);
-  margin-bottom: 14px;
-  position: relative; z-index: 2;
+  font-size:11px; color:rgba(255,255,255,0.8);
+  margin-bottom:14px;
 }
-
 .promo-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: #fff;
-  color: var(--blue-bright);
-  font-weight: 800;
-  font-size: 12px;
-  border-radius: 10px;
-  padding: 9px 16px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.15s;
-  position: relative; z-index: 2;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  display:inline-flex; align-items:center; gap:5px;
+  background:#fff; border-radius:10px;
+  padding:8px 16px; text-decoration:none;
+  font-weight:900; font-size:12px;
+  border:none; cursor:pointer;
+  transition:transform 0.15s;
 }
-.promo-cta:hover { transform: scale(1.04); }
+.promo-card-1 .promo-cta { color:var(--purple); }
+.promo-card-2 .promo-cta { color:#FF6B2B; }
+.promo-card-3 .promo-cta { color:#12C28A; }
+.promo-cta:hover { transform:scale(1.04); }
 
 .promo-emoji {
-  position: absolute;
-  right: 16px; bottom: 12px;
-  font-size: 50px;
-  opacity: 0.18;
-  z-index: 1;
-  transform: rotate(-10deg);
+  position:absolute; right:14px; bottom:10px;
+  font-size:48px; opacity:0.2;
+  transform:rotate(-12deg);
 }
 
-/* ── INFO CARDS ── */
-.info-cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 22px;
-  animation: popIn 0.4s 0.3s ease both;
-}
-
-.info-card {
-  background: var(--white);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 2px 12px rgba(0,61,122,0.07);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--gray-line);
-}
-
-.info-card-accent {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  border-radius: 16px 16px 0 0;
-}
-
-.accent-blue { background: linear-gradient(90deg, var(--blue-mid), var(--teal)); }
-.accent-teal { background: linear-gradient(90deg, var(--teal), var(--green)); }
-
-.info-card-icon { font-size: 22px; margin-bottom: 8px; }
-
-.info-card-label {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--text-light);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 4px;
-}
-
-.info-card-val {
-  font-size: 17px;
-  font-weight: 800;
-  color: var(--text-dark);
-  letter-spacing: -0.2px;
-}
-
-/* ── LOGOUT ── */
-.logout-wrap {
-  padding: 0 18px;
-  animation: popIn 0.4s 0.35s ease both;
-}
-
-.logout-btn {
-  width: 100%;
-  padding: 14px;
-  border: 1.5px solid var(--gray-line);
-  border-radius: 14px;
-  background: var(--white);
-  color: var(--text-mid);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: border-color 0.2s, color 0.2s, background 0.2s;
-}
-.logout-btn:hover {
-  border-color: var(--red);
-  color: var(--red);
-  background: var(--red-bg);
-}
-
-/* ── BOTTOM NAV ── */
-.bottom-nav {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: #fff;
-  border-top: 1px solid var(--gray-line);
-  display: flex;
-  padding: 10px 0 14px;
-  box-shadow: 0 -4px 20px rgba(0,61,122,0.08);
-  z-index: 100;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-.nav-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.nav-icon { font-size: 21px; line-height: 1; }
-
-.nav-label {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--text-light);
-}
-
-.nav-item.active .nav-label { color: var(--blue-bright); }
-
-.nav-fab {
-  position: relative;
-  top: -16px;
-}
-
-.nav-icon-wrap {
-  width: 50px; height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--blue-bright), var(--teal));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
-  box-shadow: 0 4px 16px rgba(0,112,224,0.4);
-}
-.server-card{
-  background:#fff;
-  padding:14px 16px;
-  border-radius:14px;
-  margin-bottom:20px;
-  font-weight:800;
-  color:var(--green);
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
-}
-
-.menu-grid{
+/* ─── MENU GRID ─── */
+.menu-grid {
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:14px;
+  gap:10px;
   margin-bottom:22px;
+  animation: fadeUp 0.45s 0.2s ease both;
 }
+
+.menu-item {
+  display:flex; flex-direction:column;
+  align-items:center; gap:7px;
+  text-decoration:none; cursor:pointer;
+}
+.menu-icon-wrap {
+  width:56px; height:56px; border-radius:18px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.13);
+  transition:transform 0.18s, box-shadow 0.18s;
+}
+.menu-item:hover .menu-icon-wrap {
+  transform:translateY(-5px) scale(1.07);
+  box-shadow:0 10px 24px rgba(0,0,0,0.16);
+}
+.menu-item:active .menu-icon-wrap { transform:scale(0.93); }
+
+.ic-vpn    { background:linear-gradient(135deg, var(--purple-dark), var(--purple)); }
+.ic-ppob   { background:linear-gradient(135deg, #FF6B2B, #FFD600); }
+.ic-trial  { background:linear-gradient(135deg, var(--purple-light), #FF6B2B); }
+.ic-myvpn  { background:linear-gradient(135deg, var(--green), #0070E0); }
+.ic-admin  { background:linear-gradient(135deg, #E84040, #FF7A00); }
+
+.menu-label {
+  font-size:10px; font-weight:800;
+  color:var(--text-mid); text-align:center; line-height:1.2;
+}
+
+/* ─── ADMIN CONTACT ─── */
+.admin-contact {
+  background:var(--white);
+  border-radius:18px;
+  padding:16px 18px;
+  margin-bottom:22px;
+  display:flex; align-items:center; gap:14px;
+  box-shadow:0 3px 14px rgba(90,26,154,0.1);
+  border:1.5px solid var(--purple-mid);
+  text-decoration:none;
+  transition:transform 0.15s, box-shadow 0.15s;
+  animation: fadeUp 0.45s 0.28s ease both;
+  cursor:pointer;
+}
+.admin-contact:hover {
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(90,26,154,0.18);
+}
+
+.tg-icon {
+  width:46px; height:46px; border-radius:14px;
+  background:linear-gradient(135deg, #229ED9, #27A7E5);
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; flex-shrink:0;
+  box-shadow:0 4px 12px rgba(34,158,217,0.35);
+}
+
+.admin-contact-body { flex:1; }
+.admin-contact-label {
+  font-size:11px; font-weight:800;
+  color:var(--text-light); text-transform:uppercase; letter-spacing:0.9px;
+  margin-bottom:3px;
+}
+.admin-contact-name {
+  font-size:15px; font-weight:900; color:var(--text-dark);
+}
+.admin-contact-sub {
+  font-size:11px; color:var(--text-light); margin-top:1px;
+}
+.admin-contact-arrow {
+  font-size:20px; color:var(--text-light);
+}
+
+/* ─── INFO CARDS ─── */
+.info-cards {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:12px; margin-bottom:22px;
+  animation: fadeUp 0.45s 0.3s ease both;
+}
+.info-card {
+  background:var(--white);
+  border-radius:16px; padding:16px;
+  box-shadow:0 2px 12px rgba(90,26,154,0.07);
+  position:relative; overflow:hidden;
+  border:1px solid var(--gray-line);
+}
+.info-card-accent {
+  position:absolute; top:0; left:0; right:0;
+  height:3px; border-radius:16px 16px 0 0;
+}
+.accent-purple { background:linear-gradient(90deg, var(--purple-dark), var(--purple-light)); }
+.accent-orange { background:linear-gradient(90deg, #FF6B2B, #FFD600); }
+.info-card-icon { font-size:22px; margin-bottom:8px; }
+.info-card-label {
+  font-size:10px; font-weight:800;
+  color:var(--text-light); text-transform:uppercase;
+  letter-spacing:0.8px; margin-bottom:4px;
+}
+.info-card-val {
+  font-size:17px; font-weight:900;
+  color:var(--text-dark); letter-spacing:-0.2px;
+}
+
+/* ─── LOGOUT ─── */
+.logout-wrap {
+  padding:0 18px;
+  animation: fadeUp 0.45s 0.35s ease both;
+}
+.logout-btn {
+  width:100%; padding:14px;
+  border:1.5px solid var(--gray-line);
+  border-radius:14px;
+  background:var(--white);
+  color:var(--text-mid);
+  font-family:'Nunito',sans-serif;
+  font-weight:800; font-size:14px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:border-color 0.2s, color 0.2s, background 0.2s;
+}
+.logout-btn:hover {
+  border-color:var(--red);
+  color:var(--red);
+  background:var(--red-bg);
+}
+
+/* ─── BOTTOM NAV ─── */
+.bottom-nav {
+  position:fixed; bottom:0; left:0; right:0;
+  background:#fff;
+  border-top:1px solid var(--gray-line);
+  display:flex; padding:10px 0 14px;
+  box-shadow:0 -4px 22px rgba(90,26,154,0.10);
+  z-index:100; max-width:480px; margin:0 auto;
+}
+.nav-item {
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; gap:3px;
+  text-decoration:none; cursor:pointer;
+}
+.nav-icon { font-size:21px; line-height:1; }
+.nav-label {
+  font-size:10px; font-weight:800;
+  color:var(--text-light);
+}
+.nav-item.active .nav-label { color:var(--purple); }
+.nav-item.active .nav-icon { filter: drop-shadow(0 0 4px rgba(123,47,190,0.4)); }
+
+/* ─── ADMIN SECTION ─── */
+#adminSection a { text-decoration:none; }
 </style>
 </head>
 <body>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-grid"></div>
-
+  <div class="hero-dots"></div>
   <div class="hero-top">
-
     <div class="avatar-wrap">
-      <img
-        class="avatar"
-        id="avatar"
-        src="https://via.placeholder.com/52"
-      >
+      <img class="avatar" id="avatar" src="https://via.placeholder.com/54">
       <div class="online-dot"></div>
     </div>
-
     <div class="hero-greeting">
-      <div class="greeting-hi">
-        Halo, selamat datang 👋
-      </div>
-
-      <div class="greeting-name" id="username">
-        —
-      </div>
-
-      <div class="greeting-email" id="email">
-        —
-      </div>
+      <div class="greeting-hi">Halo, selamat datang 👋</div>
+      <div class="greeting-name" id="username">—</div>
+      <div class="greeting-email" id="email">—</div>
     </div>
-
-    <button class="notif-btn">
-      🔔
-    </button>
-
+    <button class="notif-btn">🔔</button>
   </div>
 </div>
 
 <!-- BALANCE -->
 <div style="max-width:480px;margin:0 auto;padding:0 18px;">
-
   <div class="balance-card">
-
     <div class="balance-inner">
-
       <div class="balance-left">
-
-        <div class="balance-label">
-          💳 Saldo Kamu
-        </div>
-
-        <div
-          class="balance-amount"
-          id="balance"
-        >
-          Rp 0
-        </div>
-
+        <div class="balance-label">💳 Saldo Kamu</div>
+        <div class="balance-amount" id="balance">Rp 0</div>
       </div>
-
       <div class="balance-divider"></div>
-
-      <a
-        class="balance-topup"
-        href="topup.html"
-      >
-        ＋ Top Up
-      </a>
-
+      <a class="balance-topup" href="topup.html">＋ Top Up</a>
     </div>
-
   </div>
-
 </div>
 
 <!-- CONTENT -->
@@ -636,47 +515,20 @@ body {
 
   <!-- STATUS -->
   <div class="status-row">
-
     <div class="status-chip active-chip">
-
       <div class="chip-icon">✅</div>
-
       <div>
-        <div class="chip-text-label">
-          Status
-        </div>
-
-        <div class="chip-text-val">
-          Aktif
-        </div>
+        <div class="chip-text-label">Status</div>
+        <div class="chip-text-val">Aktif</div>
       </div>
-
     </div>
-
-    <div
-      class="status-chip role-chip"
-      id="roleChip"
-    >
-
+    <div class="status-chip role-chip" id="roleChip">
       <div class="chip-icon">👤</div>
-
       <div>
-
-        <div class="chip-text-label">
-          Role
-        </div>
-
-        <div
-          class="chip-text-val"
-          id="roleVal"
-        >
-          User
-        </div>
-
+        <div class="chip-text-label">Role</div>
+        <div class="chip-text-val" id="roleVal">User</div>
       </div>
-
     </div>
-
   </div>
 
   <!-- SERVER STATUS -->
@@ -686,218 +538,100 @@ body {
 
   <!-- MENU -->
   <div class="sec-title">
-    Menu
-    <span class="sec-title-pill">
-      Utama
-    </span>
+    Menu <span class="sec-title-pill">Utama</span>
   </div>
 
   <div class="menu-grid" id="menuGrid">
-
     <a class="menu-item" href="products.html">
-
-      <div class="menu-icon-wrap ic-vpn">
-        📦
-      </div>
-
-      <div class="menu-label">
-        Produk VPN
-      </div>
-
+      <div class="menu-icon-wrap ic-vpn">📦</div>
+      <div class="menu-label">Produk VPN</div>
     </a>
-
     <a class="menu-item" href="ppob.html">
-
-      <div class="menu-icon-wrap ic-topup">
-        📱
-      </div>
-
-      <div class="menu-label">
-        PPOB
-      </div>
-
+      <div class="menu-icon-wrap ic-ppob">📱</div>
+      <div class="menu-label">PPOB</div>
     </a>
-
     <a class="menu-item" href="trial.html">
-
-      <div class="menu-icon-wrap ic-hist">
-        🎁
-      </div>
-
-      <div class="menu-label">
-        Trial VPN
-      </div>
-
+      <div class="menu-icon-wrap ic-trial">🎁</div>
+      <div class="menu-label">Trial VPN</div>
     </a>
-
     <a class="menu-item" href="my-vpn.html">
-
-      <div class="menu-icon-wrap ic-myvpn">
-        🗂
-      </div>
-
-      <div class="menu-label">
-        My Account
-      </div>
-
+      <div class="menu-icon-wrap ic-myvpn">🗂</div>
+      <div class="menu-label">My Account</div>
     </a>
-
   </div>
 
-  <!-- PROMO -->
-  <div class="promo-banner">
-
-    <div class="promo-tag">
-      ⚡ Spesial Buat Kamu
-    </div>
-
-    <div class="promo-title">
-      VPN Kenceng,<br>
-      Harga Oke!
-    </div>
-
-    <div class="promo-sub">
-      Koneksi stabil tanpa gangguan,
-      bayar sekali nikmati terus.
-    </div>
-
-    <a
-      class="promo-cta"
-      href="products.html"
-    >
-      Lihat Paket →
-    </a>
-
-    <div class="promo-emoji">
-      ⚡
-    </div>
-
-  </div>
-
-  <!-- INFO -->
+  <!-- PROMO BANNERS (swipeable, AxisNet style) -->
   <div class="sec-title">
-    Info
-    <span class="sec-title-pill">
-      Akun
-    </span>
+    Promo <span class="sec-title-pill">🔥 Hot</span>
   </div>
 
-  <div class="info-cards">
+  <div class="promo-scroll">
 
-    <div class="info-card">
-
-      <div class="info-card-accent accent-blue"></div>
-
-      <div class="info-card-icon">
-        🔐
-      </div>
-
-      <div class="info-card-label">
-        VPN AKTIF
-      </div>
-
-      <div class="info-card-val">
-        — Akun
-      </div>
-
+    <div class="promo-card promo-card-1">
+      <div class="promo-tag">⚡ Spesial Buat Kamu</div>
+      <div class="promo-title">VPN Kenceng,<br>Harga Oke!</div>
+      <div class="promo-sub">Koneksi stabil tanpa gangguan,<br>bayar sekali nikmati terus.</div>
+      <a class="promo-cta" href="products.html">Lihat Paket →</a>
+      <div class="promo-emoji">⚡</div>
     </div>
 
-    <div class="info-card">
+    <div class="promo-card promo-card-2">
+      <div class="promo-tag">🎁 Bonus Trial</div>
+      <div class="promo-title">Coba Gratis<br>3 Hari!</div>
+      <div class="promo-sub">Daftar sekarang, nikmati<br>VPN premium gratis.</div>
+      <a class="promo-cta" href="trial.html">Coba Sekarang →</a>
+      <div class="promo-emoji">🎁</div>
+    </div>
 
-      <div class="info-card-accent accent-teal"></div>
-
-      <div class="info-card-icon">
-        📊
-      </div>
-
-      <div class="info-card-label">
-        TRANSAKSI
-      </div>
-
-      <div class="info-card-val">
-        — Total
-      </div>
-
+    <div class="promo-card promo-card-3">
+      <div class="promo-tag">📱 PPOB Hemat</div>
+      <div class="promo-title">Pulsa &amp; Paket<br>Termurah!</div>
+      <div class="promo-sub">Isi pulsa &amp; paket data<br>langsung dari app.</div>
+      <a class="promo-cta" href="ppob.html">Beli Sekarang →</a>
+      <div class="promo-emoji">📱</div>
     </div>
 
   </div>
 
-  <!-- AKAN HADIR -->
+  <!-- ADMIN CONTACT -->
   <div class="sec-title">
-    🚀 Akan Hadir
+    Bantuan <span class="sec-title-pill">Admin</span>
   </div>
 
-  <div class="info-cards">
-
-    <div class="info-card">
-
-      <div class="info-card-icon">
-        🎮
-      </div>
-
-      <div class="info-card-label">
-        TOPUP GAME
-      </div>
-
-      <div class="info-card-val">
-        Soon
-      </div>
-
+  <a class="admin-contact" href="https://t.me/joyhayabuse" target="_blank">
+    <div class="tg-icon">✈️</div>
+    <div class="admin-contact-body">
+      <div class="admin-contact-label">Hubungi Admin</div>
+      <div class="admin-contact-name">@joyhayabuse</div>
+      <div class="admin-contact-sub">Chat via Telegram • Siap bantu 24/7</div>
     </div>
+    <div class="admin-contact-arrow">›</div>
+  </a>
 
-    <div class="info-card">
-
-      <div class="info-card-icon">
-        💡
-      </div>
-
-      <div class="info-card-label">
-        TOKEN PLN
-      </div>
-
-      <div class="info-card-val">
-        Soon
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- ADMIN -->
+  <!-- ADMIN PANEL (shown if admin) -->
   <div id="adminSection"></div>
 
 </div>
 
 <!-- LOGOUT -->
 <div class="logout-wrap">
-
-  <button
-    class="logout-btn"
-    onclick="logout()"
-  >
-    🚪 Keluar dari Akun
-  </button>
-
+  <button class="logout-btn" onclick="logout()">🚪 Keluar dari Akun</button>
 </div>
 
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-
   <a class="nav-item active" href="#">
     <div class="nav-icon">🏠</div>
     <div class="nav-label">Home</div>
   </a>
-
   <a class="nav-item" href="transactions.html">
     <div class="nav-icon">📈</div>
     <div class="nav-label">Riwayat</div>
-  </a>  
-  
+  </a>
   <a class="nav-item" href="profile.html">
     <div class="nav-icon">👤</div>
     <div class="nav-label">Profile</div>
   </a>
-
 </nav>
 
 <script>
@@ -909,7 +643,7 @@ loadProfile();
 async function loadProfile() {
   try {
     const response = await fetch(`/api/profile?email=${encodeURIComponent(localUser.email)}`);
-    const result = await response.json();
+    const result   = await response.json();
 
     if (!result.success) {
       alert(result.message);
@@ -923,36 +657,36 @@ async function loadProfile() {
     document.getElementById('username').innerText = user.username || '—';
     document.getElementById('email').innerText    = user.email    || '—';
     document.getElementById('balance').innerText  = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
-    document.getElementById('avatar').src = user.avatar || 'https://via.placeholder.com/52';
+    document.getElementById('avatar').src         = user.avatar   || 'https://via.placeholder.com/54';
 
     const roleVal  = document.getElementById('roleVal');
     const roleChip = document.getElementById('roleChip');
 
     if (user.role === 'admin') {
-      roleVal.innerText = 'Admin';
-      roleChip.className = 'status-chip admin-chip';
+      roleVal.innerText          = 'Admin';
+      roleChip.className         = 'status-chip admin-chip';
       roleChip.querySelector('.chip-icon').innerText = '🛠';
 
       document.getElementById('adminSection').innerHTML = `
-        <div class="sec-title">Panel <span class="sec-title-pill" style="background:var(--red);">Admin</span></div>
+        <div class="sec-title" style="margin-top:4px;">
+          Panel <span class="sec-title-pill" style="background:var(--red);">Admin</span>
+        </div>
         <a href="admin.html" style="text-decoration:none;">
           <div style="
-            background: linear-gradient(135deg, #C0392B, #E84040);
-            border-radius:16px; padding:16px 18px;
+            background:linear-gradient(135deg,#9B1C1C,#E84040);
+            border-radius:18px; padding:18px 18px;
             display:flex; align-items:center; gap:14px;
-            margin-bottom:20px;
-            box-shadow:0 6px 20px rgba(232,64,64,0.28);
+            margin-bottom:22px;
+            box-shadow:0 6px 22px rgba(232,64,64,0.3);
           ">
             <div style="font-size:28px;">🛠</div>
             <div style="flex:1;">
-              <div style="font-size:16px;font-weight:800;color:#fff;letter-spacing:-0.2px;">Admin Panel</div>
+              <div style="font-size:16px;font-weight:900;color:#fff;letter-spacing:-0.2px;">Admin Panel</div>
               <div style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:2px;">Kelola user, produk &amp; transaksi</div>
             </div>
-            <div style="font-size:20px;color:rgba(255,255,255,0.6);">›</div>
+            <div style="font-size:22px;color:rgba(255,255,255,0.55);">›</div>
           </div>
-        </a>
-      `;
-      
+        </a>`;
     }
 
   } catch (err) {
@@ -962,8 +696,10 @@ async function loadProfile() {
 }
 
 function logout() {
-  localStorage.removeItem('user');
-  window.location.href = 'index.html';
+  if (confirm('Yakin mau keluar?')) {
+    localStorage.removeItem('user');
+    window.location.href = 'index.html';
+  }
 }
 </script>
 </body>
