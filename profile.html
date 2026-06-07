@@ -38,7 +38,6 @@ body {
   padding-bottom: 90px;
 }
 
-/* ─── ANIMATIONS ─── */
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(22px); }
   to   { opacity:1; transform:translateY(0); }
@@ -106,10 +105,14 @@ body {
   width: 26px; height: 26px; border-radius: 50%;
   background: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   cursor: pointer;
   border: none;
+}
+.edit-avatar-btn svg {
+  width: 13px; height: 13px;
+  fill: none; stroke: var(--purple);
+  stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
 }
 
 .profile-name {
@@ -151,6 +154,12 @@ body {
   display: flex; align-items: center; gap: 8px;
   letter-spacing: -0.2px;
 }
+.card-title svg {
+  width: 18px; height: 18px;
+  fill: none; stroke: var(--purple);
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  flex-shrink: 0;
+}
 .card-title-pill {
   font-size: 10px; font-weight: 800;
   background: var(--purple);
@@ -166,10 +175,7 @@ body {
   padding: 13px 0;
   border-bottom: 1px solid #F2EAF9;
 }
-.info-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
+.info-item:last-child { border-bottom: none; padding-bottom: 0; }
 .info-item:first-child { padding-top: 0; }
 
 .info-label {
@@ -219,7 +225,19 @@ body {
   background: var(--green-bg);
   border-color: rgba(18,194,138,0.25);
 }
-.chip-icon { font-size: 20px; }
+.chip-icon {
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.chip-icon svg {
+  width: 22px; height: 22px;
+  fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.balance-chip .chip-icon svg { stroke: var(--purple); }
+.status-chip  .chip-icon svg { stroke: var(--green); }
+
 .chip-text-label {
   font-size: 10px; font-weight: 800;
   text-transform: uppercase; letter-spacing: 0.8px;
@@ -248,11 +266,21 @@ body {
 .menu-btn .btn-icon {
   width: 34px; height: 34px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
+  flex-shrink: 0;
+}
+.menu-btn .btn-icon svg {
+  width: 18px; height: 18px;
+  fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
 }
 .menu-btn .btn-text { flex: 1; text-align: left; }
 .menu-btn .btn-arrow {
-  font-size: 18px; color: var(--text-light);
+  display: flex; align-items: center;
+}
+.menu-btn .btn-arrow svg {
+  width: 18px; height: 18px;
+  fill: none; stroke: var(--text-light);
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
 
 .btn-primary {
@@ -261,6 +289,8 @@ body {
   box-shadow: 0 4px 16px rgba(123,47,190,0.35);
 }
 .btn-primary .btn-icon { background: rgba(255,255,255,0.2); }
+.btn-primary .btn-icon svg { stroke: #fff; }
+.btn-primary .btn-arrow svg { stroke: rgba(255,255,255,0.6); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(123,47,190,0.45); }
 
 .btn-outline {
@@ -269,6 +299,7 @@ body {
   color: var(--text-dark);
 }
 .btn-outline .btn-icon { background: var(--purple-soft); }
+.btn-outline .btn-icon svg { stroke: var(--purple); }
 .btn-outline:hover { background: var(--purple-soft); border-color: var(--purple-mid); }
 
 .btn-danger {
@@ -277,6 +308,8 @@ body {
   color: var(--red);
 }
 .btn-danger .btn-icon { background: var(--red-bg); }
+.btn-danger .btn-icon svg { stroke: var(--red); }
+.btn-danger .btn-arrow svg { stroke: rgba(232,64,64,0.4); }
 .btn-danger:hover { background: var(--red-bg); border-color: var(--red); }
 
 /* ─── BOTTOM NAV ─── */
@@ -299,11 +332,8 @@ body {
 }
 .nav-icon svg {
   width: 22px; height: 22px;
-  fill: none;
-  stroke: var(--text-light);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  fill: none; stroke: var(--text-light);
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
   transition: stroke 0.2s;
 }
 .nav-label {
@@ -324,7 +354,13 @@ body {
     <div class="avatar-wrap">
       <img class="avatar" id="avatar" src="https://via.placeholder.com/82">
       <div class="online-dot"></div>
-      <button class="edit-avatar-btn">✏️</button>
+      <button class="edit-avatar-btn">
+        <!-- pencil / edit icon -->
+        <svg viewBox="0 0 24 24">
+          <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+      </button>
     </div>
     <div class="profile-name" id="username">—</div>
     <div class="profile-email" id="email">—</div>
@@ -337,14 +373,26 @@ body {
   <!-- STAT CHIPS -->
   <div class="stat-row">
     <div class="stat-chip balance-chip">
-      <div class="chip-icon">💳</div>
+      <div class="chip-icon">
+        <!-- credit card icon -->
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+          <line x1="2" y1="10" x2="22" y2="10"/>
+        </svg>
+      </div>
       <div>
         <div class="chip-text-label">Saldo</div>
         <div class="chip-text-val" id="balance">Rp 0</div>
       </div>
     </div>
     <div class="stat-chip status-chip">
-      <div class="chip-icon">✅</div>
+      <div class="chip-icon">
+        <!-- checkmark circle icon -->
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M8 12l2.5 2.5L16 9"/>
+        </svg>
+      </div>
       <div>
         <div class="chip-text-label">Status</div>
         <div class="chip-text-val">Aktif</div>
@@ -354,7 +402,15 @@ body {
 
   <!-- ACCOUNT INFO -->
   <div class="card">
-    <div class="card-title">👤 Informasi Akun <span class="card-title-pill">Detail</span></div>
+    <div class="card-title">
+      <!-- user icon -->
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      </svg>
+      Informasi Akun
+      <span class="card-title-pill">Detail</span>
+    </div>
 
     <div class="info-item">
       <div class="info-label">Username</div>
@@ -378,28 +434,68 @@ body {
 
   <!-- SETTINGS -->
   <div class="card">
-    <div class="card-title">⚙️ Pengaturan</div>
+    <div class="card-title">
+      <!-- settings gear icon -->
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+      </svg>
+      Pengaturan
+    </div>
 
+    <!-- Top Up -->
     <a class="menu-btn btn-primary" href="topup.html">
-      <div class="btn-icon">💳</div>
+      <div class="btn-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+          <line x1="2" y1="10" x2="22" y2="10"/>
+        </svg>
+      </div>
       <div class="btn-text">Top Up Saldo</div>
-      <div class="btn-arrow">›</div>
+      <div class="btn-arrow">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
     </a>
 
+    <!-- My VPN -->
     <a class="menu-btn btn-outline" href="my-vpn.html">
-      <div class="btn-icon">🗂</div>
+      <div class="btn-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      </div>
       <div class="btn-text">Akun VPN Saya</div>
-      <div class="btn-arrow">›</div>
+      <div class="btn-arrow">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
     </a>
 
+    <!-- Transactions -->
     <a class="menu-btn btn-outline" href="transactions.html">
-      <div class="btn-icon">📈</div>
+      <div class="btn-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+          <polyline points="7,17 10,13 13,15 17,9"/>
+        </svg>
+      </div>
       <div class="btn-text">Riwayat Transaksi</div>
-      <div class="btn-arrow">›</div>
+      <div class="btn-arrow">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
     </a>
 
+    <!-- Logout -->
     <button class="menu-btn btn-danger" onclick="logout()">
-      <div class="btn-icon">🚪</div>
+      <div class="btn-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </div>
       <div class="btn-text">Keluar dari Akun</div>
     </button>
   </div>
@@ -416,7 +512,7 @@ body {
   </a>
   <a class="nav-item" href="transactions.html">
     <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
     </div>
     <div class="nav-label">Riwayat</div>
   </a>
