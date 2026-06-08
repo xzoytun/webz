@@ -15,18 +15,18 @@
   --purple-soft:  #F3EAFD;
   --purple-mid:   #EAD5FA;
   --accent:       #FF6B2B;
-  --accent2:      #FFD600;
+  --accent-light: #FFEFEA;
   --green:        #12C28A;
   --green-bg:     #E6FAF4;
+  --green-dark:   #0A9E70;
   --red:          #E84040;
   --red-bg:       #FFECEC;
   --white:        #FFFFFF;
-  --bg:           #F7F0FD;
-  --gray-line:    #E8D8F8;
+  --bg:           #F8F6FC;
+  --gray-line:    #EEF0F6;
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
-  --border:       #E8D8F8;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -36,328 +36,226 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   color: var(--text-dark);
-  padding-bottom: 40px;
+  padding-bottom: 60px;
   overflow-x: hidden;
-}
-
-.blob1 {
-  position:fixed; top:-80px; left:-60px;
-  width:300px; height:300px;
-  background:radial-gradient(circle,rgba(123,47,190,0.10) 0%,transparent 70%);
-  pointer-events:none; z-index:0;
-}
-.blob2 {
-  position:fixed; bottom:-60px; right:-60px;
-  width:260px; height:260px;
-  background:radial-gradient(circle,rgba(155,79,222,0.08) 0%,transparent 70%);
-  pointer-events:none; z-index:0;
 }
 
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(14px); }
+  from { opacity:0; transform:translateY(12px); }
   to   { opacity:1; transform:translateY(0); }
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
 /* ── HEADER ── */
 .header {
-  background: linear-gradient(150deg, var(--purple-deep) 0%, var(--purple) 55%, var(--purple-light) 100%);
-  padding: 22px 20px 32px;
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
+  padding: 28px 20px 48px;
   position: relative;
   overflow: hidden;
   z-index: 2;
 }
 .header::before {
-  content:''; position:absolute; top:-50px; right:-30px;
-  width:200px; height:200px;
-  border:48px solid rgba(255,255,255,0.07);
-  border-radius:50%;
-}
-.header::after {
-  content:''; position:absolute; bottom:-60px; left:-30px;
-  width:170px; height:170px;
-  border:36px solid rgba(255,214,0,0.12);
-  border-radius:50%;
+  content:''; position:absolute; top:-40px; right:-20px;
+  width:160px; height:160px;
+  border:32px solid rgba(255,255,255,0.05); border-radius:50%;
 }
 .hero-dots {
   position:absolute; inset:0;
-  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size: 22px 22px;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
   pointer-events:none;
 }
 .header-inner {
-  display:flex; align-items:center; gap:14px;
+  display:flex; align-items:center; gap:12px;
   position:relative; z-index:2;
 }
 .back-btn-hdr {
-  width:40px; height:40px; border-radius:13px;
-  background:rgba(255,255,255,0.14);
-  border:1px solid rgba(255,255,255,0.2);
+  width:36px; height:36px; border-radius:11px;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.18);
   cursor:pointer;
   display:flex; align-items:center; justify-content:center;
   flex-shrink:0; transition:background 0.15s;
   backdrop-filter:blur(8px);
 }
-.back-btn-hdr:hover { background:rgba(255,255,255,0.24); }
-.back-btn-hdr svg {
-  width:20px; height:20px;
-  fill:none; stroke:#fff;
-  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
-}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.2); }
+.back-btn-hdr svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.5; }
+
 .header-title { flex:1; }
 .header-title h1 {
-  font-size:21px; font-weight:900;
-  color:#fff; line-height:1.1; letter-spacing:-0.3px;
-  display:flex; align-items:center; gap:8px;
+  font-size:18px; font-weight:900;
+  color:#fff; line-height:1.1; letter-spacing:-0.2px;
+  display:flex; align-items:center; gap:6px;
 }
-.header-title h1 svg {
-  width:22px; height:22px;
-  fill:none; stroke:#fff;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
-.header-title p { font-size:11px; color:rgba(255,255,255,0.6); font-weight:700; margin-top:3px; }
+.header-title h1 svg { width:20px; height:20px; fill:none; stroke:#fff; stroke-width:2.2; }
+.header-title p { font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; margin-top:3px; }
 
 /* ── CONTAINER ── */
 .container {
-  max-width:480px; margin:0 auto;
-  padding:0 18px;
+  max-width:440px; margin:0 auto;
+  padding:0 16px;
   position:relative; z-index:2;
 }
 
 /* ── SERVER CARD ── */
 .server-card {
   background:var(--white);
-  border-radius:20px;
-  margin-top:-18px;
+  border-radius:16px;
+  margin-top:-28px;
   margin-bottom:14px;
   overflow:hidden;
-  border:1.5px solid var(--gray-line);
-  box-shadow:0 6px 22px rgba(90,26,154,0.14);
+  border:1px solid var(--gray-line);
+  box-shadow:0 8px 24px rgba(90,26,154,0.04);
   position:relative; z-index:3;
   animation: fadeUp 0.4s 0.05s ease both;
 }
 .server-card-head {
-  background:linear-gradient(150deg, var(--purple-deep) 0%, var(--purple) 55%, var(--purple-light) 100%);
-  padding:16px 18px;
-  display:flex; align-items:center; gap:12px;
-  position:relative; overflow:hidden;
-}
-.server-card-head::before {
-  content:''; position:absolute; top:-30px; right:-20px;
-  width:100px; height:100px;
-  border:24px solid rgba(255,255,255,0.07);
-  border-radius:50%;
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%);
+  padding:14px 16px;
+  display:flex; align-items:center; gap:10px;
 }
 .server-icon {
-  width:44px; height:44px; border-radius:14px;
-  background:rgba(255,255,255,0.18);
+  width:36px; height:36px; border-radius:10px;
+  background:rgba(255,255,255,0.15);
   display:flex; align-items:center; justify-content:center;
   flex-shrink:0;
 }
-.server-icon svg {
-  width:22px; height:22px;
-  fill:none; stroke:#fff;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
-.server-name {
-  font-size:17px; font-weight:900;
-  color:#fff; line-height:1.1; letter-spacing:-0.2px;
-}
-.server-sub { font-size:11px; color:rgba(255,255,255,0.65); font-weight:700; margin-top:2px; }
+.server-icon svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.2; }
+.server-name { font-size:15px; font-weight:900; color:#fff; line-height:1.2; }
+.server-sub { font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; }
 
 .server-info-grid {
-  padding:16px 18px;
+  padding:14px 16px;
   display:grid; grid-template-columns:1fr 1fr;
-  gap:14px;
+  gap:12px;
 }
 .si-label {
   font-size:10px; font-weight:800; color:var(--text-light);
-  text-transform:uppercase; letter-spacing:0.8px;
-  margin-bottom:3px; display:flex; align-items:center; gap:4px;
+  text-transform:uppercase; letter-spacing:0.5px;
+  margin-bottom:2px; display:flex; align-items:center; gap:4px;
 }
-.si-label svg {
-  width:11px; height:11px;
-  fill:none; stroke:var(--text-light);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
-.si-val {
-  font-size:16px; font-weight:900; color:var(--text-dark);
-}
-.si-val.price-val { color:var(--purple); font-size:20px; }
+.si-label svg { width:12px; height:12px; fill:none; stroke:var(--text-light); stroke-width:2; }
+.si-val { font-size:14px; font-weight:900; color:var(--text-dark); }
+.si-val.price-val { color:var(--purple); font-size:16px; }
 
 .server-loading {
-  padding:30px; text-align:center;
-  color:var(--text-mid); font-weight:700; font-size:14px;
-  display:flex; flex-direction:column; align-items:center; gap:10px;
+  padding:24px; text-align:center;
+  color:var(--text-mid); font-weight:700; font-size:13px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
 }
 .server-loading svg {
-  width:32px; height:32px;
-  fill:none; stroke:var(--purple);
-  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
-  animation: spin 1s linear infinite;
+  width:24px; height:24px; fill:none; stroke:var(--purple);
+  stroke-width:2.5; animation: spin 1s linear infinite;
 }
 
 /* ── FORM CARD ── */
 .form-card {
   background:var(--white);
-  border-radius:20px;
-  padding:20px 18px;
+  border-radius:16px;
+  padding:16px;
   margin-bottom:14px;
-  border:1.5px solid var(--gray-line);
-  box-shadow:0 4px 14px rgba(90,26,154,0.08);
+  border:1px solid var(--gray-line);
+  box-shadow:0 4px 14px rgba(90,26,154,0.02);
   animation: fadeUp 0.4s 0.12s ease both;
 }
 .form-section-title {
-  font-size:16px; font-weight:900;
+  font-size:14px; font-weight:900;
   color:var(--text-dark);
-  display:flex; align-items:center; gap:8px;
-  margin-bottom:18px;
+  display:flex; align-items:center; gap:6px;
+  margin-bottom:14px;
 }
-.form-section-title svg {
-  width:20px; height:20px;
-  fill:none; stroke:var(--purple);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
+.form-section-title svg { width:16px; height:16px; fill:none; stroke:var(--purple); stroke-width:2.2; }
 
-.form-group { margin-bottom:16px; }
+.form-group { margin-bottom:14px; }
 .form-group:last-child { margin-bottom:0; }
 
 .field-label {
-  font-size:11px; font-weight:800;
+  font-size:10px; font-weight:800;
   color:var(--text-mid); text-transform:uppercase;
-  letter-spacing:0.8px; margin-bottom:7px;
-  display:flex; align-items:center; gap:5px;
+  letter-spacing:0.5px; margin-bottom:6px;
+  display:flex; align-items:center; gap:4px;
 }
-.field-label svg {
-  width:13px; height:13px;
-  fill:none; stroke:var(--text-mid);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
+.field-label svg { width:12px; height:12px; fill:none; stroke:var(--text-mid); stroke-width:2; }
 .field-input {
-  width:100%; padding:13px 16px;
-  border:2px solid var(--gray-line); border-radius:14px;
-  font-family:'Nunito',sans-serif;
-  font-size:14px; font-weight:700;
-  color:var(--text-dark); background:var(--purple-soft);
-  outline:none; transition:border-color 0.15s, background 0.15s;
+  width:100%; padding:11px 14px;
+  border:1px solid var(--gray-line); border-radius:12px;
+  font-family:'Nunito',sans-serif; font-size:13px; font-weight:700;
+  color:var(--text-dark); background:var(--bg);
+  outline:none; transition:all 0.15s;
 }
-.field-input:focus { border-color:var(--purple); background:#fff; }
+.field-input:focus { border-color:var(--purple); background:#fff; box-shadow:0 0 0 3px rgba(123,47,190,0.06); }
 .field-input::placeholder { color:var(--text-light); font-weight:600; }
 
 /* ── DURATION GRID ── */
-.duration-grid {
-  display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
-}
+.duration-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
 .duration-opt {
-  padding:11px 6px;
-  border:2px solid var(--gray-line); border-radius:14px;
-  background:var(--purple-soft); color:var(--text-mid);
-  font-family:'Nunito',sans-serif;
-  font-size:13px; font-weight:800;
-  text-align:center; cursor:pointer;
-  transition:all 0.15s;
+  padding:10px 4px;
+  border:1px solid var(--gray-line); border-radius:11px;
+  background:var(--bg); color:var(--text-mid);
+  font-family:'Nunito',sans-serif; font-size:12px; font-weight:800;
+  text-align:center; cursor:pointer; transition:all 0.15s;
 }
 .duration-opt:hover { border-color:var(--purple); color:var(--purple); background:#fff; }
 .duration-opt.selected {
-  border-color:var(--purple);
-  background:linear-gradient(135deg, var(--purple-dark), var(--purple));
-  color:#fff;
-  box-shadow:0 4px 12px rgba(90,26,154,0.28);
+  border-color:var(--purple); background:var(--purple-soft); color:var(--purple);
 }
 
 /* ── PROTOCOL GRID ── */
-.protocol-grid {
-  display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
-}
+.protocol-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
 .proto-opt {
-  padding:12px 6px;
-  border:2px solid var(--gray-line); border-radius:14px;
-  background:var(--purple-soft); color:var(--text-mid);
-  font-family:'Nunito',sans-serif;
-  font-size:12px; font-weight:800;
-  text-align:center; cursor:pointer;
-  transition:all 0.15s;
-  display:flex; flex-direction:column; align-items:center; gap:5px;
+  padding:10px 2px;
+  border:1px solid var(--gray-line); border-radius:11px;
+  background:var(--bg); color:var(--text-mid);
+  font-family:'Nunito',sans-serif; cursor:pointer;
+  transition:all 0.15s; display:flex; flex-direction:column; align-items:center; gap:4px;
 }
 .proto-opt:hover { border-color:var(--purple); color:var(--purple); background:#fff; }
-.proto-opt .proto-icon svg {
-  width:20px; height:20px;
-  fill:none; stroke:currentColor;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
-.proto-opt .proto-name { font-size:11px; font-weight:800; }
+.proto-opt .proto-icon svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2.2; }
+.proto-opt .proto-name { font-size:10px; font-weight:800; }
 
-.proto-opt[data-val="SSH"].selected       { border-color:var(--accent); background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; box-shadow:0 4px 12px rgba(255,107,43,0.3); }
-.proto-opt[data-val="VMESS"].selected     { border-color:#0077AA; background:linear-gradient(135deg,#0077AA,#1ABCFE); color:#fff; box-shadow:0 4px 12px rgba(0,119,170,0.3); }
-.proto-opt[data-val="VLESS"].selected     { border-color:var(--purple-dark); background:linear-gradient(135deg, var(--purple-dark), var(--purple)); color:#fff; box-shadow:0 4px 12px rgba(90,26,154,0.3); }
-.proto-opt[data-val="TROJAN"].selected    { border-color:var(--red); background:linear-gradient(135deg,var(--red),#FF7A00); color:#fff; box-shadow:0 4px 12px rgba(232,64,64,0.3); }
-.proto-opt[data-val="SHADOWSOCKS"].selected { border-color:#C2006A; background:linear-gradient(135deg,#C2006A,#FF3D9A); color:#fff; box-shadow:0 4px 12px rgba(194,0,106,0.3); }
+.proto-opt[data-val="SSH"].selected       { border-color:var(--accent); background:var(--accent-light); color:var(--accent); }
+.proto-opt[data-val="VMESS"].selected     { border-color:#0077AA; background:rgba(0,119,170,0.06); color:#0077AA; }
+.proto-opt[data-val="VLESS"].selected     { border-color:var(--purple); background:var(--purple-soft); color:var(--purple); }
+.proto-opt[data-val="TROJAN"].selected    { border-color:var(--red); background:var(--red-bg); color:var(--red); }
 
 /* ── BUTTONS ── */
 .btn-checkout {
-  width:100%; padding:16px;
-  border:none; border-radius:16px;
+  width:100%; padding:14px; border:none; border-radius:14px;
   background:linear-gradient(135deg, var(--purple-dark), var(--purple));
-  color:#fff; font-family:'Nunito',sans-serif;
-  font-weight:900; font-size:15px;
+  color:#fff; font-family:'Nunito',sans-serif; font-weight:900; font-size:14px;
   cursor:pointer; margin-bottom:10px;
-  display:flex; align-items:center; justify-content:center; gap:8px;
-  box-shadow:0 6px 20px rgba(90,26,154,0.35);
-  transition:transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-  animation: fadeUp 0.4s 0.2s ease both;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  box-shadow:0 6px 18px rgba(90,26,154,0.2);
+  transition:all 0.15s; animation: fadeUp 0.4s 0.2s ease both;
 }
-.btn-checkout svg {
-  width:18px; height:18px;
-  fill:none; stroke:#fff;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
-.btn-checkout:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(90,26,154,0.45); }
-.btn-checkout:active { transform:translateY(0); }
+.btn-checkout svg { width:16px; height:16px; fill:none; stroke:#fff; stroke-width:2.2; }
+.btn-checkout:hover { opacity: 0.95; transform:translateY(-1px); }
 .btn-checkout:disabled { opacity:0.55; cursor:not-allowed; transform:none; }
 
 .btn-back {
-  width:100%; padding:14px;
-  border:1.5px solid var(--gray-line); border-radius:14px;
+  width:100%; padding:12px;
+  border:1px solid var(--gray-line); border-radius:12px;
   background:var(--white); color:var(--text-mid);
-  font-family:'Nunito',sans-serif;
-  font-weight:800; font-size:14px;
-  cursor:pointer;
-  display:flex; align-items:center; justify-content:center; gap:6px;
-  transition:border-color 0.2s, color 0.2s, background 0.2s;
-  animation: fadeUp 0.4s 0.25s ease both;
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:13px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:4px;
+  transition:all 0.2s; animation: fadeUp 0.4s 0.25s ease both;
 }
-.btn-back svg {
-  width:16px; height:16px;
-  fill:none; stroke:currentColor;
-  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
-}
+.btn-back svg { width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2.5; }
 .btn-back:hover { border-color:var(--purple); color:var(--purple); background:var(--purple-soft); }
 
 /* ── RESULT ── */
-#result {
-  margin-top:14px;
-  animation: fadeUp 0.4s ease both;
-}
+#result { margin-top:14px; animation: fadeUp 0.4s ease both; }
 
 /* ── TOAST ── */
 .toast {
-  position:fixed; top:20px; left:50%;
-  transform:translateX(-50%) translateY(-80px);
-  z-index:999; padding:12px 22px;
-  border-radius:16px; font-weight:700; font-size:13px;
-  display:flex; align-items:center; gap:8px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.18);
-  transition:transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s;
-  opacity:0; white-space:nowrap; color:#fff;
-  background:var(--text-dark);
+  position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-80px);
+  z-index:999; padding:10px 18px; border-radius:12px; font-weight:700; font-size:12px;
+  display:flex; align-items:center; gap:6px; box-shadow:0 8px 24px rgba(0,0,0,0.12);
+  transition:all 0.3s cubic-bezier(0.34,1.2,0.64,1); opacity:0; white-space:nowrap;
+  color:#fff; background:var(--text-dark);
 }
-.toast svg {
-  width:16px; height:16px;
-  fill:none; stroke:#fff;
-  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
-  flex-shrink:0;
-}
+.toast svg { width:14px; height:14px; fill:none; stroke:#fff; stroke-width:2.5; flex-shrink:0; }
 .toast.show    { transform:translateX(-50%) translateY(0); opacity:1; }
 .toast.success { background:linear-gradient(135deg, var(--green), #00E676); }
 .toast.error   { background:linear-gradient(135deg, var(--red), #FF7A7A); }
@@ -366,26 +264,15 @@ body {
 </head>
 <body>
 
-<div class="blob1"></div>
-<div class="blob2"></div>
-
-<!-- Header -->
 <div class="header">
   <div class="hero-dots"></div>
   <div class="header-inner">
     <button class="back-btn-hdr" onclick="history.back()">
-      <svg viewBox="0 0 24 24">
-        <line x1="19" y1="12" x2="5" y2="12"/>
-        <polyline points="12 19 5 12 12 5"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </button>
     <div class="header-title">
       <h1>
-        <!-- shopping cart -->
-        <svg viewBox="0 0 24 24">
-          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
         Checkout VPN
       </h1>
       <p>Konfigurasi &amp; buat akun VPN kamu</p>
@@ -395,69 +282,38 @@ body {
 
 <div class="container">
 
-  <!-- Server Info Card -->
   <div class="server-card" id="serverInfo">
     <div class="server-loading">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 2a10 10 0 0 1 10 10"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10"/></svg>
       Memuat info server...
     </div>
   </div>
 
-  <!-- Form Card -->
   <div class="form-card">
     <div class="form-section-title">
-      <!-- sliders icon -->
-      <svg viewBox="0 0 24 24">
-        <line x1="4" y1="21" x2="4" y2="14"/>
-        <line x1="4" y1="10" x2="4" y2="3"/>
-        <line x1="12" y1="21" x2="12" y2="12"/>
-        <line x1="12" y1="8"  x2="12" y2="3"/>
-        <line x1="20" y1="21" x2="20" y2="16"/>
-        <line x1="20" y1="12" x2="20" y2="3"/>
-        <line x1="1"  y1="14" x2="7"  y2="14"/>
-        <line x1="9"  y1="8"  x2="15" y2="8"/>
-        <line x1="17" y1="16" x2="23" y2="16"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8"  x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1"  y1="14" x2="7"  y2="14"/><line x1="9"  y1="8"  x2="15" y2="8"/><line x1="17"  y1="16" x2="23"  y2="16"/></svg>
       Konfigurasi Akun
     </div>
 
-    <!-- Username -->
     <div class="form-group">
       <div class="field-label">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
         Username
       </div>
-      <input class="field-input" id="username"
-        placeholder="Contoh: user123 (huruf &amp; angka)" autocomplete="off">
+      <input class="field-input" id="username" placeholder="Contoh: user123" autocomplete="off">
     </div>
 
-    <!-- Password (SSH only) -->
     <div class="form-group" id="passwordBox">
       <div class="field-label">
-        <svg viewBox="0 0 24 24">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         Password
       </div>
-      <input class="field-input" id="password" type="password"
-        placeholder="Password untuk SSH">
+      <input class="field-input" id="password" type="password" placeholder="Password untuk SSH">
     </div>
 
-    <!-- Duration -->
     <div class="form-group">
       <div class="field-label">
-        <svg viewBox="0 0 24 24">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/>
-          <line x1="8"  y1="2" x2="8"  y2="6"/>
-          <line x1="3"  y1="10" x2="21" y2="10"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8"  y1="2" x2="8"  y2="6"/><line x1="3"  y1="10" x2="21" y2="10"/></svg>
         Masa Aktif
       </div>
       <div class="duration-grid">
@@ -467,74 +323,48 @@ body {
       </div>
     </div>
 
-    <!-- Protocol -->
     <div class="form-group">
       <div class="field-label">
-        <svg viewBox="0 0 24 24">
-          <line x1="6"  y1="3" x2="6"  y2="15"/>
-          <circle cx="18" cy="6" r="3"/>
-          <circle cx="6"  cy="18" r="3"/>
-          <path d="M18 9a9 9 0 0 1-9 9"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><line x1="6"  y1="3" x2="6"  y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6"  cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
         Protocol
       </div>
       <div class="protocol-grid">
-        <!-- SSH -->
         <div class="proto-opt selected" data-val="SSH" onclick="selectProto(this)">
           <span class="proto-icon">
             <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
           </span>
           <span class="proto-name">SSH</span>
         </div>
-        <!-- VMESS -->
         <div class="proto-opt" data-val="VMESS" onclick="selectProto(this)">
           <span class="proto-icon">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           </span>
           <span class="proto-name">VMESS</span>
         </div>
-        <!-- VLESS -->
         <div class="proto-opt" data-val="VLESS" onclick="selectProto(this)">
           <span class="proto-icon">
             <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           </span>
           <span class="proto-name">VLESS</span>
         </div>
-        <!-- TROJAN -->
         <div class="proto-opt" data-val="TROJAN" onclick="selectProto(this)">
           <span class="proto-icon">
             <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </span>
           <span class="proto-name">TROJAN</span>
         </div>
-        <!-- SHADOWSOCKS -->
-        <div class="proto-opt" data-val="SHADOWSOCKS" onclick="selectProto(this)">
-          <span class="proto-icon">
-            <svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-          </span>
-          <span class="proto-name">SS</span>
-        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Buttons -->
   <button class="btn-checkout" id="buyBtn" onclick="createAccount()">
-    <svg viewBox="0 0 24 24">
-      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2"/>
-      <path d="M12 8L8 12l1.5 4L15.5 9.5z"/>
-      <path d="M22 2L15.5 9.5"/>
-      <path d="M22 2s-4 0-9 5c-2 2-3 4-3 4"/>
-    </svg>
+    <svg viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2"/><path d="M12 8L8 12l1.5 4L15.5 9.5z"/><path d="M22 2L15.5 9.5"/><path d="M22 2s-4 0-9 5c-2 2-3 4-3 4"/></svg>
     Buat Akun Sekarang
   </button>
 
   <button class="btn-back" onclick="history.back()">
-    <svg viewBox="0 0 24 24">
-      <line x1="19" y1="12" x2="5" y2="12"/>
-      <polyline points="12 19 5 12 12 5"/>
-    </svg>
+    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     Kembali
   </button>
 
@@ -581,11 +411,7 @@ async function loadServer() {
     console.error(err);
     document.getElementById('serverInfo').innerHTML = `
       <div class="server-loading" style="color:var(--red);">
-        <svg viewBox="0 0 24 24" style="stroke:var(--red);animation:none;">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="8" x2="12" y2="12"/>
-          <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/>
-        </svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--red);animation:none;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/></svg>
         Gagal memuat server
       </div>`;
   }
@@ -599,11 +425,7 @@ function renderServerInfo() {
   document.getElementById('serverInfo').innerHTML = `
     <div class="server-card-head">
       <div class="server-icon">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="2" y1="12" x2="22" y2="12"/>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
       </div>
       <div>
         <div class="server-name">${serverData.nama_server}</div>
@@ -660,9 +482,7 @@ async function createAccount() {
   const btn = document.getElementById('buyBtn');
   btn.disabled = true;
   btn.innerHTML = `
-    <svg viewBox="0 0 24 24" style="animation:spin 1s linear infinite;">
-      <path d="M12 2a10 10 0 0 1 10 10"/>
-    </svg>
+    <svg viewBox="0 0 24 24" style="animation:spin 1s linear infinite;"><path d="M12 2a10 10 0 0 1 10 10"/></svg>
     Memproses...`;
 
   try {
@@ -701,18 +521,12 @@ function resetBtn() {
   const btn = document.getElementById('buyBtn');
   btn.disabled = false;
   btn.innerHTML = `
-    <svg viewBox="0 0 24 24">
-      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2"/>
-      <path d="M12 8L8 12l1.5 4L15.5 9.5z"/>
-      <path d="M22 2L15.5 9.5"/>
-      <path d="M22 2s-4 0-9 5c-2 2-3 4-3 4"/>
-    </svg>
+    <svg viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2"/><path d="M12 8L8 12l1.5 4L15.5 9.5z"/><path d="M22 2L15.5 9.5"/><path d="M22 2s-4 0-9 5c-2 2-3 4-3 4"/></svg>
     Buat Akun Sekarang`;
 }
 
 function showToast(msg, type='success') {
   const t = document.getElementById('toast');
-  // icon
   const icon = type === 'success'
     ? `<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>`
     : `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
