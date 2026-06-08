@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Riwayat Transaksi - Xtrimer Tunnel</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght=400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 
 :root {
@@ -383,8 +383,16 @@ body {
 
 <script>
 
+const token = localStorage.getItem('token');
 const localUser = JSON.parse(localStorage.getItem('user'));
-if (!localUser) location.href = 'index.html';
+
+// Proteksi Halaman Admin Berlapis
+if (!localUser || !token) {
+  location.href = 'index.html';
+} else if (localUser.role !== 'admin') {
+  alert('Akses ditolak!');
+  location.href = 'dashboard.html';
+}
 
 const PER_PAGE = 10;
 let allData    = [];
@@ -397,7 +405,7 @@ const svgListTemplate     = `<svg viewBox="0 0 24 24" style="fill:none;stroke:cu
 const svgSearchTemplate   = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`;
 const svgPackageTemplate  = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`;
 const svgClockTemplate    = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
-const svgAlertTemplate    = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.5c0 0-4 7.5-11 7.5a10.42 10.42 0 0 1-3.64-.67"></path><path d="M6.62 6.62A10.71 10.71 0 0 0 1 12.5c0 0 4 7.5 11 7.5a11.12 11.12 0 0 0 5-.12"></path><path d="M22 12.5a11.16 11.16 0 0 0-2.3-3.06"></path><path d="M10.59 10.59a3 3 0 1 0 4.24 4.24"></path></svg>`;
+const svgAlertTemplate    = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.5c0 0-4 7.5-11 7.5a10.42 10.42 0 0 1-3.64-.67"></path><path d="M6.62 6.62A10.71 10.71 0 0 0 1 12.5c0 0 4 7.5(11 7.5a11.12 11.12 0 0 0 5-.12"></path><path d="M22 12.5a11.16 11.16 0 0 0-2.3-3.06"></path><path d="M10.59 10.59a3 3 0 1 0 4.24 4.24"></path></svg>`;
 
 const PROTO_CONFIG = {
   SSH:         { cls:'pi-ssh',    badge:'pb-ssh',    label:'SSH',          icon:`<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>` },
@@ -415,7 +423,15 @@ loadTransactions();
 
 async function loadTransactions() {
   try {
-    const res  = await fetch('/api/admin/transactions?email=' + encodeURIComponent(localUser.email));
+    // FIX 1: Ditambahkan Header Bearer Token JWT agar diijinkan masuk oleh middleware backend
+    const res  = await fetch('/api/admin/transactions?email=' + encodeURIComponent(localUser.email), {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
     const data = await res.json();
     if (!data.success) { document.getElementById('txList').innerHTML = errorState(data.message); return; }
     allData = data.transactions || [];
@@ -456,8 +472,9 @@ function renderStats() {
     const p = (tx.product_type || 'Unknown').toUpperCase();
     counts[p] = (counts[p] || 0) + 1;
   });
-  document.getElementById('subtitle').textContent =
-    `${filtered.length} dari ${allData.length} transaksi`;
+  
+  // FIX 2: Mengubah tanda kutip dua ke backtick (`) agar interpolasi string jumlah data dinamis berjalan
+  document.getElementById('subtitle').textContent = `${filtered.length} dari ${allData.length} transaksi`;
   document.getElementById('countBadge').textContent = allData.length + ' Total';
 
   let html = `
@@ -539,11 +556,17 @@ function renderPagination() {
     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
   </button>`;
 
+  // FIX 3: Perbaikan bendera dots generator agar titik tiga (...) tidak meluber di pagination
+  let lastDotted = false;
   for (let i = 1; i <= total; i++) {
-    if (i===1 || i===total || (i>=currentPage-1 && i<=currentPage+1)) {
+    if (i === 1 || i === total || (i >= currentPage - 1 && i <= currentPage + 1)) {
       btns += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
-    } else if (i===currentPage-2 || i===currentPage+2) {
-      btns += `<span class="page-dots">…</span>`;
+      lastDotted = false;
+    } else {
+      if (!lastDotted) {
+        btns += `<span class="page-dots">…</span>`;
+        lastDotted = true;
+      }
     }
   }
 
