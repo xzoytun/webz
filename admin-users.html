@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kelola User - Xtrimer Tunnel</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght=400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 
 :root {
@@ -442,10 +442,14 @@ const svgMinusTemplate  = `<svg viewBox="0 0 24 24" style="fill:none;stroke:curr
 const svgTrashTemplate  = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>`;
 
 const localUser = JSON.parse(localStorage.getItem('user'));
-if (!localUser) location.href = 'index.html';
-if (localUser.is_admin != 1) {
-  showToast('Akses ditolak', 'error');
-  setTimeout(() => location.href = 'dashboard.html', 1200);
+const token = localStorage.getItem('token'); // Ambil token JWT backend
+
+// FIX UTAMA 1: Pengecekan disesuaikan dengan skema database backend ('admin')
+if (!localUser || !token) {
+  location.href = 'index.html';
+} else if (localUser.role !== 'admin') {
+  alert('Akses ditolak: Anda bukan admin!');
+  location.href = 'dashboard.html';
 }
 
 let allUsers = [];
@@ -456,10 +460,17 @@ loadUsers();
 
 async function loadUsers() {
   try {
-    const res  = await fetch('/api/admin/users?email=' + encodeURIComponent(localUser.email));
+    // FIX UTAMA 2: Request dikirim menggunakan Bearer Token JWT di headers
+    const res  = await fetch('/api/admin/users', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
     const data = await res.json();
 
-    if (!data.success) { showToast('Gagal memuat user', 'error'); return; }
+    if (!data.success) { showToast('Gagal memuat user: ' + data.message, 'error'); return; }
 
     allUsers = data.users || [];
     document.getElementById('userCountLabel').innerText = allUsers.length + ' user terdaftar';
@@ -496,7 +507,8 @@ function renderUsers(users) {
 
   let html = '';
   users.forEach((u, i) => {
-    const isAdmin = u.is_admin == 1;
+    // FIX UTAMA 3: Menyesuaikan properti role dari database
+    const isAdmin = u.role === 'admin';
     const avatarContent = u.avatar
       ? `<img src="${u.avatar}" alt="">`
       : svgUserTemplate;
@@ -590,10 +602,14 @@ async function submitBalance() {
     : '/api/admin/reduce-balance';
 
   try {
+    // FIX UTAMA 4: Penambahan Header Authorization Bearer Token untuk Modifikasi Saldo
     const res  = await fetch(endpoint, {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ user_id: modalUserId, amount, email: localUser.email })
+      headers:{
+        'Authorization': `Bearer ${token}`,
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({ user_id: modalUserId, amount })
     });
     const data = await res.json();
     showToast((data.success ? '✓ ' : '✗ ') + (data.message || 'Selesai'),
@@ -610,7 +626,14 @@ async function submitBalance() {
 async function deleteUser(id, name) {
   if (!confirm(`Hapus user "${name}"? Tindakan ini tidak bisa dibatalkan.`)) return;
   try {
-    const res  = await fetch('/api/admin/delete-user/' + id, { method:'DELETE' });
+    // FIX UTAMA 5: Menambahkan Authorization Bearer Token pada request DELETE
+    const res  = await fetch('/api/admin/delete-user/' + id, { 
+      method:'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
     const data = await res.json();
     showToast((data.success ? '✓ ' : '✗ ') + (data.message || 'Selesai'),
       data.success ? 'success' : 'error');
