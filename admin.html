@@ -236,7 +236,17 @@ body {
 }
 .ic-users-menu  { background:linear-gradient(135deg, var(--purple-dark), var(--purple-light)); box-shadow:0 4px 12px rgba(123,47,190,0.35); }
 .ic-trx-menu    { background:linear-gradient(135deg, var(--red-dark), var(--red)); box-shadow:0 4px 12px rgba(232,64,64,0.3); }
+.ic-topup-menu {
+background: linear-gradient(
+135deg,
+#12C28A,
+#00E676
+);
 
+box-shadow:
+0 4px 12px
+rgba(18,194,138,0.35);
+}
 .menu-text { flex:1; }
 .menu-label {
   font-size:15px; font-weight:900;
@@ -387,6 +397,16 @@ body {
     </div>
     <div class="menu-arrow">›</div>
   </a>
+  
+  <a class="menu-item" href="admin-topup.html" style="animation-delay:0.35s;">  <div class="menu-icon-wrap ic-topup-menu">
+    <svg viewBox="0 0 24 24">
+      <line x1="12" y1="1" x2="12" y2="23"/>
+      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+    </svg>
+  </div>  <div class="menu-text">
+    <div class="menu-label">Riwayat Topup</div>
+    <div class="menu-desc">Monitor semua deposit user</div>
+  </div>  <div class="menu-arrow">›</div></a>
 
   <!-- Action Buttons -->
   <div class="action-row">
