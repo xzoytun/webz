@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Topup Logs - Xtrimer Tunnel</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght=400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 
 :root {
@@ -138,7 +138,7 @@ body {
 
 .top-row {
   display:flex;
-  justify-content:between;
+  justify-content:space-between;
   align-items:center;
   margin-bottom:12px;
   gap:10px;
@@ -225,7 +225,6 @@ body {
 <div class="blob1"></div>
 <div class="blob2"></div>
 
-<!-- Header -->
 <div class="header">
   <div class="header-inner">
     <a class="back-btn-hdr" href="admin.html">
@@ -244,7 +243,6 @@ body {
 
 <div class="container">
 
-  <!-- Toolbar Search -->
   <div class="toolbar">
     <div class="search-row">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -254,7 +252,6 @@ body {
     </div>
   </div>
 
-  <!-- Logs List container -->
   <div id="logs" class="logs-wrap">
     <div class="loading-state">
       <div class="loading-icon">
@@ -264,7 +261,6 @@ body {
     </div>
   </div>
 
-  <!-- Back Button Global -->
   <button class="back-btn" onclick="location.href='admin.html'">
     <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
     Kembali ke Admin Panel
@@ -275,6 +271,17 @@ body {
 <script>
 
 let allLogs = [];
+const token = localStorage.getItem('token'); // Mengambil token JWT backend
+const localUser = JSON.parse(localStorage.getItem('user'));
+
+// Proteksi Halaman Admin
+if (!localUser || !token) {
+  location.href = 'index.html';
+} else if (localUser.role !== 'admin') {
+  alert('Akses ditolak!');
+  location.href = 'dashboard.html';
+}
+
 const svgSearchTemplate = `<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`;
 const svgAlertTemplate  = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.5c0 0-4 7.5-11 7.5a10.42 10.42 0 0 1-3.64-.67"></path><path d="M6.62 6.62A10.71 10.71 0 0 0 1 12.5c0 0 4 7.5 11 7.5a11.12 11.12 0 0 0 5-.12"></path><path d="M22 12.5a11.16 11.16 0 0 0-2.3-3.06"></path><path d="M10.59 10.59a3 3 0 1 0 4.24 4.24"></path></svg>`;
 
@@ -282,18 +289,20 @@ loadLogs();
 
 async function loadLogs() {
   try {
+    // FIX 1: Format header Authorization disesuaikan menjadi Bearer Token
     const response = await fetch('/api/admin/topup-history', {
-
-  headers: {
-    Authorization: localStorage.getItem('token')
-  }
-
-});
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
     const result = await response.json();
     const container = document.getElementById('logs');
 
     if (!result.success) {
-      container.innerHTML = errorState('Gagal memuat data dari server');
+      container.innerHTML = errorState(result.message || 'Gagal memuat data dari server');
       return;
     }
 
@@ -307,161 +316,75 @@ async function loadLogs() {
 }
 
 function applyFilter() {
+  const kw = document.getElementById('searchInput').value.toLowerCase();
 
-const kw =
-document.getElementById('searchInput')
-.value
-.toLowerCase();
+  const filtered = allLogs.filter(item => {
+    return (
+      (item.username || '').toLowerCase().includes(kw) ||
+      (item.reference || '').toLowerCase().includes(kw) ||
+      (item.metode || '').toLowerCase().includes(kw)
+    );
+  });
 
-const filtered = allLogs.filter(item => {
+  // FIX 2: Perubahan tanda kutip dua ke backtick (`) agar text interpolasi berfungsi dengan benar
+  document.getElementById('subtitle').textContent = `Menampilkan ${filtered.length} riwayat`;
+  document.getElementById('countBadge').textContent = allLogs.length + ' Total';
 
-return (
-
-  (item.username || '')
-  .toLowerCase()
-  .includes(kw)
-
-  ||
-
-  (item.reference || '')
-  .toLowerCase()
-  .includes(kw)
-
-  ||
-
-  (item.metode || '')
-  .toLowerCase()
-  .includes(kw)
-
-);
-
-});
-
-// counter
-document.getElementById('subtitle').textContent =
-"Menampilkan ${filtered.length} riwayat";
-
-document.getElementById('countBadge').textContent =
-allLogs.length + ' Total';
-
-renderList(filtered);
-
+  renderList(filtered);
 }
 
 function renderList(data) {
+  const container = document.getElementById('logs');
 
-const container =
-document.getElementById('logs');
-
-if (data.length < 1) {
-
-container.innerHTML = `
-  <div class="empty-state">
-    <div class="empty-icon">
-      ${svgSearchTemplate}
-    </div>
-
-    <div class="empty-title">
-      Tidak Ada Data
-    </div>
-
-    <div class="empty-sub">
-      Belum ada riwayat transaksi topup yang cocok
-    </div>
-  </div>
-`;
-
-return;
-
-}
-
-let html = '';
-
-data.forEach((item, i) => {
-
-const dateFormatted =
-  (item.created_at || '')
-  .replace('T', ' ')
-  .slice(0, 16) || '-';
-
-const cleanAmount =
-  Number(item.amount || 0)
-  .toLocaleString('id-ID');
-
-html += `
-
-<div
-  class="log-card"
-  style="
-    animation:
-    fadeUp .35s ${i * 0.04}s ease both;
-  "
->
-
-  <div class="top-row">
-
-    <div class="username">
-      ${item.username || 'Unknown User'}
-    </div>
-
-    <div class="amount">
-      Rp ${cleanAmount}
-    </div>
-
-  </div>
-
-  <div class="info">
-
-    <div class="info-item">
-      <div class="label">
-        User
+  if (data.length < 1) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">${svgSearchTemplate}</div>
+        <div class="empty-title">Tidak Ada Data</div>
+        <div class="empty-sub">Belum ada riwayat transaksi topup yang cocok</div>
       </div>
+    `;
+    return;
+  }
 
-      <div class="value">
-        ${item.username || '-'}
+  let html = '';
+
+  data.forEach((item, i) => {
+    const dateFormatted = (item.created_at || '')
+      .replace('T', ' ')
+      .slice(0, 16) || '-';
+
+    const cleanAmount = Number(item.amount || 0).toLocaleString('id-ID');
+
+    html += `
+    <div class="log-card" style="animation: fadeUp .35s ${i * 0.04}s ease both;">
+      <div class="top-row">
+        <div class="username">${item.username || 'Unknown User'}</div>
+        <div class="amount">Rp ${cleanAmount}</div>
+      </div>
+      <div class="info">
+        <div class="info-item">
+          <div class="label">User</div>
+          <div class="value">${item.username || '-'}</div>
+        </div>
+        <div class="info-item">
+          <div class="label">Metode</div>
+          <div class="value">${item.metode || '-'}</div>
+        </div>
+        <div class="info-item">
+          <div class="label">Reference</div>
+          <div class="value">${item.reference || '-'}</div>
+        </div>
+        <div class="info-item">
+          <div class="label">Tanggal</div>
+          <div class="value">${dateFormatted}</div>
+        </div>
       </div>
     </div>
+    `;
+  });
 
-    <div class="info-item">
-      <div class="label">
-        Metode
-      </div>
-
-      <div class="value">
-        ${item.metode || '-'}
-      </div>
-    </div>
-
-    <div class="info-item">
-      <div class="label">
-        Reference
-      </div>
-
-      <div class="value">
-        ${item.reference || '-'}
-      </div>
-    </div>
-
-    <div class="info-item">
-      <div class="label">
-        Tanggal
-      </div>
-
-      <div class="value">
-        ${dateFormatted}
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-`;
-
-});
-
-container.innerHTML = html;
-
+  container.innerHTML = html;
 }
 
 function errorState(msg) {
