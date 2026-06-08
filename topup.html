@@ -634,7 +634,8 @@ body {
 <script>  
   
 let depositCode = null;  
-  
+let timerInterval = null; // Tambahkan ini di atas untuk menyimpan interval timer
+
 function setNominal(value, el) {  
   document.getElementById('amount').value = value;  
   document.querySelectorAll('.nominal-btn').forEach(b => b.classList.remove('selected'));  
@@ -663,6 +664,9 @@ async function createDeposit() {
     Membuat QRIS...`;  
   
   try {  
+    // Clear timer lama kalau user klik buat ulang saat timer sebelumnya masih jalan
+    if (timerInterval) clearInterval(timerInterval);
+
     const res  = await fetch('/api/deposit', {  
       method:'POST',  
       headers:{'Content-Type':'application/json'},  
@@ -749,7 +753,7 @@ async function createDeposit() {
             <svg viewBox="0 0 24 24">  
               <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>  
             </svg>  
-            QRIS berlaku selama <strong>5 menit</strong>  
+            QRIS berlaku: &nbsp;<strong id="countdown">05:00</strong>  
           </div>  
   
           <div id="statusArea">  
@@ -765,6 +769,7 @@ async function createDeposit() {
       </div>`;  
   
     document.getElementById('result').scrollIntoView({ behavior:'smooth' });  
+    startCountdown(300); // Mulai hitung mundur dari 300 detik (5 menit)
     startChecker();  
   
   } catch(err) {  
@@ -781,6 +786,45 @@ async function createDeposit() {
     showToast('Gagal membuat QRIS', 'error');  
   }  
 }  
+
+function startCountdown(durationInSeconds) {
+  let timeRemaining = durationInSeconds;
+  const countdownEl = document.getElementById('countdown');
+
+  timerInterval = setInterval(() => {
+    let minutes = Math.floor(timeRemaining / 60);
+    let seconds = timeRemaining % 60;
+
+    // Pad angka biar selalu ada 2 digit (misal: 05:09)
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    if (countdownEl) {
+      countdownEl.innerText = `${minutes}:${seconds}`;
+    }
+
+    if (--timeRemaining < 0) {
+      clearInterval(timerInterval);
+      setQrisExpiredView(); // Pindah ke tampilan expired di UI jika waktu habis
+    }
+  }, 1000);
+}
+
+function setQrisExpiredView() {
+  const statusArea = document.getElementById('statusArea');
+  if (statusArea) {
+    statusArea.innerHTML = `  
+      <div class="status-expired">  
+        <svg viewBox="0 0 24 24">  
+          <circle cx="12" cy="12" r="10"/>  
+          <line x1="15" y1="9" x2="9" y2="15" stroke="#fff" stroke-width="2" stroke-linecap="round"/>  
+          <line x1="9" y1="9" x2="15" y2="15" stroke="#fff" stroke-width="2" stroke-linecap="round"/>  
+        </svg>  
+        QRIS sudah expired. Buat ulang untuk melanjutkan.  
+      </div>`;
+  }
+  depositCode = null; // Hentikan checker backend status otomatis
+}
   
 function startChecker() {  
   const interval = setInterval(async () => {  
@@ -790,19 +834,13 @@ function startChecker() {
       const data = await res.json();  
   
       if (data.success && data.status === 'expired') {  
-        document.getElementById('statusArea').innerHTML = `  
-          <div class="status-expired">  
-            <svg viewBox="0 0 24 24">  
-              <circle cx="12" cy="12" r="10"/>  
-              <line x1="15" y1="9" x2="9" y2="15" stroke="#fff" stroke-width="2" stroke-linecap="round"/>  
-              <line x1="9" y1="9" x2="15" y2="15" stroke="#fff" stroke-width="2" stroke-linecap="round"/>  
-            </svg>  
-            QRIS sudah expired. Buat ulang untuk melanjutkan.  
-          </div>`;  
+        if (timerInterval) clearInterval(timerInterval);
+        setQrisExpiredView();
         clearInterval(interval);  
       }  
   
       if (data.success && data.status === 'paid') {  
+        if (timerInterval) clearInterval(timerInterval);
         document.getElementById('statusArea').innerHTML = `  
           <div class="status-paid">  
             <div class="status-paid-title">  
