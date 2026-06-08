@@ -4,374 +4,235 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Produk VPN - Xtrimer Tunnel</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+
 :root {
-  --p:      #7C3AED;
-  --p2:     #6D28D9;
-  --p3:     #4C1D95;
-  --pacc:   #A78BFA;
-  --bg:     #0D0B14;
-  --bg2:    #13101E;
-  --bg3:    #1A1628;
-  --surf:   #1E1A2E;
-  --surf2:  #252038;
-  --border: rgba(124,58,237,0.18);
-  --border2:rgba(255,255,255,0.06);
-  --text:   #F0EBFF;
-  --sub:    #8B7FBF;
-  --muted:  #4E4675;
-  --green:  #10B981;
-  --orange: #F59E0B;
-  --red:    #EF4444;
-  --cyan:   #06B6D4;
+  --purple:       #7B2FBE;
+  --purple-dark:  #5A1A9A;
+  --purple-deep:  #3D0F72;
+  --purple-light: #9B4FDE;
+  --purple-soft:  #F3EAFD;
+  --purple-mid:   #EAD5FA;
+  --accent:       #FF6B2B;
+  --accent2:      #FFD600;
+  --green:        #12C28A;
+  --white:        #FFFFFF;
+  --bg:           #F8F6FC;
+  --gray-line:    #EEF0F6;
+  --text-dark:    #1A0533;
+  --text-mid:     #6B3FA0;
+  --text-light:   #A882CC;
+  --border:       #EAD5FA;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   background: var(--bg);
   min-height: 100vh;
-  font-family: 'DM Sans', sans-serif;
-  color: var(--text);
-  overflow-x: hidden;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 40px;
 }
 
-/* ── NOISE OVERLAY ── */
-body::before {
-  content:'';
-  position:fixed; inset:0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events:none; z-index:0; opacity:0.4;
-}
-
-/* ── AMBIENT GLOW ── */
-.ambient {
-  position:fixed; pointer-events:none; z-index:0;
-}
-.amb-tl {
-  top:-120px; left:-80px;
-  width:400px; height:400px;
-  background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 65%);
-}
-.amb-br {
-  bottom:-100px; right:-80px;
-  width:350px; height:350px;
-  background: radial-gradient(circle, rgba(109,40,217,0.12) 0%, transparent 65%);
-}
-
-/* ── HEADER ── */
-.header {
-  position: relative; z-index: 10;
-  padding: 18px 20px 16px;
-  display: flex; align-items: center; gap: 12px;
-  border-bottom: 1px solid var(--border2);
-  background: rgba(13,11,20,0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  position: sticky; top: 0;
-}
-.back-btn {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: var(--surf); border: 1px solid var(--border2);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; text-decoration: none; flex-shrink: 0;
-  transition: all 0.15s;
-}
-.back-btn:hover { background: var(--surf2); border-color: var(--border); }
-.back-btn svg { width:16px; height:16px; stroke:#fff; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
-
-.hdr-info { flex:1; }
-.hdr-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 16px; font-weight: 700; color: var(--text);
-  display: flex; align-items: center; gap: 7px;
-}
-.hdr-title svg { width:16px; height:16px; stroke:var(--pacc); fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
-.hdr-sub { font-size: 11px; color: var(--sub); font-weight: 500; margin-top: 1px; }
-
-.count-pill {
-  background: rgba(124,58,237,0.15);
-  border: 1px solid var(--border);
-  border-radius: 20px; padding: 4px 10px;
-  font-size: 11px; font-weight: 600; color: var(--pacc);
-  white-space: nowrap;
-}
-
-/* ── SEARCH ── */
-.search-wrap {
-  padding: 14px 16px 12px;
-  position: relative; z-index: 2;
-}
-.search-box {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--surf); border: 1px solid var(--border2);
-  border-radius: 12px; padding: 10px 14px;
-  transition: all 0.15s;
-}
-.search-box:focus-within {
-  border-color: var(--border);
-  background: var(--surf2);
-  box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
-}
-.search-box svg { width:15px; height:15px; stroke:var(--muted); fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
-.search-input {
-  flex:1; border:none; outline:none; background:transparent;
-  font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--text);
-}
-.search-input::placeholder { color: var(--muted); }
-
-/* ── FILTER TABS ── */
-.filter-row {
-  display: flex; gap: 6px; padding: 0 16px 14px;
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; position:relative; z-index:2;
-}
-.filter-row::-webkit-scrollbar { display:none; }
-.ftab {
-  padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 600;
-  border: 1px solid var(--border2); background: var(--surf);
-  color: var(--sub); cursor: pointer; white-space: nowrap;
-  transition: all 0.15s; flex-shrink: 0;
-}
-.ftab.active, .ftab:hover {
-  background: rgba(124,58,237,0.18); border-color: var(--border);
-  color: var(--pacc);
-}
-
-/* ── LIST CONTAINER ── */
-.list-wrap {
-  padding: 0 16px 24px;
-  position: relative; z-index: 2;
-  display: flex; flex-direction: column; gap: 8px;
-}
-
-/* ── SERVER CARD — COMPACT ── */
-.srv-card {
-  background: var(--surf);
-  border: 1px solid var(--border2);
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-  animation: fadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.srv-card:hover {
-  border-color: rgba(124,58,237,0.35);
-  background: var(--surf2);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(124,58,237,0.15);
-}
-.srv-card.is-full { opacity: 0.5; pointer-events: none; }
+/* ── MULTI-THEME GRADIENT GLOW TRICK ── */
+.theme-purple { --theme-color: #7B2FBE; --theme-bg: #F3EAFD; }
+.theme-blue   { --theme-color: #0066FF; --theme-bg: #E6F0FF; }
+.theme-cyan   { --theme-color: #00A896; --theme-bg: #E6F6F5; }
+.theme-orange { --theme-color: #FF6B2B; --theme-bg: #FFF0E6; }
 
 @keyframes fadeUp {
-  from { opacity:0; transform: translateY(10px); }
-  to   { opacity:1; transform: translateY(0); }
-}
-
-/* Card main row */
-.card-main {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 14px;
-}
-
-/* Left: accent stripe */
-.card-stripe {
-  width: 3px; height: 36px; border-radius: 3px; flex-shrink: 0;
-}
-.stripe-purple { background: linear-gradient(180deg, #A78BFA, #7C3AED); }
-.stripe-blue   { background: linear-gradient(180deg, #60A5FA, #2563EB); }
-.stripe-cyan   { background: linear-gradient(180deg, #34D399, #059669); }
-.stripe-orange { background: linear-gradient(180deg, #FCD34D, #F59E0B); }
-.stripe-pink   { background: linear-gradient(180deg, #F9A8D4, #EC4899); }
-
-/* Icon */
-.srv-icon {
-  width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-}
-.si-purple { background: rgba(124,58,237,0.15); }
-.si-blue   { background: rgba(37,99,235,0.15); }
-.si-cyan   { background: rgba(5,150,105,0.15); }
-.si-orange { background: rgba(245,158,11,0.15); }
-.si-pink   { background: rgba(236,72,153,0.15); }
-.srv-icon svg { width:18px; height:18px; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-.si-purple svg { stroke:#A78BFA; }
-.si-blue   svg { stroke:#60A5FA; }
-.si-cyan   svg { stroke:#34D399; }
-.si-orange svg { stroke:#FCD34D; }
-.si-pink   svg { stroke:#F9A8D4; }
-
-/* Info */
-.srv-info { flex:1; min-width:0; }
-.srv-name {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 14px; font-weight: 600; color: var(--text);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.srv-meta {
-  display: flex; align-items: center; gap: 8px; margin-top: 3px;
-}
-.srv-loc {
-  font-size: 11px; color: var(--sub); font-weight: 500;
-  display: flex; align-items: center; gap: 3px;
-}
-.srv-loc svg { width:10px; height:10px; stroke:var(--muted); fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
-
-.slot-dot {
-  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
-}
-.dot-ok { background: var(--green); box-shadow: 0 0 6px rgba(16,185,129,0.6); }
-.dot-full { background: var(--muted); }
-
-.slot-txt { font-size: 11px; font-weight: 600; }
-.slot-txt.ok { color: var(--green); }
-.slot-txt.full { color: var(--muted); }
-
-/* Right: price + buy */
-.card-right {
-  display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0;
-}
-.price-tag {
-  text-align: right;
-}
-.price-from { font-size: 9px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.price-num {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 15px; font-weight: 700; color: var(--text); line-height: 1;
-}
-.price-num span { font-size: 10px; font-weight: 600; color: var(--sub); }
-.price-period { font-size: 9px; color: var(--muted); font-weight: 500; }
-
-.buy-btn {
-  padding: 6px 14px; border-radius: 9px; border: none;
-  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700;
-  cursor: pointer; transition: all 0.15s; white-space: nowrap;
-  display: flex; align-items: center; gap: 5px;
-}
-.buy-btn svg { width:12px; height:12px; stroke:#fff; fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
-.buy-btn.active {
-  background: linear-gradient(135deg, #7C3AED, #6D28D9);
-  color: #fff;
-  box-shadow: 0 3px 10px rgba(124,58,237,0.35);
-}
-.buy-btn.active:hover { box-shadow: 0 4px 14px rgba(124,58,237,0.5); transform: translateY(-1px); }
-.buy-btn.disabled { background: var(--bg3); color: var(--muted); cursor: not-allowed; }
-
-/* Protocols row */
-.proto-row {
-  display: flex; gap: 5px; padding: 0 14px 11px 14px; flex-wrap: wrap;
-}
-.pbadge {
-  padding: 2px 8px; border-radius: 5px;
-  font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
-}
-.pb-ssh    { background: rgba(245,158,11,0.1); color: #FCD34D; border: 1px solid rgba(245,158,11,0.15); }
-.pb-vmess  { background: rgba(6,182,212,0.1);  color: #67E8F9; border: 1px solid rgba(6,182,212,0.15); }
-.pb-vless  { background: rgba(124,58,237,0.1); color: #A78BFA; border: 1px solid rgba(124,58,237,0.15); }
-.pb-trojan { background: rgba(239,68,68,0.1);  color: #FCA5A5; border: 1px solid rgba(239,68,68,0.15); }
-.pb-ss     { background: rgba(236,72,153,0.1); color: #F9A8D4; border: 1px solid rgba(236,72,153,0.15); }
-
-/* ── LOADING / EMPTY ── */
-.loading-state {
-  text-align:center; padding:50px 20px;
-  color:var(--sub); font-size:13px; font-weight:500;
-  display:flex; flex-direction:column; align-items:center; gap:10px;
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 @keyframes spin { to { transform:rotate(360deg); } }
-.spin-icon { animation: spin 0.8s linear infinite; }
-.loading-state svg { width:28px; height:28px; stroke:var(--p); fill:none; stroke-width:2; stroke-linecap:round; }
 
-.empty-state { text-align:center; padding:50px 20px; color:var(--sub); }
-.empty-state svg { width:40px; height:40px; stroke:var(--muted); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
-.empty-state h3 { font-size:15px; font-weight:700; color:var(--text); margin:10px 0 5px; }
-.empty-state p { font-size:12px; color:var(--sub); }
-
-/* ── BOTTOM BTN ── */
-.bottom-wrap { padding: 0 16px 36px; position: relative; z-index: 2; }
-.back-bottom {
-  width: 100%; padding: 12px;
-  border: 1px solid var(--border2); border-radius: 12px;
-  background: transparent; color: var(--sub);
-  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
-  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px;
-  transition: all 0.15s;
+/* ── HEADER MINI REFINED ── */
+.header {
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 100%);
+  padding: 20px 16px 30px;
+  position: relative;
 }
-.back-bottom svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
-.back-bottom:hover { border-color: var(--border); color: var(--pacc); background: rgba(124,58,237,0.06); }
-
-/* Section label */
-.section-label {
-  font-size: 11px; font-weight: 600; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 0.8px;
-  padding: 0 16px 8px;
-  position: relative; z-index: 2;
+.header-inner {
+  display:flex; align-items:center; gap:12px;
+  max-width: 480px; margin: 0 auto;
 }
+.back-btn-hdr {
+  width:36px; height:36px; border-radius:12px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.15);
+  display:flex; align-items:center; justify-content:center;
+  text-decoration:none; transition: all 0.2s;
+}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.18); }
+.back-btn-hdr svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.5; }
+.header-title h1 {
+  font-size:18px; font-weight:900; color:#fff;
+  display:flex; align-items:center; gap:6px;
+}
+.header-title p { font-size:11px; color:rgba(255,255,255,0.6); font-weight:700; }
+.header-count {
+  background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:12px;
+  font-size:11px; font-weight:800; color:#fff; margin-left: auto;
+}
+
+/* ── SEARCH BOX COMFY ── */
+.search-wrap { max-width:480px; margin:-16px auto 16px; padding:0 14px; }
+.search-box {
+  background:#fff; border-radius:14px; border:1px solid var(--gray-line);
+  box-shadow:0 6px 20px rgba(90,26,154,0.06);
+  display:flex; align-items:center; gap:10px; padding:10px 14px;
+}
+.search-box svg { width:16px; height:16px; fill:none; stroke:var(--text-light); stroke-width:2.5; }
+.search-input {
+  flex:1; border:none; outline:none; font-family:'Nunito',sans-serif;
+  font-size:13px; font-weight:700; color:var(--text-dark); background:transparent;
+}
+
+/* ── CONTAINER ── */
+.container { max-width:480px; margin:0 auto; padding:0 14px; }
+
+/* ── SLEEK COMPACT CARD DESIGN ── */
+.product-card {
+  background: var(--white);
+  border-radius: 16px;
+  margin-bottom: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--gray-line);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.product-card:hover {
+  border-color: var(--theme-color);
+  box-shadow: 0 6px 18px rgba(90, 26, 154, 0.05);
+}
+
+/* Indicator warna tipis di sisi kiri card */
+.card-indicator {
+  position: absolute; left: 0; top: 12px; bottom: 12px;
+  width: 4px; border-radius: 0 4px 4px 0;
+  background: var(--theme-color);
+}
+
+/* Server visual badge */
+.server-badge {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--theme-bg);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.server-badge svg { width: 18px; height: 18px; fill: none; stroke: var(--theme-color); stroke-width: 2.5; }
+
+/* Mid area content */
+.server-info { flex: 1; min-width: 0; }
+.server-meta-top { display: flex; align-items: center; gap: 8px; }
+.server-name {
+  font-size: 14px; font-weight: 800; color: var(--text-dark);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.slot-text {
+  font-size: 10px; font-weight: 800; color: var(--green);
+  background: #E8F9F3; padding: 1px 6px; border-radius: 6px;
+}
+.slot-text.is-full { color: var(--red); background: #FFEBEB; }
+
+/* Minimalist tiny subtext */
+.server-sub {
+  display: flex; align-items: center; gap: 8px; margin-top: 2px;
+}
+.loc-text { font-size: 11px; color: var(--text-light); font-weight: 600; }
+
+/* Dot protocol list inline ultra sleek */
+.mini-protos { display: flex; gap: 5px; font-size: 9px; font-weight: 800; color: var(--text-mid); }
+.mini-protos span { position: relative; }
+.mini-protos span:not(:last-child)::after { content: '•'; margin-left: 5px; color: #D1C4E9; }
+
+/* Action Right Side (Price + Button) */
+.action-side {
+  text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+}
+.price-tag { display: flex; flex-direction: column; line-height: 1.1; }
+.price-label { font-size: 9px; font-weight: 700; color: var(--text-light); text-transform: uppercase; }
+.price-val { font-size: 15px; font-weight: 900; color: var(--text-dark); }
+.price-period { font-size: 9px; color: var(--text-light); font-weight: 600; }
+
+/* Ramping Buy Button */
+.buy-btn-sleek {
+  padding: 6px 14px; border: none; border-radius: 10px;
+  background: var(--text-dark); color: #fff;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 11px;
+  cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; gap: 4px;
+}
+.buy-btn-sleek:hover { background: var(--theme-color); transform: translateY(-1px); }
+.buy-btn-sleek:disabled { background: #D5D3DA; cursor: not-allowed; transform: none; }
+
+/* Elegant Grayscale Full State */
+.product-card.is-full { background: #FAF9FC; opacity: 0.75; }
+.product-card.is-full .card-indicator { background: #A09EB0; }
+.product-card.is-full .server-badge { background: #EAE9EE; }
+.product-card.is-full .server-badge svg { stroke: #8A8896; }
+.product-card.is-full .buy-btn-sleek { background: #B5B3BC; }
+
+/* ── LOADING / EMPTY ── */
+.loading-state { text-align:center; padding:40px 0; color:var(--text-mid); font-weight:700; font-size:13px; }
+.loading-state svg { width:28px; height:28px; fill:none; stroke:var(--purple); stroke-width:2.5; animation: spin 1s linear infinite; margin-bottom: 8px;}
+.empty-state { text-align:center; padding:40px 0; color:var(--text-light); font-weight:700; font-size:13px; }
+
+/* ── BACK BUTTON BOTTOM ── */
+.back-btn-bottom {
+  width:100%; padding:12px; border:1px solid var(--gray-line); border-radius:12px;
+  background:var(--white); color:var(--text-mid); font-family:'Nunito',sans-serif;
+  font-weight:800; font-size:13px; cursor:pointer; margin-top:14px;
+  display:flex; align-items:center; justify-content:center; gap:6px; transition: all 0.15s;
+}
+.back-btn-bottom:hover { background: var(--purple-soft); border-color: var(--purple); color: var(--purple); }
+
 </style>
 </head>
 <body>
 
-<div class="ambient amb-tl"></div>
-<div class="ambient amb-br"></div>
-
-<!-- HEADER -->
 <div class="header">
-  <a class="back-btn" href="dashboard.html">
-    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-  </a>
-  <div class="hdr-info">
-    <div class="hdr-title">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-      Produk VPN
+  <div class="header-inner">
+    <a class="back-btn-hdr" href="dashboard.html">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </a>
+    <div class="header-title">
+      <h1>Produk VPN</h1>
+      <p id="subtitle">Memuat server...</p>
     </div>
-    <div class="hdr-sub" id="subtitle">Memuat server...</div>
+    <div class="header-count" id="countBadge">—</div>
   </div>
-  <div class="count-pill" id="countBadge">—</div>
 </div>
 
-<!-- SEARCH -->
 <div class="search-wrap">
   <div class="search-box">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input class="search-input" id="searchInput" type="text" placeholder="Cari server atau lokasi..." oninput="filterProducts()">
+    <input class="search-input" id="searchInput" type="text" placeholder="Cari nama server atau lokasi..." oninput="filterProducts()">
   </div>
 </div>
 
-<!-- FILTER TABS -->
-<div class="filter-row">
-  <div class="ftab active" onclick="setFilter('all', this)">Semua</div>
-  <div class="ftab" onclick="setFilter('available', this)">Tersedia</div>
-  <div class="ftab" onclick="setFilter('full', this)">Penuh</div>
-</div>
-
-<!-- LIST -->
-<div class="section-label" id="sectionLabel"></div>
-<div class="list-wrap" id="products">
-  <div class="loading-state">
-    <svg class="spin-icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10"/></svg>
-    Memuat server...
+<div class="container">
+  <div id="products">
+    <div class="loading-state">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+      <div>Memuat daftar produk...</div>
+    </div>
   </div>
-</div>
 
-<!-- BOTTOM -->
-<div class="bottom-wrap">
-  <button class="back-bottom" onclick="window.location.href='dashboard.html'">
-    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+  <button class="back-btn-bottom" onclick="window.location.href='dashboard.html'">
     Kembali ke Dashboard
   </button>
 </div>
 
 <script>
-let allProducts = [];
-let activeFilter = 'all';
 
-const THEMES = [
-  { stripe: 'stripe-purple', icon: 'si-purple' },
-  { stripe: 'stripe-blue',   icon: 'si-blue'   },
-  { stripe: 'stripe-cyan',   icon: 'si-cyan'    },
-  { stripe: 'stripe-orange', icon: 'si-orange'  },
-  { stripe: 'stripe-pink',   icon: 'si-pink'    },
-];
+let allProducts = [];
+const cardThemes = ['theme-purple', 'theme-blue', 'theme-cyan', 'theme-orange'];
 
 loadProducts();
 
@@ -379,113 +240,99 @@ async function loadProducts() {
   try {
     const res  = await fetch('/api/products');
     const data = await res.json();
-    if (!data.success) { showError('Gagal memuat data server'); return; }
-    allProducts = data.products || [];
-    document.getElementById('subtitle').textContent = allProducts.length + ' server';
-    document.getElementById('countBadge').textContent = allProducts.length;
-    renderProducts(allProducts);
-  } catch (e) {
-    showError('Koneksi gagal');
-  }
-}
 
-function setFilter(type, el) {
-  activeFilter = type;
-  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  filterProducts();
+    if (!data.success) {
+      document.getElementById('products').innerHTML = '<div class="empty-state">Gagal memuat daftar produk.</div>';
+      return;
+    }
+
+    allProducts = data.products || [];
+    document.getElementById('subtitle').textContent   = allProducts.length + ' server aktif';
+    document.getElementById('countBadge').textContent = allProducts.length + ' Server';
+    renderProducts(allProducts);
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('products').innerHTML = '<div class="empty-state">Koneksi gagal terhubung.</div>';
+  }
 }
 
 function filterProducts() {
   const q = document.getElementById('searchInput').value.toLowerCase();
-  let list = allProducts.filter(s =>
+  const filtered = allProducts.filter(s =>
     (s.nama_server||'').toLowerCase().includes(q) ||
     (s.lokasi||'').toLowerCase().includes(q)
   );
-  if (activeFilter === 'available') list = list.filter(s => !isFull(s));
-  if (activeFilter === 'full')      list = list.filter(s => isFull(s));
-  renderProducts(list);
-}
-
-function isFull(s) {
-  const used = s.total_create_akun || 0;
-  const max  = s.batas_create_akun  || 0;
-  return max > 0 && used >= max;
+  renderProducts(filtered);
 }
 
 function renderProducts(products) {
-  const lbl = document.getElementById('sectionLabel');
-  lbl.textContent = products.length + ' server ditemukan';
-
   if (!products.length) {
-    document.getElementById('products').innerHTML = `
-      <div class="empty-state">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <h3>Tidak Ditemukan</h3>
-        <p>Coba kata kunci lain</p>
-      </div>`;
+    document.getElementById('products').innerHTML = '<div class="empty-state">Server tidak ditemukan.</div>';
     return;
   }
 
-  const globeSvg = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`;
-  const pinSvg   = `<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
-
   let html = '';
-  products.forEach((s, i) => {
-    const full        = isFull(s);
-    const theme       = THEMES[i % THEMES.length];
-    const harga       = (Number(s.harga || 0) * 7).toLocaleString('id-ID');
-    const slotUsed    = s.total_create_akun || 0;
-    const slotMax     = s.batas_create_akun  || 0;
-    const delay       = (i * 0.04).toFixed(2);
+  products.forEach((server, i) => {
+    const hargaMulai = Number(server.harga || 0) * 7;
+    const slotUsed   = server.total_create_akun || 0;
+    const slotMax    = server.batas_create_akun  || 0;
+    const isFull     = slotMax > 0 && slotUsed >= slotMax;
+
+    const assignedTheme = cardThemes[i % cardThemes.length];
+    const hargaFormatted = hargaMulai.toLocaleString('id-ID');
 
     html += `
-    <div class="srv-card${full ? ' is-full' : ''}" style="animation-delay:${delay}s" onclick="${full ? '' : 'buyServer('+s.id+')'}">
-      <div class="card-main">
-        <div class="card-stripe ${theme.stripe}"></div>
-        <div class="srv-icon ${theme.icon}">${globeSvg}</div>
-        <div class="srv-info">
-          <div class="srv-name">${s.nama_server}</div>
-          <div class="srv-meta">
-            <div class="srv-loc">${pinSvg} ${s.lokasi || '—'}</div>
-            <div class="slot-dot ${full ? 'dot-full' : 'dot-ok'}"></div>
-            <div class="slot-txt ${full ? 'full' : 'ok'}">${full ? 'Penuh' : slotUsed+'/'+slotMax}</div>
+    <div class="product-card ${assignedTheme} ${isFull ? 'is-full' : ''}" style="animation-delay:${i * 0.04}s">
+      <div class="card-indicator"></div>
+      
+      <div class="server-badge">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </div>
+
+      <div class="server-info">
+        <div class="server-meta-top">
+          <div class="server-name">${server.nama_server}</div>
+          <div class="slot-text ${isFull ? 'is-full' : ''}">
+            ${isFull ? 'FULL' : slotUsed + '/' + slotMax + ' Slot'}
           </div>
         </div>
-        <div class="card-right">
-          <div class="price-tag">
-            <div class="price-from">Mulai</div>
-            <div class="price-num"><span>Rp</span>${harga}</div>
-            <div class="price-period">/ 7 hari</div>
+        <div class="server-sub">
+          <div class="loc-text">${server.lokasi || 'Global'}</div>
+          <div class="mini-protos">
+            <span>SSH</span>
+            <span>VMESS</span>
+            <span>VLESS</span>
+            <span>TROJAN</span>
           </div>
-          <button class="buy-btn ${full ? 'disabled' : 'active'}" ${full ? 'disabled' : ''} onclick="event.stopPropagation(); buyServer(${s.id})">
-            <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
-            ${full ? 'Penuh' : 'Beli'}
-          </button>
         </div>
       </div>
-      <div class="proto-row">
-        <span class="pbadge pb-ssh">SSH</span>
-        <span class="pbadge pb-vmess">VMESS</span>
-        <span class="pbadge pb-vless">VLESS</span>
-        <span class="pbadge pb-trojan">TROJAN</span>
-        <span class="pbadge pb-ss">SS</span>
+
+      <div class="action-side">
+        <div class="price-tag">
+          <span class="price-label">Mulai</span>
+          <span class="price-val">Rp ${hargaFormatted}</span>
+          <span class="price-period">/7 hari</span>
+        </div>
+        <button class="buy-btn-sleek" ${isFull ? 'disabled' : ''} onclick="buyServer(${server.id})">
+          ${isFull ? 'Penuh' : 'Beli'}
+        </button>
       </div>
+
     </div>`;
   });
 
   document.getElementById('products').innerHTML = html;
 }
 
-function buyServer(id) { window.location.href = 'checkout.html?id=' + id; }
-
-function showError(msg) {
-  document.getElementById('products').innerHTML = `
-    <div class="empty-state">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <h3>${msg}</h3><p>Periksa koneksi internet kamu</p>
-    </div>`;
+function buyServer(id) {
+  window.location.href = 'checkout.html?id=' + id;
 }
+
 </script>
 </body>
 </html>
