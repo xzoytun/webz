@@ -394,20 +394,40 @@ async function handleCredentialResponse(response) {
     const result = await res.json();
 
     if (result.success) {
-      message.className = 'success';
-      message.innerText = '✅ Login berhasil, mengalihkan...';
-      localStorage.setItem('user', JSON.stringify(result.user));
-      setTimeout(() => window.location.href = 'dashboard.html', 600);
-    } else {
-      message.className = 'error';
-      message.innerText = '❌ ' + (result.message || 'Login gagal');
-    }
 
-  } catch (err) {
-    console.error(err);
-    message.className = 'error';
-    message.innerText = '❌ Server tidak dapat dihubungi';
-  }
+message.className = 'success';
+
+message.innerText =
+'✅ Login berhasil, mengalihkan...';
+
+// simpan user
+localStorage.setItem(
+'user',
+JSON.stringify(result.user)
+);
+
+// simpan token google
+localStorage.setItem(
+'token',
+response.credential
+);
+
+setTimeout(() => {
+
+window.location.href =
+'dashboard.html';
+
+}, 600);
+
+} else {
+
+message.className = 'error';
+
+message.innerText =
+'❌ ' +
+(result.message || 'Login gagal');
+
+}
 }
 
 </script>
