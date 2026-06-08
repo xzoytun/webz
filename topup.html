@@ -687,23 +687,40 @@ function clearSelected() {
 }
 
 /* ── Download QRIS as image ── */
-function downloadQris(url, amount) {
-  fetch(url)
-    .then(r => r.blob())
-    .then(blob => {
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'QRIS-Topup-Rp' + amount + '.png';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(a.href);
-      showToast('QRIS berhasil diunduh!', 'success');
-    })
-    .catch(() => {
-      window.open(url, '_blank');
-      showToast('Membuka QRIS di tab baru...', '');
-    });
+async function downloadQris(url, amount) {
+
+  try {
+
+    const response = await fetch(url);
+
+    const blob = await response.blob();
+
+    const blobUrl = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+
+    a.href = blobUrl;
+
+    a.download = `QRIS-Topup-${amount}.png`;
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
+
+    window.URL.revokeObjectURL(blobUrl);
+
+    showToast('QRIS berhasil diunduh!', 'success');
+
+  } catch (err) {
+
+    console.error(err);
+
+    showToast('Gagal mengunduh QRIS', 'error');
+
+  }
+
 }
 
 async function createDeposit() {
