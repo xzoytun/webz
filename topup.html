@@ -354,14 +354,33 @@ body {
 }
 .qr-img-box {
   position:relative;
+
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:var(--purple-soft);
+  border-radius:24px;
+  padding:18px;
+
+  border:2px dashed var(--border);
 }
 .qr-img-box img {
-  width:240px; height:240px;
-  border-radius:16px; padding:10px;
-  background:var(--white);
+  width:100%;
+  max-width:230px;
+  aspect-ratio:1/1;
+
+  object-fit:contain;
+  display:block;
+
+  border-radius:18px;
+  padding:12px;
+
+  background:#fff;
   border:2px solid var(--border);
+
   box-shadow:0 4px 16px rgba(90,26,154,0.08);
-  object-fit:contain; display:block;
 }
 
 /* ── DOWNLOAD BTN ── */
@@ -455,7 +474,32 @@ body {
   width:18px; height:18px;
   fill:none; stroke:var(--red); stroke-width:2.2; flex-shrink:0;
 }
+.qr-loading {
+  width:230px;
+  height:230px;
+  border-radius:18px;
 
+  background:
+  linear-gradient(
+    90deg,
+    #f3eafd 25%,
+    #ffffff 50%,
+    #f3eafd 75%
+  );
+
+  background-size:400% 100%;
+
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position:100% 0;
+  }
+  100% {
+    background-position:-100% 0;
+  }
+}
 /* ── BACK BTN ── */
 .back-btn {
   width:100%; padding:14px;
@@ -744,7 +788,15 @@ async function createDeposit() {
 
           <div class="qr-img-wrap">
             <div class="qr-img-box">
-              <img id="qrisImage" src="${data.qrUrl}" alt="QRIS Code" crossorigin="anonymous">
+              <img
+  id="qrisImage"
+  src="${data.qrUrl}&t=${Date.now()}"
+  alt="QRIS Code"
+  loading="lazy"
+  referrerpolicy="no-referrer"
+  onload="this.style.opacity='1'"
+  style="opacity:0;transition:0.3s;"
+>
             </div>
             <button class="download-btn" onclick="downloadQris('${data.qrUrl}', '${amtRaw}')">
               <svg viewBox="0 0 24 24">
