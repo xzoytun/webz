@@ -8,7 +8,7 @@
 <style>
 
 :root {
-  /* === SAMA PERSIS DENGAN dashboard.html === */
+  /* === PALETTE WARNA CORE COCOK DENGAN DASHBOARD === */
   --purple:       #7B2FBE;
   --purple-dark:  #5A1A9A;
   --purple-deep:  #3D0F72;
@@ -27,7 +27,6 @@
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
-  /* alias untuk kompatibilitas */
   --border:       #E8D8F8;
 }
 
@@ -42,31 +41,56 @@ body {
   overflow-x: hidden;
 }
 
+/* ── VARIATION THEMES FOR CARDS ── */
+.theme-purple {
+  --card-gradient: linear-gradient(135deg, #3D0F72 0%, #7B2FBE 60%, #9B4FDE 100%);
+  --card-btn-grad: linear-gradient(135deg, #FF6B2B, #FF8E53);
+  --card-shadow: rgba(123, 47, 190, 0.15);
+}
+.theme-blue {
+  --card-gradient: linear-gradient(135deg, #0A2540 0%, #0066FF 60%, #00A3FF 100%);
+  --card-btn-grad: linear-gradient(135deg, #7B2FBE, #9B4FDE);
+  --card-shadow: rgba(0, 102, 255, 0.15);
+}
+.theme-cyan {
+  --card-gradient: linear-gradient(135deg, #004B49 0%, #00A896 60%, #02C39A 100%);
+  --card-btn-grad: linear-gradient(135deg, #1A0533, #5A1A9A);
+  --card-shadow: rgba(0, 168, 150, 0.15);
+}
+.theme-orange {
+  --card-gradient: linear-gradient(135deg, #580000 0%, #D9381E 60%, #FF6B2B 100%);
+  --card-btn-grad: linear-gradient(135deg, #7B2FBE, #3D0F72);
+  --card-shadow: rgba(217, 56, 30, 0.15);
+}
+
 /* ── BLOBS ── */
 .blob1 {
   position:fixed; top:-80px; left:-60px;
   width:300px; height:300px;
-  background:radial-gradient(circle,rgba(123,47,190,0.10) 0%,transparent 70%);
+  background:radial-gradient(circle,rgba(123,47,190,0.12) 0%,transparent 70%);
   pointer-events:none; z-index:0;
 }
 .blob2 {
   position:fixed; bottom:-60px; right:-60px;
   width:260px; height:260px;
-  background:radial-gradient(circle,rgba(155,79,222,0.08) 0%,transparent 70%);
+  background:radial-gradient(circle,rgba(155,79,222,0.10) 0%,transparent 70%);
   pointer-events:none; z-index:0;
 }
 
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(14px); }
+  from { opacity:0; transform:translateY(16px); }
   to   { opacity:1; transform:translateY(0); }
 }
 @keyframes spin { to { transform:rotate(360deg); } }
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
 
 /* ── HEADER ── */
 .header {
   background: linear-gradient(150deg, var(--purple-deep) 0%, var(--purple) 55%, var(--purple-light) 100%);
-  padding: 22px 20px 36px;
+  padding: 24px 20px 40px;
   position: relative;
   overflow: hidden;
   z-index: 2;
@@ -74,13 +98,13 @@ body {
 .header::before {
   content:''; position:absolute; top:-50px; right:-30px;
   width:200px; height:200px;
-  border:48px solid rgba(255,255,255,0.07);
+  border:48px solid rgba(255,255,255,0.06);
   border-radius:50%;
 }
 .header::after {
   content:''; position:absolute; bottom:-60px; left:-30px;
   width:170px; height:170px;
-  border:36px solid rgba(255,214,0,0.12);
+  border:36px solid rgba(255,214,0,0.10);
   border-radius:50%;
 }
 .hero-dots {
@@ -94,16 +118,16 @@ body {
   position:relative; z-index:2;
 }
 .back-btn-hdr {
-  width:40px; height:40px; border-radius:13px;
-  background:rgba(255,255,255,0.14);
-  border:1px solid rgba(255,255,255,0.2);
+  width:42px; height:42px; border-radius:14px;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.18);
   cursor:pointer;
   display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; transition:background 0.15s;
+  flex-shrink:0; transition:all 0.2s;
   text-decoration:none;
   backdrop-filter:blur(8px);
 }
-.back-btn-hdr:hover { background:rgba(255,255,255,0.24); }
+.back-btn-hdr:hover { background:rgba(255,255,255,0.22); transform: scale(1.05); }
 .back-btn-hdr svg {
   width:20px; height:20px;
   fill:none; stroke:#fff;
@@ -111,40 +135,46 @@ body {
 }
 .header-title { flex:1; }
 .header-title h1 {
-  font-size:21px; font-weight:900;
-  color:#fff; line-height:1.1; letter-spacing:-0.3px;
+  font-size:22px; font-weight:900;
+  color:#fff; line-height:1.1; letter-spacing:-0.4px;
   display:flex; align-items:center; gap:8px;
 }
 .header-title h1 svg {
-  width:22px; height:22px;
+  width:24px; height:24px;
   fill:none; stroke:#fff;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
 }
-.header-title p { font-size:11px; color:rgba(255,255,255,0.6); font-weight:700; margin-top:3px; }
+.header-title p { font-size:12px; color:rgba(255,255,255,0.65); font-weight:700; margin-top:4px; }
 .header-count {
-  background:rgba(255,255,255,0.14);
-  border:1px solid rgba(255,255,255,0.2);
-  border-radius:20px; padding:5px 14px;
-  font-size:11px; font-weight:800; color:#fff; white-space:nowrap;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:20px; padding:6px 14px;
+  font-size:12px; font-weight:800; color:#fff; white-space:nowrap;
   backdrop-filter:blur(8px);
 }
 
 /* ── SEARCH ── */
 .search-wrap {
-  max-width:480px; margin:-18px auto 16px;
+  max-width:480px; margin:-20px auto 20px;
   padding:0 18px;
   position:relative; z-index:5;
 }
 .search-box {
   width:100%; background:#fff;
-  border-radius:16px; border:1.5px solid var(--border);
-  box-shadow:0 6px 22px rgba(90,26,154,0.14);
-  display:flex; align-items:center; gap:10px; padding:12px 16px;
+  border-radius:18px; border:1.5px solid var(--border);
+  box-shadow:0 8px 24px rgba(90,26,154,0.12);
+  display:flex; align-items:center; gap:12px; padding:14px 18px;
+  transition: all 0.2s ease;
+}
+.search-box:focus-within {
+  border-color: var(--purple);
+  box-shadow: 0 8px 26px rgba(123, 47, 190, 0.2);
+  transform: translateY(-1px);
 }
 .search-box svg {
-  width:18px; height:18px;
+  width:20px; height:20px;
   fill:none; stroke:var(--text-light);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
   flex-shrink:0;
 }
 .search-input {
@@ -163,202 +193,226 @@ body {
 
 /* ── LOADING / EMPTY ── */
 .loading-state {
-  text-align:center; padding:50px 20px;
+  text-align:center; padding:60px 20px;
   color:var(--text-mid); font-weight:700; font-size:14px;
   display:flex; flex-direction:column; align-items:center; gap:12px;
 }
 .loading-state svg {
-  width:36px; height:36px;
+  width:38px; height:38px;
   fill:none; stroke:var(--purple);
   stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
   animation: spin 1s linear infinite;
 }
-.empty-state { text-align:center; padding:50px 20px; }
+.empty-state { text-align:center; padding:60px 20px; }
 .empty-state svg {
-  width:52px; height:52px;
+  width:56px; height:56px;
   fill:none; stroke:var(--text-light);
   stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round;
 }
 .empty-title {
   font-size:18px; font-weight:900;
-  color:var(--text-dark); margin:12px 0 6px;
+  color:var(--text-dark); margin:14px 0 6px;
 }
-.empty-sub { font-size:13px; color:var(--text-mid); font-weight:600; }
+.empty-sub { font-size:14px; color:var(--text-mid); font-weight:600; }
 
-/* ── PRODUCT CARD ── */
+/* ── PRODUCT CARD PREMIUM ── */
 .product-card {
   background:var(--white);
-  border-radius:22px;
-  margin-bottom:14px;
+  border-radius:24px;
+  margin-bottom:18px;
   overflow:hidden;
   border:1.5px solid var(--gray-line);
-  box-shadow:0 4px 16px rgba(90,26,154,0.09);
-  animation: fadeUp 0.35s ease both;
-  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  box-shadow:0 6px 18px var(--card-shadow, rgba(90,26,154,0.08));
+  animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s, border-color 0.2s;
 }
 .product-card:hover {
-  transform:translateY(-3px);
-  box-shadow:0 10px 28px rgba(90,26,154,0.15);
-  border-color:rgba(123,47,190,0.3);
+  transform:translateY(-5px);
+  box-shadow:0 12px 30px var(--card-shadow, rgba(90,26,154,0.18));
+  border-color:rgba(123,47,190,0.25);
 }
-.product-card.is-full { opacity:0.72; }
-.product-card.is-full:hover { transform:none; }
 
-/* card banner — gradient sama dengan dashboard hero */
+/* Card banner modern premium */
 .card-banner {
-  background:linear-gradient(150deg, var(--purple-deep) 0%, var(--purple) 55%, var(--purple-light) 100%);
-  padding:16px 18px;
-  display:flex; align-items:center; gap:12px;
+  background: var(--card-gradient);
+  padding:18px 20px;
+  display:flex; align-items:center; gap:14px;
   position:relative; overflow:hidden;
 }
 .card-banner::before {
-  content:''; position:absolute; top:-30px; right:-20px;
-  width:100px; height:100px;
-  border:24px solid rgba(255,255,255,0.07);
+  content:''; position:absolute; top:-35px; right:-25px;
+  width:110px; height:110px;
+  border:26px solid rgba(255,255,255,0.06);
   border-radius:50%;
 }
 .server-icon {
-  width:44px; height:44px; border-radius:14px;
-  background:rgba(255,255,255,0.18);
+  width:46px; height:46px; border-radius:15px;
+  background:rgba(255,255,255,0.15);
   display:flex; align-items:center; justify-content:center;
-  flex-shrink:0;
+  flex-shrink:0; backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .server-icon svg {
   width:22px; height:22px;
   fill:none; stroke:#fff;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
 }
 .server-name-wrap { flex:1; min-width:0; }
 .server-name {
-  font-size:16px; font-weight:900;
-  color:#fff; line-height:1.1; letter-spacing:-0.2px;
+  font-size:17px; font-weight:900;
+  color:#fff; line-height:1.2; letter-spacing:-0.2px;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 .server-loc {
-  font-size:11px; color:rgba(255,255,255,0.65);
+  font-size:12px; color:rgba(255,255,255,0.7);
   font-weight:700; margin-top:3px;
   display:flex; align-items:center; gap:4px;
 }
 .server-loc svg {
-  width:11px; height:11px;
-  fill:none; stroke:rgba(255,255,255,0.65);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  width:12px; height:12px;
+  fill:none; stroke:rgba(255,255,255,0.7);
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
   flex-shrink:0;
 }
 .slot-badge {
-  padding:5px 11px; border-radius:20px;
+  padding:5px 12px; border-radius:20px;
   font-size:11px; font-weight:800; flex-shrink:0;
   display:flex; align-items:center; gap:4px;
+  backdrop-filter: blur(4px);
 }
 .slot-badge svg {
-  width:12px; height:12px; fill:none;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  width:13px; height:13px; fill:none;
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
 }
-.slot-ok   { background:rgba(18,194,138,0.22); border:1px solid rgba(18,194,138,0.4); color:#12C28A; }
+.slot-ok   { background:rgba(18,194,138,0.22); border:1px solid rgba(18,194,138,0.35); color:#12C28A; }
 .slot-ok   svg { stroke:#12C28A; }
-.slot-full { background:rgba(232,64,64,0.2);  border:1px solid rgba(232,64,64,0.4);  color:#E84040; }
-.slot-full svg { stroke:#E84040; }
+.slot-full { background:rgba(255,255,255,0.2);  border:1px solid rgba(255,255,255,0.35);  color:#fff; }
+.slot-full svg { stroke:#fff; }
 
-/* proto row */
+/* Protocol Row Glassmorphism Touch */
 .proto-row {
-  padding:12px 18px;
-  display:flex; flex-wrap:wrap; gap:7px;
+  padding:14px 20px;
+  display:flex; flex-wrap:wrap; gap:8px;
   border-bottom:1.5px dashed var(--gray-line);
+  background: #FCFAFF;
 }
 .proto-badge {
-  padding:4px 12px; border-radius:20px;
+  padding:5px 12px; border-radius:12px;
   font-size:11px; font-weight:800; letter-spacing:0.3px;
-  display:flex; align-items:center; gap:4px;
+  display:flex; align-items:center; gap:5px;
+  border: 1px solid rgba(0,0,0,0.03);
 }
 .proto-badge svg {
-  width:11px; height:11px; fill:none;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  width:12px; height:12px; fill:none;
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
 }
-.pb-ssh    { background:#FFF0E0; color:var(--accent); }
+.pb-ssh    { background:#FFF2E6; color:var(--accent); }
 .pb-ssh    svg { stroke:var(--accent); }
-.pb-vmess  { background:#E0F7FF; color:#0077AA; }
-.pb-vmess  svg { stroke:#0077AA; }
+.pb-vmess  { background:#E1F5FE; color:#0288D1; }
+.pb-vmess  svg { stroke:#0288D1; }
 .pb-vless  { background:var(--purple-soft); color:var(--purple); }
 .pb-vless  svg { stroke:var(--purple); }
 .pb-trojan { background:var(--red-bg); color:var(--red); }
 .pb-trojan svg { stroke:var(--red); }
-.pb-ss     { background:#FFE0F5; color:#C2006A; }
-.pb-ss     svg { stroke:#C2006A; }
+.pb-ss     { background:#FCE4EC; color:#C2185B; }
+.pb-ss     svg { stroke:#C2185B; }
 
-/* ── PRICE + BUY ROW ── */
+/* ── CARD BOTTOM ── */
 .card-bottom {
-  padding:14px 18px;
+  padding:16px 20px;
   display:flex; align-items:center; justify-content:space-between; gap:12px;
 }
-
-/* harga box — desain ulang */
 .price-box {
-  display:flex; flex-direction:column; gap:0;
+  display:flex; flex-direction:column;
 }
 .price-label {
   font-size:10px; font-weight:800; color:var(--text-light);
-  text-transform:uppercase; letter-spacing:1px;
+  text-transform:uppercase; letter-spacing:0.8px;
 }
 .price-row {
-  display:flex; align-items:baseline; gap:4px; margin-top:2px;
+  display:flex; align-items:baseline; gap:3px; margin-top:2px;
 }
 .price-currency {
-  font-size:13px; font-weight:900; color:var(--purple);
+  font-size:14px; font-weight:900; color:var(--text-dark);
   line-height:1; margin-bottom:2px;
 }
 .price-number {
-  font-size:26px; font-weight:900; color:var(--purple);
+  font-size:26px; font-weight:900; color:var(--text-dark);
   line-height:1; letter-spacing:-0.5px;
 }
 .price-period-wrap {
-  display:inline-flex; align-items:center; gap:3px;
+  display:inline-flex; align-items:center; gap:4px;
   background:var(--purple-soft);
-  border-radius:8px; padding:2px 8px;
-  margin-top:5px; width:fit-content;
+  border-radius:8px; padding:3px 8px;
+  margin-top:6px; width:fit-content;
 }
 .price-period-wrap svg {
-  width:11px; height:11px;
+  width:12px; height:12px;
   fill:none; stroke:var(--text-mid);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
 }
 .price-period-txt {
   font-size:10px; font-weight:800; color:var(--text-mid);
 }
 
+/* Premium Buy Button with Shimmer */
 .buy-btn {
-  padding:13px 22px;
-  border:none; border-radius:14px;
-  background:linear-gradient(135deg, var(--purple-dark), var(--purple));
+  padding:12px 24px;
+  border:none; border-radius:16px;
+  background: var(--card-btn-grad, linear-gradient(135deg, var(--purple-dark), var(--purple)));
   color:#fff; font-family:'Nunito',sans-serif;
   font-weight:900; font-size:14px;
   cursor:pointer; flex-shrink:0;
-  display:flex; align-items:center; gap:7px;
-  box-shadow:0 4px 16px rgba(90,26,154,0.35);
-  transition:transform 0.15s, box-shadow 0.15s;
+  display:flex; align-items:center; gap:8px;
+  box-shadow:0 6px 16px rgba(0, 0, 0, 0.12);
+  transition:all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.buy-btn::after {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transform: translateX(-100%);
+}
+.buy-btn:hover::after {
+  animation: shimmer 1.2s infinite;
 }
 .buy-btn svg {
   width:16px; height:16px;
   fill:none; stroke:#fff;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
 }
-.buy-btn:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(90,26,154,0.45); }
+.buy-btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0, 0, 0, 0.18); }
 .buy-btn:active { transform:translateY(0); }
-.buy-btn:disabled {
-  background:linear-gradient(135deg,#B0A0C0,#9080A8);
+
+/* Elegant Full Design State */
+.product-card.is-full {
+  opacity:0.85;
+  background: #F4EFF9;
+  border-color: rgba(0,0,0,0.06);
+}
+.product-card.is-full:hover { transform:none; box-shadow:0 6px 18px rgba(0,0,0,0.05); }
+.product-card.is-full .card-banner {
+  background: linear-gradient(135deg, #70667A 0%, #A399A8 100%) !important;
+}
+.product-card.is-full .buy-btn {
+  background:#A399A8 !important;
   cursor:not-allowed; box-shadow:none; transform:none;
 }
+.product-card.is-full .buy-btn::after { display: none; }
 
-/* ── BACK BTN ── */
+/* ── BACK BTN BOTTOM ── */
 .back-btn-bottom {
-  width:100%; padding:14px;
+  width:100%; padding:15px;
   border:1.5px solid var(--gray-line);
-  border-radius:14px;
+  border-radius:16px;
   background:var(--white); color:var(--text-mid);
   font-family:'Nunito',sans-serif;
   font-weight:800; font-size:14px;
-  cursor:pointer; margin-top:6px;
+  cursor:pointer; margin-top:10px;
   display:flex; align-items:center; justify-content:center; gap:8px;
-  transition:border-color 0.2s, color 0.2s, background 0.2s;
+  transition:all 0.2s ease;
 }
 .back-btn-bottom svg {
   width:16px; height:16px;
@@ -369,6 +423,7 @@ body {
   border-color:var(--purple);
   color:var(--purple);
   background:var(--purple-soft);
+  transform: translateY(-2px);
 }
 
 </style>
@@ -378,7 +433,6 @@ body {
 <div class="blob1"></div>
 <div class="blob2"></div>
 
-<!-- Header -->
 <div class="header">
   <div class="hero-dots"></div>
   <div class="header-inner">
@@ -403,7 +457,6 @@ body {
   </div>
 </div>
 
-<!-- Search -->
 <div class="search-wrap">
   <div class="search-box">
     <svg viewBox="0 0 24 24">
@@ -438,6 +491,9 @@ body {
 <script>
 
 let allProducts = [];
+// Daftar variasi tema class CSS yang akan bergiliran di-render
+const cardThemes = ['theme-purple', 'theme-blue', 'theme-cyan', 'theme-orange'];
+
 loadProducts();
 
 async function loadProducts() {
@@ -512,11 +568,13 @@ function renderProducts(products) {
     const slotMax    = server.batas_create_akun  || 0;
     const isFull     = slotMax > 0 && slotUsed >= slotMax;
 
-    // format angka: pisahkan ribuan lalu tampilkan tanpa trailing ".000"
+    // Pilih tema warna berurutan dari array cardThemes
+    const assignedTheme = cardThemes[i % cardThemes.length];
+
     const hargaFormatted = hargaMulai.toLocaleString('id-ID');
 
     html += `
-    <div class="product-card ${isFull ? 'is-full' : ''}" style="animation-delay:${i * 0.06}s">
+    <div class="product-card ${assignedTheme} ${isFull ? 'is-full' : ''}" style="animation-delay:${i * 0.05}s">
 
       <div class="card-banner">
         <div class="server-icon">
