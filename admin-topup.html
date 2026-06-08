@@ -301,70 +301,161 @@ async function loadLogs() {
 }
 
 function applyFilter() {
-  const kw = document.getElementById('searchInput').value.toLowerCase();
-  
-  const filtered = allLogs.filter(item => {
-    return (
-      (item.username  || '').toLowerCase().includes(kw) ||
-      (item.email     || '').toLowerCase().includes(kw) ||
-      (item.reference || '').toLowerCase().includes(kw) ||
-      (item.metode    || '').toLowerCase().includes(kw)
-    );
-  });
 
-  // Update counter badge di atas header
-  document.getElementById('subtitle').textContent = `Menampilkan ${filtered.length} riwayat`;
-  document.getElementById('countBadge').textContent = allLogs.length + ' Total';
+const kw =
+document.getElementById('searchInput')
+.value
+.toLowerCase();
 
-  renderList(filtered);
+const filtered = allLogs.filter(item => {
+
+return (
+
+  (item.username || '')
+  .toLowerCase()
+  .includes(kw)
+
+  ||
+
+  (item.reference || '')
+  .toLowerCase()
+  .includes(kw)
+
+  ||
+
+  (item.metode || '')
+  .toLowerCase()
+  .includes(kw)
+
+);
+
+});
+
+// counter
+document.getElementById('subtitle').textContent =
+"Menampilkan ${filtered.length} riwayat";
+
+document.getElementById('countBadge').textContent =
+allLogs.length + ' Total';
+
+renderList(filtered);
+
 }
 
 function renderList(data) {
-  const container = document.getElementById('logs');
 
-  if (data.length < 1) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">${svgSearchTemplate}</div>
-        <div class="empty-title">Tidak Ada Data</div>
-        <div class="empty-sub">Belum ada riwayat transaksi topup yang cocok</div>
-      </div>`;
-    return;
-  }
+const container =
+document.getElementById('logs');
 
-  let html = '';
-  data.forEach((item, i) => {
-    const dateFormatted = (item.created_at || '').replace('T', ' ').slice(0, 16) || '-';
-    const cleanAmount = Number(item.amount || 0).toLocaleString('id-ID');
+if (data.length < 1) {
 
-    html += `
-    <div class="log-card" style="animation: fadeUp 0.35s ${i * 0.04}s ease both;">
-      <div class="top-row">
-        <div class="username">${item.username || 'Unknown User'}</div>
-        <div class="amount">Rp ${cleanAmount}</div>
+container.innerHTML = `
+  <div class="empty-state">
+    <div class="empty-icon">
+      ${svgSearchTemplate}
+    </div>
+
+    <div class="empty-title">
+      Tidak Ada Data
+    </div>
+
+    <div class="empty-sub">
+      Belum ada riwayat transaksi topup yang cocok
+    </div>
+  </div>
+`;
+
+return;
+
+}
+
+let html = '';
+
+data.forEach((item, i) => {
+
+const dateFormatted =
+  (item.created_at || '')
+  .replace('T', ' ')
+  .slice(0, 16) || '-';
+
+const cleanAmount =
+  Number(item.amount || 0)
+  .toLocaleString('id-ID');
+
+html += `
+
+<div
+  class="log-card"
+  style="
+    animation:
+    fadeUp .35s ${i * 0.04}s ease both;
+  "
+>
+
+  <div class="top-row">
+
+    <div class="username">
+      ${item.username || 'Unknown User'}
+    </div>
+
+    <div class="amount">
+      Rp ${cleanAmount}
+    </div>
+
+  </div>
+
+  <div class="info">
+
+    <div class="info-item">
+      <div class="label">
+        User
       </div>
-      <div class="info">
-        <div class="info-item">
-          <div class="label">Email</div>
-          <div class="value">${item.email || '-'}</div>
-        </div>
-        <div class="info-item">
-          <div class="label">Metode</div>
-          <div class="value">${item.metode || '-'}</div>
-        </div>
-        <div class="info-item">
-          <div class="label">Reference</div>
-          <div class="value">${item.reference || '-'}</div>
-        </div>
-        <div class="info-item">
-          <div class="label">Tanggal</div>
-          <div class="value">${dateFormatted}</div>
-        </div>
-      </div>
-    </div>`;
-  });
 
-  container.innerHTML = html;
+      <div class="value">
+        ${item.username || '-'}
+      </div>
+    </div>
+
+    <div class="info-item">
+      <div class="label">
+        Metode
+      </div>
+
+      <div class="value">
+        ${item.metode || '-'}
+      </div>
+    </div>
+
+    <div class="info-item">
+      <div class="label">
+        Reference
+      </div>
+
+      <div class="value">
+        ${item.reference || '-'}
+      </div>
+    </div>
+
+    <div class="info-item">
+      <div class="label">
+        Tanggal
+      </div>
+
+      <div class="value">
+        ${dateFormatted}
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+`;
+
+});
+
+container.innerHTML = html;
+
 }
 
 function errorState(msg) {
