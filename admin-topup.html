@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin Topup Logs</title><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet"><style>
+
+:root{
+  --purple:#7B2FBE;
+  --purple-dark:#5A1A9A;
+  --bg:#F7F0FD;
+  --card:#FFFFFF;
+  --line:#E8D8F8;
+  --text:#1A0533;
+  --muted:#A882CC;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Nunito',sans-serif;
+}
+
+body{
+  background:var(--bg);
+  padding:20px;
+}
+
+.header{
+  margin-bottom:20px;
+}
+
+.title{
+  font-size:26px;
+  font-weight:900;
+  color:var(--text);
+}
+
+.sub{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.logs-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.log-card{
+  background:var(--card);
+  border-radius:18px;
+  border:1.5px solid var(--line);
+  padding:16px;
+  box-shadow:
+  0 4px 14px rgba(90,26,154,.08);
+}
+
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.username{
+  font-size:16px;
+  font-weight:900;
+  color:var(--text);
+}
+
+.amount{
+  font-size:18px;
+  font-weight:900;
+  color:var(--purple);
+}
+
+.info{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.info-item{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.label{
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+.value{
+  font-size:13px;
+  font-weight:800;
+  color:var(--text);
+  text-align:right;
+  word-break:break-all;
+}
+
+.empty{
+  text-align:center;
+  padding:50px 20px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+.loading{
+  text-align:center;
+  padding:40px;
+  font-weight:800;
+  color:var(--purple);
+}
+
+</style></head>
+<body><div class="header">
+  <div class="title">
+    💰 Topup Logs
+  </div>  <div class="sub">
+    Semua riwayat topup user
+  </div>
+</div><div
+id="logs"
+class="logs-wrap"
+>
+  <div class="loading">
+    Memuat data...
+  </div>
+</div><script>
+
+loadLogs();
+
+async function loadLogs(){
+
+  try{
+
+    const response =
+    await fetch('/api/admin/topup-history');
+
+    const result =
+    await response.json();
+
+    const container =
+    document.getElementById('logs');
+
+    if(!result.success){
+
+      container.innerHTML = `
+      <div class="empty">
+        Gagal memuat data
+      </div>
+      `;
+
+      return;
+
+    }
+
+    const data = result.data || [];
+
+    if(data.length < 1){
+
+      container.innerHTML = `
+      <div class="empty">
+        Belum ada riwayat topup
+      </div>
+      `;
+
+      return;
+
+    }
+
+    container.innerHTML = '';
+
+    data.forEach(item => {
+
+      container.innerHTML += `
+
+      <div class="log-card">
+
+        <div class="top-row">
+
+          <div class="username">
+            ${item.username || 'Unknown User'}
+          </div>
+
+          <div class="amount">
+            Rp ${Number(item.amount || 0)
+              .toLocaleString('id-ID')}
+          </div>
+
+        </div>
+
+        <div class="info">
+
+          <div class="info-item">
+            <div class="label">Email</div>
+            <div class="value">
+              ${item.email || '-'}
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="label">Metode</div>
+            <div class="value">
+              ${item.metode || '-'}
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="label">Reference</div>
+            <div class="value">
+              ${item.reference || '-'}
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="label">Tanggal</div>
+            <div class="value">
+              ${item.created_at || '-'}
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      `;
+
+    });
+
+  }catch(err){
+
+    console.error(err);
+
+    document.getElementById('logs')
+    .innerHTML = `
+    <div class="empty">
+      Server error
+    </div>
+    `;
+
+  }
+
+}
+
+</script></body>
+</html>
