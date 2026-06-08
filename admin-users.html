@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kelola User - Xtrimer Tunnel</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
 <style>
 
 :root {
@@ -36,7 +35,7 @@ body {
   overflow-x: hidden;
 }
 
-/* blobs — sama persis seperti admin.html */
+/* blobs */
 .blob1 {
   position:fixed; top:-80px; left:-60px;
   width:300px; height:300px;
@@ -50,7 +49,7 @@ body {
   pointer-events:none; z-index:0;
 }
 
-/* ── HEADER — merah, sama seperti admin.html ── */
+/* ── HEADER ── */
 .header {
   background: linear-gradient(145deg, #7f1d1d 0%, #991b1b 45%, #EF4444 100%);
   padding: 22px 20px 32px;
@@ -86,6 +85,7 @@ body {
   flex-shrink:0; transition:background 0.15s;
 }
 .back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
+.back-btn-hdr svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
 .header-title { flex:1; }
 .header-title h1 {
@@ -93,12 +93,12 @@ body {
   font-size:22px; color:#fff; line-height:1;
   display:flex; align-items:center; gap:8px;
 }
+.header-title h1 svg { width: 24px; height: 24px; fill: currentColor; }
 .header-title p {
   font-size:12px; color:rgba(255,255,255,0.7);
   font-weight:600; margin-top:4px;
 }
 
-/* badge — sama persis seperti admin.html */
 .header-count {
   background:rgba(255,255,255,0.2);
   border:1px solid rgba(255,255,255,0.3);
@@ -124,8 +124,7 @@ body {
   display:flex; align-items:center; gap:10px;
   padding:12px 16px;
 }
-
-.search-box ph-icon { color:#B0A0C0; flex-shrink:0; }
+.search-box svg { color:#B0A0C0; flex-shrink:0; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;}
 
 .search-input {
   flex:1; border:none; outline:none;
@@ -152,6 +151,7 @@ body {
 .loading-icon {
   display:flex; justify-content:center; margin-bottom:12px;
 }
+.loading-icon svg { width: 40px; height: 40px; fill: none; stroke: #EF4444; stroke-width: 2.5; stroke-linecap: round; animation:spin 1s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
 /* ── USER CARD ── */
@@ -187,6 +187,7 @@ body {
 .user-avatar img {
   width:100%; height:100%; object-fit:cover;
 }
+.user-avatar svg { width: 22px; height: 22px; fill: currentColor; }
 
 .user-head-info { flex:1; min-width:0; }
 .user-name {
@@ -222,7 +223,7 @@ body {
   letter-spacing:0.8px; margin-bottom:2px;
   display:flex; align-items:center; gap:4px;
 }
-.info-lbl ph-icon { font-size:12px; }
+.info-lbl svg { width: 12px; height: 12px; fill: currentColor; }
 
 .info-val {
   font-family:'Fredoka One',cursive;
@@ -247,7 +248,7 @@ body {
   gap:4px; line-height:1.2;
   transition: transform 0.15s, box-shadow 0.15s;
 }
-.act-btn ph-icon { font-size:20px; }
+.act-btn svg { width: 20px; height: 20px; fill: currentColor; }
 .act-btn:hover  { transform:translateY(-2px); }
 .act-btn:active { transform:translateY(0); }
 
@@ -272,6 +273,7 @@ body {
   text-align:center; padding:50px 20px;
 }
 .empty-icon { margin:0 auto 12px; display:flex; justify-content:center; }
+.empty-icon svg { width: 56px; height: 56px; fill: currentColor; color:#C4B0D8; }
 .empty-title {
   font-family:'Fredoka One',cursive;
   font-size:20px; color:var(--text-dark); margin-bottom:6px;
@@ -309,7 +311,9 @@ body {
   font-family:'Fredoka One',cursive;
   font-size:20px; color:var(--text-dark);
   margin-bottom:6px;
+  display: flex; align-items: center;
 }
+.modal-title svg { width: 22px; height: 22px; margin-right: 6px; fill: currentColor; }
 .modal-sub {
   font-size:13px; font-weight:600; color:var(--text-mid);
   margin-bottom:20px;
@@ -374,15 +378,14 @@ body {
 <div class="blob1"></div>
 <div class="blob2"></div>
 
-<!-- Header -->
 <div class="header">
   <div class="header-inner">
     <a class="back-btn-hdr" href="admin.html">
-      <ph-icon name="arrow-left" weight="bold" size="20"></ph-icon>
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
     </a>
     <div class="header-title">
       <h1>
-        <ph-icon name="users-three" weight="fill" size="24"></ph-icon>
+        <svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
         Kelola User
       </h1>
       <p id="userCountLabel">Memuat data...</p>
@@ -391,10 +394,9 @@ body {
   </div>
 </div>
 
-<!-- Search -->
 <div class="search-wrap">
   <div class="search-box">
-    <ph-icon name="magnifying-glass" weight="bold" size="18"></ph-icon>
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
     <input class="search-input" id="searchInput" type="text"
       placeholder="Cari nama atau email..."
       oninput="filterUsers()">
@@ -405,14 +407,13 @@ body {
   <div id="users">
     <div class="loading-state">
       <div class="loading-icon">
-        <ph-icon name="spinner-gap" weight="bold" size="40" style="animation:spin 1s linear infinite;display:block;color:#EF4444;"></ph-icon>
+        <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
       </div>
       Memuat data user...
     </div>
   </div>
 </div>
 
-<!-- Modal Saldo -->
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
   <div class="modal" id="modal">
     <div class="modal-handle"></div>
@@ -430,6 +431,15 @@ body {
 <div class="toast" id="toast"></div>
 
 <script>
+
+// ── DEFINISI SVG TEMPLATE UTK DIGUNAKAN DI JS ──
+const svgUserTemplate   = `<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`;
+const svgUsersTemplate  = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`;
+const svgWalletTemplate = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h4v-6z"></path></svg>`;
+const svgCalendarTemplate = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
+const svgPlusTemplate   = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></svg>`;
+const svgMinusTemplate  = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></svg>`;
+const svgTrashTemplate  = `<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>`;
 
 const localUser = JSON.parse(localStorage.getItem('user'));
 if (!localUser) location.href = 'index.html';
@@ -476,7 +486,7 @@ function renderUsers(users) {
     document.getElementById('users').innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">
-          <ph-icon name="users-three" weight="duotone" size="56" style="color:#C4B0D8;"></ph-icon>
+          ${svgUsersTemplate}
         </div>
         <div class="empty-title">Tidak Ada User</div>
         <div class="empty-sub">Belum ada user yang terdaftar</div>
@@ -489,7 +499,7 @@ function renderUsers(users) {
     const isAdmin = u.is_admin == 1;
     const avatarContent = u.avatar
       ? `<img src="${u.avatar}" alt="">`
-      : `<ph-icon name="user" weight="fill" size="22"></ph-icon>`;
+      : svgUserTemplate;
 
     html += `
     <div class="user-card" style="animation-delay:${i * 0.055}s">
@@ -507,13 +517,13 @@ function renderUsers(users) {
       <div class="user-info-grid">
         <div class="info-item">
           <div class="info-lbl">
-            <ph-icon name="wallet" weight="fill" size="12"></ph-icon> Saldo
+            ${svgWalletTemplate} Saldo
           </div>
           <div class="info-val balance-val">Rp ${Number(u.balance||0).toLocaleString('id-ID')}</div>
         </div>
         <div class="info-item">
           <div class="info-lbl">
-            <ph-icon name="calendar-blank" weight="fill" size="12"></ph-icon> Bergabung
+            ${svgCalendarTemplate} Bergabung
           </div>
           <div class="info-val" style="font-size:13px;font-family:'Nunito',sans-serif;font-weight:700;">
             ${u.created_at ? u.created_at.split('T')[0] : '—'}
@@ -523,15 +533,15 @@ function renderUsers(users) {
 
       <div class="user-actions">
         <button class="act-btn btn-add-bal" onclick="openBalanceModal(${u.id}, 'add', '${(u.username||'User').replace(/'/g,"\\'")}')">
-          <ph-icon name="plus-circle" weight="fill" size="20"></ph-icon>
+          ${svgPlusTemplate}
           Tambah Saldo
         </button>
         <button class="act-btn btn-reduce-bal" onclick="openBalanceModal(${u.id}, 'reduce', '${(u.username||'User').replace(/'/g,"\\'")}')">
-          <ph-icon name="minus-circle" weight="fill" size="20"></ph-icon>
+          ${svgMinusTemplate}
           Kurangi Saldo
         </button>
         <button class="act-btn btn-delete-user" onclick="deleteUser(${u.id}, '${(u.username||'User').replace(/'/g,"\\'")}')">
-          <ph-icon name="trash" weight="fill" size="20"></ph-icon>
+          ${svgTrashTemplate}
           Hapus User
         </button>
       </div>
@@ -548,14 +558,12 @@ function openBalanceModal(userId, mode, name) {
   document.getElementById('fAmount').value = '';
 
   if (mode === 'add') {
-    document.getElementById('modalTitle').innerHTML =
-      '<ph-icon name="plus-circle" weight="fill" size="22" style="color:#00C853;vertical-align:middle;margin-right:6px;"></ph-icon>Tambah Saldo';
+    document.getElementById('modalTitle').innerHTML = `${svgPlusTemplate} Tambah Saldo`;
     document.getElementById('modalSub').innerText  = 'Tambah saldo untuk ' + name;
     document.getElementById('modalSubmit').className = 'modal-submit submit-green';
     document.getElementById('modalSubmit').innerText  = 'Tambah ✓';
   } else {
-    document.getElementById('modalTitle').innerHTML =
-      '<ph-icon name="minus-circle" weight="fill" size="22" style="color:#FF6B2C;vertical-align:middle;margin-right:6px;"></ph-icon>Kurangi Saldo';
+    document.getElementById('modalTitle').innerHTML = `${svgMinusTemplate} Kurangi Saldo`;
     document.getElementById('modalSub').innerText  = 'Kurangi saldo dari ' + name;
     document.getElementById('modalSubmit').className = 'modal-submit submit-orange';
     document.getElementById('modalSubmit').innerText  = 'Kurangi ✓';
