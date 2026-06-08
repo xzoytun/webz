@@ -375,59 +375,108 @@ body {
 <script>
 
 // Auto redirect jika sudah login
-const user = JSON.parse(localStorage.getItem('user'));
-if (user) window.location.href = 'dashboard.html';
+const user =
+JSON.parse(
+localStorage.getItem('user')
+);
+
+const token =
+localStorage.getItem('token');
+
+if (user && token) {
+
+  window.location.href =
+  'dashboard.html';
+
+}
 
 async function handleCredentialResponse(response) {
-  const message = document.getElementById('message');
 
-  message.className = 'loading';
-  message.innerText = '⏳ Memproses login...';
+  const message =
+  document.getElementById(
+    'message'
+  );
+
+  message.className =
+  'loading';
+
+  message.innerText =
+  '⏳ Memproses login...';
 
   try {
-    const res = await fetch('/api/google-login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ credential: response.credential })
-    });
 
-    const result = await res.json();
+    const res =
+    await fetch(
+      '/api/google-login',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type':
+          'application/json'
+        },
+        body: JSON.stringify({
+          credential:
+          response.credential
+        })
+      }
+    );
+
+    const result =
+    await res.json();
 
     if (result.success) {
 
-message.className = 'success';
+      message.className =
+      'success';
 
-message.innerText =
-'✅ Login berhasil, mengalihkan...';
+      message.innerText =
+      '✅ Login berhasil, mengalihkan...';
 
-// simpan user
-localStorage.setItem(
-'user',
-JSON.stringify(result.user)
-);
+      // simpan user
+      localStorage.setItem(
+        'user',
+        JSON.stringify(result.user)
+      );
 
-// simpan token google
-localStorage.setItem(
-'token',
-response.credential
-);
+      // simpan token google
+      localStorage.setItem(
+        'token',
+        response.credential
+      );
 
-setTimeout(() => {
+      setTimeout(() => {
 
-window.location.href =
-'dashboard.html';
+        window.location.href =
+        'dashboard.html';
 
-}, 600);
+      }, 600);
 
-} else {
+    } else {
 
-message.className = 'error';
+      message.className =
+      'error';
 
-message.innerText =
-'❌ ' +
-(result.message || 'Login gagal');
+      message.innerText =
+      '❌ ' +
+      (
+        result.message ||
+        'Login gagal'
+      );
 
-}
+    }
+
+  } catch (err) {
+
+    console.error(err);
+
+    message.className =
+    'error';
+
+    message.innerText =
+    '❌ Server tidak dapat dihubungi';
+
+  }
+
 }
 
 </script>
