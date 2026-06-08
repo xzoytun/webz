@@ -282,7 +282,13 @@ loadLogs();
 
 async function loadLogs() {
   try {
-    const response = await fetch('/api/admin/topup-history');
+    const response = await fetch('/api/admin/topup-history', {
+
+  headers: {
+    Authorization: localStorage.getItem('token')
+  }
+
+});
     const result = await response.json();
     const container = document.getElementById('logs');
 
