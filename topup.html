@@ -687,39 +687,10 @@ function clearSelected() {
 }
 
 /* ── Download QRIS as image ── */
-async function downloadQris(url, amount) {
+function downloadQris(url) {
 
-  try {
-
-    const response = await fetch(url);
-
-    const blob = await response.blob();
-
-    const blobUrl = window.URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-
-    a.href = blobUrl;
-
-    a.download = `QRIS-Topup-${amount}.png`;
-
-    document.body.appendChild(a);
-
-    a.click();
-
-    a.remove();
-
-    window.URL.revokeObjectURL(blobUrl);
-
-    showToast('QRIS berhasil diunduh!', 'success');
-
-  } catch (err) {
-
-    console.error(err);
-
-    showToast('Gagal mengunduh QRIS', 'error');
-
-  }
+  window.location.href =
+    '/download-qris?url=' + encodeURIComponent(url);
 
 }
 
@@ -815,7 +786,7 @@ async function createDeposit() {
   style="opacity:0;transition:0.3s;"
 >
             </div>
-            <button class="download-btn" onclick="downloadQris('${data.qrUrl}', '${amtRaw}')">
+            <button class="download-btn" onclick="downloadQris('${data.qrUrl}')">
               <svg viewBox="0 0 24 24">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                 <polyline points="7,10 12,15 17,10"/>
