@@ -425,127 +425,61 @@ rgba(18,194,138,0.35);
 <div class="toast" id="toast"></div>
 
 <script>
+// 1. Pengecekan Ketat Langsung di Awal
+const user = JSON.parse(localStorage.getItem('user'));
+const token = localStorage.getItem('token');
 
-const user =
-JSON.parse(localStorage.getItem('user'));
-
-const token =
-localStorage.getItem('token');
-
-if (!user || !token) {
-
-    window.location.href =
-    'index.html';
-
+if (!user || !token || user.role !== 'admin') {
+    // Tendang langsung ke dashboard jika bukan admin
+    window.location.replace('dashboard.html');
+} else {
+    // Jika lolos validasi lokal, jalankan fungsi halaman admin
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById('adminEmail').textContent = user.username || user.email || 'Admin';
+        loadStats();
+    });
 }
 
-document.getElementById(
-'adminEmail'
-).textContent =
-user.email || 'Admin';
-
-loadStats();
-
 async function loadStats() {
-
     try {
-
-        const res =
-        await fetch(
-            '/api/admin/stats',
-            {
-                headers:{
-                    Authorization:
-                    'Bearer ' + token
-                }
+        const res = await fetch('/api/admin/stats', {
+            headers: {
+                'Authorization': 'Bearer ' + token
             }
-        );
+        });
 
-        const data =
-        await res.json();
+        const data = await res.json();
 
         if (!data.success) {
-
-            showToast(
-                '⚠️ ' + data.message,
-                'error'
-            );
-
+            showToast('⚠️ ' + data.message, 'error');
             return;
-
         }
 
-        document.getElementById(
-        'statUsers'
-        ).textContent =
-        data.stats.users;
-
-        document.getElementById(
-        'statTransactions'
-        ).textContent =
-        data.stats.transactions;
-
-        document.getElementById(
-        'statBalance'
-        ).textContent =
-        'Rp ' +
-        Number(
-            data.stats.balance || 0
-        ).toLocaleString('id-ID');
+        document.getElementById('statUsers').textContent = data.stats.users;
+        document.getElementById('statTransactions').textContent = data.stats.transactions;
+        document.getElementById('statBalance').textContent = 'Rp ' + Number(data.stats.balance || 0).toLocaleString('id-ID');
 
     } catch (err) {
-
         console.error(err);
-
-        showToast(
-            '❌ Gagal memuat statistik',
-            'error'
-        );
-
+        showToast('❌ Gagal memuat statistik', 'error');
     }
-
 }
 
 function showToast(msg, type='') {
-
-    const t =
-    document.getElementById(
-    'toast'
-    );
-
+    const t = document.getElementById('toast');
     t.textContent = msg;
-
-    t.className =
-    'toast ' + type + ' show';
-
+    t.className = 'toast ' + type + ' show';
     setTimeout(() => {
-
-        t.className =
-        'toast ' + type;
-
+        t.className = 'toast ' + type;
     }, 2600);
-
 }
 
 function logout() {
-
-    if (
-        confirm('Yakin mau keluar?')
-    ) {
-
-        localStorage.removeItem(
-        'user'
-        );
-
-        localStorage.removeItem(
-        'token'
-        );
-
-        window.location.href =
-        'index.html';
-
+    if (confirm('Yakin mau keluar?')) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.location.href = 'index.html';
     }
-
 }
 </script>
 </body>
