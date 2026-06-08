@@ -5,29 +5,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Topup Saldo - Xtrimer Tunnel</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
 <style>
 
 :root {
-  --purple:    #6B21D6;
-  --purple2:   #8B3FF5;
-  --pink:      #E8007A;
-  --pink2:     #FF3D9A;
-  --orange:    #FF6B2C;
-  --yellow:    #FFD600;
-  --green:     #00C853;
-  --red:       #EF4444;
-  --white:     #FFFFFF;
-  --text-dark: #1a0033;
-  --text-mid:  #5B3A8C;
-  --bg-light:  #F6F0FF;
-  --border:    #EDE0FF;
+  /* ── Primary: Blue ── */
+  --blue-deep:   #0F172A;
+  --blue-dark:   #1E3A8A;
+  --blue:        #2563EB;
+  --blue-mid:    #3B82F6;
+  --blue-light:  #60A5FA;
+  --blue-pale:   #DBEAFE;
+  --blue-soft:   #EFF6FF;
+
+  /* ── Accents ── */
+  --green:       #059669;
+  --green-bg:    #ECFDF5;
+  --green-border:#A7F3D0;
+  --amber:       #D97706;
+  --amber-bg:    #FFFBEB;
+  --amber-border:#FDE68A;
+  --red:         #DC2626;
+  --red-bg:      #FEF2F2;
+  --red-border:  #FECACA;
+
+  /* ── Neutrals ── */
+  --white:       #FFFFFF;
+  --bg:          #F0F5FF;
+  --border:      #BFDBFE;
+  --border-soft: #DBEAFE;
+
+  /* ── Text ── */
+  --text-dark:   #0F172A;
+  --text-mid:    #1E40AF;
+  --text-sub:    #2563EB;
+  --text-muted:  #93C5FD;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  background: var(--bg-light);
+  background: var(--bg);
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   color: var(--text-dark);
@@ -38,52 +55,77 @@ body {
 .blob1 {
   position:fixed; top:-80px; left:-60px;
   width:300px; height:300px;
-  background:radial-gradient(circle,rgba(107,33,214,0.12) 0%,transparent 70%);
+  background:radial-gradient(circle, rgba(37,99,235,0.13) 0%, transparent 70%);
   pointer-events:none; z-index:0;
 }
 .blob2 {
   position:fixed; bottom:-60px; right:-60px;
   width:260px; height:260px;
-  background:radial-gradient(circle,rgba(0,200,83,0.10) 0%,transparent 70%);
+  background:radial-gradient(circle, rgba(96,165,250,0.10) 0%, transparent 70%);
   pointer-events:none; z-index:0;
 }
 
 /* ── HEADER ── */
 .header {
-  background: linear-gradient(145deg, #065f46 0%, #059669 55%, #10B981 100%);
+  background: linear-gradient(145deg, var(--blue-deep) 0%, var(--blue-dark) 45%, var(--blue) 100%);
   padding: 22px 20px 36px;
   position: relative; overflow: hidden; z-index: 2;
 }
 .header::before {
   content:''; position:absolute; top:-40px; right:-30px;
-  width:180px; height:180px; background:rgba(255,255,255,0.07); border-radius:50%;
+  width:180px; height:180px;
+  background:rgba(255,255,255,0.06); border-radius:50%;
 }
 .header::after {
   content:''; position:absolute; bottom:-50px; left:-20px;
-  width:130px; height:130px; background:rgba(255,255,255,0.05); border-radius:50%;
+  width:130px; height:130px;
+  background:rgba(96,165,250,0.10); border-radius:50%;
+}
+.header-dots {
+  position:absolute; inset:0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 20px 20px; pointer-events:none;
 }
 .header-inner {
   display:flex; align-items:center; gap:14px; position:relative; z-index:2;
 }
 .back-btn-hdr {
   width:40px; height:40px; border-radius:12px;
-  background:rgba(255,255,255,0.15); border:none; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.2);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
   color:#fff; text-decoration:none; flex-shrink:0; transition:background 0.15s;
 }
 .back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
+.back-btn-hdr svg {
+  width:20px; height:20px; fill:none;
+  stroke:#fff; stroke-width:2.5;
+  stroke-linecap:round; stroke-linejoin:round;
+}
 .header-title { flex:1; }
 .header-title h1 {
-  font-family:'Fredoka One',cursive;
+  font-family:'Fredoka One', cursive;
   font-size:22px; color:#fff; line-height:1;
   display:flex; align-items:center; gap:8px;
 }
-.header-title p { font-size:12px; color:rgba(255,255,255,0.75); font-weight:600; margin-top:4px; }
+.header-title h1 svg {
+  width:22px; height:22px; fill:#fff; flex-shrink:0;
+}
+.header-title p {
+  font-size:12px; color:rgba(255,255,255,0.7);
+  font-weight:600; margin-top:4px;
+}
 .balance-hdr-chip {
-  background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.3);
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.25);
   border-radius:20px; padding:5px 14px;
-  font-size:11px; font-weight:800; color:#fff; white-space:nowrap;
-  display:flex; align-items:center; gap:5px;
+  font-size:11px; font-weight:800; color:#fff;
+  white-space:nowrap; display:flex; align-items:center; gap:5px;
+}
+.balance-hdr-chip svg {
+  width:13px; height:13px; fill:none;
+  stroke:#fff; stroke-width:2.2;
+  stroke-linecap:round; stroke-linejoin:round;
 }
 
 /* ── CONTAINER ── */
@@ -92,135 +134,194 @@ body {
   padding:0 18px; position:relative; z-index:2;
 }
 
+/* ── ANIMATIONS ── */
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(14px); }
   to   { opacity:1; transform:translateY(0); }
 }
 @keyframes spin { to { transform:rotate(360deg); } }
-@keyframes pulse {
-  0%,100% { box-shadow:0 0 0 0 rgba(0,200,83,0.4); }
-  50%      { box-shadow:0 0 0 10px rgba(0,200,83,0); }
+@keyframes pulse-ring {
+  0%   { box-shadow:0 0 0 0 rgba(37,99,235,0.4); }
+  70%  { box-shadow:0 0 0 10px rgba(37,99,235,0); }
+  100% { box-shadow:0 0 0 0 rgba(37,99,235,0); }
 }
+@keyframes pulse-text {
+  0%,100% { opacity:1; } 50% { opacity:0.45; }
+}
+@keyframes bounce-in {
+  0%   { transform:scale(0.8); opacity:0; }
+  60%  { transform:scale(1.05); opacity:1; }
+  100% { transform:scale(1); }
+}
+
+/* ── FIELD LABEL ── */
+.field-label {
+  font-size:11px; font-weight:800; color:var(--text-mid);
+  text-transform:uppercase; letter-spacing:0.8px;
+  margin-bottom:8px; display:flex; align-items:center; gap:6px;
+}
+.field-label svg {
+  width:14px; height:14px; fill:none;
+  stroke:var(--blue-mid); stroke-width:2.2;
+  stroke-linecap:round; stroke-linejoin:round;
+  flex-shrink:0;
+}
+.field-label svg.filled { fill:var(--blue-mid); stroke:none; }
 
 /* ── INPUT CARD ── */
 .input-card {
   background:var(--white);
   border-radius:22px; padding:20px 18px;
-  border:1.5px solid var(--border);
-  box-shadow:0 4px 16px rgba(107,33,214,0.10);
+  border:1.5px solid var(--border-soft);
+  box-shadow:0 4px 20px rgba(37,99,235,0.10);
   margin-top:-20px; margin-bottom:14px;
   position:relative; z-index:3;
   animation: fadeUp 0.4s 0.05s ease both;
 }
 
-.field-label {
-  font-size:11px; font-weight:800; color:var(--text-mid);
-  text-transform:uppercase; letter-spacing:0.8px;
-  margin-bottom:8px; display:flex; align-items:center; gap:5px;
-}
-
 .amount-wrap {
   display:flex; align-items:center;
-  background:#FBF8FF; border:2px solid var(--border);
+  background:var(--blue-soft);
+  border:2px solid var(--border-soft);
   border-radius:14px; padding:12px 16px; gap:10px;
-  transition:border-color 0.15s;
+  transition:border-color 0.2s, box-shadow 0.2s;
 }
-.amount-wrap:focus-within { border-color:#10B981; }
+.amount-wrap:focus-within {
+  border-color:var(--blue-mid);
+  box-shadow:0 0 0 3px rgba(59,130,246,0.12);
+}
 .amount-prefix {
-  font-family:'Fredoka One',cursive;
+  font-family:'Fredoka One', cursive;
   font-size:18px; color:var(--text-mid); white-space:nowrap;
 }
 .amount-input {
   flex:1; border:none; outline:none;
-  font-family:'Fredoka One',cursive;
+  font-family:'Fredoka One', cursive;
   font-size:22px; color:var(--text-dark); background:transparent;
   min-width:0;
 }
-.amount-input::placeholder { color:#C4B0D8; font-size:18px; }
+.amount-input::placeholder { color:#BFDBFE; font-size:18px; }
 
 /* ── NOMINAL GRID ── */
 .nominal-label {
   font-size:11px; font-weight:800; color:var(--text-mid);
   text-transform:uppercase; letter-spacing:0.8px;
-  margin:16px 0 10px; display:flex; align-items:center; gap:5px;
+  margin:16px 0 10px; display:flex; align-items:center; gap:6px;
+}
+.nominal-label svg {
+  width:13px; height:13px;
+  fill:var(--blue-mid); flex-shrink:0;
 }
 .nominal-grid {
   display:grid; grid-template-columns:repeat(2,1fr); gap:8px;
 }
 .nominal-btn {
   padding:12px 10px;
-  border:2px solid var(--border); border-radius:14px;
-  background:#FBF8FF; color:var(--text-mid);
-  font-family:'Nunito',sans-serif; font-weight:800; font-size:13px;
+  border:2px solid var(--border-soft); border-radius:14px;
+  background:var(--blue-soft); color:var(--text-mid);
+  font-family:'Nunito', sans-serif; font-weight:800; font-size:13px;
   cursor:pointer; text-align:center;
   transition:all 0.15s;
   display:flex; flex-direction:column; align-items:center; gap:2px;
 }
 .nominal-btn:hover {
-  border-color:#10B981; color:#059669; background:#F0FFF8;
+  border-color:var(--blue-mid);
+  color:var(--blue-dark);
+  background:var(--blue-pale);
 }
 .nominal-btn:active { transform:scale(0.96); }
 .nominal-btn.selected {
-  border-color:#10B981;
-  background:linear-gradient(135deg,#059669,#10B981);
+  border-color:var(--blue-mid);
+  background:linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
   color:#fff;
-  box-shadow:0 4px 12px rgba(16,185,129,0.3);
+  box-shadow:0 4px 14px rgba(37,99,235,0.35);
 }
 .nominal-btn .nom-label { font-size:11px; font-weight:600; opacity:0.75; }
-.nominal-btn .nom-val { font-size:14px; font-weight:900; }
+.nominal-btn .nom-val   { font-size:14px; font-weight:900; }
 
 /* ── PROMO CHIPS ── */
 .promo-chips {
   display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;
 }
 .promo-chip {
-  background:#E0FFF0; border:1px solid #A5F3C4;
+  background:var(--blue-soft);
+  border:1px solid var(--border);
   border-radius:20px; padding:5px 12px;
-  font-size:11px; font-weight:800; color:#059669;
-  display:flex; align-items:center; gap:4px;
+  font-size:11px; font-weight:800; color:var(--text-mid);
+  display:flex; align-items:center; gap:5px;
 }
+.promo-chip svg {
+  width:12px; height:12px; fill:none;
+  stroke:var(--blue-mid); stroke-width:2.2;
+  stroke-linecap:round; stroke-linejoin:round;
+  flex-shrink:0;
+}
+.promo-chip svg.filled { fill:var(--blue-mid); stroke:none; }
 
 /* ── SUBMIT BTN ── */
 .submit-btn {
   width:100%; padding:16px; margin-top:18px;
   border:none; border-radius:18px;
-  background:linear-gradient(135deg,#059669,#10B981);
-  color:#fff; font-family:'Nunito',sans-serif;
+  background:linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+  color:#fff; font-family:'Nunito', sans-serif;
   font-weight:900; font-size:15px; cursor:pointer;
   display:flex; align-items:center; justify-content:center; gap:8px;
-  box-shadow:0 6px 20px rgba(5,150,105,0.35);
+  box-shadow:0 6px 20px rgba(37,99,235,0.35);
   transition:transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  animation: pulse-ring 2.5s ease-in-out infinite;
 }
-.submit-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(5,150,105,0.45); }
-.submit-btn:active { transform:translateY(0); }
-.submit-btn:disabled { opacity:0.55; cursor:not-allowed; transform:none; }
+.submit-btn svg {
+  width:18px; height:18px; fill:none;
+  stroke:#fff; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round;
+  flex-shrink:0;
+}
+.submit-btn svg.filled { fill:#fff; stroke:none; }
+.submit-btn:hover {
+  transform:translateY(-2px);
+  box-shadow:0 8px 26px rgba(37,99,235,0.45);
+}
+.submit-btn:active  { transform:translateY(0); }
+.submit-btn:disabled {
+  opacity:0.55; cursor:not-allowed; transform:none; animation:none;
+}
 
 /* ── QRIS CARD ── */
 .qris-card {
   background:var(--white);
   border-radius:22px; overflow:hidden;
-  border:1.5px solid var(--border);
-  box-shadow:0 4px 20px rgba(107,33,214,0.12);
+  border:1.5px solid var(--border-soft);
+  box-shadow:0 4px 20px rgba(37,99,235,0.12);
   margin-bottom:14px;
   animation: fadeUp 0.4s ease both;
 }
 
 .qris-card-head {
-  background:linear-gradient(135deg,#059669,#10B981);
+  background:linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
   padding:16px 18px;
   display:flex; align-items:center; gap:12px;
 }
 .qris-head-icon {
   width:44px; height:44px; border-radius:14px;
-  background:rgba(255,255,255,0.2);
-  display:flex; align-items:center; justify-content:center; color:#fff;
+  background:rgba(255,255,255,0.18);
+  border:1px solid rgba(255,255,255,0.2);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
 }
-.qris-head-text {}
+.qris-head-icon svg {
+  width:22px; height:22px; fill:none;
+  stroke:#fff; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+.qris-head-icon svg.filled { fill:#fff; stroke:none; }
 .qris-head-title {
-  font-family:'Fredoka One',cursive;
+  font-family:'Fredoka One', cursive;
   font-size:17px; color:#fff;
 }
-.qris-head-sub { font-size:11px; color:rgba(255,255,255,0.75); font-weight:600; margin-top:2px; }
+.qris-head-sub {
+  font-size:11px; color:rgba(255,255,255,0.75);
+  font-weight:600; margin-top:2px;
+}
 
 .qris-body { padding:20px 18px; }
 
@@ -228,11 +329,16 @@ body {
   text-align:center; margin-bottom:18px;
 }
 .qris-amount-label {
-  font-size:11px; font-weight:800; color:#B0A0C0;
+  font-size:11px; font-weight:800; color:var(--text-mid);
   text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px;
+  display:flex; align-items:center; justify-content:center; gap:4px;
+}
+.qris-amount-label svg {
+  width:12px; height:12px;
+  fill:var(--blue-mid); flex-shrink:0;
 }
 .qris-amount-val {
-  font-family:'Fredoka One',cursive;
+  font-family:'Fredoka One', cursive;
   font-size:32px; color:var(--text-dark); line-height:1;
 }
 
@@ -240,29 +346,74 @@ body {
   display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;
 }
 .fee-item {
-  background:#F6F0FF; border-radius:12px; padding:12px;
-  text-align:center;
+  background:var(--blue-soft);
+  border:1.5px solid var(--border-soft);
+  border-radius:12px; padding:12px; text-align:center;
 }
-.fee-label { font-size:10px; font-weight:800; color:#B0A0C0; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:3px; }
-.fee-val { font-family:'Fredoka One',cursive; font-size:15px; color:var(--text-dark); }
+.fee-label {
+  font-size:10px; font-weight:800; color:var(--text-mid);
+  text-transform:uppercase; letter-spacing:0.8px; margin-bottom:3px;
+}
+.fee-val {
+  font-family:'Fredoka One', cursive;
+  font-size:15px; color:var(--text-dark);
+}
 
+/* ── QR IMAGE ── */
 .qr-img-wrap {
-  display:flex; justify-content:center; margin-bottom:16px;
+  display:flex; flex-direction:column;
+  align-items:center; gap:12px; margin-bottom:16px;
 }
-.qr-img-wrap img {
+.qr-img-box {
+  position:relative;
+}
+.qr-img-box img {
   width:240px; height:240px;
   border-radius:16px; padding:10px;
   background:var(--white);
   border:2px solid var(--border);
-  box-shadow:0 4px 16px rgba(0,0,0,0.08);
-  object-fit:contain;
+  box-shadow:0 4px 16px rgba(37,99,235,0.10);
+  object-fit:contain; display:block;
+  id: qrisImage;
 }
 
+/* ── DOWNLOAD BTN ── */
+.download-btn {
+  display:flex; align-items:center; gap:8px;
+  background:var(--blue-soft);
+  border:1.5px solid var(--border);
+  border-radius:12px; padding:10px 18px;
+  font-family:'Nunito', sans-serif;
+  font-size:13px; font-weight:800; color:var(--text-mid);
+  cursor:pointer; text-decoration:none;
+  transition:all 0.15s;
+}
+.download-btn:hover {
+  background:var(--blue-pale);
+  border-color:var(--blue-mid);
+  color:var(--blue-dark);
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(37,99,235,0.15);
+}
+.download-btn:active { transform:translateY(0); }
+.download-btn svg {
+  width:16px; height:16px; fill:none;
+  stroke:var(--blue-mid); stroke-width:2.2;
+  stroke-linecap:round; stroke-linejoin:round;
+  flex-shrink:0;
+}
+
+/* ── TIMER ── */
 .timer-row {
   display:flex; align-items:center; justify-content:center; gap:8px;
-  background:#FFF8E0; border:1px solid #FFE580; border-radius:12px;
-  padding:10px 14px; margin-bottom:14px;
-  font-size:13px; font-weight:800; color:#B45309;
+  background:var(--amber-bg);
+  border:1px solid var(--amber-border);
+  border-radius:12px; padding:10px 14px; margin-bottom:14px;
+  font-size:13px; font-weight:800; color:var(--amber);
+}
+.timer-row svg {
+  width:16px; height:16px;
+  fill:var(--amber); flex-shrink:0;
 }
 
 /* ── STATUS AREA ── */
@@ -271,42 +422,82 @@ body {
   font-size:13px; font-weight:700; color:var(--text-mid);
   display:flex; align-items:center; justify-content:center; gap:8px;
 }
-
 .status-waiting {
+  display:flex; align-items:center; gap:8px;
   color:var(--text-mid);
   animation: pulse-text 2s ease-in-out infinite;
 }
-@keyframes pulse-text {
-  0%,100% { opacity:1; } 50% { opacity:0.5; }
+.status-waiting svg {
+  width:16px; height:16px; fill:none;
+  stroke:var(--blue-mid); stroke-width:2.2;
+  stroke-linecap:round;
+  animation:spin 1.5s linear infinite;
+  flex-shrink:0;
 }
 
 .status-paid {
-  background:linear-gradient(135deg,#E0FFF0,#C8FFE0);
-  border:1.5px solid #A5F3C4;
-  border-radius:14px; padding:14px 18px;
-  color:#059669;
-  font-family:'Fredoka One',cursive;
-  font-size:17px;
-  animation: pulse 1s ease;
+  width:100%;
+  background:linear-gradient(135deg, var(--green-bg), #D1FAE5);
+  border:1.5px solid var(--green-border);
+  border-radius:14px; padding:16px 18px;
+  text-align:center;
+  animation: bounce-in 0.5s ease both;
+}
+.status-paid-title {
+  font-family:'Fredoka One', cursive;
+  font-size:20px; color:var(--green);
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  margin-bottom:4px;
+}
+.status-paid-title svg {
+  width:24px; height:24px;
+  fill:var(--green); flex-shrink:0;
+}
+.status-paid-sub {
+  font-size:12px; font-weight:700; color:#047857;
 }
 
 .status-expired {
-  background:#FFF0F0; border:1.5px solid #FECACA;
+  width:100%;
+  background:var(--red-bg);
+  border:1.5px solid var(--red-border);
   border-radius:14px; padding:12px 16px;
   color:var(--red); font-weight:800;
+  display:flex; align-items:center; gap:8px; justify-content:center;
+}
+.status-expired svg {
+  width:18px; height:18px;
+  fill:var(--red); flex-shrink:0;
 }
 
 /* ── BACK BTN ── */
 .back-btn {
   width:100%; padding:14px;
-  border:2px solid var(--border); border-radius:16px;
+  border:2px solid var(--border-soft); border-radius:16px;
   background:var(--white); color:var(--text-mid);
-  font-family:'Nunito',sans-serif; font-weight:800; font-size:14px;
+  font-family:'Nunito', sans-serif; font-weight:800; font-size:14px;
   cursor:pointer;
   display:flex; align-items:center; justify-content:center; gap:6px;
-  transition:border-color 0.15s, color 0.15s;
+  transition:border-color 0.15s, color 0.15s, background 0.15s;
 }
-.back-btn:hover { border-color:var(--purple2); color:var(--purple); }
+.back-btn svg {
+  width:18px; height:18px; fill:none;
+  stroke:currentColor; stroke-width:2.5;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+.back-btn:hover {
+  border-color:var(--blue-mid);
+  color:var(--blue-dark);
+  background:var(--blue-soft);
+}
+
+/* ── SPINNER inline ── */
+.spin-icon {
+  width:18px; height:18px; fill:none;
+  stroke:#fff; stroke-width:2.2; stroke-linecap:round;
+  animation:spin 1s linear infinite;
+  flex-shrink:0;
+}
 
 /* ── TOAST ── */
 .toast {
@@ -315,13 +506,19 @@ body {
   z-index:999; padding:12px 22px;
   border-radius:16px; font-weight:700; font-size:13px;
   display:flex; align-items:center; gap:8px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  box-shadow:0 8px 24px rgba(0,0,0,0.15);
   transition:transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s;
-  opacity:0; white-space:nowrap; color:#fff; background:var(--text-dark);
+  opacity:0; white-space:nowrap; color:#fff;
+  background:var(--blue-dark);
+}
+.toast svg {
+  width:15px; height:15px; fill:#fff; flex-shrink:0;
 }
 .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
-.toast.error { background:linear-gradient(135deg,#EF4444,#F87171); }
-.toast.warn  { background:linear-gradient(135deg,#FF6B2C,#FFD600); color:var(--text-dark); }
+.toast.error { background:linear-gradient(135deg, var(--red), #F87171); }
+.toast.warn  { background:linear-gradient(135deg, var(--amber), #FCD34D); color:var(--text-dark); }
+.toast.warn svg { fill:var(--text-dark); }
+.toast.success { background:linear-gradient(135deg, var(--green), #34D399); }
 
 </style>
 </head>
@@ -330,32 +527,50 @@ body {
 <div class="blob1"></div>
 <div class="blob2"></div>
 
-<!-- Header -->
+<!-- ── HEADER ── -->
 <div class="header">
+  <div class="header-dots"></div>
   <div class="header-inner">
     <a class="back-btn-hdr" href="dashboard.html">
-      <ph-icon name="arrow-left" weight="bold" size="20"></ph-icon>
+      <!-- Arrow Left -->
+      <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
     </a>
     <div class="header-title">
       <h1>
-        <ph-icon name="wallet" weight="fill" size="22"></ph-icon>
+        <!-- Wallet icon -->
+        <svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;">
+          <rect x="2" y="5" width="20" height="15" rx="2"/>
+          <path d="M2 10h20"/>
+          <circle cx="17" cy="15" r="1" fill="#fff" stroke="none"/>
+        </svg>
         Topup Saldo
       </h1>
-      <p>Isi saldo via QRIS, instan & aman</p>
+      <p>Isi saldo via QRIS, instan &amp; aman</p>
     </div>
     <div class="balance-hdr-chip">
-      <ph-icon name="scan" weight="bold" size="13"></ph-icon>
+      <!-- QR / scan icon -->
+      <svg viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <path d="M14 14h2v2h-2zM18 14h3M14 18h2M18 18h3v3M14 21h2"/>
+      </svg>
       QRIS
     </div>
   </div>
 </div>
 
+<!-- ── CONTENT ── -->
 <div class="container">
 
   <!-- Input Card -->
   <div class="input-card">
     <div class="field-label">
-      <ph-icon name="currency-circle-dollar" weight="fill" size="14"></ph-icon>
+      <!-- Dollar circle -->
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v12M9 9.5C9 8.1 10.3 7 12 7s3 1.1 3 2.5S13.7 12 12 12s-3 1.1-3 2.5S10.3 17 12 17s3-1.1 3-2.5"/>
+      </svg>
       Nominal Topup
     </div>
     <div class="amount-wrap">
@@ -365,7 +580,10 @@ body {
     </div>
 
     <div class="nominal-label">
-      <ph-icon name="lightning" weight="fill" size="13"></ph-icon>
+      <!-- Lightning bolt -->
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:var(--blue-mid);">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
       Pilih Cepat
     </div>
     <div class="nominal-grid">
@@ -389,21 +607,40 @@ body {
 
     <div class="promo-chips">
       <div class="promo-chip">
-        <ph-icon name="check-circle" weight="fill" size="13"></ph-icon>
+        <!-- Check circle -->
+        <svg viewBox="0 0 24 24">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22,4 12,14.01 9,11.01"/>
+        </svg>
         Instan masuk
       </div>
       <div class="promo-chip">
-        <ph-icon name="lock-key" weight="fill" size="13"></ph-icon>
+        <!-- Lock key -->
+        <svg viewBox="0 0 24 24">
+          <rect x="5" y="11" width="14" height="10" rx="2"/>
+          <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+          <circle cx="12" cy="16" r="1" fill="var(--blue-mid)" stroke="none"/>
+        </svg>
         Transaksi aman
       </div>
       <div class="promo-chip">
-        <ph-icon name="clock" weight="fill" size="13"></ph-icon>
+        <!-- Clock -->
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12,6 12,12 16,14"/>
+        </svg>
         Berlaku 5 menit
       </div>
     </div>
 
     <button class="submit-btn" id="topupBtn" onclick="createDeposit()">
-      <ph-icon name="qr-code" weight="fill" size="18"></ph-icon>
+      <!-- QR code icon -->
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <path d="M14 14h2v2h-2zM18 14h3M14 18h2M18 18h3v3M14 21h2"/>
+      </svg>
       Buat QRIS Sekarang
     </button>
   </div>
@@ -412,7 +649,7 @@ body {
   <div id="result"></div>
 
   <button class="back-btn" onclick="window.location.href='dashboard.html'">
-    <ph-icon name="arrow-left" weight="bold" size="16"></ph-icon>
+    <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
     Kembali ke Dashboard
   </button>
 
@@ -434,6 +671,28 @@ function clearSelected() {
   document.querySelectorAll('.nominal-btn').forEach(b => b.classList.remove('selected'));
 }
 
+/* ── Download QRIS as image ── */
+function downloadQris(url, amount) {
+  // Try fetching as blob for cross-origin images
+  fetch(url)
+    .then(r => r.blob())
+    .then(blob => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'QRIS-Topup-Rp' + amount + '.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(a.href);
+      showToast('QRIS berhasil diunduh!', 'success');
+    })
+    .catch(() => {
+      // Fallback: open in new tab if CORS blocks
+      window.open(url, '_blank');
+      showToast('Membuka QRIS di tab baru...', '');
+    });
+}
+
 async function createDeposit() {
   const user = JSON.parse(localStorage.getItem('user'));
   if (!user) { showToast('Silakan login terlebih dahulu', 'error'); return; }
@@ -445,7 +704,11 @@ async function createDeposit() {
 
   const btn = document.getElementById('topupBtn');
   btn.disabled = true;
-  btn.innerHTML = `<ph-icon name="spinner-gap" weight="bold" size="18" style="animation:spin 1s linear infinite;"></ph-icon> Membuat QRIS...`;
+  btn.innerHTML = `
+    <svg class="spin-icon" viewBox="0 0 24 24">
+      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+    </svg>
+    Membuat QRIS...`;
 
   try {
     const res  = await fetch('/api/deposit', {
@@ -456,30 +719,49 @@ async function createDeposit() {
     const data = await res.json();
 
     btn.disabled = false;
-    btn.innerHTML = `<ph-icon name="qr-code" weight="fill" size="18"></ph-icon> Buat QRIS Sekarang`;
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <path d="M14 14h2v2h-2zM18 14h3M14 18h2M18 18h3v3M14 21h2"/>
+      </svg>
+      Buat QRIS Sekarang`;
 
     if (!data.success) { showToast(data.message || 'Gagal membuat QRIS', 'error'); return; }
 
     depositCode = data.uniqueCode;
+    const amtFormatted = Number(data.amount).toLocaleString('id-ID');
+    const amtRaw       = Number(data.amount);
 
     document.getElementById('result').innerHTML = `
       <div class="qris-card">
         <div class="qris-card-head">
           <div class="qris-head-icon">
-            <ph-icon name="qr-code" weight="fill" size="22"></ph-icon>
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <path d="M14 14h2v2h-2zM18 14h3M14 18h2M18 18h3v3M14 21h2"/>
+            </svg>
           </div>
-          <div class="qris-head-text">
-            <div class="qris-head-title">Scan & Bayar</div>
+          <div>
+            <div class="qris-head-title">Scan &amp; Bayar</div>
             <div class="qris-head-sub">Gunakan aplikasi e-wallet apapun</div>
           </div>
         </div>
         <div class="qris-body">
+
           <div class="qris-amount-row">
             <div class="qris-amount-label">
-              <ph-icon name="tag" weight="fill" size="11" style="vertical-align:middle;"></ph-icon>
+              <!-- Tag icon -->
+              <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:var(--blue-mid);">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                <line x1="7" y1="7" x2="7.01" y2="7" style="stroke:#fff;stroke-width:2;stroke-linecap:round;"/>
+              </svg>
               Total Pembayaran
             </div>
-            <div class="qris-amount-val">Rp ${Number(data.amount).toLocaleString('id-ID')}</div>
+            <div class="qris-amount-val">Rp ${amtFormatted}</div>
           </div>
 
           <div class="qris-fee-row">
@@ -494,20 +776,37 @@ async function createDeposit() {
           </div>
 
           <div class="qr-img-wrap">
-            <img src="${data.qrUrl}" alt="QRIS Code">
+            <div class="qr-img-box">
+              <img id="qrisImage" src="${data.qrUrl}" alt="QRIS Code" crossorigin="anonymous">
+            </div>
+            <button class="download-btn" onclick="downloadQris('${data.qrUrl}', '${amtRaw}')">
+              <!-- Download icon -->
+              <svg viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7,10 12,15 17,10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Unduh QRIS
+            </button>
           </div>
 
           <div class="timer-row">
-            <ph-icon name="hourglass-medium" weight="fill" size="16"></ph-icon>
+            <!-- Hourglass icon -->
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:var(--amber);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;">
+              <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
+            </svg>
             QRIS berlaku selama <strong>5 menit</strong>
           </div>
 
           <div id="statusArea">
             <div class="status-waiting">
-              <ph-icon name="spinner-gap" weight="bold" size="16" style="animation:spin 1.5s linear infinite;"></ph-icon>
+              <svg viewBox="0 0 24 24">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
               Menunggu pembayaran...
             </div>
           </div>
+
         </div>
       </div>`;
 
@@ -517,7 +816,14 @@ async function createDeposit() {
   } catch(err) {
     console.error(err);
     btn.disabled = false;
-    btn.innerHTML = `<ph-icon name="qr-code" weight="fill" size="18"></ph-icon> Buat QRIS Sekarang`;
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <path d="M14 14h2v2h-2zM18 14h3M14 18h2M18 18h3v3M14 21h2"/>
+      </svg>
+      Buat QRIS Sekarang`;
     showToast('Gagal membuat QRIS', 'error');
   }
 }
@@ -532,7 +838,11 @@ function startChecker() {
       if (data.success && data.status === 'expired') {
         document.getElementById('statusArea').innerHTML = `
           <div class="status-expired">
-            <ph-icon name="x-circle" weight="fill" size="18" style="vertical-align:middle;margin-right:6px;"></ph-icon>
+            <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:var(--red);">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15" style="stroke:#fff;stroke-width:2;stroke-linecap:round;"/>
+              <line x1="9" y1="9" x2="15" y2="15" style="stroke:#fff;stroke-width:2;stroke-linecap:round;"/>
+            </svg>
             QRIS sudah expired. Buat ulang untuk melanjutkan.
           </div>`;
         clearInterval(interval);
@@ -541,11 +851,14 @@ function startChecker() {
       if (data.success && data.status === 'paid') {
         document.getElementById('statusArea').innerHTML = `
           <div class="status-paid">
-            <ph-icon name="check-circle" weight="fill" size="22" style="vertical-align:middle;margin-right:8px;"></ph-icon>
-            Pembayaran Berhasil!<br>
-            <span style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#059669;">
-              Saldo sudah masuk ke akun kamu
-            </span>
+            <div class="status-paid-title">
+              <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22,4 12,14.01 9,11.01"/>
+              </svg>
+              Pembayaran Berhasil!
+            </div>
+            <div class="status-paid-sub">Saldo sudah masuk ke akun kamu</div>
           </div>`;
         clearInterval(interval);
         setTimeout(() => { window.location.href = 'dashboard.html'; }, 3000);
@@ -554,11 +867,18 @@ function startChecker() {
   }, 5000);
 }
 
-function showToast(msg, type='') {
+function showToast(msg, type) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + type + ' show';
-  setTimeout(() => t.className = 'toast ' + type, 2600);
+  // pick icon per type
+  const icons = {
+    error:   `<svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:#fff;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`,
+    warn:    `<svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:var(--text-dark);"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>`,
+    success: `<svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:#fff;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`,
+    '':      `<svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:#fff;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>`
+  };
+  t.innerHTML = (icons[type] || icons['']) + msg;
+  t.className = 'toast ' + (type || '') + ' show';
+  setTimeout(() => t.className = 'toast ' + (type || ''), 2600);
 }
 
 </script>
