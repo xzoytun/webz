@@ -6,7 +6,6 @@
 <title>Login - Xtrimer Tunnel</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght=400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
-
 :root {
   --purple:    #6B21D6;
   --purple2:   #8B3FF5;
@@ -292,7 +291,6 @@ body {
   content: ''; flex: 1; height: 1.5px;
   background: linear-gradient(90deg, transparent, rgba(107,33,214,0.3), transparent);
 }
-
 </style>
 </head>
 <body>
@@ -306,7 +304,6 @@ body {
 <div class="shape shape4"></div>
 
 <div class="login-card">
-
   <div class="card-hero">
     <div class="logo-icon-wrap">
       <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
@@ -366,119 +363,63 @@ body {
       Dengan login, kamu menyetujui<br>syarat &amp; ketentuan layanan kami
     </div>
   </div>
-
 </div>
 
 <div class="bottom-tag">Xtrimer Tunnel © 2026</div>
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-
 // Auto redirect jika sudah login
-const user =
-JSON.parse(
-localStorage.getItem('user')
-);
-
-const token =
-localStorage.getItem('token');
+const user = JSON.parse(localStorage.getItem('user'));
+const token = localStorage.getItem('token');
 
 if (user && token) {
-
-  window.location.href =
-  'dashboard.html';
-
+  window.location.href = 'dashboard.html';
 }
 
 async function handleCredentialResponse(response) {
-
-  const message =
-  document.getElementById(
-    'message'
-  );
-
-  message.className =
-  'loading';
-
-  message.innerText =
-  '⏳ Memproses login...';
+  const message = document.getElementById('message');
+  message.className = 'loading';
+  message.innerText = '⏳ Memproses login...';
 
   try {
+    const res = await fetch('/api/google-login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        credential: response.credential
+      })
+    });
 
-    const res =
-    await fetch(
-      '/api/google-login',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type':
-          'application/json'
-        },
-        body: JSON.stringify({
-          credential:
-          response.credential
-        })
-      }
-    );
-
-    const result =
-    await res.json();
+    const result = await res.json();
 
     if (result.success) {
+      message.className = 'success';
+      message.innerText = '✅ Login berhasil, mengalihkan...';
 
-      message.className =
-      'success';
+      // 1. Simpan objek user dari database backend
+      localStorage.setItem('user', JSON.stringify(result.user));
 
-      message.innerText =
-      '✅ Login berhasil, mengalihkan...';
-
-      // simpan user
-      localStorage.setItem(
-        'user',
-        JSON.stringify(result.user)
-      );
-
-      // simpan token google
-      localStorage.setItem(
-        'token',
-        response.credential
-      );
+      // 2. FIX UTAMA: Simpan JWT token buatan backend kamu, BUKAN token Google!
+      localStorage.setItem('token', result.token);
 
       setTimeout(() => {
-
-        window.location.href =
-        'dashboard.html';
-
+        window.location.href = 'dashboard.html';
       }, 600);
 
     } else {
-
-      message.className =
-      'error';
-
-      message.innerText =
-      '❌ ' +
-      (
-        result.message ||
-        'Login gagal'
-      );
-
+      message.className = 'error';
+      message.innerText = '❌ ' + (result.message || 'Login gagal');
     }
 
   } catch (err) {
-
     console.error(err);
-
-    message.className =
-    'error';
-
-    message.innerText =
-    '❌ Server tidak dapat dihubungi';
-
+    message.className = 'error';
+    message.innerText = '❌ Server tidak dapat dihubungi';
   }
-
 }
-
 </script>
 </body>
 </html>
