@@ -1,1113 +1,620 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PPOB — Xtrimer Tunnel</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PPOB Store - Extrimer Tunneling</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     :root {
-      --purple:       #7B2FBE;
-      --purple-dark:  #5A1A9A;
-      --purple-deep:  #3D0F72;
-      --purple-light: #9B4FDE;
-      --purple-soft:  #F0E8FF;
-      --bg:           #F8F6FC;
-      --white:        #FFFFFF;
-      --green:        #12C28A;
-      --green-bg:     #EDFAF4;
-      --green-border: #A7F3D0;
-      --red:          #E84040;
-      --red-bg:       #FEF2F2;
-      --red-border:   #FECACA;
-      --accent:       #FF6B2B;
-      --amber:        #F59E0B;
-      --amber-bg:     #FFFBEB;
-      --text-dark:    #1A0533;
-      --text-mid:     #6B3FA0;
-      --text-light:   #A882CC;
-      --border-soft:  #E8DDF5;
-      --gray-line:    #EDE8F6;
+      --bg-main: #0b0f19;
+      --bg-card: #151c2c;
+      --purple: #7c4dff;
+      --purple-hover: #651fff;
+      --text-main: #ffffff;
+      --text-light: #94a3b8;
+      --border-color: #24324d;
+      --success: #10b981;
+      --error: #ef4444;
     }
-    * { box-sizing:border-box; margin:0; padding:0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
     body {
-      font-family:'Nunito', sans-serif;
-      background:var(--bg);
-      min-height:100vh;
-      color:var(--text-dark);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      padding: 20px;
     }
 
-    /* ── BLOB BG ── */
-    .blob1, .blob2 {
-      position:fixed; pointer-events:none; z-index:0;
-      border-radius:50%; filter:blur(60px);
-    }
-    .blob1 {
-      width:340px; height:340px;
-      top:-100px; right:-80px;
-      background:radial-gradient(circle, rgba(155,79,222,0.12) 0%, transparent 70%);
-    }
-    .blob2 {
-      width:280px; height:280px;
-      bottom:-80px; left:-60px;
-      background:radial-gradient(circle, rgba(123,47,190,0.09) 0%, transparent 70%);
-    }
-
-    /* ── HEADER ── */
-    .header {
-      background:linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 55%, var(--purple-light) 100%);
-      padding:0 0 28px;
-      position:relative; overflow:hidden;
-    }
-    .header-dots {
-      position:absolute; inset:0; pointer-events:none;
-      background-image:radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
-      background-size:20px 20px;
-    }
-    .header-inner {
-      position:relative; z-index:1;
-      display:flex; align-items:flex-start; gap:12px;
-      padding:20px 20px 0;
-    }
-    .back-btn-hdr {
-      width:38px; height:38px; border-radius:12px;
-      background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2);
-      display:flex; align-items:center; justify-content:center;
-      color:#fff; text-decoration:none; flex-shrink:0; margin-top:2px;
-      transition:background 0.15s;
-    }
-    .back-btn-hdr:hover { background:rgba(255,255,255,0.25); }
-    .back-btn-hdr svg {
-      width:18px; height:18px; fill:none;
-      stroke:#fff; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
-    }
-    .header-title { flex:1; }
-    .header-title h1 {
-      color:#fff; font-size:20px; font-weight:900;
-      display:flex; align-items:center; gap:8px; margin-bottom:3px;
-    }
-    .header-title h1 svg {
-      width:22px; height:22px; fill:none;
-      stroke:#fff; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0;
-    }
-    .header-title p {
-      color:rgba(255,255,255,0.75); font-size:13px; font-weight:700;
-    }
-    .header-badge {
-      background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2);
-      border-radius:10px; padding:6px 11px;
-      color:#fff; font-size:11px; font-weight:800;
-      display:flex; align-items:center; gap:5px; flex-shrink:0;
-    }
-    .header-badge svg {
-      width:14px; height:14px; fill:none;
-      stroke:#fff; stroke-width:2.2; stroke-linecap:round;
-    }
-
-    /* ── TABS ── */
-    .tab-row-wrap {
-      position:relative; z-index:1;
-      padding:14px 20px 0;
-    }
-    .tab-row {
-      display:flex; gap:8px; overflow-x:auto; padding-bottom:2px;
-      scrollbar-width:none;
-    }
-    .tab-row::-webkit-scrollbar { display:none; }
-    .tab-btn {
-      white-space:nowrap; padding:7px 16px;
-      border-radius:20px; border:1.5px solid rgba(255,255,255,0.25);
-      background:rgba(255,255,255,0.12);
-      color:rgba(255,255,255,0.8); font-family:'Nunito',sans-serif;
-      font-size:13px; font-weight:800; cursor:pointer;
-      transition:all 0.18s; flex-shrink:0;
-      display:flex; align-items:center; gap:5px;
-    }
-    .tab-btn svg {
-      width:14px; height:14px; fill:none;
-      stroke:currentColor; stroke-width:2.2; stroke-linecap:round; flex-shrink:0;
-    }
-    .tab-btn.active {
-      background:#fff; border-color:#fff; color:var(--purple-dark);
-    }
-
-    /* ── MAIN CONTENT ── */
     .container {
-      position:relative; z-index:1;
-      max-width:480px; margin:0 auto;
-      padding:20px 16px 100px;
-      display:flex; flex-direction:column; gap:16px;
+      max-width: 600px;
+      margin: 0 auto;
+      padding-bottom: 60px;
     }
 
-    /* ── SECTION TITLE ── */
-    .sec-label {
-      font-size:12px; font-weight:800; color:var(--text-light);
-      text-transform:uppercase; letter-spacing:0.5px;
-      display:flex; align-items:center; gap:6px; margin-bottom:10px;
-    }
-    .sec-label svg {
-      width:14px; height:14px; fill:none;
-      stroke:var(--text-light); stroke-width:2.2; flex-shrink:0;
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* ── BRAND GRID ── */
-    .brand-grid {
-      display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
-    }
-    .brand-card {
-      background:var(--white); border:1.5px solid var(--gray-line);
-      border-radius:14px; padding:14px 10px;
-      display:flex; flex-direction:column; align-items:center; gap:7px;
-      cursor:pointer; transition:all 0.18s;
-      box-shadow:0 2px 8px rgba(90,26,154,0.04);
-    }
-    .brand-card:hover { border-color:var(--purple-light); background:var(--purple-soft); }
-    .brand-card.selected { border-color:var(--purple); background:var(--purple-soft); }
-    .brand-card.selected .brand-name { color:var(--purple-dark); }
-    .brand-icon {
-      width:44px; height:44px; border-radius:12px;
-      background:linear-gradient(135deg, var(--purple-soft), var(--gray-line));
-      display:flex; align-items:center; justify-content:center;
-    }
-    .brand-icon svg {
-      width:22px; height:22px; fill:none;
-      stroke:var(--purple); stroke-width:2.2; stroke-linecap:round;
-    }
-    .brand-name {
-      font-size:12px; font-weight:800; color:var(--text-mid);
-      text-align:center; line-height:1.2;
+    /* Kategori Selector Grid */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
-    /* ── PRODUCT LIST ── */
-    .product-list { display:flex; flex-direction:column; gap:8px; }
+    @media (max-width: 480px) {
+      .category-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .cat-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .cat-item.active {
+      border-color: var(--purple);
+      background: rgba(124, 77, 255, 0.1);
+    }
+
+    .cat-icon {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .cat-name {
+      font-size: 11px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .cat-item.active .cat-name {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* Input Target */
+    .form-group {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--text-main);
+      font-size: 15px;
+      outline: none;
+      font-weight: 600;
+    }
+
+    .form-group input:focus {
+      border-color: var(--purple);
+    }
+
+    /* Brand / Operator Selector */
+    .brand-section {
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .brand-title {
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .brand-flex {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 5px;
+    }
+
+    .brand-flex::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .brand-flex::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 10px;
+    }
+
+    .brand-badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .brand-badge.active {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: #fff;
+    }
+
+    /* Grid Daftar Produk */
+    .list-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-light);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 400px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .product-card {
-      background:var(--white); border:1.5px solid var(--gray-line);
-      border-radius:14px; padding:14px 16px;
-      display:flex; align-items:center; gap:12px;
-      cursor:pointer; transition:all 0.18s;
-      box-shadow:0 2px 8px rgba(90,26,154,0.04);
-    }
-    .product-card:hover { border-color:var(--purple-light); }
-    .product-card.selected { border-color:var(--purple); background:var(--purple-soft); }
-    .product-radio {
-      width:20px; height:20px; border-radius:50%;
-      border:2px solid var(--gray-line); flex-shrink:0;
-      display:flex; align-items:center; justify-content:center;
-      transition:all 0.18s;
-    }
-    .product-card.selected .product-radio {
-      border-color:var(--purple); background:var(--purple);
-    }
-    .product-card.selected .product-radio::after {
-      content:''; width:7px; height:7px;
-      background:#fff; border-radius:50%;
-    }
-    .product-info { flex:1; min-width:0; }
-    .product-name {
-      font-size:14px; font-weight:800; color:var(--text-dark); margin-bottom:2px;
-    }
-    .product-desc {
-      font-size:12px; font-weight:700; color:var(--text-light);
-    }
-    .product-price {
-      font-size:14px; font-weight:900; color:var(--purple-dark);
-      white-space:nowrap;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      transition: transform 0.2s, border-color 0.2s;
     }
 
-    /* ── INPUT CARD ── */
-    .input-card {
-      background:var(--white); border:1.5px solid var(--gray-line);
-      border-radius:18px; padding:18px;
-      box-shadow:0 4px 16px rgba(90,26,154,0.06);
-    }
-    .field-label {
-      font-size:12px; font-weight:800; color:var(--text-mid);
-      display:flex; align-items:center; gap:6px; margin-bottom:8px;
-    }
-    .field-label svg {
-      width:14px; height:14px; fill:none;
-      stroke:var(--purple); stroke-width:2.2; flex-shrink:0;
-    }
-    .field-input {
-      width:100%; padding:13px 14px;
-      border:1.5px solid var(--gray-line); border-radius:12px;
-      background:var(--bg); color:var(--text-dark);
-      font-family:'Nunito',sans-serif; font-size:15px; font-weight:700;
-      outline:none; transition:border-color 0.15s;
-    }
-    .field-input:focus { border-color:var(--purple-light); }
-    .field-input::placeholder { color:var(--text-light); font-weight:600; }
-    .field-hint {
-      font-size:11px; font-weight:700; color:var(--text-light);
-      margin-top:6px; display:flex; align-items:center; gap:4px;
-    }
-    .field-hint svg {
-      width:12px; height:12px; fill:none;
-      stroke:var(--text-light); stroke-width:2; flex-shrink:0;
+    .product-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--purple);
     }
 
-    /* ── CONFIRM SUMMARY ── */
-    .confirm-card {
-      background:var(--white); border:1.5px solid var(--gray-line);
-      border-radius:18px; overflow:hidden;
-      box-shadow:0 4px 16px rgba(90,26,154,0.06);
-    }
-    .confirm-head {
-      background:linear-gradient(135deg, var(--purple-soft), var(--bg));
-      padding:14px 18px; border-bottom:1.5px solid var(--gray-line);
-    }
-    .confirm-title {
-      font-size:15px; font-weight:900; color:var(--purple-dark);
-      display:flex; align-items:center; gap:7px;
-    }
-    .confirm-title svg {
-      width:18px; height:18px; fill:none;
-      stroke:var(--purple); stroke-width:2.2; flex-shrink:0;
-    }
-    .confirm-body { padding:16px 18px; }
-    .confirm-row {
-      display:flex; align-items:center; justify-content:space-between;
-      padding:8px 0; border-bottom:1px solid var(--gray-line);
-      font-size:13px;
-    }
-    .confirm-row:last-child { border-bottom:none; }
-    .confirm-lbl { font-weight:700; color:var(--text-light); }
-    .confirm-val { font-weight:800; color:var(--text-dark); }
-    .confirm-val.price { font-weight:900; font-size:16px; color:var(--purple-dark); }
-
-    /* ── SUCCESS CARD ── */
-    .success-card {
-      background:var(--white); border:1.5px solid var(--green-border);
-      border-radius:18px; padding:28px 20px;
-      text-align:center;
-      box-shadow:0 4px 16px rgba(18,194,138,0.1);
-      animation:bounceIn 0.5s ease both;
-    }
-    .success-icon {
-      width:72px; height:72px; border-radius:50%;
-      background:linear-gradient(135deg, var(--green), #34D399);
-      display:flex; align-items:center; justify-content:center;
-      margin:0 auto 14px;
-    }
-    .success-icon svg {
-      width:34px; height:34px; fill:none;
-      stroke:#fff; stroke-width:2.5; stroke-linecap:round;
-    }
-    .success-title {
-      font-size:20px; font-weight:900; color:var(--green); margin-bottom:6px;
-    }
-    .success-sub {
-      font-size:13px; font-weight:700; color:var(--text-light);
+    .prod-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.4;
     }
 
-    /* ── HISTORY CARD ── */
-    .hist-card {
-      background:var(--white); border:1.5px solid var(--gray-line);
-      border-radius:14px; padding:14px 16px;
-      display:flex; align-items:center; gap:12px;
-      box-shadow:0 2px 8px rgba(90,26,154,0.04);
-      animation:fadeUp 0.3s ease both;
-    }
-    .hist-icon {
-      width:40px; height:40px; border-radius:12px; flex-shrink:0;
-      display:flex; align-items:center; justify-content:center;
-    }
-    .hist-icon svg {
-      width:20px; height:20px; fill:none;
-      stroke:currentColor; stroke-width:2.2; stroke-linecap:round;
-    }
-    .hist-icon.success-ic { background:var(--green-bg); color:var(--green); }
-    .hist-icon.fail-ic    { background:var(--red-bg);   color:var(--red);   }
-    .hist-icon.pending-ic { background:var(--amber-bg); color:var(--amber); }
-    .hist-main { flex:1; min-width:0; }
-    .hist-name {
-      font-size:14px; font-weight:800; color:var(--text-dark);
-      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    }
-    .hist-meta {
-      font-size:12px; font-weight:700; color:var(--text-light); margin-top:2px;
-    }
-    .hist-right { text-align:right; flex-shrink:0; }
-    .hist-price {
-      font-size:14px; font-weight:900; color:var(--purple-dark);
-    }
-    .hist-status {
-      font-size:11px; font-weight:800; margin-top:4px;
-      padding:3px 8px; border-radius:6px;
-      display:inline-block;
-    }
-    .hist-status.s-success { background:var(--green-bg); color:var(--green); }
-    .hist-status.s-failed  { background:var(--red-bg);   color:var(--red);   }
-    .hist-status.s-pending { background:var(--amber-bg); color:var(--amber); }
-
-    /* ── BUTTONS ── */
-    .btn-primary {
-      width:100%; padding:15px;
-      background:linear-gradient(135deg, var(--purple-dark), var(--purple));
-      border:none; border-radius:16px;
-      color:#fff; font-family:'Nunito',sans-serif;
-      font-size:15px; font-weight:900;
-      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;
-      transition:opacity 0.15s, transform 0.1s;
-      box-shadow:0 8px 24px rgba(90,26,154,0.3);
-    }
-    .btn-primary:hover { opacity:0.92; }
-    .btn-primary:active { transform:scale(0.98); }
-    .btn-primary:disabled { opacity:0.55; cursor:not-allowed; }
-    .btn-primary svg {
-      width:18px; height:18px; fill:none;
-      stroke:#fff; stroke-width:2.2; stroke-linecap:round; flex-shrink:0;
-    }
-    .btn-secondary {
-      width:100%; padding:13px;
-      background:var(--white); border:1.5px solid var(--border-soft);
-      border-radius:14px; color:var(--text-mid);
-      font-family:'Nunito',sans-serif; font-size:14px; font-weight:800;
-      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
-      transition:all 0.15s;
-      box-shadow:0 2px 8px rgba(90,26,154,0.04);
-    }
-    .btn-secondary:hover { border-color:var(--purple-light); color:var(--purple-dark); background:var(--purple-soft); }
-    .btn-secondary svg {
-      width:16px; height:16px; fill:none;
-      stroke:currentColor; stroke-width:2.2; stroke-linecap:round;
+    .prod-desc {
+      font-size: 10px;
+      color: var(--text-light);
+      margin-top: 4px;
     }
 
-    /* ── LOADING / EMPTY ── */
-    .loading-state, .empty-state {
-      display:flex; flex-direction:column; align-items:center;
-      padding:40px 20px; gap:10px;
-    }
-    .loading-icon, .empty-icon {
-      width:56px; height:56px; border-radius:16px;
-      background:var(--purple-soft);
-      display:flex; align-items:center; justify-content:center;
-    }
-    .loading-icon svg {
-      width:26px; height:26px; fill:none;
-      stroke:var(--purple); stroke-width:2; stroke-linecap:round;
-      animation:spin 1.2s linear infinite;
-    }
-    .empty-icon svg {
-      width:26px; height:26px; fill:none;
-      stroke:var(--purple-light); stroke-width:2; stroke-linecap:round;
-    }
-    .empty-title { font-size:15px; font-weight:800; color:var(--text-mid); }
-    .empty-sub   { font-size:13px; font-weight:700; color:var(--text-light); text-align:center; }
-
-    /* ── STEPPER ── */
-    .stepper {
-      display:flex; align-items:center; gap:0; margin-bottom:4px;
-    }
-    .step-item {
-      display:flex; flex-direction:column; align-items:center; gap:4px;
-      flex:1; position:relative;
-    }
-    .step-item:not(:last-child)::after {
-      content:''; position:absolute; top:14px; left:50%; right:-50%;
-      height:2px; background:var(--gray-line); z-index:0;
-    }
-    .step-item.done:not(:last-child)::after { background:var(--purple-light); }
-    .step-dot {
-      width:28px; height:28px; border-radius:50%;
-      background:var(--white); border:2px solid var(--gray-line);
-      display:flex; align-items:center; justify-content:center;
-      font-size:12px; font-weight:900; color:var(--text-light);
-      position:relative; z-index:1; transition:all 0.25s;
-    }
-    .step-item.active .step-dot {
-      background:var(--purple); border-color:var(--purple); color:#fff;
-      box-shadow:0 0 0 4px rgba(123,47,190,0.15);
-    }
-    .step-item.done .step-dot {
-      background:var(--purple-dark); border-color:var(--purple-dark); color:#fff;
-    }
-    .step-lbl {
-      font-size:10px; font-weight:800; color:var(--text-light); white-space:nowrap;
-    }
-    .step-item.active .step-lbl { color:var(--purple-dark); }
-
-    /* ── MAIN NAV TABS ── */
-    .main-tabs {
-      display:flex; gap:8px; margin-bottom:4px;
-    }
-    .main-tab-btn {
-      flex:1; padding:12px;
-      background:var(--white); border:1.5px solid var(--gray-line);
-      border-radius:14px; color:var(--text-mid);
-      font-family:'Nunito',sans-serif; font-size:13px; font-weight:800;
-      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
-      transition:all 0.18s;
-    }
-    .main-tab-btn svg {
-      width:15px; height:15px; fill:none;
-      stroke:currentColor; stroke-width:2.2; stroke-linecap:round;
-    }
-    .main-tab-btn.active {
-      background:var(--purple-soft); border-color:var(--purple);
-      color:var(--purple-dark);
+    .prod-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--purple);
+      margin-top: auto;
     }
 
-    /* ── TOAST ── */
-    .toast {
-      position:fixed; top:20px; left:50%;
-      transform:translateX(-50%) translateY(-80px);
-      z-index:999; padding:12px 22px;
-      border-radius:16px; font-weight:800; font-size:13px;
-      display:flex; align-items:center; gap:8px;
-      box-shadow:0 8px 24px rgba(90,26,154,0.25);
-      transition:transform 0.3s cubic-bezier(0.34,1.2,0.64,1), opacity 0.3s;
-      opacity:0; white-space:nowrap; color:#fff;
-      background:var(--purple-dark);
+    /* Bottom Sheet Konfirmasi */
+    .sheet-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      opacity: 0; visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
     }
-    .toast svg { width:15px; height:15px; fill:none; stroke:#fff; stroke-width:2; flex-shrink:0; }
-    .toast.show  { transform:translateX(-50%) translateY(0); opacity:1; }
-    .toast.error   { background:linear-gradient(135deg, var(--red), #F87171); box-shadow:0 8px 24px rgba(232,64,64,0.25); }
-    .toast.warn    { background:linear-gradient(135deg, var(--accent), #FF9E74); color:#fff; }
-    .toast.success { background:linear-gradient(135deg, var(--green), #34D399); box-shadow:0 8px 24px rgba(18,194,138,0.25); }
 
-    @keyframes fadeUp    { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes bounceIn  { 0%{opacity:0;transform:scale(0.8)} 70%{transform:scale(1.04)} 100%{opacity:1;transform:scale(1)} }
-    @keyframes spin      { to{transform:rotate(360deg)} }
-    @keyframes pulseSpin { 0%,100%{opacity:1} 50%{opacity:0.5} }
+    .sheet-overlay.active {
+      opacity: 1; visibility: visible;
+    }
 
-    .spin { animation:spin 1s linear infinite; }
-    .hidden { display:none !important; }
+    .bottom-sheet {
+      position: fixed;
+      bottom: -100%; left: 0; right: 0;
+      background: var(--bg-card);
+      border-top: 2px solid var(--border-color);
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      padding: 24px;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 1000;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .bottom-sheet.active {
+      bottom: 0;
+    }
+
+    .sheet-header {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .sheet-detail {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .detail-row:last-child {
+      margin-bottom: 0;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .detail-label { color: var(--text-light); }
+    .detail-value { font-weight: 600; text-align: right; }
+    .price-total { color: var(--success); font-size: 16px; font-weight: 700; }
+
+    .pay-btn {
+      width: 100%;
+      background: var(--purple);
+      color: var(--text-main);
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .pay-btn:hover { background: var(--purple-hover); }
+    .close-sheet-btn {
+      width: 100%;
+      background: transparent;
+      color: var(--text-light);
+      border: none;
+      padding: 10px;
+      font-size: 13px;
+      margin-top: 8px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-<div class="blob1"></div>
-<div class="blob2"></div>
+  <div class="container">
+    <h2><i class="fa-solid fa-bolt" style="color:var(--purple)"></i> PPOB Store & Topup</h2>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-dots"></div>
-  <div class="header-inner">
-    <a class="back-btn-hdr" href="dashboard.html">
-      <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
-    </a>
-    <div class="header-title">
-      <h1>
-        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        PPOB
-      </h1>
-      <p>Pulsa, Paket Data, PLN &amp; lebih</p>
-    </div>
-    <div class="header-badge">
-      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      Instan
-    </div>
-  </div>
-  <!-- CATEGORY TABS -->
-  <div class="tab-row-wrap">
-    <div class="tab-row" id="catTabs">
-      <button class="tab-btn active" data-cat="PULSA" onclick="selectCat(this)">
-        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>
-        Pulsa
-      </button>
-      <button class="tab-btn" data-cat="DATA" onclick="selectCat(this)">
-        <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/></svg>
-        Paket Data
-      </button>
-      <button class="tab-btn" data-cat="PLN" onclick="selectCat(this)">
-        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        PLN / Token
-      </button>
-      <button class="tab-btn" data-cat="TV" onclick="selectCat(this)">
-        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        TV Kabel
-      </button>
-      <button class="tab-btn" data-cat="GAMES" onclick="selectCat(this)">
-        <svg viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="13" r="1" fill="currentColor" stroke="none"/><path d="M3 8h18l-2 12H5L3 8z"/><path d="M6 4l1 4M18 4l-1 4"/></svg>
-        Games
-      </button>
-      <button class="tab-btn" data-cat="LAINNYA" onclick="selectCat(this)">
-        <svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
-        Lainnya
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- MAIN CONTAINER -->
-<div class="container">
-
-  <!-- MAIN NAVIGATION TABS -->
-  <div class="main-tabs">
-    <button class="main-tab-btn active" id="tabBeli" onclick="switchMainTab('beli')">
-      <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1" fill="currentColor" stroke="none"/><circle cx="20" cy="21" r="1" fill="currentColor" stroke="none"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-      Beli Produk
-    </button>
-    <button class="main-tab-btn" id="tabHistori" onclick="switchMainTab('histori')">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
-      Riwayat
-    </button>
-  </div>
-
-  <!-- ═══ PANEL BELI ═══ -->
-  <div id="panelBeli">
-
-    <!-- STEPPER -->
-    <div class="stepper">
-      <div class="step-item active" id="step1">
-        <div class="step-dot">1</div>
-        <div class="step-lbl">Pilih</div>
+    <div class="category-grid" id="categoryGrid">
       </div>
-      <div class="step-item" id="step2">
-        <div class="step-dot">2</div>
-        <div class="step-lbl">Nomor</div>
-      </div>
-      <div class="step-item" id="step3">
-        <div class="step-dot">3</div>
-        <div class="step-lbl">Konfirmasi</div>
-      </div>
+
+    <div class="form-group">
+      <label id="inputLabel">Nomor Telepon / Tujuan</label>
+      <input type="text" id="targetInput" placeholder="Contoh: 08123456789" oninput="handleTargetInput()">
     </div>
 
-    <!-- STEP 1: BRAND + PRODUCT -->
-    <div id="stepBrand">
-      <div class="sec-label">
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-        Pilih Operator / Layanan
-      </div>
-      <div class="brand-grid" id="brandGrid">
-        <div class="loading-state">
-          <div class="loading-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-          </div>
+    <div class="brand-section" id="brandSection">
+      <div class="brand-title" id="brandTitle">Pilih Operator / Provider</div>
+      <div class="brand-flex" id="brandFlex">
         </div>
-      </div>
-
-      <div id="productSection" class="hidden" style="margin-top:16px;">
-        <div class="sec-label">
-          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-          Pilih Produk
-        </div>
-        <div class="product-list" id="productList">
-          <div class="loading-state">
-            <div class="loading-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-            </div>
-          </div>
-        </div>
-
-        <div id="toStep2Wrap" class="hidden" style="margin-top:12px;">
-          <button class="btn-primary" onclick="goToStep2()">
-            <svg viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>
-            Lanjut — Masukkan Nomor
-          </button>
-        </div>
-      </div>
     </div>
 
-    <!-- STEP 2: INPUT NOMOR -->
-    <div id="stepNomor" class="hidden">
-      <div class="input-card">
-        <div class="field-label">
-          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>
-          <span id="nomorLabel">Nomor / ID Pelanggan</span>
-        </div>
-        <input class="field-input" type="tel" id="nomorInput"
-          placeholder="Contoh: 0812xxxxxxxx"
-          oninput="onNomorChange()" />
-        <div class="field-hint">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/></svg>
-          <span id="nomorHint">Masukkan nomor yang ingin diisi</span>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:8px;margin-top:4px;">
-        <button class="btn-secondary" onclick="goToStep1()">
-          <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
-          Kembali
-        </button>
-        <button class="btn-primary" id="btnToStep3" onclick="goToStep3()" disabled>
-          <svg viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>
-          Konfirmasi
-        </button>
-      </div>
-    </div>
-
-    <!-- STEP 3: KONFIRMASI -->
-    <div id="stepKonfirmasi" class="hidden">
-      <div class="confirm-card">
-        <div class="confirm-head">
-          <div class="confirm-title">
-            <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
-            Konfirmasi Pembelian
-          </div>
-        </div>
-        <div class="confirm-body">
-          <div class="confirm-row">
-            <div class="confirm-lbl">Produk</div>
-            <div class="confirm-val" id="cfmProduk">—</div>
-          </div>
-          <div class="confirm-row">
-            <div class="confirm-lbl">Nomor</div>
-            <div class="confirm-val" id="cfmNomor">—</div>
-          </div>
-          <div class="confirm-row">
-            <div class="confirm-lbl">Kategori</div>
-            <div class="confirm-val" id="cfmKategori">—</div>
-          </div>
-          <div class="confirm-row">
-            <div class="confirm-lbl">Total Bayar</div>
-            <div class="confirm-val price" id="cfmHarga">—</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="resultArea"></div>
-
-      <div style="display:flex;gap:8px;margin-top:4px;" id="konfirmBtnRow">
-        <button class="btn-secondary" onclick="goToStep2()">
-          <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
-          Kembali
-        </button>
-        <button class="btn-primary" id="btnBeli" onclick="doBeli()">
-          <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-width="3"/></svg>
-          Bayar Sekarang
-        </button>
-      </div>
-    </div>
-
-  </div><!-- /panelBeli -->
-
-  <!-- ═══ PANEL HISTORI ═══ -->
-  <div id="panelHistori" class="hidden">
-    <div class="sec-label">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
-      Riwayat Transaksi PPOB
-    </div>
-    <div id="histList">
-      <div class="loading-state">
-        <div class="loading-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-        </div>
-        <div class="empty-title">Memuat riwayat...</div>
-      </div>
+    <div class="list-title" id="listTitle">Pilih Nominal Produk</div>
+    <div class="product-grid" id="productGrid">
+      <div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--text-light);">Memuat kategori...</div>
     </div>
   </div>
 
-  <!-- BACK BTN -->
-  <button class="btn-secondary" onclick="location.href='dashboard.html'">
-    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-    Kembali ke Dashboard
-  </button>
-
-</div><!-- /container -->
-
-<div class="toast" id="toast"></div>
-
-<script>
-
-const token     = localStorage.getItem('token');
-const localUser = JSON.parse(localStorage.getItem('user') || 'null');
-
-if (!localUser) window.location.href = 'index.html';
-
-/* ═══ STATE ═══ */
-let activeCat      = 'PULSA';
-let selectedBrand  = null;
-let selectedProduct = null;
-let brandsCache    = {};
-let productsCache  = {};
-
-/* ═══ INIT ═══ */
-loadBrands(activeCat);
-
-/* ═══ CATEGORY ═══ */
-function selectCat(el) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  activeCat = el.dataset.cat;
-  resetFlow();
-  loadBrands(activeCat);
-}
-
-/* ═══ BRANDS ═══ */
-async function loadBrands(cat) {
-  document.getElementById('brandGrid').innerHTML = `
-    <div class="loading-state" style="grid-column:1/-1;">
-      <div class="loading-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+  <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+  <div class="bottom-sheet" id="bottomSheet">
+    <div class="sheet-header">Konfirmasi Pembelian</div>
+    <div class="sheet-detail">
+      <div class="detail-row">
+        <span class="detail-label">Kategori</span>
+        <span class="detail-value" id="detCat">-</span>
       </div>
-    </div>`;
-
-  if (brandsCache[cat]) { renderBrands(brandsCache[cat]); return; }
-
-  try {
-    const res  = await fetch(`/api/ppob/brands?category=${encodeURIComponent(cat)}`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const data = await res.json();
-    if (!data.success) { showBrandError(data.message); return; }
-    brandsCache[cat] = data.brands || [];
-    renderBrands(brandsCache[cat]);
-  } catch(e) {
-    showBrandError('Gagal memuat, periksa koneksi');
-  }
-}
-
-const BRAND_ICONS = {
-  TELKOMSEL: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
-  INDOSAT:   `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>`,
-  XL:        `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="8" y1="8" x2="16" y2="16"/><line x1="16" y1="8" x2="8" y2="16"/></svg>`,
-  AXIS:      `<svg viewBox="0 0 24 24"><polygon points="12 2 22 21 2 21"/></svg>`,
-  TRI:       `<svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/><path d="M12 8v8M9 14h6"/></svg>`,
-  SMARTFREN: `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h8M12 8v8"/></svg>`,
-  PLN:       `<svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
-  INDIHOME:  `<svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>`,
-};
-
-const CAT_LABELS = {
-  PULSA: 'Nomor Tujuan', DATA: 'Nomor Tujuan',
-  PLN: 'No. Meter / ID Pelanggan', TV: 'ID Pelanggan',
-  GAMES: 'ID / Username', LAINNYA: 'Nomor / ID'
-};
-const CAT_HINTS = {
-  PULSA: 'Masukkan nomor HP tujuan',
-  DATA:  'Masukkan nomor HP tujuan',
-  PLN:   'Contoh: 5204xxxxxxxxxx',
-  TV:    'Cek di tagihan atau aplikasi TV',
-  GAMES: 'User ID atau Username game',
-  LAINNYA: 'Masukkan nomor / ID pelanggan'
-};
-
-function getIcon(brand) {
-  const key = (brand.brand_name || brand.brand_code || '').toUpperCase();
-  for (const k in BRAND_ICONS) if (key.includes(k)) return BRAND_ICONS[k];
-  return `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>`;
-}
-
-function renderBrands(brands) {
-  if (!brands.length) {
-    document.getElementById('brandGrid').innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1;">
-        <div class="empty-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
-        <div class="empty-title">Belum Tersedia</div>
-        <div class="empty-sub">Produk kategori ini belum ada</div>
-      </div>`;
-    return;
-  }
-
-  let html = '';
-  brands.forEach((b, i) => {
-    const name = b.brand_name || b.brand_code || 'Operator';
-    html += `
-    <div class="brand-card" onclick="selectBrand(this,'${b.brand_code}','${name.replace(/'/g,"\\'")}')">
-      <div class="brand-icon">${getIcon(b)}</div>
-      <div class="brand-name">${name}</div>
-    </div>`;
-  });
-  document.getElementById('brandGrid').innerHTML = html;
-}
-
-function showBrandError(msg) {
-  document.getElementById('brandGrid').innerHTML = `
-    <div class="empty-state" style="grid-column:1/-1;">
-      <div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/></svg></div>
-      <div class="empty-title">Gagal Memuat</div>
-      <div class="empty-sub">${msg}</div>
-    </div>`;
-}
-
-/* ═══ SELECT BRAND → LOAD PRODUCTS ═══ */
-function selectBrand(el, brandCode, brandName) {
-  document.querySelectorAll('.brand-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedBrand = { code: brandCode, name: brandName };
-  selectedProduct = null;
-
-  const ps = document.getElementById('productSection');
-  ps.classList.remove('hidden');
-  document.getElementById('toStep2Wrap').classList.add('hidden');
-
-  loadProducts(brandCode);
-  ps.scrollIntoView({ behavior:'smooth', block:'nearest' });
-}
-
-async function loadProducts(brandCode) {
-  document.getElementById('productList').innerHTML = `
-    <div class="loading-state">
-      <div class="loading-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+      <div class="detail-row">
+        <span class="detail-label">Produk</span>
+        <span class="detail-value" id="detName">-</span>
       </div>
-    </div>`;
-
-  const cacheKey = activeCat + '|' + brandCode;
-  if (productsCache[cacheKey]) { renderProducts(productsCache[cacheKey]); return; }
-
-  try {
-    const res  = await fetch(`/api/ppob/products?category=${encodeURIComponent(activeCat)}&brand=${encodeURIComponent(brandCode)}`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const data = await res.json();
-    if (!data.success) { renderProductsEmpty(data.message); return; }
-    productsCache[cacheKey] = data.products || [];
-    renderProducts(productsCache[cacheKey]);
-  } catch(e) {
-    renderProductsEmpty('Gagal memuat produk');
-  }
-}
-
-function renderProducts(products) {
-  if (!products.length) { renderProductsEmpty('Produk tidak tersedia'); return; }
-  let html = '';
-  products.forEach(p => {
-    const harga = Number(p.price || 0).toLocaleString('id-ID');
-    const desc  = p.description || p.product_name || '';
-    html += `
-    <div class="product-card" data-code="${p.product_code}" onclick="selectProduct(this)">
-      <div class="product-radio"></div>
-      <div class="product-info">
-        <div class="product-name">${p.product_name || p.product_code}</div>
-        ${desc ? `<div class="product-desc">${desc}</div>` : ''}
+      <div class="detail-row">
+        <span class="detail-label">Tujuan</span>
+        <span class="detail-value" id="detTarget">-</span>
       </div>
-      <div class="product-price">Rp ${harga}</div>
-    </div>`;
-  });
-  document.getElementById('productList').innerHTML = html;
-}
+      <div class="detail-row">
+        <span class="detail-label">Total Bayar</span>
+        <span class="detail-value price-total" id="detPrice">Rp 0</span>
+      </div>
+    </div>
+    <button class="pay-btn" onclick="processOrder()">Beli Sekarang</button>
+    <button class="close-sheet-btn" onclick="closeSheet()">Batal</button>
+  </div>
 
-function renderProductsEmpty(msg) {
-  document.getElementById('productList').innerHTML = `
-    <div class="empty-state">
-      <div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
-      <div class="empty-title">Produk Tidak Ada</div>
-      <div class="empty-sub">${msg}</div>
-    </div>`;
-}
+  <script>
+    let currentCategory = 'Pulsa';
+    let selectedBrand = '';
+    let selectedSub = '';
+    let selectedProduct = null;
 
-function selectProduct(el) {
-  document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  const code = el.dataset.code;
-  const cacheKey = activeCat + '|' + (selectedBrand?.code || '');
-  const products = productsCache[cacheKey] || [];
-  selectedProduct = products.find(p => p.product_code === code) || { product_code: code };
-  document.getElementById('toStep2Wrap').classList.remove('hidden');
-}
+    // Ambit token JWT dari localStorage
+    const token = localStorage.getItem('token'); 
 
-/* ═══ STEP NAVIGATION ═══ */
-function goToStep2() {
-  if (!selectedProduct) { showToast('Pilih produk terlebih dahulu', 'warn'); return; }
-  document.getElementById('stepBrand').classList.add('hidden');
-  document.getElementById('stepNomor').classList.remove('hidden');
-  document.getElementById('stepKonfirmasi').classList.add('hidden');
-  setStep(2);
-
-  const label = CAT_LABELS[activeCat] || 'Nomor / ID';
-  const hint  = CAT_HINTS[activeCat]  || 'Masukkan nomor atau ID pelanggan';
-  document.getElementById('nomorLabel').textContent = label;
-  document.getElementById('nomorHint').textContent  = hint;
-  document.getElementById('nomorInput').value = '';
-  document.getElementById('btnToStep3').disabled = true;
-  if (activeCat === 'PLN' || activeCat === 'TV' || activeCat === 'GAMES') {
-    document.getElementById('nomorInput').setAttribute('type','text');
-  } else {
-    document.getElementById('nomorInput').setAttribute('type','tel');
-  }
-  window.scrollTo({ top:0, behavior:'smooth' });
-}
-
-function goToStep1() {
-  document.getElementById('stepBrand').classList.remove('hidden');
-  document.getElementById('stepNomor').classList.add('hidden');
-  document.getElementById('stepKonfirmasi').classList.add('hidden');
-  setStep(1);
-}
-
-function goToStep3() {
-  const nomor = document.getElementById('nomorInput').value.trim();
-  if (!nomor) { showToast('Masukkan nomor terlebih dahulu', 'warn'); return; }
-
-  document.getElementById('stepBrand').classList.add('hidden');
-  document.getElementById('stepNomor').classList.add('hidden');
-  document.getElementById('stepKonfirmasi').classList.remove('hidden');
-  document.getElementById('resultArea').innerHTML = '';
-  document.getElementById('konfirmBtnRow').classList.remove('hidden');
-  setStep(3);
-
-  document.getElementById('cfmProduk').textContent   = selectedProduct?.product_name || selectedProduct?.product_code || '—';
-  document.getElementById('cfmNomor').textContent    = nomor;
-  document.getElementById('cfmKategori').textContent = activeCat;
-  document.getElementById('cfmHarga').textContent    = 'Rp ' + Number(selectedProduct?.price || 0).toLocaleString('id-ID');
-  window.scrollTo({ top:0, behavior:'smooth' });
-}
-
-function onNomorChange() {
-  const v = document.getElementById('nomorInput').value.trim();
-  document.getElementById('btnToStep3').disabled = !v;
-}
-
-function setStep(n) {
-  for (let i = 1; i <= 3; i++) {
-    const el = document.getElementById('step' + i);
-    el.classList.remove('active','done');
-    if (i < n) el.classList.add('done');
-    else if (i === n) el.classList.add('active');
-  }
-}
-
-function resetFlow() {
-  selectedBrand = null; selectedProduct = null;
-  document.getElementById('stepBrand').classList.remove('hidden');
-  document.getElementById('stepNomor').classList.add('hidden');
-  document.getElementById('stepKonfirmasi').classList.add('hidden');
-  document.getElementById('productSection').classList.add('hidden');
-  document.getElementById('toStep2Wrap').classList.add('hidden');
-  setStep(1);
-}
-
-/* ═══ BELI ═══ */
-async function doBeli() {
-  const nomor = document.getElementById('nomorInput').value.trim();
-  if (!selectedProduct || !nomor) { showToast('Data tidak lengkap', 'error'); return; }
-
-  const btn = document.getElementById('btnBeli');
-  btn.disabled = true;
-  btn.innerHTML = `<svg class="spin" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10"/></svg> Memproses...`;
-
-  try {
-    const res  = await fetch('/api/ppob/buy', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        email:        localUser.email,
-        product_code: selectedProduct.product_code,
-        target:       nomor
-      })
-    });
-    const data = await res.json();
-
-    btn.disabled = false;
-    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-width="3"/></svg> Bayar Sekarang`;
-
-    if (!data.success) {
-      document.getElementById('resultArea').innerHTML = `
-        <div style="background:var(--red-bg);border:1.5px solid var(--red-border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:10px;margin-top:8px;">
-          <svg style="width:20px;height:20px;fill:none;stroke:var(--red);stroke-width:2.2;flex-shrink:0;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-          <span style="font-size:13px;font-weight:800;color:var(--red);">${data.message || 'Transaksi gagal'}</span>
-        </div>`;
-      return;
+    // 1. Ambil Kategori dari Backend
+    async function loadCategories() {
+      try {
+        const res = await fetch('/api/ppob/categories');
+        const result = await res.json();
+        if (result.success) {
+          const grid = document.getElementById('categoryGrid');
+          grid.innerHTML = '';
+          result.data.forEach((cat, idx) => {
+            const item = document.createElement('div');
+            item.className = `cat-item ${idx === 0 ? 'active' : ''}`;
+            item.onclick = () => switchCategory(cat.id, item);
+            item.innerHTML = `
+              <div class="cat-icon">${cat.icon}</div>
+              <div class="cat-name">${cat.name}</div>
+            `;
+            grid.appendChild(item);
+          });
+          switchCategory(result.data[0].id, grid.firstChild);
+        }
+      } catch (err) {
+        console.error("Gagal load kategori:", err);
+      }
     }
 
-    document.getElementById('resultArea').innerHTML = `
-      <div class="success-card" style="margin-top:8px;">
-        <div class="success-icon">
-          <svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg>
-        </div>
-        <div class="success-title">Transaksi Berhasil!</div>
-        <div class="success-sub">Produk telah dikirim ke ${nomor}</div>
-        ${data.sn ? `<div style="margin-top:10px;font-size:12px;font-weight:800;color:var(--text-mid);">SN: ${data.sn}</div>` : ''}
-      </div>`;
-    document.getElementById('konfirmBtnRow').classList.add('hidden');
-    delete productsCache[activeCat + '|' + (selectedBrand?.code || '')];
+    // 2. Aksi Pindah Kategori
+    async function switchCategory(catId, element) {
+      currentCategory = catId;
+      selectedBrand = '';
+      selectedSub = '';
+      
+      document.querySelectorAll('.cat-item').forEach(b => b.classList.remove('active'));
+      if(element) element.classList.add('active');
 
-  } catch(e) {
-    btn.disabled = false;
-    btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-width="3"/></svg> Bayar Sekarang`;
-    showToast('Gagal, periksa koneksi', 'error');
-  }
-}
+      const label = document.getElementById('inputLabel');
+      const input = document.getElementById('targetInput');
+      const listTitle = document.getElementById('listTitle');
 
-/* ═══ MAIN TAB SWITCH ═══ */
-function switchMainTab(tab) {
-  const isBeli = tab === 'beli';
-  document.getElementById('tabBeli').classList.toggle('active', isBeli);
-  document.getElementById('tabHistori').classList.toggle('active', !isBeli);
-  document.getElementById('panelBeli').classList.toggle('hidden', !isBeli);
-  document.getElementById('panelHistori').classList.toggle('hidden', isBeli);
-  if (!isBeli) loadHistory();
-}
+      input.value = ''; // Reset inputan
 
-/* ═══ HISTORY ═══ */
-async function loadHistory() {
-  document.getElementById('histList').innerHTML = `
-    <div class="loading-state">
-      <div class="loading-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-      </div>
-      <div class="empty-title">Memuat riwayat...</div>
-    </div>`;
+      if (catId === 'PLN') {
+        label.innerText = 'Nomor Meter / ID Pelanggan';
+        input.placeholder = 'Contoh: 53001234567';
+        listTitle.innerText = 'Pilih Token PLN';
+      } else if (catId === 'Games') {
+        label.innerText = 'ID Player Game';
+        input.placeholder = 'Contoh: 87654321 (Zone ID)';
+        listTitle.innerText = 'Pilih Voucher Game';
+      } else {
+        label.innerText = 'Nomor Handphone Tujuan';
+        input.placeholder = 'Contoh: 08123456789';
+        listTitle.innerText = `Pilih Paket ${catId}`;
+      }
 
-  try {
-    const res  = await fetch(`/api/ppob/history?email=${encodeURIComponent(localUser.email)}`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const data = await res.json();
-    if (!data.success) { histError(data.message); return; }
-    renderHistory(data.transactions || []);
-  } catch(e) {
-    histError('Gagal memuat riwayat');
-  }
-}
+      document.getElementById('brandSection').style.display = 'none';
+      await fetchProducts();
+    }
 
-function renderHistory(txs) {
-  if (!txs.length) {
-    document.getElementById('histList').innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg></div>
-        <div class="empty-title">Belum Ada Transaksi</div>
-        <div class="empty-sub">Riwayat PPOB akan muncul di sini</div>
-      </div>`;
-    return;
-  }
+    // 3. Ambil Daftar Produk dari API Backend
+    async function fetchProducts() {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '<div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--text-light);">⏳ Memuat produk dari provider...</div>';
 
-  let html = '';
-  txs.forEach((tx, i) => {
-    const statusCls = tx.status === 'Sukses' ? 's-success' : tx.status === 'Pending' ? 's-pending' : 's-failed';
-    const iconCls   = tx.status === 'Sukses' ? 'success-ic' : tx.status === 'Pending' ? 'pending-ic' : 'fail-ic';
-    const date = (tx.created_at || '').replace('T',' ').slice(0,16) || '—';
-    const icon = tx.status === 'Sukses'
-      ? `<svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg>`
-      : tx.status === 'Pending'
-        ? `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>`
-        : `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
-    html += `
-    <div class="hist-card" style="animation-delay:${i*0.04}s;">
-      <div class="hist-icon ${iconCls}">${icon}</div>
-      <div class="hist-main">
-        <div class="hist-name">${tx.product_name || tx.product_code || '—'}</div>
-        <div class="hist-meta">${tx.target || '—'} &bull; ${date}</div>
-      </div>
-      <div class="hist-right">
-        <div class="hist-price">Rp ${Number(tx.price||0).toLocaleString('id-ID')}</div>
-        <span class="hist-status ${statusCls}">${tx.status || '—'}</span>
-      </div>
-    </div>`;
-  });
-  document.getElementById('histList').innerHTML = html;
-}
+      try {
+        let url = `/api/ppob/products?category=${encodeURIComponent(currentCategory)}`;
+        if (selectedBrand) url += `&brand=${encodeURIComponent(selectedBrand)}`;
+        
+        const response = await fetch(url);
+        const result = await response.json();
 
-function histError(msg) {
-  document.getElementById('histList').innerHTML = `
-    <div class="empty-state">
-      <div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/></svg></div>
-      <div class="empty-title">Gagal Memuat</div>
-      <div class="empty-sub">${msg}</div>
-    </div>`;
-}
+        if (result.success && result.data.length > 0) {
+          renderProducts(result.data);
 
-/* ═══ TOAST ═══ */
-function showToast(msg, type='success') {
-  const icons = {
-    success: `<svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg>`,
-    error:   `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
-    warn:    `<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="3"/></svg>`,
-  };
-  const t = document.getElementById('toast');
-  t.innerHTML = (icons[type] || icons.success) + msg;
-  t.className = 'toast ' + type + ' show';
-  setTimeout(() => t.className = 'toast ' + type, 2600);
-}
+          // Render Badge Brand jika kategori Pulsa/Data/E-Money
+          if (!selectedBrand) {
+            const brands = [...new Set(result.data.map(p => p.brand))];
+            renderBrandBadges(brands);
+          }
+        } else {
+          grid.innerHTML = `<div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--error); font-weight:600;">❌ ${result.message || 'Produk kosong / gangguan'}</div>`;
+        }
+      } catch (err) {
+        grid.innerHTML = '<div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--error); font-weight:600;">❌ Gagal memuat data server</div>';
+      }
+    }
 
-</script>
+    // 4. Render Tombol Pilihan Operator (Brand)
+    function renderBrandBadges(brands) {
+      const section = document.getElementById('brandSection');
+      const flex = document.getElementById('brandFlex');
+      
+      if (brands.length <= 1) {
+        section.style.display = 'none';
+        return;
+      }
+
+      section.style.display = 'block';
+      flex.innerHTML = '';
+
+      // Tombol Semua
+      const allBtn = document.createElement('div');
+      allBtn.className = `brand-badge ${!selectedBrand ? 'active' : ''}`;
+      allBtn.innerText = 'Semua';
+      allBtn.onclick = () => {
+        selectedBrand = '';
+        document.querySelectorAll('.brand-badge').forEach(b => b.classList.remove('active'));
+        allBtn.classList.add('active');
+        fetchProducts();
+      };
+      flex.appendChild(allBtn);
+
+      brands.forEach(bName => {
+        const btn = document.createElement('div');
+        btn.className = `brand-badge ${selectedBrand === bName ? 'active' : ''}`;
+        btn.innerText = bName;
+        btn.onclick = () => {
+          selectedBrand = bName;
+          document.querySelectorAll('.brand-badge').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          fetchProducts();
+        };
+        flex.appendChild(btn);
+      });
+    }
+
+    // 5. Render List Card Produk
+    function renderProducts(products) {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+
+      products.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.onclick = () => openSheet(p);
+        card.innerHTML = `
+          <div>
+            <div class="prod-name">${p.product_name}</div>
+            <div class="prod-desc">${p.brand}</div>
+          </div>
+          <div class="prod-price">Rp ${p.price.toLocaleString('id-ID')}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Otomatis Deteksi Operator Berdasarkan Prefix Nomor (08xx)
+    function handleTargetInput() {
+      const target = document.getElementById('targetInput').value;
+      if ((currentCategory === 'Pulsa' || currentCategory === 'Data') && target.length >= 4) {
+        const prefix = target.substring(0, 4);
+        let detected = '';
+
+        if (['0811', '0812', '0813', '0821', '0822', '0823', '0852', '0853', '0851'].includes(prefix)) detected = 'Telkomsel';
+        else if (['0814', '0815', '0816', '0855', '0856', '0857', '0858'].includes(prefix)) detected = 'Indosat';
+        else if (['0817', '0818', '0819', '0859', '0877', '0878'].includes(prefix)) detected = 'XL';
+        else if (['0831', '0832', '0833', '0838'].includes(prefix)) detected = 'Axis';
+        else if (['0895', '0896', '0897', '0898', '0899'].includes(prefix)) detected = 'Tri';
+        else if (['0881', '0882', '0883', '0884', '0885', '0886', '0887', '0888', '0889'].includes(prefix)) detected = 'Smartfren';
+
+        if (detected && selectedBrand !== detected) {
+          selectedBrand = detected;
+          fetchProducts();
+        }
+      }
+    }
+
+    // 6. Buka Bottom Sheet Konfirmasi
+    function openSheet(product) {
+      const target = document.getElementById('targetInput').value;
+      if (!token) {
+        alert('Kamu harus login terlebih dahulu!');
+        return;
+      }
+      if (!target || target.length < 5) {
+        alert('Harap masukkan nomor tujuan dengan benar!');
+        return;
+      }
+
+      selectedProduct = product;
+      document.getElementById('detCat').innerText = currentCategory;
+      document.getElementById('detName').innerText = product.product_name;
+      document.getElementById('detTarget').innerText = target;
+      document.getElementById('detPrice').innerText = 'Rp ' + product.price.toLocaleString('id-ID');
+
+      document.getElementById('sheetOverlay').classList.add('active');
+      document.getElementById('bottomSheet').classList.add('active');
+    }
+
+    function closeSheet() {
+      document.getElementById('sheetOverlay').classList.remove('active');
+      document.getElementById('bottomSheet').classList.remove('active');
+    }
+
+    // 7. Proses Transaksi Kirim ke Backend API
+    async function processOrder() {
+      const target = document.getElementById('targetInput').value;
+      const btn = document.querySelector('.pay-btn');
+
+      btn.disabled = true;
+      btn.innerText = 'Memproses Pesanan...';
+      btn.style.background = '#475569';
+
+      try {
+        const response = await fetch('/api/ppob/buy', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            sku: selectedProduct.buyer_sku_code,
+            target: target
+          })
+        });
+
+        const result = await response.json();
+        closeSheet();
+
+        if (result.success) {
+          alert(`✅ Sukses!\n\n${result.message}\nRef ID: ${result.data.ref_id}\n\nPesanan Anda aman diproses sistem.`);
+          document.getElementById('targetInput').value = '';
+        } else {
+          alert(`❌ Gagal:\n${result.message}`);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('❌ Terjadi gangguan jaringan ke server.');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Beli Sekarang';
+        btn.style.background = 'var(--purple)';
+      }
+    }
+
+    // Load Pertama Kali
+    loadCategories();
+  </script>
 </body>
 </html>
