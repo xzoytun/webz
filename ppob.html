@@ -72,6 +72,7 @@ body {
   margin-bottom:1px; letter-spacing:0.3px;
   display:flex; align-items:center; gap:4px;
 }
+.hero-greeting svg { width: 12px; height: 12px; stroke: rgba(255,255,255,0.7); stroke-width: 2.2; fill: none; }
 .hero-main-title { font-size:20px; font-weight:900; color:#fff; line-height:1.2; letter-spacing:-0.2px; }
 .btn-back {
   background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
@@ -144,16 +145,28 @@ body {
 }
 .hidden { display: none !important; }
 
-/* ─── PRODUCT LIST AREA ─── */
+/* ─── PRODUCT LIST AREA (DENGAN RE-SIZE ICON STATUS) ─── */
 .product-area { animation: fadeUp 0.4s 0.16s ease both; }
 .status-box {
-  background: var(--white); border-radius: 16px; padding: 40px 20px;
+  background: var(--white); border-radius: 16px; padding: 32px 20px;
   border: 1px solid var(--gray-line); text-align: center;
-  display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--text-light);
+  display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text-mid);
 }
-.status-box svg { width: 36px; height: 36px; fill: none; stroke: var(--text-light); stroke-width: 1.8; opacity: 0.6; }
-.status-box.loading svg { stroke: var(--purple); animation: spin 1s linear infinite; }
-.status-box p { font-size: 12px; font-weight: 700; max-width: 260px; line-height: 1.4; }
+
+/* Pembungkus Badge Lingkaran Icon Status */
+.status-icon-badge {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--purple-soft);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 2px;
+}
+.status-box svg { width: 20px; height: 20px; fill: none; stroke: var(--purple); stroke-width: 2.3; }
+
+/* Style Khusus Error / Kosong */
+.status-box.error-status .status-icon-badge { background: var(--red-bg); }
+.status-box.error-status svg { stroke: var(--red); }
+
+/* Animasi Spinner Loading */
+.status-box.loading svg { animation: spin 1s linear infinite; }
+.status-box p { font-size: 12px; font-weight: 700; max-width: 280px; color: var(--text-light); line-height: 1.5; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -199,7 +212,7 @@ body {
   <div class="hero-top">
     <div class="hero-title-area">
       <div class="hero-greeting">
-        <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
         Multi Payment PPOB
       </div>
       <div class="hero-main-title">Top Up &amp; Pulsa</div>
@@ -272,7 +285,9 @@ body {
 
   <div class="product-area">
     <div id="product-status" class="status-box">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="status-icon-badge">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
       <p>Silakan tentukan kategori dan operator di atas terlebih dahulu untuk memunculkan list produk otomatis.</p>
     </div>
 
@@ -412,7 +427,9 @@ body {
     productGrid.innerHTML = '';
     productStatus.className = "status-box loading";
     productStatus.innerHTML = `
-      <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="6.34" y1="17.66" x2="9.17" y2="14.83"/><line x1="14.83" y1="9.17" x2="17.66" y2="6.34"/></svg>
+      <div class="status-icon-badge">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="6.34" y1="17.66" x2="9.17" y2="14.83"/><line x1="14.83" y1="9.17" x2="17.66" y2="6.34"/></svg>
+      </div>
       <p>Menyelaraskan produk server...</p>
     `;
     productStatus.classList.remove('hidden');
@@ -448,12 +465,20 @@ body {
           productGrid.appendChild(card);
         });
       } else {
-        productStatus.className = "status-box";
-        productStatus.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>Produk tidak tersedia.</p>`;
+        productStatus.className = "status-box error-status";
+        productStatus.innerHTML = `
+          <div class="status-icon-badge">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <p>Produk tidak tersedia saat ini.</p>`;
       }
     } catch (err) {
-      productStatus.className = "status-box";
-      productStatus.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><p>Gagal memuat produk dari server.</p>`;
+      productStatus.className = "status-box error-status";
+      productStatus.innerHTML = `
+        <div class="status-icon-badge">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </div>
+        <p>Gagal memuat produk dari server.</p>`;
     }
   }
 
@@ -509,7 +534,11 @@ body {
       productCount.textContent = '0 item';
       productStatus.classList.remove('hidden');
       productStatus.className = "status-box";
-      productStatus.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><p>Silakan tentukan kategori dan operator di atas terlebih dahulu untuk memunculkan list produk otomatis.</p>`;
+      productStatus.innerHTML = `
+        <div class="status-icon-badge">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <p>Silakan tentukan kategori dan operator di atas terlebih dahulu untuk memunculkan list produk otomatis.</p>`;
     }
   }
 
