@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Kelola PPOB - Xtrimer Tunnel</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+:root {
+  --purple:       #7B2FBE;
+  --purple-dark:  #5A1A9A;
+  --purple-deep:  #3D0F72;
+  --purple-light: #9B4FDE;
+  --purple-soft:  #F3EAFD;
+  --purple-mid:   #EAD5FA;
+  --accent:       #FF6B2B;
+  --green:        #12C28A;
+  --green-bg:     #E6FAF4;
+  --red:          #E84040;
+  --red-bg:       #FFECEC;
+  --orange:       #FE9431;
+  --orange-bg:    #FFF3E5;
+  --white:        #FFFFFF;
+  --bg:           #F8F6FC;
+  --gray-line:    #EEF0F6;
+  --text-dark:    #1A0533;
+  --text-mid:     #6B3FA0;
+  --text-light:   #A882CC;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 60px;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ─── HEADER COMFORT ─── */
+.header-nav {
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 100%);
+  padding: 18px 16px; color: #fff; display: flex; align-items: center; gap: 12px;
+}
+.btn-back {
+  background: rgba(255,255,255,0.15); border: none; width: 34px; height: 34px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  color: #fff; cursor: pointer; text-decoration: none;
+}
+.btn-back svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+.header-title { font-size: 18px; font-weight: 800; }
+
+/* ─── CONTAINER ─── */
+.container { padding: 16px; max-width: 480px; margin: 0 auto; }
+
+/* ─── SEARCH BAR ─── */
+.search-wrapper {
+  background: #fff; border: 1px solid var(--gray-line); border-radius: 12px;
+  padding: 10px 14px; display: flex; align-items: center; gap: 8px; margin-bottom: 16px;
+}
+.search-wrapper svg { width: 18px; height: 18px; stroke: var(--text-light); fill: none; stroke-width: 2.2; }
+.search-input {
+  border: none; outline: none; width: 100%; font-family: inherit; font-size: 13px;
+  font-weight: 700; color: var(--text-dark);
+}
+
+/* ─── FILTER TABS ─── */
+.filter-container {
+  display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto;
+  padding-bottom: 4px; scrollbar-width: none;
+}
+.filter-container::-webkit-scrollbar { display: none; }
+.filter-btn {
+  background: var(--white); border: 1px solid var(--gray-line);
+  padding: 6px 14px; border-radius: 16px; font-size: 11px; font-weight: 800;
+  color: var(--text-light); cursor: pointer; white-space: nowrap; transition: all 0.2s;
+}
+.filter-btn.active {
+  background: var(--purple); color: var(--white); border-color: var(--purple);
+}
+
+/* ─── CARD LOGS ─── */
+.logs-list { display: flex; flex-direction: column; gap: 12px; }
+.log-card {
+  background: var(--white); border-radius: 14px; padding: 14px;
+  border: 1px solid var(--gray-line); display: flex; flex-direction: column; gap: 8px;
+  animation: fadeUp 0.35s ease both; position: relative;
+}
+.log-header { display: flex; justify-content: space-between; align-items: center; }
+.log-sku { font-size: 13px; font-weight: 900; color: var(--text-dark); }
+.log-date { font-size: 11px; font-weight: 600; color: var(--text-light); }
+
+.log-body { background: var(--bg); padding: 8px 12px; border-radius: 10px; display: flex; flex-direction: column; gap: 4px; }
+.row-item { display: flex; justify-content: space-between; font-size: 12px; }
+.row-lbl { color: var(--text-light); font-weight: 600; }
+.row-val { color: var(--text-dark); font-weight: 800; text-align: right; }
+
+.log-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
+.log-price { font-size: 14px; font-weight: 900; color: var(--purple); }
+
+/* Badges */
+.badge { font-size: 9px; font-weight: 900; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; }
+.badge.sukses { background: var(--green-bg); color: var(--green); }
+.badge.pending { background: var(--orange-bg); color: var(--orange); }
+.badge.gagal { background: var(--red-bg); color: var(--red); }
+
+/* Source Platform Badge */
+.platform-badge {
+  font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px;
+}
+.platform-badge.web { background: #EBF3FF; color: #1877F2; }
+.platform-badge.telegram { background: #E1F5FE; color: #0288D1; }
+
+/* Status State */
+.status-box {
+  background: var(--white); border-radius: 14px; padding: 40px 20px;
+  border: 1px solid var(--gray-line); text-align: center; color: var(--text-light);
+}
+.status-box.loading svg { animation: spin 1s linear infinite; width:24px; height:24px; stroke: var(--purple); fill:none; stroke-width:2.5; }
+.hidden { display: none !important; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="header-nav">
+  <a href="admin-dashboard.html" class="btn-back">
+    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+  </a>
+  <div class="header-title">Riwayat Transaksi PPOB</div>
+</div>
+
+<div class="container">
+
+  <div class="search-wrapper">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <input type="text" id="search-bar" class="search-input" placeholder="Cari target, produk, atau email..." oninput="searchData()">
+  </div>
+  
+  <div class="filter-container">
+    <button class="filter-btn active" onclick="filterStatus('ALL', this)">Semua</button>
+    <button class="filter-btn" onclick="filterStatus('PENDING', this)">⏳ Pending</button>
+    <button class="filter-btn" onclick="filterStatus('SUKSES', this)">🟢 Sukses</button>
+    <button class="filter-btn" onclick="filterStatus('GAGAL', this)">❌ Gagal</button>
+  </div>
+
+  <div id="content-area">
+    <div id="status-loading" class="status-box">
+      <svg viewBox="0 0 24 24" class="loading"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+      <p style="margin-top:10px; font-size:12px; font-weight:700;">Menarik data dari database server...</p>
+    </div>
+
+    <div id="logs-grid" class="logs-list"></div>
+  </div>
+
+</div>
+
+<script>
+  let rawData = [];
+  let filterActive = 'ALL';
+
+  const token = localStorage.getItem('token') || '';
+
+  // Keamanan validasi admin token
+  if (!token) {
+    window.location.href = 'index.html';
+  }
+
+  const getHeaders = () => ({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  });
+
+  async function fetchAllPPOBHistory() {
+    const grid = document.getElementById('logs-grid');
+    const loadingBox = document.getElementById('status-loading');
+
+    try {
+      const res = await fetch('/api/admin/ppob-history', { headers: getHeaders() });
+      const resJson = await res.json();
+
+      if (resJson.success) {
+        rawData = resJson.transactions || [];
+        renderLogs();
+      } else {
+        showEmptyState(resJson.message || "Gagal memuat log.");
+      }
+    } catch (err) {
+      console.error(err);
+      showEmptyState("Koneksi gagal tersambung ke server API.");
+    }
+  }
+
+  function renderLogs() {
+    const grid = document.getElementById('logs-grid');
+    const loadingBox = document.getElementById('status-loading');
+    const searchVal = document.getElementById('search-bar').value.toLowerCase();
+    
+    grid.innerHTML = '';
+
+    // Filter status & pencarian kata kunci sekaligus
+    const filtered = rawData.filter(item => {
+      // 1. Status Filter
+      const stat = (item.status || 'PENDING').toUpperCase();
+      let matchStatus = false;
+      if (filterActive === 'ALL') matchStatus = true;
+      else if (filterActive === 'SUKSES') matchStatus = (stat === 'SUKSES' || stat === 'SUCCESS');
+      else if (filterActive === 'GAGAL') matchStatus = (stat === 'GAGAL' || stat === 'FAILED' || stat === 'FAILURE');
+      else if (filterActive === 'PENDING') matchStatus = (stat === 'PENDING');
+
+      if (!matchStatus) return false;
+
+      // 2. Search Box Filter
+      const target = (item.target || '').toLowerCase();
+      const sku = (item.sku || '').toLowerCase();
+      const email = (item.web_user_email || '').toLowerCase();
+      const ref = (item.ref_id || '').toLowerCase();
+      const uid = String(item.user_id || '').toLowerCase();
+
+      return target.includes(searchVal) || sku.includes(searchVal) || email.includes(searchVal) || ref.includes(searchVal) || uid.includes(searchVal);
+    });
+
+    if (filtered.length === 0) {
+      showEmptyState("Tidak ditemukan riwayat log transaksi yang cocok.");
+      return;
+    }
+
+    loadingBox.classList.add('hidden');
+
+    filtered.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'log-card';
+
+      const stat = (item.status || 'PENDING').toUpperCase();
+      let statusClass = 'pending';
+      if (stat === 'SUKSES' || stat === 'SUCCESS') statusClass = 'sukses';
+      if (stat === 'GAGAL' || stat === 'FAILED' || stat === 'FAILURE') statusClass = 'gagal';
+
+      // Info pembeli (Web vs Telegram)
+      let buyerInfo = item.web_user_email ? `🌐 ${item.web_user_email}` : `🤖 TG ID: ${item.user_id || 'Unknown'}`;
+      let sourceClass = item.source === 'web' ? 'web' : 'telegram';
+      let sourceLabel = item.source === 'web' ? 'WEBSITE' : 'TELEGRAM';
+
+      const dateObj = item.created_at ? new Date(item.created_at) : new Date();
+      const dateStr = dateObj.toLocaleDateString('id-ID', {
+        day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+      });
+
+      card.innerHTML = `
+        <div class="log-header">
+          <span class="log-sku">${item.sku}</span>
+          <span class="log-date">${dateStr}</span>
+        </div>
+        <div class="log-body">
+          <div class="row-item">
+            <span class="row-lbl">Pembeli</span>
+            <span class="row-val" style="font-size:11px; color:var(--purple);">${buyerInfo}</span>
+          </div>
+          <div class="row-item">
+            <span class="row-lbl">Target / No</span>
+            <span class="row-val">${item.target}</span>
+          </div>
+          <div class="row-item">
+            <span class="row-lbl">Ref ID</span>
+            <span class="row-val" style="font-family:monospace; font-size:11px;">${item.ref_id}</span>
+          </div>
+          <div class="row-item">
+            <span class="row-lbl">SN</span>
+            <span class="row-val" style="color:var(--text-dark); max-width:240px; word-break:break-all;">${item.sn || '-'}</span>
+          </div>
+        </div>
+        <div class="log-footer">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span class="log-price">Rp ${(item.price || 0).toLocaleString('id-ID')}</span>
+            <span class="platform-badge ${sourceClass}">${sourceLabel}</span>
+          </div>
+          <span class="badge ${statusClass}">${stat}</span>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function filterStatus(status, element) {
+    filterActive = status;
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    element.classList.add('active');
+    renderLogs();
+  }
+
+  function searchData() {
+    renderLogs();
+  }
+
+  function showEmptyState(msg) {
+    const grid = document.getElementById('logs-grid');
+    const loadingBox = document.getElementById('status-loading');
+    grid.innerHTML = '';
+    loadingBox.classList.remove('hidden');
+    loadingBox.innerHTML = `<p style="font-size:12px; font-weight:700;">${msg}</p>`;
+  }
+
+  // Jalankan load data
+  fetchAllPPOBHistory();
+</script>
+</body>
+</html>
