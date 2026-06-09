@@ -344,10 +344,18 @@ body {
 
 <script>
 
-const localUser = JSON.parse(localStorage.getItem('user'));
-if (!localUser) location.href = 'index.html';
+// ✅ 1. Ambil token JWT dari localStorage
+const token = localStorage.getItem('token');
+// Catatan: Jika token disimpan di dalam objek user, ganti menjadi:
+// const localUser = JSON.parse(localStorage.getItem('user'));
+// const token = localUser ? localUser.token : null;
 
-loadAccounts();
+// ✅ 2. Proteksi awal: Jika token tidak ada, tendang langsung ke halaman login
+if (!token) {
+  location.href = 'index.html';
+} else {
+  loadAccounts();
+}
 
 // proto config: badge class + SVG icon
 const protoConfig = {
@@ -372,7 +380,13 @@ function toggleResult(btn) {
 
 async function loadAccounts() {
   try {
-    const res  = await fetch('/api/my-vpn?email=' + encodeURIComponent(localUser.email));
+    // ✅ 3. AMAN: Hapus parameter ?email=... dan kirim token lewat Header Authorization
+    const res  = await fetch('/api/my-vpn', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     const data = await res.json();
 
     if (!data.success) {
