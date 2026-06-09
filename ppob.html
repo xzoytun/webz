@@ -3,617 +3,284 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PPOB Store - Extrimer Tunneling</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>PPOB Store - GabutStore</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
   <style>
-    :root {
-      --bg-main: #0b0f19;
-      --bg-card: #151c2c;
-      --purple: #7c4dff;
-      --purple-hover: #651fff;
-      --text-main: #ffffff;
-      --text-light: #94a3b8;
-      --border-color: #24324d;
-      --success: #10b981;
-      --error: #ef4444;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding-bottom: 60px;
-    }
-
-    h2 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* Kategori Selector Grid */
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    @media (max-width: 480px) {
-      .category-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .cat-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 12px 8px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .cat-item.active {
-      border-color: var(--purple);
-      background: rgba(124, 77, 255, 0.1);
-    }
-
-    .cat-icon {
-      font-size: 20px;
-      margin-bottom: 6px;
-    }
-
-    .cat-name {
-      font-size: 11px;
-      color: var(--text-light);
-      font-weight: 500;
-    }
-
-    .cat-item.active .cat-name {
-      color: var(--text-main);
-      font-weight: 600;
-    }
-
-    /* Input Target */
-    .form-group {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      color: var(--text-light);
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .form-group input {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 12px;
-      color: var(--text-main);
-      font-size: 15px;
-      outline: none;
-      font-weight: 600;
-    }
-
-    .form-group input:focus {
-      border-color: var(--purple);
-    }
-
-    /* Brand / Operator Selector */
-    .brand-section {
-      margin-bottom: 20px;
-      display: none;
-    }
-
-    .brand-title {
-      font-size: 12px;
-      color: var(--text-light);
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .brand-flex {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding-bottom: 5px;
-    }
-
-    .brand-flex::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    .brand-flex::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 10px;
-    }
-
-    .brand-badge {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 12px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    .brand-badge.active {
-      background: var(--purple);
-      border-color: var(--purple);
-      color: #fff;
-    }
-
-    /* Grid Daftar Produk */
-    .list-title {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--text-light);
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    @media (max-width: 400px) {
-      .product-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .product-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 14px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 10px;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-
-    .product-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--purple);
-    }
-
-    .prod-name {
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-
-    .prod-desc {
-      font-size: 10px;
-      color: var(--text-light);
-      margin-top: 4px;
-    }
-
-    .prod-price {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--purple);
-      margin-top: auto;
-    }
-
-    /* Bottom Sheet Konfirmasi */
-    .sheet-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
-      opacity: 0; visibility: hidden;
-      transition: all 0.3s ease;
-      z-index: 999;
-    }
-
-    .sheet-overlay.active {
-      opacity: 1; visibility: visible;
-    }
-
-    .bottom-sheet {
-      position: fixed;
-      bottom: -100%; left: 0; right: 0;
-      background: var(--bg-card);
-      border-top: 2px solid var(--border-color);
-      border-top-left-radius: 24px;
-      border-top-right-radius: 24px;
-      padding: 24px;
-      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-      z-index: 1000;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .bottom-sheet.active {
-      bottom: 0;
-    }
-
-    .sheet-header {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      text-align: center;
-    }
-
-    .sheet-detail {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 20px;
-    }
-
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      margin-bottom: 12px;
-    }
-
-    .detail-row:last-child {
-      margin-bottom: 0;
-      padding-top: 12px;
-      border-top: 1px dashed var(--border-color);
-    }
-
-    .detail-label { color: var(--text-light); }
-    .detail-value { font-weight: 600; text-align: right; }
-    .price-total { color: var(--success); font-size: 16px; font-weight: 700; }
-
-    .pay-btn {
-      width: 100%;
-      background: var(--purple);
-      color: var(--text-main);
-      border: none;
-      padding: 14px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .pay-btn:hover { background: var(--purple-hover); }
-    .close-sheet-btn {
-      width: 100%;
-      background: transparent;
-      color: var(--text-light);
-      border: none;
-      padding: 10px;
-      font-size: 13px;
-      margin-top: 8px;
-      cursor: pointer;
-    }
+    body { background-color: #0f172a; color: #f8fafc; }
+    .custom-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); }
   </style>
 </head>
-<body>
+<body class="min-h-screen font-sans">
 
-  <div class="container">
-    <h2><i class="fa-solid fa-bolt" style="color:var(--purple)"></i> PPOB Store & Topup</h2>
-
-    <div class="category-grid" id="categoryGrid">
+  <div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-slate-800 pb-6">
+      <div>
+        <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 tracking-tight">
+          🚀 PPOB Digital Market
+        </h1>
+        <p class="text-slate-400 text-sm mt-1">Isi pulsa, kuota data, e-wallet, dan game terlengkap & otomatis.</p>
       </div>
-
-    <div class="form-group">
-      <label id="inputLabel">Nomor Telepon / Tujuan</label>
-      <input type="text" id="targetInput" placeholder="Contoh: 08123456789" oninput="handleTargetInput()">
+      <a href="/dashboard.html" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-arrow-left"></i> Kembali ke Dashboard
+      </a>
     </div>
 
-    <div class="brand-section" id="brandSection">
-      <div class="brand-title" id="brandTitle">Pilih Operator / Provider</div>
-      <div class="brand-flex" id="brandFlex">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <div class="lg:col-span-1 flex flex-col gap-6">
+        <div class="custom-card p-6 rounded-2xl shadow-xl flex flex-col gap-5">
+          <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <i class="fa-solid fa-cart-shopping text-cyan-400"></i> Pilih Layanan
+          </h2>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Kategori Utama</label>
+            <select id="select-category" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-slate-200 text-sm focus:outline-none focus:border-cyan-500 transition">
+              <option value="">-- Pilih Kategori --</option>
+            </select>
+          </div>
+
+          <div id="box-brand" class="hidden">
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Provider / Operator</label>
+            <select id="select-brand" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-slate-200 text-sm focus:outline-none focus:border-cyan-500 transition">
+              <option value="">-- Pilih Provider --</option>
+            </select>
+          </div>
+
+          <div id="box-subcategory" class="hidden">
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Sub Kategori Paket</label>
+            <select id="select-subcategory" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-slate-200 text-sm focus:outline-none focus:border-cyan-500 transition">
+              <option value="">-- Semua Tipe --</option>
+            </select>
+          </div>
+
+          <div id="box-target" class="hidden">
+            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Nomor HP / ID Tujuan</label>
+            <div class="relative">
+              <input type="text" id="input-target" placeholder="Contoh: 081234567890" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 pl-10 text-slate-100 text-sm focus:outline-none focus:border-cyan-500 tracking-wider">
+              <i class="fa-solid fa-phone absolute left-3.5 top-4 text-slate-500 text-xs"></i>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <div class="list-title" id="listTitle">Pilih Nominal Produk</div>
-    <div class="product-grid" id="productGrid">
-      <div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--text-light);">Memuat kategori...</div>
-    </div>
-  </div>
+      <div class="lg:col-span-2">
+        <div class="custom-card p-6 rounded-2xl shadow-xl min-h-[400px]">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-cubes text-blue-400"></i> Daftar Produk Tersedia
+            </h2>
+            <span id="product-count" class="text-xs bg-slate-800 text-slate-400 px-3 py-1 rounded-full font-medium">0 produk</span>
+          </div>
 
-  <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
-  <div class="bottom-sheet" id="bottomSheet">
-    <div class="sheet-header">Konfirmasi Pembelian</div>
-    <div class="sheet-detail">
-      <div class="detail-row">
-        <span class="detail-label">Kategori</span>
-        <span class="detail-value" id="detCat">-</span>
+          <div id="product-status" class="flex flex-col items-center justify-center text-slate-500 py-20 text-center gap-3">
+            <i class="fa-solid fa-folder-open text-4xl opacity-40"></i>
+            <p class="text-sm">Silakan pilih Kategori dan Provider terlebih dahulu untuk memuat daftar produk.</p>
+          </div>
+
+          <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
       </div>
-      <div class="detail-row">
-        <span class="detail-label">Produk</span>
-        <span class="detail-value" id="detName">-</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Tujuan</span>
-        <span class="detail-value" id="detTarget">-</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Total Bayar</span>
-        <span class="detail-value price-total" id="detPrice">Rp 0</span>
-      </div>
+
     </div>
-    <button class="pay-btn" onclick="processOrder()">Beli Sekarang</button>
-    <button class="close-sheet-btn" onclick="closeSheet()">Batal</button>
   </div>
 
   <script>
-    let currentCategory = 'Pulsa';
-    let selectedBrand = '';
-    let selectedSub = '';
-    let selectedProduct = null;
+    // Ambil token JWT dari localStorage web app kamu
+    const token = localStorage.getItem('token') || '';
 
-    // Ambit token JWT dari localStorage
-    const token = localStorage.getItem('token'); 
+    // Headers global helper
+    const getHeaders = () => ({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
 
-    // 1. Ambil Kategori dari Backend
+    // Elements
+    const selectCategory = document.getElementById('select-category');
+    const selectBrand = document.getElementById('select-brand');
+    const selectSubcategory = document.getElementById('select-subcategory');
+    const inputTarget = document.getElementById('input-target');
+    
+    const boxBrand = document.getElementById('box-brand');
+    const boxSubcategory = document.getElementById('box-subcategory');
+    const boxTarget = document.getElementById('box-target');
+    
+    const productGrid = document.getElementById('product-grid');
+    const productStatus = document.getElementById('product-status');
+    const productCount = document.getElementById('product-count');
+
+    // 1. Ambil Kategori Saat Halaman Load
     async function loadCategories() {
       try {
-        const res = await fetch('/api/ppob/categories');
-        const result = await res.json();
-        if (result.success) {
-          const grid = document.getElementById('categoryGrid');
-          grid.innerHTML = '';
-          result.data.forEach((cat, idx) => {
-            const item = document.createElement('div');
-            item.className = `cat-item ${idx === 0 ? 'active' : ''}`;
-            item.onclick = () => switchCategory(cat.id, item);
-            item.innerHTML = `
-              <div class="cat-icon">${cat.icon}</div>
-              <div class="cat-name">${cat.name}</div>
-            `;
-            grid.appendChild(item);
+        const res = await fetch('/api/ppob/categories', { headers: getHeaders() });
+        const data = await res.json();
+        if (data.success) {
+          data.categories.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat; opt.textContent = cat;
+            selectCategory.appendChild(opt);
           });
-          switchCategory(result.data[0].id, grid.firstChild);
         }
       } catch (err) {
-        console.error("Gagal load kategori:", err);
+        console.error("Gagal load kategori", err);
       }
     }
 
-    // 2. Aksi Pindah Kategori
-    async function switchCategory(catId, element) {
-      currentCategory = catId;
-      selectedBrand = '';
-      selectedSub = '';
-      
-      document.querySelectorAll('.cat-item').forEach(b => b.classList.remove('active'));
-      if(element) element.classList.add('active');
-
-      const label = document.getElementById('inputLabel');
-      const input = document.getElementById('targetInput');
-      const listTitle = document.getElementById('listTitle');
-
-      input.value = ''; // Reset inputan
-
-      if (catId === 'PLN') {
-        label.innerText = 'Nomor Meter / ID Pelanggan';
-        input.placeholder = 'Contoh: 53001234567';
-        listTitle.innerText = 'Pilih Token PLN';
-      } else if (catId === 'Games') {
-        label.innerText = 'ID Player Game';
-        input.placeholder = 'Contoh: 87654321 (Zone ID)';
-        listTitle.innerText = 'Pilih Voucher Game';
-      } else {
-        label.innerText = 'Nomor Handphone Tujuan';
-        input.placeholder = 'Contoh: 08123456789';
-        listTitle.innerText = `Pilih Paket ${catId}`;
-      }
-
-      document.getElementById('brandSection').style.display = 'none';
-      await fetchProducts();
-    }
-
-    // 3. Ambil Daftar Produk dari API Backend
-    async function fetchProducts() {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = '<div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--text-light);">⏳ Memuat produk dari provider...</div>';
+    // 2. Event Listener Kategori Berubah -> Load Brand
+    selectCategory.addEventListener('change', async () => {
+      const cat = selectCategory.value;
+      resetForm(['brand', 'sub', 'prod']);
+      if (!cat) return;
 
       try {
-        let url = `/api/ppob/products?category=${encodeURIComponent(currentCategory)}`;
-        if (selectedBrand) url += `&brand=${encodeURIComponent(selectedBrand)}`;
+        const res = await fetch(`/api/ppob/brands?category=${encodeURIComponent(cat)}`, { headers: getHeaders() });
+        const data = await res.json();
+        if (data.success && data.brands.length > 0) {
+          boxBrand.classList.remove('hidden');
+          selectBrand.innerHTML = '<option value="">-- Pilih Provider --</option>';
+          data.brands.forEach(b => {
+            const opt = document.createElement('option');
+            opt.value = b.brand; opt.textContent = b.brand;
+            selectBrand.appendChild(opt);
+          });
+        }
+      } catch (err) { console.error(err); }
+    });
+
+    // 3. Event Listener Brand Berubah -> Load Sub Kategori & Tampilkan Input Target
+    selectBrand.addEventListener('change', async () => {
+      const cat = selectCategory.value;
+      const brd = selectBrand.value;
+      resetForm(['sub', 'prod']);
+      if (!brd) return;
+
+      boxTarget.classList.remove('hidden');
+
+      try {
+        // Tarik daftar sub-kategori
+        const res = await fetch(`/api/ppob/subcategories?category=${encodeURIComponent(cat)}&brand=${encodeURIComponent(brd)}`, { headers: getHeaders() });
+        const data = await res.json();
         
-        const response = await fetch(url);
-        const result = await response.json();
-
-        if (result.success && result.data.length > 0) {
-          renderProducts(result.data);
-
-          // Render Badge Brand jika kategori Pulsa/Data/E-Money
-          if (!selectedBrand) {
-            const brands = [...new Set(result.data.map(p => p.brand))];
-            renderBrandBadges(brands);
-          }
-        } else {
-          grid.innerHTML = `<div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--error); font-weight:600;">❌ ${result.message || 'Produk kosong / gangguan'}</div>`;
+        if (data.success && data.subcategories.length > 0) {
+          boxSubcategory.classList.remove('hidden');
+          selectSubcategory.innerHTML = '<option value="">-- Semua Tipe --</option>';
+          data.subcategories.forEach(sub => {
+            const opt = document.createElement('option');
+            opt.value = sub; opt.textContent = sub;
+            selectSubcategory.appendChild(opt);
+          });
         }
-      } catch (err) {
-        grid.innerHTML = '<div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--error); font-weight:600;">❌ Gagal memuat data server</div>';
-      }
-    }
+        // Ambil list produk default (all sub-categories)
+        loadProducts(cat, brd, '');
+      } catch (err) { console.error(err); }
+    });
 
-    // 4. Render Tombol Pilihan Operator (Brand)
-    function renderBrandBadges(brands) {
-      const section = document.getElementById('brandSection');
-      const flex = document.getElementById('brandFlex');
-      
-      if (brands.length <= 1) {
-        section.style.display = 'none';
-        return;
-      }
+    // 4. Event Listener Sub Kategori Berubah -> Filter Produk
+    selectSubcategory.addEventListener('change', () => {
+      loadProducts(selectCategory.value, selectBrand.value, selectSubcategory.value);
+    });
 
-      section.style.display = 'block';
-      flex.innerHTML = '';
-
-      // Tombol Semua
-      const allBtn = document.createElement('div');
-      allBtn.className = `brand-badge ${!selectedBrand ? 'active' : ''}`;
-      allBtn.innerText = 'Semua';
-      allBtn.onclick = () => {
-        selectedBrand = '';
-        document.querySelectorAll('.brand-badge').forEach(b => b.classList.remove('active'));
-        allBtn.classList.add('active');
-        fetchProducts();
-      };
-      flex.appendChild(allBtn);
-
-      brands.forEach(bName => {
-        const btn = document.createElement('div');
-        btn.className = `brand-badge ${selectedBrand === bName ? 'active' : ''}`;
-        btn.innerText = bName;
-        btn.onclick = () => {
-          selectedBrand = bName;
-          document.querySelectorAll('.brand-badge').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          fetchProducts();
-        };
-        flex.appendChild(btn);
-      });
-    }
-
-    // 5. Render List Card Produk
-    function renderProducts(products) {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = '';
-
-      products.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.onclick = () => openSheet(p);
-        card.innerHTML = `
-          <div>
-            <div class="prod-name">${p.product_name}</div>
-            <div class="prod-desc">${p.brand}</div>
-          </div>
-          <div class="prod-price">Rp ${p.price.toLocaleString('id-ID')}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    // Otomatis Deteksi Operator Berdasarkan Prefix Nomor (08xx)
-    function handleTargetInput() {
-      const target = document.getElementById('targetInput').value;
-      if ((currentCategory === 'Pulsa' || currentCategory === 'Data') && target.length >= 4) {
-        const prefix = target.substring(0, 4);
-        let detected = '';
-
-        if (['0811', '0812', '0813', '0821', '0822', '0823', '0852', '0853', '0851'].includes(prefix)) detected = 'Telkomsel';
-        else if (['0814', '0815', '0816', '0855', '0856', '0857', '0858'].includes(prefix)) detected = 'Indosat';
-        else if (['0817', '0818', '0819', '0859', '0877', '0878'].includes(prefix)) detected = 'XL';
-        else if (['0831', '0832', '0833', '0838'].includes(prefix)) detected = 'Axis';
-        else if (['0895', '0896', '0897', '0898', '0899'].includes(prefix)) detected = 'Tri';
-        else if (['0881', '0882', '0883', '0884', '0885', '0886', '0887', '0888', '0889'].includes(prefix)) detected = 'Smartfren';
-
-        if (detected && selectedBrand !== detected) {
-          selectedBrand = detected;
-          fetchProducts();
-        }
-      }
-    }
-
-    // 6. Buka Bottom Sheet Konfirmasi
-    function openSheet(product) {
-      const target = document.getElementById('targetInput').value;
-      if (!token) {
-        alert('Kamu harus login terlebih dahulu!');
-        return;
-      }
-      if (!target || target.length < 5) {
-        alert('Harap masukkan nomor tujuan dengan benar!');
-        return;
-      }
-
-      selectedProduct = product;
-      document.getElementById('detCat').innerText = currentCategory;
-      document.getElementById('detName').innerText = product.product_name;
-      document.getElementById('detTarget').innerText = target;
-      document.getElementById('detPrice').innerText = 'Rp ' + product.price.toLocaleString('id-ID');
-
-      document.getElementById('sheetOverlay').classList.add('active');
-      document.getElementById('bottomSheet').classList.add('active');
-    }
-
-    function closeSheet() {
-      document.getElementById('sheetOverlay').classList.remove('active');
-      document.getElementById('bottomSheet').classList.remove('active');
-    }
-
-    // 7. Proses Transaksi Kirim ke Backend API
-    async function processOrder() {
-      const target = document.getElementById('targetInput').value;
-      const btn = document.querySelector('.pay-btn');
-
-      btn.disabled = true;
-      btn.innerText = 'Memproses Pesanan...';
-      btn.style.background = '#475569';
+    // 5. Load & Tampilkan Produk Ke Dalam Grid
+    async function loadProducts(category, brand, subcategory) {
+      productGrid.innerHTML = '';
+      productStatus.innerHTML = `
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400"></div>
+        <p class="text-sm mt-2">Menyelaraskan produk dari server...</p>
+      `;
+      productStatus.classList.remove('hidden');
+      productCount.textContent = '0 produk';
 
       try {
-        const response = await fetch('/api/ppob/buy', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            sku: selectedProduct.buyer_sku_code,
-            target: target
-          })
-        });
+        let url = `/api/ppob/products?category=${encodeURIComponent(category)}&brand=${encodeURIComponent(brand)}`;
+        if (subcategory) url += `&subcategory=${encodeURIComponent(subcategory)}`;
 
-        const result = await response.json();
-        closeSheet();
+        const res = await fetch(url, { headers: getHeaders() });
+        const data = await res.json();
 
-        if (result.success) {
-          alert(`✅ Sukses!\n\n${result.message}\nRef ID: ${result.data.ref_id}\n\nPesanan Anda aman diproses sistem.`);
-          document.getElementById('targetInput').value = '';
+        if (data.success && data.products.length > 0) {
+          productStatus.classList.add('hidden');
+          productCount.textContent = `${data.products.length} produk`;
+
+          data.products.forEach(p => {
+            const card = document.createElement('div');
+            card.className = "bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col justify-between hover:border-slate-700 transition shadow-sm relative overflow-hidden group";
+            
+            card.innerHTML = `
+              <div>
+                <div class="text-xs font-bold text-cyan-400 tracking-wide uppercase mb-1">${p.brand}</div>
+                <h3 class="text-sm font-bold text-slate-100 leading-snug">${p.name}</h3>
+                <p class="text-xs text-slate-400 mt-1.5 line-clamp-2">${p.desc}</p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
+                <div class="text-base font-extrabold text-emerald-400">Rp ${p.price.toLocaleString('id-ID')}</div>
+                <button onclick="prosesBeli('${p.sku}', '${p.name}', ${p.price})" class="px-3.5 py-1.5 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white rounded-lg text-xs font-bold transition shadow-md shadow-blue-900/20 flex items-center gap-1.5">
+                  Beli <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                </button>
+              </div>
+            `;
+            productGrid.appendChild(card);
+          });
         } else {
-          alert(`❌ Gagal:\n${result.message}`);
+          productStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-500 text-2xl"></i><p class="text-sm">Produk tidak tersedia saat ini.</p>`;
         }
       } catch (err) {
-        console.error(err);
-        alert('❌ Terjadi gangguan jaringan ke server.');
-      } finally {
-        btn.disabled = false;
-        btn.innerText = 'Beli Sekarang';
-        btn.style.background = 'var(--purple)';
+        productStatus.innerHTML = `<i class="fa-solid fa-circle-xmark text-red-500 text-2xl"></i><p class="text-sm">Gagal memuat produk.</p>`;
       }
     }
 
-    // Load Pertama Kali
+    // 6. Aksi Transaksi Beli Produk PPOB
+    async function prosesBeli(sku, productName, price) {
+      const target = inputTarget.value.trim();
+      if (!target) {
+        Swal.fire({ icon: 'warning', title: 'Target Kosong', text: 'Silakan isi nomor HP / ID tujuan terlebih dahulu!', confirmButtonColor: '#2563eb' });
+        inputTarget.focus();
+        return;
+      }
+
+      Swal.fire({
+        title: 'Konfirmasi Pembelian',
+        html: `Apakah Anda yakin ingin membeli:<br><b class="text-cyan-400">${productName}</b><br>Tujuan: <code class="bg-slate-800 px-2 py-0.5 rounded text-yellow-300 font-mono">${target}</code><br>Harga: <b class="text-emerald-400">Rp ${price.toLocaleString('id-ID')}</b>`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#10b981',
+        cancelButtonColor: '#ef4444',
+        confirmButtonText: 'Ya, Beli Sekarang!',
+        cancelButtonText: 'Batal'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire({ title: 'Memproses Transaksi...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+          
+          try {
+            const res = await fetch('/api/ppob/buy', {
+              method: 'POST',
+              headers: getHeaders(),
+              body: JSON.stringify({ sku, target, product_name: productName, price })
+            });
+            const data = await res.json();
+            
+            if (data.success) {
+              Swal.fire({ icon: 'success', title: 'Transaksi Berhasil!', text: data.message || 'Pembelian sukses diproses.', confirmButtonColor: '#10b981' });
+            } else {
+              Swal.fire({ icon: 'error', title: 'Transaksi Gagal', text: data.message || 'Terjadi kesalahan.', confirmButtonColor: '#ef4444' });
+            }
+          } catch (err) {
+            Swal.fire({ icon: 'error', title: 'Server Error', text: 'Gagal terhubung ke api backend.', confirmButtonColor: '#ef4444' });
+          }
+        }
+      });
+    }
+
+    // Helper Reset Element Form
+    function resetForm(steps) {
+      if (steps.includes('brand')) { boxBrand.classList.add('hidden'); selectBrand.innerHTML = ''; }
+      if (steps.includes('sub')) { boxSubcategory.classList.add('hidden'); selectSubcategory.innerHTML = ''; }
+      if (steps.includes('target')) { boxTarget.classList.add('hidden'); inputTarget.value = ''; }
+      if (steps.includes('prod')) { productGrid.innerHTML = ''; productCount.textContent = '0 produk'; productStatus.classList.remove('hidden'); productStatus.innerHTML = `<i class="fa-solid fa-folder-open text-4xl opacity-40"></i><p class="text-sm">Pilih Kategori & Provider terlebih dahulu.</p>`; }
+    }
+
+    // Jalankan pertama kali saat load page
     loadCategories();
   </script>
 </body>
