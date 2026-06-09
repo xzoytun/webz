@@ -36,7 +36,6 @@ body {
   position: relative;
 }
 
-/* ── New Premium Background Style ── */
 .bg-ambient {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
 }
@@ -64,7 +63,6 @@ body {
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ── Card ── */
 .login-card {
   width: 100%;
   max-width: 380px;
@@ -77,7 +75,6 @@ body {
   animation: fadeUp 0.5s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
 
-/* ── Hero Top ── */
 .card-hero {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
   padding: 44px 24px 40px;
@@ -105,12 +102,10 @@ body {
   color: #fff; letter-spacing: -0.5px;
 }
 
-/* ── Card Body ── */
 .card-body {
   padding: 32px 24px 36px;
 }
 
-/* ── Divider ── */
 .divider {
   display: flex; align-items: center; gap: 12px;
   margin-bottom: 24px;
@@ -123,13 +118,11 @@ body {
   letter-spacing: -0.1px;
 }
 
-/* ── Google Button Container ── */
 .google-wrap {
   display: flex; justify-content: center;
   margin-bottom: 20px; min-height: 44px;
 }
 
-/* ── Message Status ── */
 #message {
   display: none; align-items: center; justify-content: center; gap: 8px;
   text-align: center; font-size: 12px; font-weight: 800;
@@ -142,7 +135,6 @@ body {
 #message.success { display: flex; color: var(--success); background: rgba(0,200,83,0.04); border-color: rgba(0,200,83,0.15); }
 #message.error { display: flex; color: var(--error); background: rgba(232,0,122,0.04); border-color: rgba(232,0,122,0.15); }
 
-/* ── Footer ── */
 .card-footer {
   margin-top: 24px; padding-top: 16px;
   border-top: 1px dashed var(--gray-line);
@@ -150,7 +142,6 @@ body {
   color: var(--text-light); line-height: 1.5;
 }
 
-/* ── Bottom Tagline ── */
 .bottom-tag {
   position: relative; z-index: 2; margin-top: 24px;
   text-align: center; font-size: 11px; font-weight: 800;
@@ -211,6 +202,7 @@ body {
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
+// Pengecekan sesi aktif sebelum login
 const user = JSON.parse(localStorage.getItem('user'));
 const token = localStorage.getItem('token');
 
@@ -244,8 +236,9 @@ async function handleCredentialResponse(response) {
       message.className = 'success';
       message.innerHTML = `${svgSuccess} <span>Login berhasil, mengalihkan...</span>`;
 
+      // ✅ MENYIMPAN DATA YANG BENAR
       localStorage.setItem('user', JSON.stringify(result.user));
-      localStorage.setItem('token', result.token);
+      localStorage.setItem('token', result.token); // Menggunakan JWT Backend asli
 
       setTimeout(() => {
         window.location.href = 'dashboard.html';
