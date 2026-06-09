@@ -271,24 +271,42 @@ body {
 </nav>
 
 <script>
+// 1. Ambil data user & token dari localStorage
 const localUser = JSON.parse(localStorage.getItem('user'));
-if (!localUser) window.location.href = 'index.html';
+const token     = localStorage.getItem('token'); // Sesuaikan jika kamu menyimpannya di localStorage.getItem('token') atau localUser.token
+
+// Jika tidak ada user atau token, tendang kembali ke halaman login
+if (!localUser || !token) {
+  localStorage.clear();
+  window.location.href = 'index.html';
+}
 
 loadProfile();
 
 async function loadProfile() {
   try {
-    const response = await fetch(`/api/profile?email=${encodeURIComponent(localUser.email)}`);
-    const result   = await response.json();
+    // 2. Lakukan fetch tanpa embel-embel ?email= di URL, tapi kirim via Header Authorization
+    const response = await fetch('/api/profile', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    const result = await response.json();
 
+    // Jika token kedaluwarsa / ditolak oleh middleware checkAuth backend
     if (!result.success) {
-      localStorage.removeItem('user');
+      alert(result.message || 'Sesi telah berakhir, silakan login kembali.');
+      localStorage.clear();
       window.location.href = 'index.html';
       return;
     }
 
     const user = result.user;
 
+    // 3. Render data ke elemen HTML
     document.getElementById('username').innerText  = user.username || '—';
     document.getElementById('username2').innerText = user.username || '—';
     document.getElementById('email').innerText     = user.email    || '—';
@@ -305,16 +323,17 @@ async function loadProfile() {
       roleBadge.classList.add('admin');
     } else {
       roleBadge.innerText = 'User';
+      roleBadge.classList.remove('admin');
     }
 
   } catch (err) {
-    console.error(err);
+    console.error('Gagal memuat profil:', err);
   }
 }
 
 function logout() {
   if (confirm('Yakin mau keluar?')) {
-    localStorage.removeItem('user');
+    localStorage.clear(); // Bersihkan semua data auth termasuk token
     window.location.href = 'index.html';
   }
 }
