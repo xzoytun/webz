@@ -216,18 +216,10 @@ const svgError   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 
 async function handleCredentialResponse(response) {
   const message = document.getElementById('message');
-  if (message) {
-    message.className = 'loading';
-    message.innerHTML = `${svgLoading} <span>Memproses login...</span>`;
-  }
+  message.className = 'loading';
+  message.innerHTML = `${svgLoading} <span>Memproses login...</span>`;
 
   try {
-    // 🔍 DETEKSI 1: Cek apakah Google mengirimkan credential token ke frontend
-    if (!response.credential) {
-      alert("⚠️ DETEKSI 1: Token credential dari Google kosong!");
-      return;
-    }
-
     const res = await fetch('/api/google-login', {
       method: 'POST',
       headers: {
@@ -238,42 +230,29 @@ async function handleCredentialResponse(response) {
       })
     });
 
-    // 🔍 DETEKSI 2: Cek HTTP Status (404, 500, dll) jika fetch nyasar atau server down
-    if (!res.ok) {
-      alert(`⚠️ DETEKSI 2 (HTTP Error): Server merespon dengan status ${res.status} - ${res.statusText}`);
-      return;
-    }
-
     const result = await res.json();
-    
-    // 🔍 DETEKSI 3: Pop-up isi respon murni dari backend Node.js kamu
-    alert("🟢 DETEKSI 3 (Respon Server): " + JSON.stringify(result));
 
     if (result.success) {
       message.className = 'success';
       message.innerHTML = `${svgSuccess} <span>Login berhasil, mengalihkan...</span>`;
 
-      // Simpan data ke browser
+      // ✅ MENYIMPAN DATA YANG BENAR
       localStorage.setItem('user', JSON.stringify(result.user));
-      localStorage.setItem('token', result.token);
+      localStorage.setItem('token', result.token); // Menggunakan JWT Backend asli
 
-      alert("🎉 Token sukses disimpan! Mencoba mengalihkan ke dashboard.html...");
-      window.location.href = 'dashboard.html';
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 600);
 
     } else {
       message.className = 'error';
       message.innerHTML = `${svgError} <span>${result.message || 'Login gagal'}</span>`;
-      alert("❌ DETEKSI DB/BACKEND: Server menolak login. Alasan: " + result.message);
     }
 
   } catch (err) {
     console.error(err);
-    if (message) {
-      message.className = 'error';
-      message.innerHTML = `${svgError} <span>Server tidak dapat dihubungi</span>`;
-    }
-    // 🔍 DETEKSI 4: Cek jika Nginx/Cloudflare nge-block pengiriman data (Fetch Failed)
-    alert("💥 DETEKSI 4 (Koneksi Putus/Fetch Error): " + err.message);
+    message.className = 'error';
+    message.innerHTML = `${svgError} <span>Server tidak dapat dihubungi</span>`;
   }
 }
 </script>
