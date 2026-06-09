@@ -262,14 +262,27 @@ body {
 </nav>
 
 <script>
-loadHistory();
+// ✅ 1. Ambil token JWT dari localStorage
+const token = localStorage.getItem('token');
+
+// Proteksi Awal: Jika user belum login/tidak ada token, langsung tendang ke login
+if (!token) {
+  window.location.href = 'index.html';
+} else {
+  // Jalankan fungsi load riwayat jika token tersedia
+  loadHistory();
+}
 
 async function loadHistory() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  if (!user) { window.location.href = 'index.html'; return; }
-
   try {
-    const res  = await fetch(`/api/topup-history?email=${encodeURIComponent(user.email)}`);
+    // ✅ 2. AMAN: Hapus parameter ?email=... dan kirim token lewat Header Authorization
+    const res = await fetch('/api/topup-history', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}` // Autentikasi berbasis JWT
+      }
+    });
+    
     const data = await res.json();
     const area = document.getElementById('historyArea');
 
