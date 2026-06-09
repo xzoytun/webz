@@ -634,7 +634,15 @@ body {
 <script>  
   
 let depositCode = null;  
-let timerInterval = null; // Tambahkan ini di atas untuk menyimpan interval timer
+let timerInterval = null; 
+
+// ✅ 1. Ambil token JWT dari localStorage
+const token = localStorage.getItem('token');
+
+// Proteksi Awal: Jika token tidak ada, tendang user kembali ke halaman login
+if (!token) {
+  location.href = 'index.html';
+}
 
 function setNominal(value, el) {  
   document.getElementById('amount').value = value;  
@@ -647,9 +655,6 @@ function clearSelected() {
 }  
   
 async function createDeposit() {  
-  const user = JSON.parse(localStorage.getItem('user'));  
-  if (!user) { showToast('Silakan login terlebih dahulu', 'error'); return; }  
-  
   const amount = document.getElementById('amount').value;  
   if (!amount || amount < 100) {  
     showToast('Minimal topup Rp 100', 'warn'); return;  
@@ -664,13 +669,16 @@ async function createDeposit() {
     Membuat QRIS...`;  
   
   try {  
-    // Clear timer lama kalau user klik buat ulang saat timer sebelumnya masih jalan
     if (timerInterval) clearInterval(timerInterval);
 
+    // ✅ 2. AMAN: Kirim token lewat Header, hapus parameter 'email' dari body
     const res  = await fetch('/api/deposit', {  
-      method:'POST',  
-      headers:{'Content-Type':'application/json'},  
-      body: JSON.stringify({ email: user.email, amount })  
+      method: 'POST',  
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Kirim JWT token ke backend
+      },  
+      body: JSON.stringify({ amount }) // Hanya kirim amount
     });  
     const data = await res.json();  
   
@@ -769,7 +777,7 @@ async function createDeposit() {
       </div>`;  
   
     document.getElementById('result').scrollIntoView({ behavior:'smooth' });  
-    startCountdown(300); // Mulai hitung mundur dari 300 detik (5 menit)
+    startCountdown(300); 
     startChecker();  
   
   } catch(err) {  
@@ -795,7 +803,6 @@ function startCountdown(durationInSeconds) {
     let minutes = Math.floor(timeRemaining / 60);
     let seconds = timeRemaining % 60;
 
-    // Pad angka biar selalu ada 2 digit (misal: 05:09)
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? '0' + seconds : seconds;
 
@@ -805,7 +812,7 @@ function startCountdown(durationInSeconds) {
 
     if (--timeRemaining < 0) {
       clearInterval(timerInterval);
-      setQrisExpiredView(); // Pindah ke tampilan expired di UI jika waktu habis
+      setQrisExpiredView(); 
     }
   }, 1000);
 }
@@ -823,14 +830,20 @@ function setQrisExpiredView() {
         QRIS sudah expired. Buat ulang untuk melanjutkan.  
       </div>`;
   }
-  depositCode = null; // Hentikan checker backend status otomatis
-}
+  depositCode = null; 
+}  
   
 function startChecker() {  
   const interval = setInterval(async () => {  
     if (!depositCode) { clearInterval(interval); return; }  
     try {  
-      const res  = await fetch('/api/deposit-status/' + depositCode);  
+      // ✅ 3. AMAN: Kirim header token untuk verifikasi status kepemilikan invoice deposit
+      const res  = await fetch('/api/deposit-status/' + depositCode, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });  
       const data = await res.json();  
   
       if (data.success && data.status === 'expired') {  
