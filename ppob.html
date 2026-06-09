@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPOB Store - Xtrimer Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght=400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple:       #7B2FBE;
+  --purple-dark:  #5A1A9A;
+  --purple-deep:  #3D0F72;
+  --purple-light: #9B4FDE;
+  --purple-soft:  #F3EAFD;
+  --white:        #FFFFFF;
+  --bg:           #F8F6FC;
+  --gray-line:    #EEF0F6;
+  --text-dark:    #1A0533;
+  --text-mid:     #6B3FA0;
+  --text-light:   #A882CC;
+  --success:      #00C853;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 40px;
+  overflow-x: hidden;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
+  padding: 24px 20px 44px;
+  position: relative; overflow: hidden; z-index: 2;
+}
+.header::before {
+  content: ''; position: absolute; top: -30px; right: -20px;
+  width: 130px; height: 130px; background: rgba(255,255,255,0.04); border-radius: 50%;
+}
+.header-inner {
+  display: flex; align-items: center; gap: 12px; position: relative; z-index: 2;
+}
+.back-btn-hdr {
+  width: 36px; height: 36px; border-radius: 11px;
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: #fff; text-decoration: none; flex-shrink: 0; transition: background 0.15s;
+}
+.back-btn-hdr:hover { background: rgba(255,255,255,0.2); }
+.back-btn-hdr svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.5; }
+
+.header-title { flex: 1; }
+.header-title h1 {
+  font-size: 18px; font-weight: 900; color: #fff; line-height: 1.1;
+}
+.header-title p { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 700; margin-top: 3px; }
+
+/* ── CONTAINER ── */
+.container {
+  max-width: 440px; margin: 0 auto;
+  padding: 0 16px; position: relative; z-index: 2;
+}
+
+/* ── CATEGORIES ── */
+.categories-box {
+  background: var(--white); border-radius: 16px; padding: 14px;
+  border: 1px solid var(--gray-line);
+  box-shadow: 0 8px 24px rgba(90,26,154,0.02);
+  margin-top: -24px; margin-bottom: 14px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  animation: fadeUp 0.4s 0.05s ease both;
+}
+.cat-item {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  cursor: pointer; background: transparent; border: none; padding: 8px 4px;
+  border-radius: 12px; transition: all 0.15s;
+}
+.cat-item:hover, .cat-item.active {
+  background: var(--purple-soft);
+}
+.cat-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: var(--bg); display: flex; align-items: center; justify-content: center;
+  color: var(--text-mid); transition: all 0.15s;
+}
+.cat-item:hover .cat-icon, .cat-item.active .cat-icon {
+  background: var(--purple); color: var(--white);
+}
+.cat-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+.cat-label { font-size: 11px; font-weight: 800; color: var(--text-dark); }
+
+/* ── INPUT FORM ── */
+.form-box {
+  background: var(--white); border-radius: 16px; padding: 14px;
+  border: 1px solid var(--gray-line);
+  box-shadow: 0 4px 14px rgba(90,26,154,0.01);
+  margin-bottom: 14px; animation: fadeUp 0.4s 0.1s ease both;
+}
+.form-label {
+  font-size: 11px; font-weight: 800; color: var(--text-light);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+}
+.input-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg); border-radius: 12px;
+  border: 1px solid var(--gray-line); padding: 10px 12px;
+  transition: all 0.15s;
+}
+.input-row:focus-within { border-color: var(--purple); background: #fff; box-shadow: 0 0 0 3px rgba(123,47,190,0.05); }
+.input-row svg { color: var(--text-light); flex-shrink: 0; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+.input-field {
+  flex: 1; border: none; outline: none;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800;
+  color: var(--text-dark); background: transparent;
+}
+.input-field::placeholder { color: var(--text-light); font-weight: 600; }
+
+/* ── PRODUCT GRID ── */
+.products-title {
+  font-size: 13px; font-weight: 800; color: var(--text-mid);
+  margin: 4px 4px 10px; animation: fadeUp 0.4s 0.12s ease both;
+}
+.products-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+  animation: fadeUp 0.4s 0.15s ease both;
+}
+.product-card {
+  background: var(--white); border-radius: 14px; border: 1px solid var(--gray-line);
+  padding: 12px; cursor: pointer; display: flex; flex-direction: column;
+  justify-content: space-between; gap: 12px; transition: all 0.15s;
+}
+.product-card:hover {
+  transform: translateY(-2px); border-color: var(--purple);
+  box-shadow: 0 6px 16px rgba(90,26,154,0.04);
+}
+.prod-name { font-size: 12px; font-weight: 800; color: var(--text-dark); line-height: 1.3; }
+.prod-desc { font-size: 10px; font-weight: 600; color: var(--text-light); margin-top: 2px; }
+.prod-price { font-size: 14px; font-weight: 900; color: var(--purple); text-align: right; }
+
+/* ── BOTTOM SHEET CONFIRMATION ── */
+.sheet-overlay {
+  position: fixed; inset: 0; background: rgba(26, 5, 51, 0.4);
+  z-index: 10; display: none; opacity: 0; transition: opacity 0.25s ease;
+  backdrop-filter: blur(2px);
+}
+.bottom-sheet {
+  position: fixed; bottom: 0; left: 50%; transform: translate(-50%, 100%);
+  width: 100%; max-width: 440px; background: var(--white);
+  border-top-left-radius: 24px; border-top-right-radius: 24px;
+  padding: 24px 20px 30px; z-index: 11;
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.08);
+}
+.sheet-overlay.active { display: block; opacity: 1; }
+.bottom-sheet.active { transform: translate(-50%, 0); }
+
+.sheet-handle {
+  width: 40px; height: 4px; background: var(--gray-line); border-radius: 2px;
+  margin: -12px auto 16px;
+}
+.sheet-title { font-size: 16px; font-weight: 900; color: var(--text-dark); margin-bottom: 14px; text-align: center; }
+.detail-box { background: var(--bg); border-radius: 14px; border: 1px solid var(--gray-line); padding: 12px; margin-bottom: 18px; display: flex; flex-direction: column; gap: 8px; }
+.detail-item { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-light); }
+.detail-item span:last-child { color: var(--text-dark); font-weight: 800; }
+.detail-item.total span:last-child { color: var(--purple); font-weight: 900; font-size: 15px; }
+
+.pay-btn {
+  width: 100%; padding: 13px; background: var(--purple); color: var(--white);
+  border: none; border-radius: 14px; font-family: 'Nunito', sans-serif;
+  font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.15s;
+}
+.pay-btn:hover { background: var(--purple-dark); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <a class="back-btn-hdr" href="dashboard.html">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </a>
+    <div class="header-title">
+      <h1>Topup & PPOB</h1>
+      <p>Pulsa, Paket Data, & Token Instan</p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="categories-box">
+    <button class="cat-item active" onclick="switchCategory('pulsa', this)">
+      <div class="cat-icon">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+      </div>
+      <div class="cat-label">Pulsa</div>
+    </button>
+    <button class="cat-item" onclick="switchCategory('data', this)">
+      <div class="cat-icon">
+        <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>
+      </div>
+      <div class="cat-label">Data</div>
+    </button>
+    <button class="cat-item" onclick="switchCategory('pln', this)">
+      <div class="cat-icon">
+        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+      </div>
+      <div class="cat-label">PLN</div>
+    </button>
+    <button class="cat-item" onclick="switchCategory('game', this)">
+      <div class="cat-icon">
+        <svg viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><rect x="2" y="6" width="20" height="12" rx="3"></rect></svg>
+      </div>
+      <div class="cat-label">Game</div>
+    </button>
+  </div>
+
+  <div class="form-box">
+    <div class="form-label" id="inputLabel">Nomor Telepon</div>
+    <div class="input-row">
+      <svg viewBox="0 0 24 24" id="inputIcon"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      <input class="input-field" id="targetInput" type="number" placeholder="Masukkan nomor pengisian..." oninput="validateInput()">
+    </div>
+  </div>
+
+  <div class="products-title" id="listTitle">Pilih Produk Pulsa</div>
+  <div class="products-grid" id="productGrid">
+    </div>
+
+</div>
+
+<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
+<div class="bottom-sheet" id="bottomSheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Konfirmasi Pembelian</div>
+  <div class="detail-box">
+    <div class="detail-item"><span>Kategori</span><span id="detCat">-</span></div>
+    <div class="detail-item"><span>Produk</span><span id="detName">-</span></div>
+    <div class="detail-item"><span>No. Tujuan</span><span id="detTarget">-</span></div>
+    <div class="detail-item total"><span>Total Bayar</span><span id="detPrice">Rp 0</span></div>
+  </div>
+  <button class="pay-btn" onclick="processOrder()">Beli Sekarang</button>
+</div>
+
+<script>
+// Contoh Mock Data Dummy sebelum di-hubungkan ke API Backend Digiflazz / OrderKuota
+const mockProducts = {
+  pulsa: [
+    { id: 'p1', name: 'Pulsa Telkomsel 5.000', desc: 'Pulsa reguler menambah masa aktif', price: 5650 },
+    { id: 'p2', name: 'Pulsa Telkomsel 10.000', desc: 'Pulsa reguler menambah masa aktif', price: 10650 },
+    { id: 'p3', name: 'Pulsa Indosat 5.000', desc: 'Pulsa reguler menambah masa aktif', price: 5700 },
+    { id: 'p4', name: 'Pulsa Indosat 10.000', desc: 'Pulsa reguler menambah masa aktif', price: 10700 }
+  ],
+  data: [
+    { id: 'd1', name: 'Telkomsel 1GB / 3 Hari', desc: 'Kuota Utama Flash Nasional', price: 11200 },
+    { id: 'd2', name: 'Telkomsel 3GB / 7 Hari', desc: 'Kuota Utama Flash Nasional', price: 24500 }
+  ],
+  pln: [
+    { id: 'pln1', name: 'Token PLN 20.000', desc: 'Token Listrik Prabayar', price: 20200 },
+    { id: 'pln2', name: 'Token PLN 50.000', desc: 'Token Listrik Prabayar', price: 50200 }
+  ],
+  game: [
+    { id: 'g1', name: '86 Diamonds Mobile Legends', desc: 'Sertakan User ID + Zone ID', price: 19800 },
+    { id: 'g2', name: '172 Diamonds Mobile Legends', desc: 'Sertakan User ID + Zone ID', price: 38500 }
+  ]
+};
+
+let currentCategory = 'pulsa';
+let selectedProduct = null;
+
+// Ganti Kategori
+function switchCategory(category, element) {
+  currentCategory = category;
+  
+  document.querySelectorAll('.cat-item').forEach(btn => btn.classList.remove('active'));
+  element.classList.add('active');
+
+  const label = document.getElementById('inputLabel');
+  const placeholder = document.getElementById('targetInput');
+  const listTitle = document.getElementById('listTitle');
+
+  if (category === 'pln') {
+    label.innerText = 'Nomor Meter / ID Pelanggan';
+    placeholder.placeholder = 'Contoh: 53001234567';
+    listTitle.innerText = 'Pilih Nominal Token';
+  } else if (category === 'game') {
+    label.innerText = 'ID Game / Player ID';
+    placeholder.placeholder = 'Contoh: 12345678 (2026)';
+    listTitle.innerText = 'Pilih Nominal Topup Game';
+  } else {
+    label.innerText = 'Nomor Telepon';
+    placeholder.placeholder = 'Contoh: 08123456789';
+    listTitle.innerText = `Pilih Produk ${category.charAt(0).toUpperCase() + category.slice(1)}`;
+  }
+
+  renderProducts();
+}
+
+// Render Grid List Produk
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = '';
+  
+  const products = mockProducts[currentCategory] || [];
+
+  products.forEach(prod => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.onclick = () => openSheet(prod);
+
+    card.innerHTML = `
+      <div>
+        <div class="prod-name">${prod.name}</div>
+        <div class="prod-desc">${prod.desc}</div>
+      </div>
+      <div class="prod-price">Rp ${prod.price.toLocaleString('id-ID')}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Open Bottom Sheet
+function openSheet(product) {
+  const target = document.getElementById('targetInput').value;
+  if (!target || target.length < 4) {
+    alert('Harap isi Nomor Tujuan / ID Pelanggan terlebih dahulu!');
+    return;
+  }
+
+  selectedProduct = product;
+  document.getElementById('detCat').innerText = currentCategory.toUpperCase();
+  document.getElementById('detName').innerText = product.name;
+  document.getElementById('detTarget').innerText = target;
+  document.getElementById('detPrice').innerText = 'Rp ' + product.price.toLocaleString('id-ID');
+
+  document.getElementById('sheetOverlay').classList.add('active');
+  document.getElementById('bottomSheet').classList.add('active');
+}
+
+// Close Bottom Sheet
+function closeSheet() {
+  document.getElementById('sheetOverlay').classList.remove('active');
+  document.getElementById('bottomSheet').classList.remove('active');
+}
+
+// Proses Order (Nanti di-hit ke API backend)
+function processOrder() {
+  closeSheet();
+  alert(`Pesanan ${selectedProduct.name} sedang diproses untuk tujuan ${document.getElementById('targetInput').value}!`);
+}
+
+// Jalankan load pertama kali
+renderProducts();
+</script>
+</body>
+</html>
