@@ -1,627 +1,1092 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PPOB Store - Extrimer Tunneling</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PPOB - GabutStore</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     :root {
-      --bg-main: #0b0f19;
-      --bg-card: #151c2c;
-      --purple: #7c4dff;
-      --purple-hover: #651fff;
-      --text-main: #ffffff;
-      --text-light: #94a3b8;
-      --border-color: #24324d;
-      --success: #10b981;
-      --error: #ef4444;
+      --bg: #0f1117;
+      --card: #1a1d2e;
+      --card2: #222539;
+      --border: #2e3150;
+      --accent: #6c63ff;
+      --accent2: #4e46e5;
+      --green: #22c55e;
+      --red: #ef4444;
+      --yellow: #f59e0b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --radius: 14px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      padding: 20px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
     }
 
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding-bottom: 60px;
+    /* ── NAVBAR ── */
+    .navbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-
-    h2 {
-      font-size: 20px;
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-weight: 700;
-      margin-bottom: 20px;
+      font-size: 18px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .navbar-brand i { color: var(--accent); }
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .balance-badge {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .balance-badge span { color: var(--green); }
+    .btn-back {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-back:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── MAIN WRAPPER ── */
+    .main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    /* ── PAGE TITLE ── */
+    .page-header {
+      margin-bottom: 24px;
+    }
+    .page-header h1 {
+      font-size: 22px;
+      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
-    /* Kategori Selector Grid */
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1br);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    @media (max-width: 400px) {
-      .category-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .cat-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 12px 8px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .cat-item.active {
-      border-color: var(--purple);
-      background: rgba(124, 77, 255, 0.1);
-    }
-
-    .cat-icon {
-      font-size: 20px;
-      margin-bottom: 6px;
-    }
-
-    .cat-name {
-      font-size: 11px;
-      color: var(--text-light);
-      font-weight: 500;
-    }
-
-    .cat-item.active .cat-name {
-      color: var(--text-main);
-      font-weight: 600;
-    }
-
-    /* Input Target */
-    .form-group {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      color: var(--text-light);
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .form-group input {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 12px;
-      color: var(--text-main);
-      font-size: 15px;
-      outline: none;
-      font-weight: 600;
-    }
-
-    .form-group input:focus {
-      border-color: var(--purple);
-    }
-
-    /* Sub-Kategori / Brand Selector */
-    .brand-section {
-      margin-bottom: 20px;
-      display: none; /* Muncul jika ada sub-kategori/brand */
-    }
-
-    .brand-title {
-      font-size: 12px;
-      color: var(--text-light);
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .brand-flex {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding-bottom: 5px;
-    }
-
-    .brand-flex::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    .brand-flex::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 10px;
-    }
-
-    .brand-badge {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 12px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    .brand-badge.active {
-      background: var(--purple);
-      border-color: var(--purple);
-    }
-
-    /* Grid Daftar Produk */
-    .list-title {
+    .page-header h1 i { color: var(--accent); }
+    .page-header p {
+      color: var(--muted);
       font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--text-light);
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .product-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 14px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 10px;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-
-    .product-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--purple);
-    }
-
-    .prod-name {
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-
-    .prod-desc {
-      font-size: 10px;
-      color: var(--text-light);
       margin-top: 4px;
     }
 
-    .prod-price {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--purple);
-      margin-top: auto;
-    }
-
-    /* Bottom Sheet Konfirmasi */
-    .sheet-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
-      opacity: 0; visibility: hidden;
-      transition: all 0.3s ease;
-      z-index: 999;
-    }
-
-    .sheet-overlay.active {
-      opacity: 1; visibility: visible;
-    }
-
-    .bottom-sheet {
-      position: fixed;
-      bottom: -100%; left: 0; right: 0;
-      background: var(--bg-card);
-      border-top: 2px solid var(--border-color);
-      border-top-left-radius: 24px;
-      border-top-right-radius: 24px;
-      padding: 24px;
-      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-      z-index: 1000;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .bottom-sheet.active {
-      bottom: 0;
-    }
-
-    .sheet-header {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      text-align: center;
-    }
-
-    .sheet-detail {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 16px;
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      gap: 8px;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .tab-btn:hover { border-color: var(--accent); color: var(--text); }
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .tab-btn i { font-size: 12px; }
+
+    /* ── STEP INDICATOR ── */
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .step.active .step-num { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .step.done .step-num { background: var(--green); border-color: var(--green); color: #fff; }
+    .step-divider { flex: 1; height: 1px; background: var(--border); max-width: 40px; }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title i { color: var(--accent); }
+
+    /* ── BRAND GRID ── */
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+    }
+    .brand-btn {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 8px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .brand-btn:hover, .brand-btn.active {
+      border-color: var(--accent);
+      background: rgba(108,99,255,0.1);
+      color: var(--accent);
+    }
+    .brand-btn i {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 6px;
+      color: var(--accent);
     }
 
-    .detail-row {
+    /* ── PRODUCT LIST ── */
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .product-item {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
       display: flex;
       justify-content: space-between;
-      font-size: 13px;
-      margin-bottom: 12px;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-
-    .detail-row:last-child {
-      margin-bottom: 0;
-      padding-top: 12px;
-      border-top: 1px dashed var(--border-color);
+    .product-item:hover, .product-item.selected {
+      border-color: var(--accent);
+      background: rgba(108,99,255,0.08);
     }
-
-    .detail-label { color: var(--text-light); }
-    .detail-value { font-weight: 600; text-align: right; }
-    .price-total { color: var(--success); font-size: 16px; font-weight: 700; }
-
-    .pay-btn {
-      width: 100%;
-      background: var(--purple);
-      color: var(--text-main);
-      border: none;
-      padding: 14px;
-      border-radius: 12px;
-      font-size: 14px;
+    .product-item.selected { box-shadow: 0 0 0 2px var(--accent); }
+    .product-info { flex: 1; }
+    .product-name { font-size: 14px; font-weight: 500; }
+    .product-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .product-price {
+      font-size: 15px;
       font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
+      color: var(--accent);
+      white-space: nowrap;
+      margin-left: 12px;
+    }
+    .product-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      transition: all 0.2s;
+    }
+    .product-item.selected .product-check {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
     }
 
-    .pay-btn:hover { background: var(--purple-hover); }
-    .close-sheet-btn {
-      width: 100%;
-      background: transparent;
-      color: var(--text-light);
-      border: none;
-      padding: 10px;
+    /* ── INPUT ── */
+    .input-group {
+      margin-bottom: 16px;
+    }
+    .input-group label {
+      display: block;
       font-size: 13px;
-      margin-top: 8px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .input-group input {
+      width: 100%;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 14px;
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input-group input:focus { border-color: var(--accent); }
+    .input-group input::placeholder { color: var(--muted); }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
+      width: 100%;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { background: var(--accent2); }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── KONFIRMASI BOX ── */
+    .konfirmasi-box {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .konfirmasi-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .konfirmasi-row:last-child { border-bottom: none; }
+    .konfirmasi-row .label { color: var(--muted); }
+    .konfirmasi-row .value { font-weight: 500; }
+    .konfirmasi-row .price-val { color: var(--accent); font-weight: 700; font-size: 16px; }
+
+    /* ── RIWAYAT TABLE ── */
+    .history-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th {
+      text-align: left;
+      padding: 10px 12px;
+      color: var(--muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 11px 12px;
+      border-bottom: 1px solid rgba(46,49,80,0.5);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(108,99,255,0.04); }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-success { background: rgba(34,197,94,0.15); color: var(--green); }
+    .badge-pending { background: rgba(245,158,11,0.15); color: var(--yellow); }
+    .badge-failed { background: rgba(239,68,68,0.15); color: var(--red); }
+
+    /* ── LOADING / EMPTY ── */
+    .loading-wrap {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    .loading-wrap i { font-size: 28px; margin-bottom: 10px; display: block; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-wrap {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    .empty-wrap i { font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.4; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 9999;
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.success { border-color: var(--green); }
+    #toast.error { border-color: var(--red); }
+    #toast.success i { color: var(--green); }
+    #toast.error i { color: var(--red); }
+
+    /* ── SUCCESS SCREEN ── */
+    .success-screen {
+      text-align: center;
+      padding: 32px 20px;
+    }
+    .success-screen .icon-big {
+      font-size: 56px;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+    .success-screen h2 { font-size: 20px; margin-bottom: 8px; }
+    .success-screen p { color: var(--muted); font-size: 14px; margin-bottom: 4px; }
+    .sn-box {
+      background: var(--card2);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      text-align: left;
+    }
+    .sn-box label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+    .sn-box .sn-val {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    /* ── PAGINATION ── */
+    .pagination {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .pg-btn {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .pg-btn:hover, .pg-btn.active { border-color: var(--accent); color: var(--accent); }
+    .pg-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .main { padding: 16px 12px; }
+      .balance-badge { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h2><i class="fa-solid fa-mobile-screen-button" style="color:var(--purple)"></i> PPOB Digital Store</h2>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="navbar-brand" href="dashboard.html">
+    <i class="fas fa-bolt"></i> GabutStore
+  </a>
+  <div class="navbar-right">
+    <div class="balance-badge">Saldo: <span id="navBalance">Rp 0</span></div>
+    <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left"></i> Dashboard</a>
+  </div>
+</nav>
 
-    <div class="category-grid" id="categoryGrid">
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <h1><i class="fas fa-shopping-cart"></i> Layanan PPOB</h1>
+    <p>Pulsa, Paket Data, PLN, Game, BPJS, dan lainnya</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs" id="tabsContainer">
+    <button class="tab-btn active" data-cat="PULSA" onclick="selectCategory('PULSA', this)">
+      <i class="fas fa-sim-card"></i> Pulsa
+    </button>
+    <button class="tab-btn" data-cat="DATA" onclick="selectCategory('DATA', this)">
+      <i class="fas fa-wifi"></i> Paket Data
+    </button>
+    <button class="tab-btn" data-cat="PLN" onclick="selectCategory('PLN', this)">
+      <i class="fas fa-bolt"></i> PLN
+    </button>
+    <button class="tab-btn" data-cat="GAME" onclick="selectCategory('GAME', this)">
+      <i class="fas fa-gamepad"></i> Game
+    </button>
+    <button class="tab-btn" data-cat="BPJS" onclick="selectCategory('BPJS', this)">
+      <i class="fas fa-heart-pulse"></i> BPJS
+    </button>
+    <button class="tab-btn" data-cat="ETOL" onclick="selectCategory('ETOL', this)">
+      <i class="fas fa-road"></i> E-Toll
+    </button>
+    <button class="tab-btn" data-tab="history" onclick="showHistory()">
+      <i class="fas fa-clock-rotate-left"></i> Riwayat
+    </button>
+  </div>
+
+  <!-- STEP INDICATOR (step 1–3) -->
+  <div class="steps" id="stepIndicator">
+    <div class="step active" id="s1"><div class="step-num">1</div><span>Pilih Produk</span></div>
+    <div class="step-divider"></div>
+    <div class="step" id="s2"><div class="step-num">2</div><span>Isi Nomor</span></div>
+    <div class="step-divider"></div>
+    <div class="step" id="s3"><div class="step-num">3</div><span>Konfirmasi</span></div>
+  </div>
+
+  <!-- ══════════ STEP 1: PILIH PRODUK ══════════ -->
+  <div id="stepPilih">
+
+    <!-- Brand -->
+    <div class="card" id="brandCard">
+      <div class="card-title"><i class="fas fa-store"></i> Pilih Provider</div>
+      <div class="brand-grid" id="brandGrid">
+        <div class="loading-wrap"><i class="fas fa-circle-notch"></i><div>Memuat...</div></div>
       </div>
-
-    <div class="form-group">
-      <label id="inputLabel">Nomor Telepon / Tujuan</label>
-      <input type="text" id="targetInput" placeholder="Contoh: 08123456789" oninput="handleTargetInput()">
     </div>
 
-    <div class="brand-section" id="brandSection">
-      <div class="brand-title" id="brandTitle">Pilih Operator / Sub Kategori</div>
-      <div class="brand-flex" id="brandFlex">
+    <!-- Products -->
+    <div class="card" id="productCard" style="display:none;">
+      <div class="card-title"><i class="fas fa-list"></i> Pilih Produk — <span id="selectedBrandLabel" style="color:var(--accent)"></span></div>
+      <div class="product-list" id="productList">
+        <div class="loading-wrap"><i class="fas fa-circle-notch"></i><div>Memuat produk...</div></div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="btnStep1Next" onclick="goToStep2()" style="display:none;">
+      <i class="fas fa-arrow-right"></i> Lanjut Isi Nomor
+    </button>
+  </div>
+
+  <!-- ══════════ STEP 2: ISI NOMOR ══════════ -->
+  <div id="stepNomor" style="display:none;">
+    <div class="card">
+      <div class="card-title"><i class="fas fa-mobile-screen-button"></i> Nomor Tujuan</div>
+
+      <div class="input-group">
+        <label id="targetLabel">Nomor HP / ID Pelanggan</label>
+        <input type="text" id="targetInput" placeholder="Contoh: 08123456789" inputmode="numeric" />
+      </div>
+
+      <!-- Selected product recap -->
+      <div class="konfirmasi-box" style="margin-bottom:0;">
+        <div class="konfirmasi-row">
+          <span class="label">Produk</span>
+          <span class="value" id="recap-product">-</span>
         </div>
+        <div class="konfirmasi-row">
+          <span class="label">Harga</span>
+          <span class="price-val" id="recap-price">-</span>
+        </div>
+        <div class="konfirmasi-row">
+          <span class="label">Saldo kamu</span>
+          <span class="value" id="recap-balance">-</span>
+        </div>
+      </div>
     </div>
 
-    <div class="list-title" id="listTitle">Pilih Nominal Produk</div>
-    <div class="product-grid" id="productGrid">
-      <div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--text-light);">Silakan pilih kategori terlebih dahulu...</div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-outline" onclick="goToStep1()"><i class="fas fa-arrow-left"></i> Kembali</button>
+      <button class="btn-primary" onclick="goToStep3()"><i class="fas fa-arrow-right"></i> Konfirmasi</button>
     </div>
   </div>
 
-  <div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
-  <div class="bottom-sheet" id="bottomSheet">
-    <div class="sheet-header">Konfirmasi Pembelian</div>
-    <div class="sheet-detail">
-      <div class="detail-row">
-        <span class="detail-label">Kategori</span>
-        <span class="detail-value" id="detCat">-</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Produk</span>
-        <span class="detail-value" id="detName">-</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Tujuan</span>
-        <span class="detail-value" id="detTarget">-</span>
-      </div>
-      <div class="detail-row">
-        <span class="detail-label">Total Pembayaran</span>
-        <span class="detail-value price-total" id="detPrice">Rp 0</span>
+  <!-- ══════════ STEP 3: KONFIRMASI ══════════ -->
+  <div id="stepKonfirmasi" style="display:none;">
+    <div class="card">
+      <div class="card-title"><i class="fas fa-check-circle"></i> Detail Transaksi</div>
+
+      <div class="konfirmasi-box">
+        <div class="konfirmasi-row">
+          <span class="label">Kategori</span>
+          <span class="value" id="k-category">-</span>
+        </div>
+        <div class="konfirmasi-row">
+          <span class="label">Provider</span>
+          <span class="value" id="k-brand">-</span>
+        </div>
+        <div class="konfirmasi-row">
+          <span class="label">Produk</span>
+          <span class="value" id="k-product">-</span>
+        </div>
+        <div class="konfirmasi-row">
+          <span class="label">Nomor Tujuan</span>
+          <span class="value" id="k-target">-</span>
+        </div>
+        <div class="konfirmasi-row">
+          <span class="label">Harga</span>
+          <span class="price-val" id="k-price">-</span>
+        </div>
+        <div class="konfirmasi-row">
+          <span class="label">Saldo Setelah</span>
+          <span class="value" id="k-after">-</span>
+        </div>
       </div>
     </div>
-    <button class="pay-btn" onclick="processOrder()">Beli Sekarang</button>
-    <button class="close-sheet-btn" onclick="closeSheet()">Batal</button>
+
+    <div style="display:flex;gap:10px;">
+      <button class="btn-outline" onclick="goToStep2()"><i class="fas fa-arrow-left"></i> Kembali</button>
+      <button class="btn-primary" id="btnBeli" onclick="doBeli()">
+        <i class="fas fa-paper-plane"></i> Bayar Sekarang
+      </button>
+    </div>
   </div>
 
-  <script>
-    let currentCategory = 'Pulsa'; // Default awal kapital sesuai backend
-    let selectedBrand = '';
-    let selectedSub = '';
-    let selectedProduct = null;
-    let allProductsCache = [];
+  <!-- ══════════ STEP 4: SUKSES ══════════ -->
+  <div id="stepSukses" style="display:none;">
+    <div class="card">
+      <div class="success-screen">
+        <div class="icon-big"><i class="fas fa-circle-check"></i></div>
+        <h2>Transaksi Berhasil!</h2>
+        <p>Pembelian kamu sudah diproses</p>
 
-    // Mengambil Token JWT Login dari Browser
-    const token = localStorage.getItem('token'); 
+        <div class="sn-box" id="snBox" style="display:none;">
+          <label>Serial Number (SN)</label>
+          <div class="sn-val" id="snValue">-</div>
+        </div>
 
-    // 1. Ambil Semua Kategori Saat Halaman Dibuka
-    async function initCategories() {
-      try {
-        const res = await fetch('/api/ppob/categories');
-        const result = await res.json();
-        if (result.success) {
-          const grid = document.getElementById('categoryGrid');
-          grid.innerHTML = '';
-          result.data.forEach((cat, index) => {
-            const item = document.createElement('div');
-            item.className = `cat-item ${index === 0 ? 'active' : ''}`;
-            item.onclick = () => switchCategory(cat.id, item);
-            item.innerHTML = `
-              <div class="cat-icon">${cat.icon}</div>
-              <div class="cat-name">${cat.name}</div>
-            `;
-            grid.appendChild(item);
-          });
-          // Muat produk kategori pertama
-          switchCategory(result.data[0].id, grid.firstChild);
-        }
-      } catch (err) {
-        console.error("Gagal load kategori: ", err);
-      }
-    }
-
-    // 2. Aksi Ganti Kategori Utama
-    async function switchCategory(catId, element) {
-      currentCategory = catId;
-      selectedBrand = '';
-      selectedSub = '';
-      
-      document.querySelectorAll('.cat-item').forEach(btn => btn.classList.remove('active'));
-      if(element) element.classList.add('active');
-
-      // Set label & placeholder dinamis
-      const label = document.getElementById('inputLabel');
-      const placeholder = document.getElementById('targetInput');
-      const listTitle = document.getElementById('listTitle');
-
-      if (catId === 'PLN') {
-        label.innerText = 'Nomor Meter / ID Pelanggan';
-        placeholder.placeholder = 'Contoh: 53001234567';
-        listTitle.innerText = 'Pilih Nominal Token PLN';
-      } else if (catId === 'Games') {
-        label.innerText = 'ID Player / Game ID';
-        placeholder.placeholder = 'Contoh: 12345678 (2026)';
-        listTitle.innerText = 'Pilih Nominal Voucher Game';
-      } else {
-        label.innerText = 'Nomor Telepon Tujuan';
-        placeholder.placeholder = 'Contoh: 08123456789';
-        listTitle.innerText = `Pilih Nominal ${catId}`;
-      }
-
-      // Sembunyikan brand selector dulu, nanti diproses pas ngetik nomor / load data
-      document.getElementById('brandSection').style.display = 'none';
-
-      await fetchProducts();
-    }
-
-    // 3. Ambil Produk Asli dari API Backend
-    async function fetchProducts() {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = '<div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--text-light);">⏳ Menghubungkan ke API Digiflazz...</div>';
-
-      try {
-        let url = `/api/ppob/products?category=${encodeURIComponent(currentCategory)}`;
-        if (selectedBrand) url += `&brand=${encodeURIComponent(selectedBrand)}`;
-        if (selectedSub) url += `&sub=${encodeURIComponent(selectedSub)}`;
-
-        const response = await fetch(url);
-        const result = await response.json();
-
-        if (result.success && result.data.length > 0) {
-          allProductsCache = result.data;
-          renderProducts(result.data);
-
-          // Jika kategori pulsa/data belum difilter brand-nya, kumpulkan daftar brand aktif yang ada
-          if (!selectedBrand && (currentCategory === 'Pulsa' || currentCategory === 'Data')) {
-            const brands = [...new Set(result.data.map(p => p.brand))];
-            renderBrandBadges(brands);
-          }
-        } else {
-          grid.innerHTML = `<div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--error); font-weight:700;">❌ ${result.message || 'Produk sedang tidak tersedia'}</div>`;
-        }
-      } catch (err) {
-        grid.innerHTML = '<div style="grid-column: span 2; text-align:center; padding:20px; font-size:12px; color:var(--error); font-weight:700;">❌ Gagal memuat data dari server</div>';
-      }
-    }
-
-    // 4. Render Badge Operator / Brand Selector
-    function renderBrandBadges(brands) {
-      const section = document.getElementById('brandSection');
-      const flex = document.getElementById('brandFlex');
-      document.getElementById('brandTitle').innerText = "Pilih Operator / Provider";
-      
-      if (brands.length <= 1) {
-        section.style.display = 'none';
-        return;
-      }
-
-      section.style.display = 'block';
-      flex.innerHTML = '';
-
-      // Tambah pilihan "Semua"
-      const allBadge = document.createElement('div');
-      allBadge.className = `brand-badge ${!selectedBrand ? 'active' : ''}`;
-      allBadge.innerText = 'Semua';
-      allBadge.onclick = () => {
-        selectedBrand = '';
-        document.querySelectorAll('.brand-badge').forEach(b => b.classList.remove('active'));
-        allBadge.classList.add('active');
-        fetchProducts();
-      };
-      flex.appendChild(allBadge);
-
-      brands.forEach(brd => {
-        const badge = document.createElement('div');
-        badge.className = `brand-badge ${selectedBrand === brd ? 'active' : ''}`;
-        badge.innerText = brd;
-        badge.onclick = () => {
-          selectedBrand = brd;
-          document.querySelectorAll('.brand-badge').forEach(b => b.classList.remove('active'));
-          badge.classList.add('active');
-          fetchProducts();
-        };
-        flex.appendChild(badge);
-      });
-    }
-
-    // 5. Gambar Ulang Kartu Produk ke Grid HTML
-    function renderProducts(products) {
-      const grid = document.getElementById('productGrid');
-      grid.innerHTML = '';
-
-      products.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.onclick = () => openSheet(p);
-        card.innerHTML = `
-          <div>
-            <div class="prod-name">${p.product_name}</div>
-            <div class="prod-desc">${p.brand} - Aktif</div>
+        <div class="konfirmasi-box" style="text-align:left;">
+          <div class="konfirmasi-row">
+            <span class="label">Produk</span>
+            <span class="value" id="done-product">-</span>
           </div>
-          <div class="prod-price">Rp ${p.price.toLocaleString('id-ID')}</div>
-        `;
-        grid.appendChild(card);
+          <div class="konfirmasi-row">
+            <span class="label">Nomor</span>
+            <span class="value" id="done-target">-</span>
+          </div>
+          <div class="konfirmasi-row">
+            <span class="label">Ref ID</span>
+            <span class="value" id="done-refid" style="font-size:12px;color:var(--muted)">-</span>
+          </div>
+          <div class="konfirmasi-row">
+            <span class="label">Saldo Baru</span>
+            <span class="price-val" id="done-balance">-</span>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:8px;">
+          <button class="btn-outline" style="flex:1" onclick="resetAll()">
+            <i class="fas fa-rotate-left"></i> Transaksi Baru
+          </button>
+          <button class="btn-outline" style="flex:1" onclick="showHistory()">
+            <i class="fas fa-list"></i> Riwayat
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ RIWAYAT ══════════ -->
+  <div id="sectionHistory" style="display:none;">
+    <div class="card">
+      <div class="history-header">
+        <div class="card-title" style="margin-bottom:0;"><i class="fas fa-clock-rotate-left"></i> Riwayat PPOB</div>
+        <button class="btn-outline" style="padding:6px 14px;font-size:12px;" onclick="loadHistory(currentPage)">
+          <i class="fas fa-rotate-right"></i>
+        </button>
+      </div>
+      <div id="historyContent">
+        <div class="loading-wrap"><i class="fas fa-circle-notch"></i><div>Memuat riwayat...</div></div>
+      </div>
+      <div class="pagination" id="historyPagination"></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- TOAST -->
+<div id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<script>
+  // ── STATE ──
+  const API = '';  // base URL, kosongkan jika same origin
+  let token = localStorage.getItem('token') || '';
+  let currentUser = null;
+  let currentCategory = 'PULSA';
+  let currentBrand = null;
+  let selectedProduct = null;
+  let currentPage = 1;
+
+  // ── INIT ──
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (!token) {
+      window.location.href = 'index.html';
+      return;
+    }
+    await loadProfile();
+    loadBrands(currentCategory);
+  });
+
+  // ── PROFILE ──
+  async function loadProfile() {
+    try {
+      const stored = JSON.parse(localStorage.getItem('user') || '{}');
+      if (!stored.email) { window.location.href = 'index.html'; return; }
+      const r = await fetch(`${API}/api/profile?email=${encodeURIComponent(stored.email)}`);
+      const d = await r.json();
+      if (d.success) {
+        currentUser = d.user;
+        updateBalanceUI(currentUser.balance);
+      }
+    } catch(e) { console.error(e); }
+  }
+
+  function updateBalanceUI(balance) {
+    document.getElementById('navBalance').textContent = 'Rp ' + Number(balance).toLocaleString('id-ID');
+    document.getElementById('recap-balance').textContent = 'Rp ' + Number(balance).toLocaleString('id-ID');
+  }
+
+  // ── CATEGORY ──
+  function selectCategory(cat, el) {
+    // Jika klik riwayat tab lain
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+
+    currentCategory = cat;
+    currentBrand = null;
+    selectedProduct = null;
+
+    hideHistory();
+    goToStep1();
+    loadBrands(cat);
+  }
+
+  // ── BRANDS ──
+  async function loadBrands(cat) {
+    const grid = document.getElementById('brandGrid');
+    grid.innerHTML = '<div class="loading-wrap"><i class="fas fa-circle-notch"></i><div>Memuat provider...</div></div>';
+    document.getElementById('productCard').style.display = 'none';
+    document.getElementById('btnStep1Next').style.display = 'none';
+
+    try {
+      const r = await fetch(`${API}/api/ppob/brands?category=${encodeURIComponent(cat)}`, {
+        headers: { Authorization: 'Bearer ' + token }
       });
-    }
+      const d = await r.json();
 
-    // Smart Filter: Otomatis deteksi operator saat user mengetik nomor telepon prefix (08xx)
-    function handleTargetInput() {
-      const target = document.getElementById('targetInput').value;
-      if ((currentCategory === 'Pulsa' || currentCategory === 'Data') && target.length >= 4) {
-        const pref = target.substring(0, 4);
-        let detectedBrand = '';
-        
-        // Deteksi Telkomsel
-        if (['0811', '0812', '0813', '0821', '0822', '0823', '0852', '0853', '0851'].includes(pref)) detectedBrand = 'Telkomsel';
-        // Deteksi Indosat
-        else if (['0814', '0815', '0816', '0855', '0856', '0857', '0858'].includes(pref)) detectedBrand = 'Indosat';
-        // Deteksi XL
-        else if (['0817', '0818', '0819', '0859', '0877', '0878'].includes(pref)) detectedBrand = 'XL';
-        // Deteksi Axis
-        else if (['0831', '0832', '0833', '0838'].includes(pref)) detectedBrand = 'Axis';
-        // Deteksi Tri
-        else if (['0895', '0896', '0897', '0898', '0899'].includes(pref)) detectedBrand = 'Tri';
-        // Deteksi Smartfren
-        else if (['0881', '0882', '0883', '0884', '0885', '0886', '0887', '0888', '0889'].includes(pref)) detectedBrand = 'Smartfren';
-
-        if (detectedBrand && selectedBrand !== detectedBrand) {
-          selectedBrand = detectedBrand;
-          // Sorot badge-nya jika ketemu
-          fetchProducts();
-        }
-      }
-    }
-
-    // 6. Buka Bottom Sheet Konfirmasi Pembelian
-    function openSheet(product) {
-      const target = document.getElementById('targetInput').value;
-      if (!token) {
-        alert('Maaf, Anda harus login terlebih dahulu untuk bertransaksi!');
-        return;
-      }
-      if (!target || target.length < 5) {
-        alert('Harap isi Nomor Tujuan atau ID Target dengan benar!');
+      if (!d.success || !d.brands?.length) {
+        grid.innerHTML = '<div class="empty-wrap"><i class="fas fa-box-open"></i><div>Belum ada provider untuk kategori ini</div></div>';
         return;
       }
 
-      selectedProduct = product;
-      document.getElementById('detCat').innerText = currentCategory;
-      document.getElementById('detName').innerText = product.product_name;
-      document.getElementById('detTarget').innerText = target;
-      document.getElementById('detPrice').innerText = 'Rp ' + product.price.toLocaleString('id-ID');
+      grid.innerHTML = '';
+      d.brands.forEach(brand => {
+        const btn = document.createElement('div');
+        btn.className = 'brand-btn';
+        btn.innerHTML = `<i class="${getBrandIcon(brand)}"></i>${brand}`;
+        btn.onclick = () => selectBrand(brand, btn);
+        grid.appendChild(btn);
+      });
+    } catch(e) {
+      grid.innerHTML = '<div class="empty-wrap"><i class="fas fa-triangle-exclamation"></i><div>Gagal memuat provider</div></div>';
+    }
+  }
 
-      document.getElementById('sheetOverlay').classList.add('active');
-      document.getElementById('bottomSheet').classList.add('active');
+  function getBrandIcon(brand) {
+    const b = brand.toUpperCase();
+    if (b.includes('TELKOMSEL') || b.includes('SIMPATI') || b.includes('AS')) return 'fas fa-sim-card';
+    if (b.includes('XL') || b.includes('AXIS')) return 'fas fa-tower-cell';
+    if (b.includes('INDOSAT') || b.includes('IM3')) return 'fas fa-signal';
+    if (b.includes('TRI') || b.includes('3')) return 'fas fa-hashtag';
+    if (b.includes('SMARTFREN')) return 'fas fa-mobile';
+    if (b.includes('PLN')) return 'fas fa-bolt';
+    if (b.includes('BPJS')) return 'fas fa-heart-pulse';
+    if (b.includes('STEAM') || b.includes('GOOGLE') || b.includes('ITUNES')) return 'fas fa-gift';
+    if (b.includes('FREE') || b.includes('GARENA') || b.includes('GAME')) return 'fas fa-gamepad';
+    if (b.includes('ETOLL') || b.includes('TOLL')) return 'fas fa-road';
+    return 'fas fa-store';
+  }
+
+  // ── BRAND SELECT ──
+  async function selectBrand(brand, el) {
+    document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    currentBrand = brand;
+    selectedProduct = null;
+    document.getElementById('btnStep1Next').style.display = 'none';
+
+    const productCard = document.getElementById('productCard');
+    productCard.style.display = 'block';
+    document.getElementById('selectedBrandLabel').textContent = brand;
+
+    const list = document.getElementById('productList');
+    list.innerHTML = '<div class="loading-wrap"><i class="fas fa-circle-notch"></i><div>Memuat produk...</div></div>';
+
+    try {
+      const r = await fetch(
+        `${API}/api/ppob/products?category=${encodeURIComponent(currentCategory)}&brand=${encodeURIComponent(brand)}`,
+        { headers: { Authorization: 'Bearer ' + token } }
+      );
+      const d = await r.json();
+
+      if (!d.success || !d.products?.length) {
+        list.innerHTML = '<div class="empty-wrap"><i class="fas fa-box-open"></i><div>Tidak ada produk tersedia</div></div>';
+        return;
+      }
+
+      list.innerHTML = '';
+      d.products.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'product-item';
+        item.dataset.sku = p.sku;
+        item.dataset.name = p.name;
+        item.dataset.price = p.price;
+        item.innerHTML = `
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            ${p.desc ? `<div class="product-desc">${p.desc}</div>` : ''}
+          </div>
+          <div class="product-price">Rp ${p.price.toLocaleString('id-ID')}</div>
+          <div class="product-check"><i class="fas fa-check" style="display:none;"></i></div>
+        `;
+        item.onclick = () => selectProduct(item, p);
+        list.appendChild(item);
+      });
+    } catch(e) {
+      list.innerHTML = '<div class="empty-wrap"><i class="fas fa-triangle-exclamation"></i><div>Gagal memuat produk</div></div>';
+    }
+  }
+
+  // ── PRODUCT SELECT ──
+  function selectProduct(el, p) {
+    document.querySelectorAll('.product-item').forEach(i => {
+      i.classList.remove('selected');
+      i.querySelector('.product-check i').style.display = 'none';
+    });
+    el.classList.add('selected');
+    el.querySelector('.product-check i').style.display = 'block';
+    selectedProduct = p;
+    document.getElementById('btnStep1Next').style.display = 'flex';
+  }
+
+  // ── STEPS ──
+  function goToStep1() {
+    show('stepPilih');
+    hide('stepNomor'); hide('stepKonfirmasi'); hide('stepSukses');
+    setStep(1);
+    document.getElementById('stepIndicator').style.display = 'flex';
+  }
+  function goToStep2() {
+    if (!selectedProduct) { showToast('Pilih produk terlebih dahulu', 'error'); return; }
+    document.getElementById('recap-product').textContent = selectedProduct.name;
+    document.getElementById('recap-price').textContent = 'Rp ' + Number(selectedProduct.price).toLocaleString('id-ID');
+
+    // Label input sesuai kategori
+    const labelMap = { PLN:'No Meter / ID Pelanggan PLN', BPJS:'No Peserta BPJS', ETOL:'No Kartu E-Toll', GAME:'ID Player / User ID' };
+    document.getElementById('targetLabel').textContent = labelMap[currentCategory] || 'Nomor HP Tujuan';
+    document.getElementById('targetInput').value = '';
+
+    show('stepNomor'); hide('stepPilih'); hide('stepKonfirmasi'); hide('stepSukses');
+    setStep(2);
+  }
+  function goToStep3() {
+    const target = document.getElementById('targetInput').value.trim();
+    if (!target) { showToast('Nomor tujuan tidak boleh kosong', 'error'); return; }
+    if (!/^[0-9a-zA-Z\-]+$/.test(target)) { showToast('Format nomor tidak valid', 'error'); return; }
+
+    const saldo = currentUser?.balance || 0;
+    const afterBuy = saldo - selectedProduct.price;
+
+    if (afterBuy < 0) {
+      showToast('Saldo tidak cukup! Top up dulu ya bro.', 'error'); return;
     }
 
-    // 7. Tutup Bottom Sheet
-    function closeSheet() {
-      document.getElementById('sheetOverlay').classList.remove('active');
-      document.getElementById('bottomSheet').classList.remove('active');
-    }
+    document.getElementById('k-category').textContent = currentCategory;
+    document.getElementById('k-brand').textContent = currentBrand || '-';
+    document.getElementById('k-product').textContent = selectedProduct.name;
+    document.getElementById('k-target').textContent = target;
+    document.getElementById('k-price').textContent = 'Rp ' + Number(selectedProduct.price).toLocaleString('id-ID');
+    document.getElementById('k-after').textContent = 'Rp ' + afterBuy.toLocaleString('id-ID');
 
-    // 8. Tembak Perintah Pembelian Resmi ke API `/api/ppob/buy`
-    async function processOrder() {
-      const target = document.getElementById('targetInput').value;
-      const btn = document.querySelector('.pay-btn');
-      
-      btn.disabled = true;
-      btn.innerText = 'Sedang Memproses Ke Provider...';
-      btn.style.background = '#475569';
+    show('stepKonfirmasi'); hide('stepNomor'); hide('stepPilih'); hide('stepSukses');
+    setStep(3);
+  }
 
-      try {
-        const response = await fetch('/api/ppob/buy', {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}` // Masukkan JWT Token login di header
-          },
-          body: JSON.stringify({
-            sku: selectedProduct.buyer_sku_code,
-            target: target
-          })
-        });
+  // ── BELI ──
+  async function doBeli() {
+    const btn = document.getElementById('btnBeli');
+    const target = document.getElementById('targetInput').value.trim();
 
-        const result = await response.json();
-        closeSheet();
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Memproses...';
 
-        if (result.success) {
-          alert(`✅ Berhasil!\n\n${result.message}\nID Transaksi: ${result.data.ref_id}\n\nDana Anda terpotong aman dan pesanan diproses di sistem server.`);
-          document.getElementById('targetInput').value = ''; // Kosongkan inputan
+    try {
+      const r = await fetch(`${API}/api/ppob/buy`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token
+        },
+        body: JSON.stringify({
+          sku: selectedProduct.sku,
+          target: target,
+          product_name: selectedProduct.name,
+          price: selectedProduct.price
+        })
+      });
+      const d = await r.json();
+
+      if (d.success) {
+        // Update saldo lokal
+        if (currentUser) currentUser.balance = d.new_balance;
+        updateBalanceUI(d.new_balance);
+
+        // Tampilkan halaman sukses
+        document.getElementById('done-product').textContent = selectedProduct.name;
+        document.getElementById('done-target').textContent = target;
+        document.getElementById('done-refid').textContent = d.ref_id || '-';
+        document.getElementById('done-balance').textContent = 'Rp ' + Number(d.new_balance).toLocaleString('id-ID');
+
+        if (d.sn) {
+          document.getElementById('snValue').textContent = d.sn;
+          document.getElementById('snBox').style.display = 'block';
         } else {
-          alert(`❌ Transaksi Gagal:\n${result.message}`);
+          document.getElementById('snBox').style.display = 'none';
         }
-      } catch (err) {
-        console.error(err);
-        alert('❌ Terjadi kesalahan koneksi sistem web ke backend.');
-      } finally {
-        btn.disabled = false;
-        btn.innerText = 'Beli Sekarang';
-        btn.style.background = 'var(--purple)';
-      }
-    }
 
-    // Jalankan inisialisasi kategori pertama kali saat web dibuka
-    initCategories();
-  </script>
+        show('stepSukses'); hide('stepKonfirmasi');
+        document.getElementById('stepIndicator').style.display = 'none';
+        showToast('Transaksi berhasil!', 'success');
+
+        // Update localStorage user
+        if (currentUser) {
+          localStorage.setItem('user', JSON.stringify(currentUser));
+        }
+      } else {
+        showToast(d.message || 'Transaksi gagal', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Bayar Sekarang';
+      }
+    } catch(e) {
+      showToast('Koneksi error. Coba lagi.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Bayar Sekarang';
+    }
+  }
+
+  // ── RESET ──
+  function resetAll() {
+    selectedProduct = null;
+    currentBrand = null;
+    document.getElementById('stepIndicator').style.display = 'flex';
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if (b.dataset.cat === currentCategory) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+    goToStep1();
+    loadBrands(currentCategory);
+  }
+
+  // ── RIWAYAT ──
+  function showHistory() {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-tab="history"]')?.classList.add('active');
+
+    hide('stepPilih'); hide('stepNomor'); hide('stepKonfirmasi'); hide('stepSukses');
+    hide('stepIndicator');
+    show('sectionHistory');
+    currentPage = 1;
+    loadHistory(1);
+  }
+
+  function hideHistory() {
+    hide('sectionHistory');
+    show('stepIndicator');
+  }
+
+  async function loadHistory(page) {
+    currentPage = page;
+    const content = document.getElementById('historyContent');
+    content.innerHTML = '<div class="loading-wrap"><i class="fas fa-circle-notch"></i><div>Memuat riwayat...</div></div>';
+
+    try {
+      const r = await fetch(`${API}/api/ppob/history?page=${page}`, {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      const d = await r.json();
+
+      if (!d.success) {
+        content.innerHTML = '<div class="empty-wrap"><i class="fas fa-triangle-exclamation"></i><div>Gagal memuat riwayat</div></div>';
+        return;
+      }
+
+      if (!d.transactions?.length) {
+        content.innerHTML = '<div class="empty-wrap"><i class="fas fa-inbox"></i><div>Belum ada transaksi PPOB</div></div>';
+        document.getElementById('historyPagination').innerHTML = '';
+        return;
+      }
+
+      let html = '<div class="table-wrap"><table><thead><tr><th>#</th><th>Produk (SKU)</th><th>Nomor</th><th>Harga</th><th>Status</th><th>SN</th><th>Waktu</th></tr></thead><tbody>';
+      d.transactions.forEach((t, i) => {
+        const statusClass = t.status === 'SUCCESS' ? 'badge-success' : t.status === 'PENDING' ? 'badge-pending' : 'badge-failed';
+        const waktu = t.created_at ? new Date(t.created_at).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) : '-';
+        html += `<tr>
+          <td style="color:var(--muted)">${(page - 1) * 10 + i + 1}</td>
+          <td><div style="font-weight:500">${t.sku}</div></td>
+          <td><code style="font-size:12px">${t.target}</code></td>
+          <td style="color:var(--accent);font-weight:600">Rp ${Number(t.price).toLocaleString('id-ID')}</td>
+          <td><span class="badge ${statusClass}">${t.status}</span></td>
+          <td style="font-size:11px;color:var(--muted);max-width:120px;word-break:break-all">${t.sn || '-'}</td>
+          <td style="color:var(--muted);font-size:12px">${waktu}</td>
+        </tr>`;
+      });
+      html += '</tbody></table></div>';
+      content.innerHTML = html;
+
+      // Pagination
+      renderPagination(d.page, d.totalPages);
+    } catch(e) {
+      content.innerHTML = '<div class="empty-wrap"><i class="fas fa-triangle-exclamation"></i><div>Koneksi error</div></div>';
+    }
+  }
+
+  function renderPagination(current, total) {
+    const pg = document.getElementById('historyPagination');
+    if (total <= 1) { pg.innerHTML = ''; return; }
+    let html = '';
+    html += `<button class="pg-btn" onclick="loadHistory(${current - 1})" ${current <= 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+    for (let i = 1; i <= total; i++) {
+      html += `<button class="pg-btn ${i === current ? 'active' : ''}" onclick="loadHistory(${i})">${i}</button>`;
+    }
+    html += `<button class="pg-btn" onclick="loadHistory(${current + 1})" ${current >= total ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+    pg.innerHTML = html;
+  }
+
+  // ── STEP HELPERS ──
+  function setStep(n) {
+    for (let i = 1; i <= 3; i++) {
+      const s = document.getElementById('s' + i);
+      s.classList.remove('active', 'done');
+      if (i < n) s.classList.add('done');
+      else if (i === n) s.classList.add('active');
+    }
+  }
+
+  // ── DOM HELPERS ──
+  function show(id) { const el = document.getElementById(id); if (el) el.style.display = ''; }
+  function hide(id) { const el = document.getElementById(id); if (el) el.style.display = 'none'; }
+
+  // ── TOAST ──
+  let toastTimer;
+  function showToast(msg, type = 'success') {
+    const toast = document.getElementById('toast');
+    const icon = toast.querySelector('i');
+    toast.className = 'show ' + type;
+    icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-triangle-exclamation';
+    document.getElementById('toastMsg').textContent = msg;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { toast.className = ''; }, 3000);
+  }
+</script>
 </body>
 </html>
