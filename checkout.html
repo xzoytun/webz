@@ -382,6 +382,12 @@ let serverData       = null;
 let selectedProto    = 'SSH';
 let selectedDuration = 30;
 
+// ✅ 1. Ambil token JWT dari localStorage
+const token = localStorage.getItem('token'); 
+// Catatan: Jika token disimpan di dalam objek user, ganti menjadi:
+// const localUser = JSON.parse(localStorage.getItem('user'));
+// const token = localUser ? localUser.token : null;
+
 loadServer();
 selectProto(document.querySelector('.proto-opt.selected'));
 
@@ -469,8 +475,12 @@ function updatePrice() {
 }
 
 async function createAccount() {
-  const localUser = JSON.parse(localStorage.getItem('user'));
-  if (!localUser) { showToast('Silakan login terlebih dahulu', 'error'); return; }
+  // ✅ 2. Cek apakah token ada, jika tidak dipaksa login dulu
+  if (!token) { 
+    showToast('Silakan login terlebih dahulu', 'error'); 
+    setTimeout(() => window.location.href = 'index.html', 1500);
+    return; 
+  }
 
   const username = document.getElementById('username').value.trim().toLowerCase();
   const password = document.getElementById('password').value.trim();
@@ -488,11 +498,15 @@ async function createAccount() {
   try {
     const res  = await fetch('/api/create-account', {
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization': `Bearer ${token}` // ✅ 3. Kirim Token JWT via Header Authorization
+      },
       body: JSON.stringify({
-        email:     localUser.email,
+        // ✅ 4. Parameter 'email' DIHAPUS karena backend mengambil email dari JWT demi keamanan
         server_id: serverId,
-        username, password,
+        username, 
+        password,
         protocol:  selectedProto,
         duration:  selectedDuration
       })
