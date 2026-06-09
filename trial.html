@@ -429,6 +429,12 @@ body {
 
 let selectedProtocol = 'SSH';
 
+// ✅ 1. Ambil token JWT dari localStorage
+const token = localStorage.getItem('token');
+// Catatan: Jika token disimpan di dalam objek user, ganti menjadi:
+// const localUser = JSON.parse(localStorage.getItem('user'));
+// const token = localUser ? localUser.token : null;
+
 document.querySelectorAll('.protocol-btn').forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll('.protocol-btn').forEach(x => x.classList.remove('active'));
@@ -459,8 +465,12 @@ async function loadServers() {
 }
 
 async function createTrial() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  if (!user) { window.location.href = 'index.html'; return; }
+  // ✅ 2. Proteksi awal: Jika token tidak ada, tendang langsung ke halaman login
+  if (!token) { 
+    showAlert('error', 'Silakan login terlebih dahulu');
+    setTimeout(() => window.location.href = 'index.html', 1500); 
+    return; 
+  }
 
   const server_id = document.getElementById('server').value;
   if (!server_id) { showAlert('error', 'Pilih server terlebih dahulu'); return; }
@@ -482,8 +492,15 @@ async function createTrial() {
   try {
     const res  = await fetch('/api/create-trial', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: user.email, protocol: selectedProtocol, server_id })
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // ✅ 3. Kirim Token JWT via Header Authorization
+      },
+      body: JSON.stringify({ 
+        // ✅ 4. Parameter 'email' DIHAPUS karena backend mengambil data dari JWT demi keamanan
+        protocol: selectedProtocol, 
+        server_id 
+      })
     });
     const data = await res.json();
 
