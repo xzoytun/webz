@@ -378,26 +378,53 @@ body {
   // ─── PROVIDER LOGO MAP ───
   // Key: nama brand (lowercase, flexible matching)
   // Value: URL logo dari CDN
+  // Kategori yang disembunyikan dari dropdown
+  const HIDDEN_CATEGORIES = ['gas', 'tv', 'tv kabel', 'gas pln', 'gas elpiji', 'tagihan gas'];
+
   const PROVIDER_BASE = 'https://app.isdarprem.net/images/provider/';
   const PROVIDER_LOGOS = {
-    'axis':       PROVIDER_BASE + 'axisnet.png',
-    'axisnet':    PROVIDER_BASE + 'axisnet.png',
-    'axis net':   PROVIDER_BASE + 'axisnet.png',
-    'bayu':       PROVIDER_BASE + 'bayu.jpg',
-    'indosat':    PROVIDER_BASE + 'indosat.jpg',
-    'im3':        PROVIDER_BASE + 'indosat.jpg',
-    'im3 ooredoo':PROVIDER_BASE + 'indosat.jpg',
-    'smartfren':  PROVIDER_BASE + 'smartfren.png',
-    'smart':      PROVIDER_BASE + 'smartfren.png',
-    'telkomsel':  PROVIDER_BASE + 'telkomsel.png',
-    'simpati':    PROVIDER_BASE + 'telkomsel.png',
-    'kartu as':   PROVIDER_BASE + 'telkomsel.png',
-    'loop':       PROVIDER_BASE + 'telkomsel.png',
-    'tri':        PROVIDER_BASE + 'tri.jpg',
-    '3':          PROVIDER_BASE + 'tri.jpg',
-    'three':      PROVIDER_BASE + 'tri.jpg',
-    'xl':         PROVIDER_BASE + 'xl.jpg',
-    'xl axiata':  PROVIDER_BASE + 'xl.jpg',
+    // Telco
+    'axis':           PROVIDER_BASE + 'axisnet.png',
+    'axisnet':        PROVIDER_BASE + 'axisnet.png',
+    'axis net':       PROVIDER_BASE + 'axisnet.png',
+    'bayu':           PROVIDER_BASE + 'bayu.jpg',
+    'indosat':        PROVIDER_BASE + 'indosat.jpg',
+    'im3':            PROVIDER_BASE + 'indosat.jpg',
+    'im3 ooredoo':    PROVIDER_BASE + 'indosat.jpg',
+    'smartfren':      PROVIDER_BASE + 'smartfren.png',
+    'smart':          PROVIDER_BASE + 'smartfren.png',
+    'telkomsel':      PROVIDER_BASE + 'telkomsel.png',
+    'simpati':        PROVIDER_BASE + 'telkomsel.png',
+    'kartu as':       PROVIDER_BASE + 'telkomsel.png',
+    'loop':           PROVIDER_BASE + 'telkomsel.png',
+    'tri':            PROVIDER_BASE + 'tri.jpg',
+    '3':              PROVIDER_BASE + 'tri.jpg',
+    'three':          PROVIDER_BASE + 'tri.jpg',
+    'xl':             PROVIDER_BASE + 'xl.jpg',
+    'xl axiata':      PROVIDER_BASE + 'xl.jpg',
+    // E-Wallet
+    'dana':           PROVIDER_BASE + 'dana.jpeg',
+    'gopay':          PROVIDER_BASE + 'gopay.jpeg',
+    'go-pay':         PROVIDER_BASE + 'gopay.jpeg',
+    'ovo':            PROVIDER_BASE + 'ovo.jpg',
+    'shopeepay':      PROVIDER_BASE + 'ShopeePay.png',
+    'shopee pay':     PROVIDER_BASE + 'ShopeePay.png',
+    'shopee':         PROVIDER_BASE + 'ShopeePay.png',
+    // Game
+    'free fire':      PROVIDER_BASE + 'FreeFire.png',
+    'freefire':       PROVIDER_BASE + 'FreeFire.png',
+    'ff':             PROVIDER_BASE + 'FreeFire.png',
+    'pubg':           PROVIDER_BASE + 'pubg.webp',
+    'pubg mobile':    PROVIDER_BASE + 'pubg.webp',
+    'mobile legends': PROVIDER_BASE + 'mobillegend.jpeg',
+    'mobile legend':  PROVIDER_BASE + 'mobillegend.jpeg',
+    'mobilelegends':  PROVIDER_BASE + 'mobillegend.jpeg',
+    'ml':             PROVIDER_BASE + 'mobillegend.jpeg',
+    'mlbb':           PROVIDER_BASE + 'mobillegend.jpeg',
+    // Listrik
+    'pln':            PROVIDER_BASE + 'pln.png',
+    'listrik':        PROVIDER_BASE + 'pln.png',
+    'token pln':      PROVIDER_BASE + 'pln.png',
   };
 
   /**
@@ -490,6 +517,8 @@ body {
       const data = await res.json();
       if (data.success) {
         data.categories.forEach(cat => {
+          // Sembunyikan kategori Gas & TV
+          if (HIDDEN_CATEGORIES.some(h => cat.toLowerCase().includes(h))) return;
           const opt = document.createElement('option');
           opt.value = cat; opt.textContent = cat;
           selectCategory.appendChild(opt);
