@@ -384,49 +384,110 @@ if (!localUser) window.location.href = 'index.html';
 loadProfile();
 
 async function loadProfile() {
-  try {
-    const response = await fetch(`/api/profile?email=${encodeURIComponent(localUser.email)}`);
-    const result   = await response.json();
 
-    if (!result.success) {
-      localStorage.removeItem('user');
-      window.location.href = 'index.html';
-      return;
-    }
+try {
 
-    const user = result.user;
+const token =
+localStorage.getItem('token');
 
-    document.getElementById('username').innerText = user.username || '—';
-    document.getElementById('email').innerText    = user.email    || '—';
-    document.getElementById('balance').innerText  = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
-    document.getElementById('avatar').src         = user.avatar   || 'https://via.placeholder.com/48';
+if (!token) {
 
-    const roleVal  = document.getElementById('roleVal');
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
 
-    if (user.role === 'admin') {
-      roleVal.innerText = 'Admin';
-      
-      // Inject Admin Panel sebagai card modern sebaris dengan bantuan CS
-      document.getElementById('adminSection').innerHTML = `
-        <a class="util-card card-admin" href="admin.html" style="margin-bottom: 10px;">
-          <div class="util-icon">
-            <svg viewBox="0 0 24 24">
-              <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
-            </svg>
-          </div>
-          <div class="util-body">
-            <div class="util-title" style="color: var(--red);">Admin Kontrol Panel</div>
-            <div class="util-desc">Kelola manajemen user, produk &amp; transaksi</div>
-          </div>
-          <div class="util-arrow">
-            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-          </div>
-        </a>`;
-    }
+  window.location.href =
+  'index.html';
 
-  } catch (err) {
-    console.error(err);
+  return;
+
+}
+
+const response =
+await fetch('/api/profile', {
+  headers: {
+    Authorization:
+    'Bearer ' + token
   }
+});
+
+const result =
+await response.json();
+
+console.log(result);
+
+if (!result.success) {
+
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
+
+  window.location.href =
+  'index.html';
+
+  return;
+
+}
+
+const user =
+result.user;
+
+document.getElementById('username').innerText =
+user.username || '—';
+
+document.getElementById('email').innerText =
+user.email || '—';
+
+document.getElementById('balance').innerText =
+'Rp ' +
+Number(user.balance || 0)
+.toLocaleString('id-ID');
+
+document.getElementById('avatar').src =
+user.avatar ||
+'https://via.placeholder.com/48';
+
+const roleVal =
+document.getElementById('roleVal');
+
+if (user.role === 'admin') {
+
+  roleVal.innerText =
+  'Admin';
+
+  document.getElementById('adminSection').innerHTML = `
+    <a class="util-card card-admin" href="admin.html" style="margin-bottom: 10px;">
+      <div class="util-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+        </svg>
+      </div>
+      <div class="util-body">
+        <div class="util-title" style="color: var(--red);">
+          Admin Kontrol Panel
+        </div>
+        <div class="util-desc">
+          Kelola manajemen user, produk & transaksi
+        </div>
+      </div>
+      <div class="util-arrow">
+        <svg viewBox="0 0 24 24">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </div>
+    </a>`;
+
+}
+
+} catch(err) {
+
+console.error(err);
+
+alert(
+  'Dashboard Error: ' +
+  err.message
+);
+
+}
+
 }
 </script>
 </body>
