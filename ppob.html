@@ -2,58 +2,169 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>PPOB - Xtrimer Tunnel</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
 
+:root{
+--purple:#6B21D6;
+--purple2:#8B3FF5;
+--bg:#F6F0FF;
+--card:#FFFFFF;
+--text:#1a0033;
+--text2:#6B5A85;
+--border:#ECE0FF;
+--green:#00C853;
+--red:#FF3D71;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
 body{
-font-family:sans-serif;
-background:#f5f5f5;
+font-family:'Nunito',sans-serif;
+background:var(--bg);
 padding:20px;
+color:var(--text);
 }
 
 .header{
 margin-bottom:20px;
 }
 
+.header h1{
+font-size:24px;
+font-weight:900;
+}
+
+.header p{
+font-size:13px;
+color:var(--text2);
+margin-top:4px;
+}
+
 .card{
-background:#fff;
-padding:15px;
-border-radius:12px;
-margin-bottom:12px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
+background:var(--card);
+border-radius:24px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:
+0 10px 30px rgba(107,33,214,0.08);
+border:1px solid var(--border);
 }
 
-.title{
-font-size:16px;
-font-weight:bold;
-margin-bottom:5px;
+.label{
+font-size:13px;
+font-weight:800;
+margin-bottom:8px;
+display:block;
 }
 
-.price{
-color:green;
-margin-bottom:10px;
+.input{
+width:100%;
+height:52px;
+border-radius:16px;
+border:2px solid var(--border);
+padding:0 16px;
+font-family:'Nunito';
+font-size:14px;
+font-weight:700;
+outline:none;
+margin-bottom:14px;
 }
 
-button{
-background:#6B21D6;
-color:#fff;
+.input:focus{
+border-color:var(--purple);
+}
+
+.btn{
+width:100%;
+height:54px;
 border:none;
-padding:10px 15px;
-border-radius:8px;
+border-radius:18px;
+background:
+linear-gradient(
+135deg,
+var(--purple),
+var(--purple2)
+);
+color:#fff;
+font-size:15px;
+font-weight:900;
 cursor:pointer;
 }
 
-button:hover{
-opacity:0.9;
+.btn:active{
+transform:scale(0.98);
 }
 
-#loading{
-margin-top:30px;
-text-align:center;
+.product-list{
+display:grid;
+gap:12px;
+}
+
+.product{
+padding:16px;
+border-radius:18px;
+border:2px solid var(--border);
+cursor:pointer;
+transition:0.2s;
+background:#fff;
+}
+
+.product.active{
+border-color:var(--purple);
+background:#F3EAFF;
+}
+
+.product-name{
+font-size:14px;
+font-weight:900;
+margin-bottom:4px;
+}
+
+.product-price{
+font-size:13px;
+font-weight:800;
+color:var(--purple);
+}
+
+.history-item{
+padding:14px;
+border-radius:16px;
+border:1px solid var(--border);
+margin-bottom:10px;
+}
+
+.status{
+display:inline-block;
+padding:4px 10px;
+border-radius:20px;
+font-size:11px;
+font-weight:900;
+margin-top:8px;
+}
+
+.success{
+background:#DDFBE7;
+color:var(--green);
+}
+
+.pending{
+background:#FFF5D9;
+color:#D97706;
+}
+
+.failed{
+background:#FFE3EA;
+color:var(--red);
 }
 
 </style>
@@ -61,20 +172,57 @@ text-align:center;
 <body>
 
 <div class="header">
+<h1>PPOB</h1>
+<p>Pulsa, Data, PLN, Ewallet & lainnya</p>
+</div>
 
-<h2>🛒 PPOB</h2>
+<div class="card">
 
-<p>
-Pulsa, data, PLN,
-dan lainnya
-</p>
+<label class="label">
+Nomor Tujuan
+</label>
+
+<input
+type="text"
+id="target"
+class="input"
+placeholder="08xxxx"
+/>
+
+<div
+class="product-list"
+id="productList"
+>
+Loading produk...
+</div>
+
+<br>
+
+<button
+class="btn"
+onclick="buyProduct()"
+>
+Beli Sekarang
+</button>
 
 </div>
 
-<div id="products"></div>
+<div class="card">
 
-<div id="loading">
-Loading produk...
+<h2
+style="
+font-size:18px;
+font-weight:900;
+margin-bottom:14px;
+"
+>
+Riwayat Transaksi
+</h2>
+
+<div id="history">
+Loading history...
+</div>
+
 </div>
 
 <script>
@@ -82,13 +230,16 @@ Loading produk...
 const token =
 localStorage.getItem('token');
 
-if (!token){
+if (!token) {
 
 window.location.href =
 'index.html';
 
 }
 
+let selectedSku = null;
+
+// LOAD PRODUK
 async function loadProducts(){
 
 try {
@@ -103,49 +254,235 @@ await res.json();
 
 const wrap =
 document.getElementById(
-'products'
+'productList'
 );
 
-document.getElementById(
-'loading'
-).style.display =
-'none';
-
-if (!result.success){
+if (!result.success) {
 
 wrap.innerHTML =
-'Gagal load produk';
+'Gagal memuat produk';
 
 return;
 
 }
 
-result.data
-.slice(0,50)
-.forEach(item=>{
+const products =
+result.data.slice(0,20);
+
+wrap.innerHTML = '';
+
+products.forEach(p => {
+
+const div =
+document.createElement('div');
+
+div.className =
+'product';
+
+div.innerHTML = `
+<div class="product-name">
+${p.product_name}
+</div>
+
+<div class="product-price">
+Rp ${Number(p.price)
+.toLocaleString('id-ID')}
+</div>
+`;
+
+div.onclick = () => {
+
+document
+.querySelectorAll('.product')
+.forEach(x =>
+x.classList.remove('active')
+);
+
+div.classList.add('active');
+
+selectedSku =
+p.buyer_sku_code;
+
+};
+
+wrap.appendChild(div);
+
+});
+
+} catch(err){
+
+console.log(err);
+
+}
+
+}
+
+// BELI
+async function buyProduct(){
+
+const target =
+document.getElementById(
+'target'
+).value;
+
+if (!selectedSku) {
+
+alert('Pilih produk');
+
+return;
+
+}
+
+if (!target) {
+
+alert('Masukkan nomor tujuan');
+
+return;
+
+}
+
+try {
+
+const res =
+await fetch(
+'/api/ppob/buy',
+{
+method:'POST',
+
+headers:{
+'Content-Type':
+'application/json',
+
+Authorization:
+'Bearer ' + token
+},
+
+body:JSON.stringify({
+sku:selectedSku,
+target
+})
+}
+);
+
+const result =
+await res.json();
+
+alert(result.message);
+
+if (result.success){
+
+loadHistory();
+
+}
+
+} catch(err){
+
+console.log(err);
+
+alert('Server error');
+
+}
+
+}
+
+// HISTORY
+async function loadHistory(){
+
+try {
+
+const res =
+await fetch(
+'/api/ppob/history',
+{
+headers:{
+Authorization:
+'Bearer ' + token
+}
+}
+);
+
+const result =
+await res.json();
+
+const wrap =
+document.getElementById(
+'history'
+);
+
+if (!result.success){
+
+wrap.innerHTML =
+'Gagal load history';
+
+return;
+
+}
+
+if (!result.data.length){
+
+wrap.innerHTML =
+'Tidak ada transaksi';
+
+return;
+
+}
+
+wrap.innerHTML = '';
+
+result.data.forEach(x => {
+
+let cls = 'pending';
+
+if (
+String(x.status)
+.toLowerCase()
+.includes('sukses')
+){
+
+cls = 'success';
+
+}
+
+if (
+String(x.status)
+.toLowerCase()
+.includes('gagal')
+){
+
+cls = 'failed';
+
+}
 
 wrap.innerHTML += `
-<div class="card">
+<div class="history-item">
 
-<div class="title">
-${item.product_name}
+<div style="
+font-size:14px;
+font-weight:900;
+">
+${x.sku}
 </div>
 
-<div class="price">
-Rp ${Number(
-item.price
-).toLocaleString('id-ID')}
+<div style="
+font-size:13px;
+margin-top:4px;
+">
+${x.target}
 </div>
 
-<button
-onclick="
-buy(
-'${item.buyer_sku_code}'
-)
-"
->
-Beli
-</button>
+<div style="
+font-size:13px;
+margin-top:4px;
+font-weight:800;
+color:var(--purple);
+">
+Rp ${Number(x.price)
+.toLocaleString('id-ID')}
+</div>
+
+<div class="status ${cls}">
+${x.status}
+</div>
 
 </div>
 `;
@@ -160,58 +497,10 @@ console.log(err);
 
 }
 
-async function buy(code){
-
-const customer_no =
-prompt(
-'Masukkan nomor tujuan'
-);
-
-if (!customer_no)
-return;
-
-try {
-
-const res =
-await fetch(
-'/api/ppob/buy',
-{
-method:'POST',
-headers:{
-'Content-Type':
-'application/json',
-
-'Authorization':
-'Bearer ' + token
-},
-body:JSON.stringify({
-buyer_sku_code:code,
-customer_no
-})
-}
-);
-
-const result =
-await res.json();
-
-alert(
-result.message
-);
-
-} catch(err){
-
-console.log(err);
-
-alert(
-'Server error'
-);
-
-}
-
-}
-
 loadProducts();
+loadHistory();
 
 </script>
+
 </body>
 </html>
