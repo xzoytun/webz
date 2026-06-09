@@ -145,32 +145,74 @@ body {
 }
 .hidden { display: none !important; }
 
-/* ─── PRODUCT LIST AREA (DENGAN RE-SIZE ICON STATUS) ─── */
+/* ─── PROVIDER LOGO GRID ─── */
+.provider-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.provider-chip {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; padding: 10px 6px;
+  background: var(--bg); border: 2px solid var(--gray-line);
+  border-radius: 12px; cursor: pointer; transition: all 0.18s cubic-bezier(0.16,1,0.3,1);
+  user-select: none;
+}
+.provider-chip:hover {
+  border-color: var(--purple-mid);
+  background: var(--purple-soft);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(123,47,190,0.1);
+}
+.provider-chip.active {
+  border-color: var(--purple);
+  background: var(--purple-soft);
+  box-shadow: 0 0 0 3px rgba(123,47,190,0.15);
+}
+.provider-chip.active .provider-name { color: var(--purple-dark); }
+.provider-logo {
+  width: 40px; height: 40px; border-radius: 8px;
+  object-fit: contain; background: #fff;
+  padding: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transition: transform 0.18s;
+}
+.provider-chip:hover .provider-logo { transform: scale(1.06); }
+.provider-name {
+  font-size: 9px; font-weight: 800; color: var(--text-light);
+  text-align: center; letter-spacing: 0.3px; text-transform: uppercase;
+  line-height: 1.2;
+}
+/* Fallback logo (inisial) kalau gambar gagal load */
+.provider-logo-fallback {
+  width: 40px; height: 40px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 900; color: #fff; letter-spacing: -0.5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+/* ─── PRODUCT LIST AREA ─── */
 .product-area { animation: fadeUp 0.4s 0.16s ease both; }
 .status-box {
   background: var(--white); border-radius: 16px; padding: 32px 20px;
   border: 1px solid var(--gray-line); text-align: center;
   display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text-mid);
 }
-
-/* Pembungkus Badge Lingkaran Icon Status */
 .status-icon-badge {
   width: 44px; height: 44px; border-radius: 50%; background: var(--purple-soft);
   display: flex; align-items: center; justify-content: center; margin-bottom: 2px;
 }
 .status-box svg { width: 20px; height: 20px; fill: none; stroke: var(--purple); stroke-width: 2.3; }
-
-/* Style Khusus Error / Kosong */
 .status-box.error-status .status-icon-badge { background: var(--red-bg); }
 .status-box.error-status svg { stroke: var(--red); }
-
-/* Animasi Spinner Loading */
 .status-box.loading svg { animation: spin 1s linear infinite; }
 .status-box p { font-size: 12px; font-weight: 700; max-width: 280px; color: var(--text-light); line-height: 1.5; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ─── PRODUCT CARD (FINTECH LIST) ─── */
+/* ─── PRODUCT CARD ─── */
 .product-list { display: flex; flex-direction: column; gap: 10px; }
 .product-card {
   background: var(--white); border-radius: 14px; padding: 14px;
@@ -181,7 +223,7 @@ body {
 .prod-details { flex: 1; min-width: 0; }
 .prod-brand { font-size: 9px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1px; }
 .prod-name { font-size: 13px; font-weight: 800; color: var(--text-dark); line-height: 1.3; }
-.prod-desc { font-size: 11px; color: var(--text-light); font-weight: 600; margin-top: 2px; line-clamp: 1; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+.prod-desc { font-size: 11px; color: var(--text-light); font-weight: 600; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 .prod-action { text-align: right; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 .prod-price { font-size: 15px; font-weight: 900; color: var(--green); letter-spacing: -0.2px; }
 .btn-buy {
@@ -247,6 +289,7 @@ body {
   </div>
 
   <div class="form-panel">
+    <!-- Kategori -->
     <div class="form-group">
       <label class="form-label">Kategori Layanan</label>
       <select id="select-category" class="form-select">
@@ -254,13 +297,15 @@ body {
       </select>
     </div>
 
+    <!-- Provider Logo Grid (gantikan select brand) -->
     <div class="form-group hidden" id="box-brand">
       <label class="form-label">Operator / Provider</label>
-      <select id="select-brand" class="form-select">
-        <option value="">-- Pilih Provider --</option>
-      </select>
+      <div id="provider-grid" class="provider-grid"></div>
+      <!-- Hidden input untuk nilai brand terpilih -->
+      <input type="hidden" id="select-brand" value="">
     </div>
 
+    <!-- Sub Kategori -->
     <div class="form-group hidden" id="box-subcategory">
       <label class="form-label">Tipe / Sub Paket</label>
       <select id="select-subcategory" class="form-select">
@@ -268,6 +313,7 @@ body {
       </select>
     </div>
 
+    <!-- Target Nomor -->
     <div class="form-group hidden" id="box-target">
       <label class="form-label">Nomor / ID Target Tujuan</label>
       <div class="input-relative">
@@ -290,7 +336,6 @@ body {
       </div>
       <p>Silakan tentukan kategori dan operator di atas terlebih dahulu untuk memunculkan list produk otomatis.</p>
     </div>
-
     <div id="product-grid" class="product-list"></div>
   </div>
 
@@ -330,21 +375,104 @@ body {
     'Authorization': `Bearer ${token}`
   });
 
-  // DOM Elements
-  const selectCategory = document.getElementById('select-category');
-  const selectBrand = document.getElementById('select-brand');
-  const selectSubcategory = document.getElementById('select-subcategory');
-  const inputTarget = document.getElementById('input-target');
-  
-  const boxBrand = document.getElementById('box-brand');
-  const boxSubcategory = document.getElementById('box-subcategory');
-  const boxTarget = document.getElementById('box-target');
-  
-  const productGrid = document.getElementById('product-grid');
-  const productStatus = document.getElementById('product-status');
-  const productCount = document.getElementById('product-count');
+  // ─── PROVIDER LOGO MAP ───
+  // Key: nama brand (lowercase, flexible matching)
+  // Value: URL logo dari CDN
+  const PROVIDER_BASE = 'https://app.isdarprem.net/images/provider/';
+  const PROVIDER_LOGOS = {
+    'axis':       PROVIDER_BASE + 'axisnet.png',
+    'axisnet':    PROVIDER_BASE + 'axisnet.png',
+    'axis net':   PROVIDER_BASE + 'axisnet.png',
+    'bayu':       PROVIDER_BASE + 'bayu.jpg',
+    'indosat':    PROVIDER_BASE + 'indosat.jpg',
+    'im3':        PROVIDER_BASE + 'indosat.jpg',
+    'im3 ooredoo':PROVIDER_BASE + 'indosat.jpg',
+    'smartfren':  PROVIDER_BASE + 'smartfren.png',
+    'smart':      PROVIDER_BASE + 'smartfren.png',
+    'telkomsel':  PROVIDER_BASE + 'telkomsel.png',
+    'simpati':    PROVIDER_BASE + 'telkomsel.png',
+    'kartu as':   PROVIDER_BASE + 'telkomsel.png',
+    'loop':       PROVIDER_BASE + 'telkomsel.png',
+    'tri':        PROVIDER_BASE + 'tri.jpg',
+    '3':          PROVIDER_BASE + 'tri.jpg',
+    'three':      PROVIDER_BASE + 'tri.jpg',
+    'xl':         PROVIDER_BASE + 'xl.jpg',
+    'xl axiata':  PROVIDER_BASE + 'xl.jpg',
+  };
 
-  // Load Saldo & Profile dari Database Utama
+  /**
+   * Resolve logo URL dari nama brand.
+   * Matching case-insensitive & partial key check.
+   */
+  function getProviderLogo(brandName) {
+    const key = brandName.toLowerCase().trim();
+    if (PROVIDER_LOGOS[key]) return PROVIDER_LOGOS[key];
+    // Partial matching: cek apakah key ada dalam brand name atau sebaliknya
+    for (const [k, v] of Object.entries(PROVIDER_LOGOS)) {
+      if (key.includes(k) || k.includes(key)) return v;
+    }
+    return null; // tidak ada logo, fallback ke inisial
+  }
+
+  /**
+   * Render satu provider chip (logo card).
+   * Kalau logo tidak ada / gagal load, tampilkan fallback inisial.
+   */
+  function createProviderChip(brandName, onClick) {
+    const logoUrl = getProviderLogo(brandName);
+    const initials = brandName.substring(0, 2).toUpperCase();
+
+    const chip = document.createElement('div');
+    chip.className = 'provider-chip';
+    chip.dataset.brand = brandName;
+    chip.title = brandName;
+
+    let logoEl;
+    if (logoUrl) {
+      logoEl = document.createElement('img');
+      logoEl.src = logoUrl;
+      logoEl.alt = brandName;
+      logoEl.className = 'provider-logo';
+      // Fallback kalau gambar gagal load
+      logoEl.onerror = function() {
+        const fb = document.createElement('div');
+        fb.className = 'provider-logo-fallback';
+        fb.textContent = initials;
+        this.replaceWith(fb);
+      };
+    } else {
+      logoEl = document.createElement('div');
+      logoEl.className = 'provider-logo-fallback';
+      logoEl.textContent = initials;
+    }
+
+    const nameEl = document.createElement('div');
+    nameEl.className = 'provider-name';
+    nameEl.textContent = brandName;
+
+    chip.appendChild(logoEl);
+    chip.appendChild(nameEl);
+    chip.addEventListener('click', () => onClick(chip, brandName));
+
+    return chip;
+  }
+
+  // DOM Elements
+  const selectCategory   = document.getElementById('select-category');
+  const selectSubcategory= document.getElementById('select-subcategory');
+  const inputTarget      = document.getElementById('input-target');
+  const hiddenBrand      = document.getElementById('select-brand');
+  const providerGridEl   = document.getElementById('provider-grid');
+  
+  const boxBrand         = document.getElementById('box-brand');
+  const boxSubcategory   = document.getElementById('box-subcategory');
+  const boxTarget        = document.getElementById('box-target');
+  
+  const productGrid      = document.getElementById('product-grid');
+  const productStatus    = document.getElementById('product-status');
+  const productCount     = document.getElementById('product-count');
+
+  // Load Saldo
   async function fetchBalance() {
     try {
       const response = await fetch(`/api/profile?email=${encodeURIComponent(localUser.email)}`);
@@ -355,7 +483,7 @@ body {
     } catch (err) { console.error("Gagal sinkron saldo:", err); }
   }
 
-  // 1. Ambil Kategori Utama Saat Load
+  // 1. Load Kategori
   async function loadCategories() {
     try {
       const res = await fetch('/api/ppob/categories', { headers: getHeaders() });
@@ -370,7 +498,7 @@ body {
     } catch (err) { console.error("Gagal load kategori", err); }
   }
 
-  // 2. Event Listener Kategori -> Ambil Brand Operator
+  // 2. Kategori berubah → load brand / provider
   selectCategory.addEventListener('change', async () => {
     const cat = selectCategory.value;
     resetForm(['brand', 'sub', 'prod']);
@@ -381,29 +509,32 @@ body {
       const data = await res.json();
       if (data.success && data.brands.length > 0) {
         boxBrand.classList.remove('hidden');
-        selectBrand.innerHTML = '<option value="">-- Pilih Provider --</option>';
+        providerGridEl.innerHTML = '';
+
         data.brands.forEach(b => {
-          const opt = document.createElement('option');
-          opt.value = b.brand; opt.textContent = b.brand;
-          selectBrand.appendChild(opt);
+          const chip = createProviderChip(b.brand, (chipEl, brandName) => {
+            // Deselect semua, aktifkan yang dipilih
+            providerGridEl.querySelectorAll('.provider-chip').forEach(c => c.classList.remove('active'));
+            chipEl.classList.add('active');
+            hiddenBrand.value = brandName;
+            // Trigger logika brand change
+            onBrandSelected(cat, brandName);
+          });
+          providerGridEl.appendChild(chip);
         });
       }
     } catch (err) { console.error(err); }
   });
 
-  // 3. Event Operator -> Ambil Sub Kategori & Tampilkan Input Nomor HP
-  selectBrand.addEventListener('change', async () => {
-    const cat = selectCategory.value;
-    const brd = selectBrand.value;
+  // 3. Brand dipilih → load sub kategori + produk
+  async function onBrandSelected(cat, brd) {
     resetForm(['sub', 'prod']);
-    if (!brd) return;
-
     boxTarget.classList.remove('hidden');
 
     try {
       const res = await fetch(`/api/ppob/subcategories?category=${encodeURIComponent(cat)}&brand=${encodeURIComponent(brd)}`, { headers: getHeaders() });
       const data = await res.json();
-      
+
       if (data.success && data.subcategories.length > 0) {
         boxSubcategory.classList.remove('hidden');
         selectSubcategory.innerHTML = '<option value="">-- Semua Tipe --</option>';
@@ -415,14 +546,14 @@ body {
       }
       loadProducts(cat, brd, '');
     } catch (err) { console.error(err); }
-  });
+  }
 
-  // 4. Filter Sub-Kategori
+  // 4. Filter sub kategori
   selectSubcategory.addEventListener('change', () => {
-    loadProducts(selectCategory.value, selectBrand.value, selectSubcategory.value);
+    loadProducts(selectCategory.value, hiddenBrand.value, selectSubcategory.value);
   });
 
-  // 5. Render List Produk Premium Style
+  // 5. Load produk
   async function loadProducts(category, brand, subcategory) {
     productGrid.innerHTML = '';
     productStatus.className = "status-box loading";
@@ -482,7 +613,7 @@ body {
     }
   }
 
-  // 6. Eksekusi Pembelian FinTech Style
+  // 6. Proses Beli
   async function prosesBeli(sku, productName, price) {
     const target = inputTarget.value.trim();
     if (!target) {
@@ -514,7 +645,7 @@ body {
           
           if (data.success) {
             Swal.fire({ icon: 'success', title: 'Sukses!', text: data.message || 'Transaksi berhasil diproses server.', confirmButtonColor: '#12C28A' });
-            fetchBalance(); // Re-sync saldo user
+            fetchBalance();
           } else {
             Swal.fire({ icon: 'error', title: 'Gagal', text: data.message || 'Gagal melakukan pembelian.', confirmButtonColor: '#E84040' });
           }
@@ -526,9 +657,19 @@ body {
   }
 
   function resetForm(steps) {
-    if (steps.includes('brand')) { boxBrand.classList.add('hidden'); selectBrand.innerHTML = ''; }
-    if (steps.includes('sub')) { boxSubcategory.classList.add('hidden'); selectSubcategory.innerHTML = ''; }
-    if (steps.includes('target')) { boxTarget.classList.add('hidden'); inputTarget.value = ''; }
+    if (steps.includes('brand')) {
+      boxBrand.classList.add('hidden');
+      providerGridEl.innerHTML = '';
+      hiddenBrand.value = '';
+    }
+    if (steps.includes('sub')) {
+      boxSubcategory.classList.add('hidden');
+      selectSubcategory.innerHTML = '';
+    }
+    if (steps.includes('target')) {
+      boxTarget.classList.add('hidden');
+      inputTarget.value = '';
+    }
     if (steps.includes('prod')) {
       productGrid.innerHTML = '';
       productCount.textContent = '0 item';
@@ -542,7 +683,7 @@ body {
     }
   }
 
-  // Init Data
+  // Init
   fetchBalance();
   loadCategories();
 </script>
