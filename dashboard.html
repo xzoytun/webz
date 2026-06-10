@@ -244,11 +244,20 @@ body {
 }
 .info-scroll::-webkit-scrollbar { display: none; }
 .info-card {
-  flex: 0 0 calc(82vw); max-width: 310px; aspect-ratio: 16/9;
-  border-radius: 14px; overflow: hidden;
-  background-size: cover; background-position: center top;
-  scroll-snap-align: start; box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+  flex: 0 0 calc(82vw); 
+  max-width: 310px; 
+  aspect-ratio: 3/2; /* Diubah dari 16/9 ke 3/2 biar pas sama ukuran asli */
+  border-radius: 14px; 
+  overflow: hidden;
+  background-size: contain; /* Menggunakan contain agar seluruh gambar masuk tanpa terpotong */
+  background-repeat: no-repeat;
+  background-color: #ffffff; /* Latar belakang putih jika gambar kurang memenuhi lebar card */
+  background-position: center center;
+  scroll-snap-align: start; 
+  box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+  border: 1px solid var(--gray-line); /* Biar card putihnya punya tepian rapi */
 }
+
 .info-card-1 { background-image: url('https://app.isdarprem.net/images/akun1.png'); }
 .info-card-2 { background-image: url('https://app.isdarprem.net/images/trial1.png'); }
 .info-card-3 { background-image: url('https://app.isdarprem.net/images/ppob1.png'); }
