@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +24,25 @@
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
   --border:       #EAD5FA;
+  --card-bg:      #FFFFFF;
+  --nav-bg:       #FFFFFF;
+  --nav-border:   #EEF0F6;
+  --search-bg:    #FFFFFF;
+}
+
+[data-theme="dark"] {
+  --white:        #1E1130;
+  --bg:           #120B22;
+  --gray-line:    #2A1D42;
+  --text-dark:    #F0E8FF;
+  --text-mid:     #C4A0EE;
+  --text-light:   #7A5BAA;
+  --card-bg:      #1E1130;
+  --nav-bg:       #17102A;
+  --nav-border:   #2A1D42;
+  --purple-soft:  #2D1A50;
+  --purple-mid:   #3D2265;
+  --search-bg:    #1E1130;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -33,7 +52,8 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   color: var(--text-dark);
-  padding-bottom: 40px;
+  padding-bottom: 100px; /* Ditambah padding biar konten gak ketutup bottom nav */
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* ── MULTI-THEME GRADIENT GLOW TRICK ── */
@@ -41,6 +61,12 @@ body {
 .theme-blue   { --theme-color: #0066FF; --theme-bg: #E6F0FF; }
 .theme-cyan   { --theme-color: #00A896; --theme-bg: #E6F6F5; }
 .theme-orange { --theme-color: #FF6B2B; --theme-bg: #FFF0E6; }
+
+/* Penyesuaian background badge saat Dark Mode */
+[data-theme="dark"] .theme-purple { --theme-bg: #2D1A50; }
+[data-theme="dark"] .theme-blue   { --theme-bg: #14224A; }
+[data-theme="dark"] .theme-cyan   { --theme-bg: #0F333A; }
+[data-theme="dark"] .theme-orange { --theme-bg: #3A241F; }
 
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(12px); }
@@ -53,12 +79,12 @@ body {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 100%);
   padding: 22px 16px 42px;
   position: relative;
-  border-radius: 0 0 24px 24px; /* Ditambah lekukan biar search box melayang rapi */
+  border-radius: 0 0 24px 24px;
   z-index: 10;
 }
 .header-inner {
   display:flex; align-items:center; gap:12px;
-  max-width: 480px; margin: 0 auto;
+  max-width: 480px; margin: 0 auto; position: relative;
 }
 .back-btn-hdr {
   width:36px; height:36px; border-radius:12px;
@@ -74,23 +100,44 @@ body {
   display:flex; align-items:center; gap:6px;
 }
 .header-title p { font-size:11px; color:rgba(255,255,255,0.6); font-weight:700; }
+
+.header-right-wrap {
+  display: flex; align-items: center; gap: 10px; margin-left: auto;
+}
 .header-count {
   background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:12px;
-  font-size:11px; font-weight:800; color:#fff; margin-left: auto;
+  font-size:11px; font-weight:800; color:#fff;
 }
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+  backdrop-filter: blur(6px);
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.08); }
+.theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+[data-theme="dark"] .icon-sun  { display: block; }
+[data-theme="dark"] .icon-moon { display: none; }
 
 /* ── SEARCH BOX MELAYANG AMAN ── */
 .search-wrap { 
   max-width:480px; 
-  margin:-22px auto 20px; /* Sempurnakan offset margin */
+  margin:-22px auto 20px; 
   padding:0 14px; 
   position:relative;
-  z-index: 20; /* Kasih z-index lebih tinggi dari header */
+  z-index: 20; 
 }
 .search-box {
-  background:#fff; border-radius:14px; border:1px solid var(--gray-line);
+  background: var(--search-bg); border-radius:14px; border:1px solid var(--gray-line);
   box-shadow:0 8px 24px rgba(90,26,154,0.08);
   display:flex; align-items:center; gap:10px; padding:12px 14px;
+  transition: background 0.3s, border-color 0.3s;
 }
 .search-box svg { width:16px; height:16px; fill:none; stroke:var(--text-light); stroke-width:2.5; }
 .search-input {
@@ -103,7 +150,7 @@ body {
 
 /* ── SLEEK COMPACT CARD DESIGN ── */
 .product-card {
-  background: var(--white);
+  background: var(--card-bg);
   border-radius: 16px;
   margin-bottom: 10px;
   padding: 12px 14px;
@@ -114,6 +161,7 @@ body {
   gap: 12px;
   position: relative;
   animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 .product-card:hover {
   border-color: var(--theme-color);
@@ -132,6 +180,7 @@ body {
   width: 38px; height: 38px; border-radius: 10px;
   background: var(--theme-bg);
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: background 0.3s;
 }
 .server-badge svg { width: 18px; height: 18px; fill: none; stroke: var(--theme-color); stroke-width: 2.5; }
 
@@ -144,9 +193,9 @@ body {
 }
 .slot-text {
   font-size: 10px; font-weight: 800; color: var(--green);
-  background: #E8F9F3; padding: 1px 6px; border-radius: 6px;
+  background: var(--purple-soft); padding: 1px 6px; border-radius: 6px;
 }
-.slot-text.is-full { color: var(--red); background: #FFEBEB; }
+.slot-text.is-full { color: var(--accent); background: rgba(255,107,43,0.1); }
 
 /* Minimalist tiny subtext */
 .server-sub {
@@ -157,7 +206,7 @@ body {
 /* Dot protocol list inline ultra sleek */
 .mini-protos { display: flex; gap: 5px; font-size: 9px; font-weight: 800; color: var(--text-mid); }
 .mini-protos span { position: relative; }
-.mini-protos span:not(:last-child)::after { content: '•'; margin-left: 5px; color: #D1C4E9; }
+.mini-protos span:not(:last-child)::after { content: '•'; margin-left: 5px; color: var(--text-light); opacity: 0.5; }
 
 /* Action Right Side (Fokus Harga + Tombol) */
 .action-side {
@@ -169,17 +218,18 @@ body {
 /* Ramping Buy Button */
 .buy-btn-sleek {
   padding: 6px 14px; border: none; border-radius: 10px;
-  background: var(--text-dark); color: #fff;
+  background: var(--text-dark); color: var(--white);
   font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 11px;
   cursor: pointer; transition: all 0.15s;
 }
-.buy-btn-sleek:hover { background: var(--theme-color); transform: translateY(-1px); }
-.buy-btn-sleek:disabled { background: #D5D3DA; cursor: not-allowed; transform: none; }
+.buy-btn-sleek:hover { background: var(--theme-color); transform: translateY(-1px); color: #fff; }
+.buy-btn-sleek:disabled { background: #D5D3DA; cursor: not-allowed; transform: none; color: #8A8896; }
 
 /* Elegant Grayscale Full State */
-.product-card.is-full { background: #FAF9FC; opacity: 0.75; }
+.product-card.is-full { opacity: 0.65; }
+[data-theme="dark"] .product-card.is-full { opacity: 0.45; }
 .product-card.is-full .card-indicator { background: #A09EB0; }
-.product-card.is-full .server-badge { background: #EAE9EE; }
+.product-card.is-full .server-badge { background: rgba(128,128,128,0.1); }
 .product-card.is-full .server-badge svg { stroke: #8A8896; }
 .product-card.is-full .buy-btn-sleek { background: #B5B3BC; }
 
@@ -188,14 +238,20 @@ body {
 .loading-state svg { width:28px; height:28px; fill:none; stroke:var(--purple); stroke-width:2.5; animation: spin 1s linear infinite; margin-bottom: 8px;}
 .empty-state { text-align:center; padding:40px 0; color:var(--text-light); font-weight:700; font-size:13px; }
 
-/* ── BACK BUTTON BOTTOM ── */
-.back-btn-bottom {
-  width:100%; padding:12px; border:1px solid var(--gray-line); border-radius:12px;
-  background:var(--white); color:var(--text-mid); font-family:'Nunito',sans-serif;
-  font-weight:800; font-size:13px; cursor:pointer; margin-top:14px;
-  display:flex; align-items:center; justify-content:center; gap:6px; transition: all 0.15s;
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--nav-bg); border-top: 1px solid var(--nav-border);
+  display: flex; padding: 10px 0 14px;
+  box-shadow: 0 -4px 20px rgba(90,26,154,0.05); z-index: 100;
+  transition: background 0.3s, border-color 0.3s;
 }
-.back-btn-bottom:hover { background: var(--purple-soft); border-color: var(--purple); color: var(--purple); }
+.bottom-nav-inner { display: flex; width: 100%; max-width: 480px; margin: 0 auto; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; }
+.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--text-light); stroke-width: 2.2; transition: stroke 0.2s; }
+.nav-label { font-size: 9.5px; font-weight: 800; color: var(--text-light); transition: color 0.2s; }
+.nav-item.active .nav-label { color: var(--purple); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); }
 
 </style>
 </head>
@@ -210,7 +266,25 @@ body {
       <h1>Produk VPN</h1>
       <p id="subtitle">Memuat server...</p>
     </div>
-    <div class="header-count" id="countBadge">—</div>
+    <div class="header-right-wrap">
+      <div class="header-count" id="countBadge">—</div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
+        <svg class="icon-moon" viewBox="0 0 24 24">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -228,16 +302,41 @@ body {
       <div>Memuat daftar produk...</div>
     </div>
   </div>
-
-  <button class="back-btn-bottom" onclick="window.location.href='dashboard.html'">
-    Kembali ke Dashboard
-  </button>
 </div>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a class="nav-item active" href="dashboard.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a class="nav-item" href="transactions.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
+      <div class="nav-label">Riwayat</div>
+    </a>
+    <a class="nav-item" href="profile.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <div class="nav-label">Profile</div>
+    </a>
+  </div>
+</nav>
 
 <script>
 
 let allProducts = [];
 const cardThemes = ['theme-purple', 'theme-blue', 'theme-cyan', 'theme-orange'];
+
+// ─── THEME MANAGER ───
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('xt-theme', next);
+}
+(function() {
+  const saved = localStorage.getItem('xt-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+})();
 
 loadProducts();
 
