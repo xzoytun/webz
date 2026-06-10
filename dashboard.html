@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard - Xtrimer Tunnel</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root {
   --purple:       #7B2FBE;
@@ -42,11 +43,17 @@ body {
   from { opacity:0; transform:translateY(12px); }
   to   { opacity:1; transform:translateY(0); }
 }
+@keyframes spin { to { transform: rotate(360deg); } }
 @keyframes pulse {
   0%,100% { transform:scale(1); }
   50%      { transform:scale(1.1); }
 }
+@keyframes slideDown {
+  from { opacity:0; transform:translateY(-8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
 
+/* ─── HERO ─── */
 .hero {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
   padding: 24px 20px 64px;
@@ -88,6 +95,7 @@ body {
   border: 1px solid rgba(255,255,255,0.1); text-transform: uppercase;
 }
 
+/* ─── BALANCE CARD ─── */
 .balance-card {
   background:var(--white); border-radius:18px; padding:16px 18px;
   margin: -40px auto 0; position:relative; z-index:10; max-width: 440px;
@@ -113,17 +121,20 @@ body {
 .balance-topup:hover { background: var(--purple); transform:translateY(-1px); }
 .balance-topup svg { width:14px; height:14px; fill:none; stroke:#fff; stroke-width:2.5; }
 
+/* ─── CONTAINER ─── */
 .container { padding:20px 16px 0; max-width:440px; margin:0 auto; }
 
 .sec-title {
   font-size:14px; font-weight:900; color:var(--text-dark);
-  margin-bottom:12px; display:flex; align-items:center; gap:6px; letter-spacing:-0.1px;
+  margin-bottom:12px; display:flex; align-items:center; justify-content:space-between; letter-spacing:-0.1px;
 }
+.sec-title-left { display:flex; align-items:center; gap:6px; }
 .sec-title-pill {
   font-size:10px; font-weight:800; background:var(--purple-soft);
   color:var(--purple); border-radius:6px; padding:1px 8px;
 }
 
+/* ─── MENU GRID ─── */
 .menu-grid {
   display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
   margin-bottom:24px; animation: fadeUp 0.4s 0.12s ease both;
@@ -136,81 +147,199 @@ body {
 }
 .menu-item:hover .menu-icon-wrap { transform:translateY(-4px); box-shadow:0 8px 20px rgba(90,26,154,0.15); }
 .menu-item:active .menu-icon-wrap { transform:scale(0.95); }
-
-.ic-vpn    { background: linear-gradient(135deg, #7B2FBE, #9B4FDE); box-shadow: 0 4px 14px rgba(123,47,190,0.2); }
-.ic-ppob   { background: linear-gradient(135deg, #FF6B2B, #FFA000); box-shadow: 0 4px 14px rgba(255,107,43,0.2); }
-.ic-trial  { background: linear-gradient(135deg, #0066FF, #00A896); box-shadow: 0 4px 14px rgba(0,102,255,0.2); }
-.ic-myvpn  { background: linear-gradient(135deg, #12C28A, #10B981); box-shadow: 0 4px 14px rgba(18,194,138,0.2); }
-
+.ic-vpn   { background: linear-gradient(135deg, #7B2FBE, #9B4FDE); box-shadow: 0 4px 14px rgba(123,47,190,0.2); }
+.ic-trial { background: linear-gradient(135deg, #0066FF, #00A896); box-shadow: 0 4px 14px rgba(0,102,255,0.2); }
+.ic-myvpn { background: linear-gradient(135deg, #12C28A, #10B981); box-shadow: 0 4px 14px rgba(18,194,138,0.2); }
+.ic-hist  { background: linear-gradient(135deg, #F59E0B, #EF4444); box-shadow: 0 4px 14px rgba(245,158,11,0.2); }
 .menu-icon-wrap svg { width:22px; height:22px; fill:none; stroke:#fff; stroke-width:2; }
 .menu-label { font-size:11px; font-weight:800; color:var(--text-dark); text-align:center; line-height:1.2; }
 
-/* ─── INFO DIGITAL BANNER — FIXED ─── */
+/* ─── INFO BANNER SCROLL ─── */
 .info-scroll {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  padding: 0 0 8px 0;
-  margin-bottom: 24px;
-  scrollbar-width: none;
+  display: flex; gap: 12px; overflow-x: auto; padding: 0 0 8px 0;
+  margin-bottom: 24px; scrollbar-width: none;
   animation: fadeUp 0.4s 0.16s ease both;
-  /* snap scroll biar enak di-swipe */
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
 }
 .info-scroll::-webkit-scrollbar { display: none; }
-
 .info-card {
-  /* Lebar card = 85% layar, max 320px — tampil sempurna di HP */
-  flex: 0 0 calc(85vw);
-  max-width: 320px;
-  /* Rasio 16:9 → tinggi proporsional */
-  aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-  scroll-snap-align: start;
-  /* Sedikit shadow biar kartu terasa berisi */
-  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  flex: 0 0 calc(85vw); max-width: 320px; aspect-ratio: 16 / 9;
+  border-radius: 16px; overflow: hidden; position: relative;
+  background-size: cover; background-position: center top; background-repeat: no-repeat;
+  scroll-snap-align: start; box-shadow: 0 4px 16px rgba(0,0,0,0.10);
 }
-
 .info-card-1 { background-image: url('https://app.isdarprem.net/images/akun1.png'); }
 .info-card-2 { background-image: url('https://app.isdarprem.net/images/trial1.png'); }
 .info-card-3 { background-image: url('https://app.isdarprem.net/images/ppob1.png'); }
 
-/* ─── MODERN UTILITY PANEL ─── */
-.utility-panel {
-  display: flex; flex-direction: column; gap: 10px;
-  margin-bottom: 24px; animation: fadeUp 0.4s 0.2s ease both;
+/* ─── PPOB SECTION ─── */
+.ppob-section {
+  margin-bottom: 28px;
+  animation: fadeUp 0.4s 0.20s ease both;
 }
 
+/* Category Shortcut Chips */
+.category-scroll {
+  display: flex; gap: 8px; overflow-x: auto; padding: 0 0 4px 0;
+  scrollbar-width: none; margin-bottom: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.category-scroll::-webkit-scrollbar { display: none; }
+
+.cat-chip {
+  flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  background: var(--white); border: 2px solid var(--gray-line);
+  border-radius: 14px; padding: 10px 14px; cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16,1,0.3,1); user-select: none; min-width: 70px;
+}
+.cat-chip:hover { border-color: var(--purple-mid); background: var(--purple-soft); transform: translateY(-2px); }
+.cat-chip.active { border-color: var(--purple); background: var(--purple-soft); box-shadow: 0 0 0 3px rgba(123,47,190,0.12); }
+.cat-chip.active .cat-chip-label { color: var(--purple-dark); }
+.cat-chip-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cat-chip-icon svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; }
+.cat-chip-label { font-size: 10px; font-weight: 800; color: var(--text-light); text-align: center; white-space: nowrap; }
+
+/* More categories */
+.cat-more-chip {
+  background: var(--bg); border-color: var(--gray-line);
+}
+.cat-more-chip .cat-chip-icon { background: var(--gray-line); }
+.cat-more-chip .cat-chip-icon svg { stroke: var(--text-light); }
+
+/* PPOB Form Panel */
+.ppob-form-panel {
+  background: var(--white); border-radius: 16px; padding: 16px;
+  border: 1px solid var(--gray-line);
+  box-shadow: 0 4px 12px rgba(90,26,154,0.03);
+  display: flex; flex-direction: column; gap: 14px;
+  margin-bottom: 16px;
+  animation: slideDown 0.3s ease both;
+}
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label {
+  font-size: 11px; font-weight: 800; color: var(--text-light);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.form-select, .form-input {
+  width: 100%; background: var(--bg); border: 1px solid var(--gray-line);
+  border-radius: 12px; padding: 11px 14px; font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; color: var(--text-dark);
+  outline: none; transition: all 0.2s;
+}
+.form-select:focus, .form-input:focus {
+  border-color: var(--purple-light); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(123,47,190,0.1);
+}
+.form-select {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237B2FBE' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px;
+}
+.input-relative { position: relative; }
+.input-relative .form-input { padding-left: 38px; }
+.input-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; fill: none; stroke: var(--text-light); stroke-width: 2.5;
+}
+.hidden { display: none !important; }
+
+/* Provider Logo Grid */
+.provider-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+}
+.provider-chip {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; padding: 10px 6px;
+  background: var(--bg); border: 2px solid var(--gray-line);
+  border-radius: 12px; cursor: pointer; transition: all 0.18s cubic-bezier(0.16,1,0.3,1);
+  user-select: none;
+}
+.provider-chip:hover { border-color: var(--purple-mid); background: var(--purple-soft); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(123,47,190,0.1); }
+.provider-chip.active { border-color: var(--purple); background: var(--purple-soft); box-shadow: 0 0 0 3px rgba(123,47,190,0.15); }
+.provider-chip.active .provider-name { color: var(--purple-dark); }
+.provider-logo { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; background: #fff; padding: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: transform 0.18s; }
+.provider-chip:hover .provider-logo { transform: scale(1.06); }
+.provider-name { font-size: 9px; font-weight: 800; color: var(--text-light); text-align: center; letter-spacing: 0.3px; text-transform: uppercase; line-height: 1.2; }
+.provider-logo-fallback {
+  width: 40px; height: 40px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 900; color: #fff; letter-spacing: -0.5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1); flex-shrink: 0;
+}
+
+/* Product Area */
+.product-area { margin-bottom: 8px; }
+.product-area-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.product-area-title { font-size: 13px; font-weight: 900; color: var(--text-dark); display:flex; align-items:center; gap:6px; }
+.product-count-pill {
+  font-size: 10px; font-weight: 800; background: var(--green-bg); color: var(--green);
+  border-radius: 6px; padding: 1px 8px;
+}
+
+.status-box {
+  background: var(--white); border-radius: 16px; padding: 28px 20px;
+  border: 1px solid var(--gray-line); text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--text-mid);
+}
+.status-icon-badge {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--purple-soft);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 2px;
+}
+.status-box svg { width: 20px; height: 20px; fill: none; stroke: var(--purple); stroke-width: 2.3; }
+.status-box.error-status .status-icon-badge { background: var(--red-bg); }
+.status-box.error-status svg { stroke: var(--red); }
+.status-box.loading svg { animation: spin 1s linear infinite; }
+.status-box p { font-size: 12px; font-weight: 700; max-width: 280px; color: var(--text-light); line-height: 1.5; }
+
+/* Product Cards */
+.product-list { display: flex; flex-direction: column; gap: 10px; }
+.product-card {
+  background: var(--white); border-radius: 14px; padding: 13px 14px;
+  border: 1px solid var(--gray-line); display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.product-card:hover { transform: translateY(-1px); border-color: var(--purple-mid); box-shadow: 0 6px 16px rgba(90,26,154,0.06); }
+.prod-details { flex: 1; min-width: 0; }
+.prod-brand { font-size: 9px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1px; }
+.prod-name { font-size: 13px; font-weight: 800; color: var(--text-dark); line-height: 1.3; }
+.prod-desc { font-size: 11px; color: var(--text-light); font-weight: 600; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.prod-action { text-align: right; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+.prod-price { font-size: 15px; font-weight: 900; color: var(--green); letter-spacing: -0.2px; }
+.btn-buy {
+  background: var(--purple); border: none; border-radius: 9px; padding: 6px 13px;
+  color: #fff; font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800;
+  cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.15s;
+}
+.btn-buy:hover { background: var(--purple-dark); transform: translateY(-1px); }
+.btn-buy svg { width: 10px; height: 10px; fill: none; stroke: #fff; stroke-width: 3; }
+
+/* ─── UTILITY PANEL ─── */
+.utility-panel {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 24px; animation: fadeUp 0.4s 0.24s ease both;
+}
 .util-card {
   background: var(--white); border-radius: 14px; padding: 12px 14px;
   display: flex; align-items: center; gap: 12px;
   border: 1px solid var(--gray-line); text-decoration: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.util-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--card-border-hover);
-  box-shadow: 0 6px 16px var(--card-shadow);
-}
-.util-icon {
-  width: 38px; height: 38px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
+.util-card:hover { transform: translateY(-2px); border-color: var(--card-border-hover); box-shadow: 0 6px 16px var(--card-shadow); }
+.util-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .util-icon svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; }
 .util-body { flex: 1; min-width: 0; }
 .util-title { font-size: 13px; font-weight: 800; color: var(--text-dark); }
 .util-desc { font-size: 11px; color: var(--text-light); font-weight: 600; margin-top: 1px; }
 .util-arrow svg { width: 16px; height: 16px; fill: none; stroke: var(--text-light); stroke-width: 2.5; }
-
 .card-telegram { --card-border-hover: #27A7E5; --card-shadow: rgba(39,167,229,0.08); }
 .card-telegram .util-icon { background: linear-gradient(135deg, #229ED9, #27A7E5); }
-
 .card-admin { --card-border-hover: var(--red); --card-shadow: rgba(232,64,64,0.08); }
 .card-admin .util-icon { background: linear-gradient(135deg, #9B1C1C, var(--red)); }
 
@@ -218,17 +347,37 @@ body {
 .bottom-nav {
   position:fixed; bottom:0; left:0; right:0; background:#fff;
   border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px;
-  box-shadow:0 -4px 20px rgba(90,26,154,0.04); z-index:100; max-width:440px; margin:0 auto;
+  box-shadow:0 -4px 20px rgba(90,26,154,0.04); z-index:100;
+}
+.bottom-nav-inner {
+  display:flex; width:100%; max-width:440px; margin:0 auto;
 }
 .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
 .nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
 .nav-label { font-size:10px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
 .nav-item.active .nav-label { color:var(--purple); }
 .nav-item.active .nav-icon svg { stroke: var(--purple); }
+
+/* ─── PPOB SECTION DIVIDER ─── */
+.ppob-header-banner {
+  background: linear-gradient(135deg, #FF6B2B 0%, #FFA000 100%);
+  border-radius: 16px; padding: 14px 16px; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 4px 16px rgba(255,107,43,0.22);
+}
+.ppob-header-icon {
+  width: 42px; height: 42px; background: rgba(255,255,255,0.2);
+  border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink:0;
+}
+.ppob-header-icon svg { width: 20px; height: 20px; fill:none; stroke:#fff; stroke-width:2.2; }
+.ppob-header-text { flex:1; }
+.ppob-header-title { font-size: 15px; font-weight: 900; color: #fff; line-height: 1.2; }
+.ppob-header-sub { font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 700; margin-top: 2px; }
 </style>
 </head>
 <body>
 
+<!-- ─── HERO ─── -->
 <div class="hero">
   <div class="hero-dots"></div>
   <div class="hero-top">
@@ -248,6 +397,7 @@ body {
   </div>
 </div>
 
+<!-- ─── BALANCE CARD ─── -->
 <div style="max-width:440px; margin:0 auto; padding:0 16px;">
   <div class="balance-card">
     <div class="balance-inner">
@@ -268,28 +418,16 @@ body {
 
 <div class="container">
 
-  <div class="sec-title">
-    Menu <span class="sec-title-pill">Layanan</span>
+  <!-- ─── QUICK MENU ─── -->
+  <div class="sec-title" style="margin-top:20px;">
+    <div class="sec-title-left">Menu <span class="sec-title-pill">Layanan</span></div>
   </div>
-
-  <div class="menu-grid" id="menuGrid">
+  <div class="menu-grid">
     <a class="menu-item" href="products.html">
       <div class="menu-icon-wrap ic-vpn">
         <svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>
       </div>
       <div class="menu-label">Produk VPN</div>
-    </a>
-    <a class="menu-item" href="ppob.html">
-      <div class="menu-icon-wrap ic-ppob">
-        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
-      </div>
-      <div class="menu-label">PPOB</div>
-    </a>
-    <a class="menu-item" href="riwayat-ppob.html">
-      <div class="menu-icon-wrap ic-ppob">
-        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
-      </div>
-      <div class="menu-label">History PPOB</div>
     </a>
     <a class="menu-item" href="trial.html">
       <div class="menu-icon-wrap ic-trial">
@@ -303,33 +441,111 @@ body {
       </div>
       <div class="menu-label">Akun Saya</div>
     </a>
+    <a class="menu-item" href="riwayat-ppob.html">
+      <div class="menu-icon-wrap ic-hist">
+        <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.51"/></svg>
+      </div>
+      <div class="menu-label">Riwayat PPOB</div>
+    </a>
   </div>
 
+  <!-- ─── INFO BANNER ─── -->
   <div class="sec-title">
-    Informasi Digital
-    <span class="sec-title-pill" style="background:#EEF4FF; color:#3B82F6;">Terpopuler</span>
+    <div class="sec-title-left">
+      Informasi Digital
+      <span class="sec-title-pill" style="background:#EEF4FF; color:#3B82F6;">Terpopuler</span>
+    </div>
   </div>
-
   <div class="info-scroll">
     <div class="info-card info-card-1"></div>
     <div class="info-card info-card-2"></div>
     <div class="info-card info-card-3"></div>
   </div>
 
+  <!-- ─── PPOB SECTION ─── -->
+  <div class="ppob-section">
+
+    <!-- Banner Header -->
+    <div class="ppob-header-banner">
+      <div class="ppob-header-icon">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="12" y2="15"/></svg>
+      </div>
+      <div class="ppob-header-text">
+        <div class="ppob-header-title">Produk Digital PPOB</div>
+        <div class="ppob-header-sub">Pulsa · Data · Token PLN · E-Wallet · Game</div>
+      </div>
+    </div>
+
+    <!-- Category Shortcut Chips -->
+    <div class="sec-title">
+      <div class="sec-title-left">
+        Kategori <span class="sec-title-pill" id="categoryCount" style="background:#FFF3E0; color:#F57C00;">Loading...</span>
+      </div>
+    </div>
+    <div class="category-scroll" id="categoryScroll">
+      <!-- filled by JS -->
+    </div>
+
+    <!-- Form Panel (muncul setelah pilih kategori) -->
+    <div class="ppob-form-panel hidden" id="ppobFormPanel">
+
+      <!-- Provider Grid -->
+      <div class="form-group hidden" id="box-brand">
+        <label class="form-label">Operator / Provider</label>
+        <div id="provider-grid" class="provider-grid"></div>
+        <input type="hidden" id="select-brand" value="">
+      </div>
+
+      <!-- Sub Kategori -->
+      <div class="form-group hidden" id="box-subcategory">
+        <label class="form-label">Tipe / Sub Paket</label>
+        <select id="select-subcategory" class="form-select">
+          <option value="">-- Semua Tipe --</option>
+        </select>
+      </div>
+
+      <!-- Target Nomor -->
+      <div class="form-group hidden" id="box-target">
+        <label class="form-label">Nomor / ID Target Tujuan</label>
+        <div class="input-relative">
+          <svg class="input-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <input type="text" id="input-target" placeholder="Contoh: 08123456789" class="form-input">
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Area -->
+    <div class="product-area" id="productArea">
+      <div class="product-area-header hidden" id="productAreaHeader">
+        <div class="product-area-title">
+          Produk Tersedia
+        </div>
+        <span class="product-count-pill" id="product-count">0 item</span>
+      </div>
+      <div id="product-status" class="status-box">
+        <div class="status-icon-badge">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <p>Pilih kategori di atas lalu operator untuk menampilkan produk otomatis.</p>
+      </div>
+      <div id="product-grid" class="product-list"></div>
+    </div>
+
+  </div>
+
+  <!-- ─── UTILITY PANEL ─── -->
   <div class="sec-title">
     Pusat <span class="sec-title-pill">Kontrol &amp; Bantuan</span>
   </div>
-
   <div class="utility-panel">
     <div id="adminSection"></div>
-
     <a class="util-card card-telegram" href="https://t.me/joyhayabuse" target="_blank">
       <div class="util-icon">
         <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
       </div>
       <div class="util-body">
         <div class="util-title">Bantuan Customer Service</div>
-        <div class="util-desc">Hubungi via Telegram • Solusi Kendala 24/7</div>
+        <div class="util-desc">Hubungi via Telegram · Solusi Kendala 24/7</div>
       </div>
       <div class="util-arrow">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
@@ -339,86 +555,393 @@ body {
 
 </div>
 
+<!-- ─── BOTTOM NAV ─── -->
 <nav class="bottom-nav">
-  <a class="nav-item active" href="#">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
-    </div>
-    <div class="nav-label">Home</div>
-  </a>
-  <a class="nav-item" href="transactions.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
-    </div>
-    <div class="nav-label">Riwayat</div>
-  </a>
-  <a class="nav-item" href="profile.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    </div>
-    <div class="nav-label">Profile</div>
-  </a>
+  <div class="bottom-nav-inner">
+    <a class="nav-item active" href="#">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      </div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a class="nav-item" href="transactions.html">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
+      </div>
+      <div class="nav-label">Riwayat</div>
+    </a>
+    <a class="nav-item" href="profile.html">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <div class="nav-label">Profile</div>
+    </a>
+  </div>
 </nav>
 
 <script>
+/* ─── AUTH CHECK ─── */
 const localUser = JSON.parse(localStorage.getItem('user'));
 if (!localUser) window.location.href = 'index.html';
 
-loadProfile();
+const token = localStorage.getItem('token') || '';
+const getHeaders = () => ({
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${token}`
+});
 
+const HIDDEN_CATEGORIES = ['gas', 'tv', 'tv kabel', 'gas pln', 'gas elpiji', 'tagihan gas'];
+
+const PROVIDER_BASE = 'https://app.isdarprem.net/images/provider/';
+const PROVIDER_LOGOS = {
+  'axis': PROVIDER_BASE+'axisnet.png', 'axisnet': PROVIDER_BASE+'axisnet.png', 'axis net': PROVIDER_BASE+'axisnet.png',
+  'by.u': PROVIDER_BASE+'byu.jpg',
+  'indosat': PROVIDER_BASE+'indosat.jpg', 'im3': PROVIDER_BASE+'indosat.jpg', 'im3 ooredoo': PROVIDER_BASE+'indosat.jpg',
+  'smartfren': PROVIDER_BASE+'smartfren.png', 'smart': PROVIDER_BASE+'smartfren.png',
+  'telkomsel': PROVIDER_BASE+'telkomsel.png', 'simpati': PROVIDER_BASE+'telkomsel.png',
+  'kartu as': PROVIDER_BASE+'telkomsel.png', 'loop': PROVIDER_BASE+'telkomsel.png',
+  'tri': PROVIDER_BASE+'tri.jpg', '3': PROVIDER_BASE+'tri.jpg', 'three': PROVIDER_BASE+'tri.jpg',
+  'xl': PROVIDER_BASE+'xl.jpg', 'xl axiata': PROVIDER_BASE+'xl.jpg',
+  'dana': PROVIDER_BASE+'dana.jpeg',
+  'gopay': PROVIDER_BASE+'gopay.jpeg', 'go-pay': PROVIDER_BASE+'gopay.jpeg',
+  'ovo': PROVIDER_BASE+'ovo.jpg',
+  'shopeepay': PROVIDER_BASE+'ShopeePay.png', 'shopee pay': PROVIDER_BASE+'ShopeePay.png', 'shopee': PROVIDER_BASE+'ShopeePay.png',
+  'free fire': PROVIDER_BASE+'FreeFire.png', 'freefire': PROVIDER_BASE+'FreeFire.png', 'ff': PROVIDER_BASE+'FreeFire.png',
+  'pubg': PROVIDER_BASE+'pubg.webp', 'pubg mobile': PROVIDER_BASE+'pubg.webp',
+  'mobile legends': PROVIDER_BASE+'mobillegend.jpeg', 'mobile legend': PROVIDER_BASE+'mobillegend.jpeg',
+  'mobilelegends': PROVIDER_BASE+'mobillegend.jpeg', 'ml': PROVIDER_BASE+'mobillegend.jpeg', 'mlbb': PROVIDER_BASE+'mobillegend.jpeg',
+  'pln': PROVIDER_BASE+'pln.png', 'listrik': PROVIDER_BASE+'pln.png', 'token pln': PROVIDER_BASE+'pln.png',
+};
+
+/* Category icon map */
+const CAT_ICONS = {
+  'pulsa':        { color: 'linear-gradient(135deg,#7B2FBE,#9B4FDE)', svg: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>' },
+  'data':         { color: 'linear-gradient(135deg,#0066FF,#00A896)', svg: '<path d="M1 6l5 5 5-5"/><path d="M6 4v13"/><path d="M23 18l-5-5-5 5"/><path d="M18 20V7"/>' },
+  'pln':          { color: 'linear-gradient(135deg,#F59E0B,#EF4444)', svg: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>' },
+  'token':        { color: 'linear-gradient(135deg,#F59E0B,#EF4444)', svg: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>' },
+  'e-wallet':     { color: 'linear-gradient(135deg,#12C28A,#10B981)', svg: '<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>' },
+  'ewallet':      { color: 'linear-gradient(135deg,#12C28A,#10B981)', svg: '<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>' },
+  'game':         { color: 'linear-gradient(135deg,#EC4899,#8B5CF6)', svg: '<rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 12h4M8 10v4"/><circle cx="15" cy="11" r="1" fill="white"/><circle cx="17" cy="13" r="1" fill="white"/>' },
+  'voucher':      { color: 'linear-gradient(135deg,#F97316,#FBBF24)', svg: '<path d="M4 4h16c1.1 0 2 .9 2 2v4a2 2 0 0 1 0 4v4c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-4a2 2 0 0 1 0-4V6c0-1.1.9-2 2-2z"/><line x1="12" y1="4" x2="12" y2="20" stroke-dasharray="4 2"/>' },
+  'default':      { color: 'linear-gradient(135deg,#64748B,#94A3B8)', svg: '<rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/>' }
+};
+
+function getCatStyle(catName) {
+  const key = catName.toLowerCase();
+  for (const [k, v] of Object.entries(CAT_ICONS)) {
+    if (key.includes(k)) return v;
+  }
+  return CAT_ICONS['default'];
+}
+
+function getProviderLogo(brandName) {
+  const key = brandName.toLowerCase().trim();
+  if (PROVIDER_LOGOS[key]) return PROVIDER_LOGOS[key];
+  for (const [k, v] of Object.entries(PROVIDER_LOGOS)) {
+    if (key.includes(k) || k.includes(key)) return v;
+  }
+  return null;
+}
+
+function createProviderChip(brandName, onClick) {
+  const logoUrl = getProviderLogo(brandName);
+  const initials = brandName.substring(0, 2).toUpperCase();
+  const chip = document.createElement('div');
+  chip.className = 'provider-chip';
+  chip.dataset.brand = brandName;
+
+  let logoEl;
+  if (logoUrl) {
+    logoEl = document.createElement('img');
+    logoEl.src = logoUrl; logoEl.alt = brandName; logoEl.className = 'provider-logo';
+    logoEl.onerror = function() {
+      const fb = document.createElement('div');
+      fb.className = 'provider-logo-fallback'; fb.textContent = initials;
+      this.replaceWith(fb);
+    };
+  } else {
+    logoEl = document.createElement('div');
+    logoEl.className = 'provider-logo-fallback'; logoEl.textContent = initials;
+  }
+
+  const nameEl = document.createElement('div');
+  nameEl.className = 'provider-name'; nameEl.textContent = brandName;
+  chip.appendChild(logoEl); chip.appendChild(nameEl);
+  chip.addEventListener('click', () => onClick(chip, brandName));
+  return chip;
+}
+
+/* ─── DOM REFS ─── */
+const selectSubcategory = document.getElementById('select-subcategory');
+const inputTarget       = document.getElementById('input-target');
+const hiddenBrand       = document.getElementById('select-brand');
+const providerGridEl    = document.getElementById('provider-grid');
+const boxBrand          = document.getElementById('box-brand');
+const boxSubcategory    = document.getElementById('box-subcategory');
+const boxTarget         = document.getElementById('box-target');
+const productGrid       = document.getElementById('product-grid');
+const productStatus     = document.getElementById('product-status');
+const productCount      = document.getElementById('product-count');
+const ppobFormPanel     = document.getElementById('ppobFormPanel');
+const productAreaHeader = document.getElementById('productAreaHeader');
+const categoryCountPill = document.getElementById('categoryCount');
+const categoryScroll    = document.getElementById('categoryScroll');
+
+let activeCatEl   = null;
+let activeCatName = '';
+
+/* ─── LOAD PROFILE ─── */
 async function loadProfile() {
   try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      window.location.href = 'index.html';
-      return;
-    }
-
-    const response = await fetch('/api/profile', {
-      headers: { Authorization: 'Bearer ' + token }
-    });
+    const response = await fetch('/api/profile', { headers: { Authorization: 'Bearer ' + token } });
     const result = await response.json();
-    console.log(result);
-
     if (!result.success) {
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      window.location.href = 'index.html';
-      return;
+      localStorage.removeItem('user'); localStorage.removeItem('token');
+      window.location.href = 'index.html'; return;
     }
-
     const user = result.user;
     document.getElementById('username').innerText = user.username || '—';
     document.getElementById('email').innerText = user.email || '—';
     document.getElementById('balance').innerText = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
     document.getElementById('avatar').src = user.avatar || 'https://via.placeholder.com/48';
-
     const roleVal = document.getElementById('roleVal');
     if (user.role === 'admin') {
       roleVal.innerText = 'Admin';
       document.getElementById('adminSection').innerHTML = `
-        <a class="util-card card-admin" href="admin.html" style="margin-bottom: 10px;">
+        <a class="util-card card-admin" href="admin.html" style="margin-bottom:10px;">
           <div class="util-icon">
-            <svg viewBox="0 0 24 24">
-              <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
           </div>
           <div class="util-body">
-            <div class="util-title" style="color: var(--red);">Admin Kontrol Panel</div>
+            <div class="util-title" style="color:var(--red);">Admin Kontrol Panel</div>
             <div class="util-desc">Kelola manajemen user, produk & transaksi</div>
           </div>
-          <div class="util-arrow">
-            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-          </div>
+          <div class="util-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
         </a>`;
     }
-  } catch(err) {
-    console.error(err);
-    alert('Dashboard Error: ' + err.message);
+  } catch(err) { console.error(err); }
+}
+
+/* ─── SYNC BALANCE ─── */
+async function fetchBalance() {
+  try {
+    const res = await fetch(`/api/profile?email=${encodeURIComponent(localUser.email)}`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const result = await res.json();
+    if (result.success) {
+      document.getElementById('balance').innerText = 'Rp ' + Number(result.user.balance || 0).toLocaleString('id-ID');
+    }
+  } catch (err) { console.error("Gagal sinkron saldo:", err); }
+}
+
+/* ─── LOAD CATEGORIES ─── */
+async function loadCategories() {
+  try {
+    const res = await fetch('/api/ppob/categories', { headers: getHeaders() });
+    const data = await res.json();
+    categoryScroll.innerHTML = '';
+    if (data.success) {
+      const visible = data.categories.filter(c => !HIDDEN_CATEGORIES.some(h => c.toLowerCase().includes(h)));
+      categoryCountPill.textContent = visible.length + ' kategori';
+      visible.forEach(cat => {
+        const style = getCatStyle(cat);
+        const chip = document.createElement('div');
+        chip.className = 'cat-chip';
+        chip.innerHTML = `
+          <div class="cat-chip-icon" style="background:${style.color}">
+            <svg viewBox="0 0 24 24">${style.svg}</svg>
+          </div>
+          <div class="cat-chip-label">${cat}</div>
+        `;
+        chip.addEventListener('click', () => onCategoryClick(chip, cat));
+        categoryScroll.appendChild(chip);
+      });
+    }
+  } catch (err) {
+    categoryCountPill.textContent = 'Error';
+    console.error("Gagal load kategori", err);
   }
 }
+
+/* ─── CATEGORY CLICK ─── */
+async function onCategoryClick(chipEl, cat) {
+  if (activeCatEl) activeCatEl.classList.remove('active');
+  chipEl.classList.add('active');
+  activeCatEl = chipEl; activeCatName = cat;
+
+  ppobFormPanel.classList.remove('hidden');
+  resetForm(['brand', 'sub', 'target', 'prod']);
+
+  try {
+    const res = await fetch(`/api/ppob/brands?category=${encodeURIComponent(cat)}`, { headers: getHeaders() });
+    const data = await res.json();
+    if (data.success && data.brands.length > 0) {
+      boxBrand.classList.remove('hidden');
+      providerGridEl.innerHTML = '';
+      data.brands.forEach(b => {
+        const chip = createProviderChip(b.brand, (chipEl, brandName) => {
+          providerGridEl.querySelectorAll('.provider-chip').forEach(c => c.classList.remove('active'));
+          chipEl.classList.add('active');
+          hiddenBrand.value = brandName;
+          onBrandSelected(cat, brandName);
+        });
+        providerGridEl.appendChild(chip);
+      });
+    } else {
+      boxBrand.classList.add('hidden');
+      boxTarget.classList.remove('hidden');
+      loadProducts(cat, '', '');
+    }
+  } catch (err) { console.error(err); }
+
+  ppobFormPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* ─── BRAND SELECTED ─── */
+async function onBrandSelected(cat, brd) {
+  resetForm(['sub', 'prod']);
+  boxTarget.classList.remove('hidden');
+
+  try {
+    const res = await fetch(`/api/ppob/subcategories?category=${encodeURIComponent(cat)}&brand=${encodeURIComponent(brd)}`, { headers: getHeaders() });
+    const data = await res.json();
+    if (data.success && data.subcategories.length > 0) {
+      boxSubcategory.classList.remove('hidden');
+      selectSubcategory.innerHTML = '<option value="">-- Semua Tipe --</option>';
+      data.subcategories.forEach(sub => {
+        const opt = document.createElement('option');
+        opt.value = sub; opt.textContent = sub;
+        selectSubcategory.appendChild(opt);
+      });
+    }
+    loadProducts(cat, brd, '');
+  } catch (err) { console.error(err); }
+}
+
+selectSubcategory.addEventListener('change', () => {
+  loadProducts(activeCatName, hiddenBrand.value, selectSubcategory.value);
+});
+
+/* ─── LOAD PRODUCTS ─── */
+async function loadProducts(category, brand, subcategory) {
+  productGrid.innerHTML = '';
+  productAreaHeader.classList.remove('hidden');
+  productCount.textContent = '0 item';
+  productStatus.className = "status-box loading";
+  productStatus.classList.remove('hidden');
+  productStatus.innerHTML = `
+    <div class="status-icon-badge">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="6.34" y1="17.66" x2="9.17" y2="14.83"/><line x1="14.83" y1="9.17" x2="17.66" y2="6.34"/></svg>
+    </div>
+    <p>Menyelaraskan produk server...</p>
+  `;
+
+  try {
+    let url = `/api/ppob/products?category=${encodeURIComponent(category)}&brand=${encodeURIComponent(brand)}`;
+    if (subcategory) url += `&subcategory=${encodeURIComponent(subcategory)}`;
+    const res = await fetch(url, { headers: getHeaders() });
+    const data = await res.json();
+
+    if (data.success && data.products.length > 0) {
+      productStatus.classList.add('hidden');
+      productCount.textContent = `${data.products.length} item`;
+      data.products.forEach(p => {
+        const card = document.createElement('div');
+        card.className = "product-card";
+        card.innerHTML = `
+          <div class="prod-details">
+            <div class="prod-brand">${p.brand}</div>
+            <div class="prod-name">${p.name}</div>
+            <div class="prod-desc">${p.desc}</div>
+          </div>
+          <div class="prod-action">
+            <div class="prod-price">Rp ${p.price.toLocaleString('id-ID')}</div>
+            <button onclick="prosesBeli('${p.sku}','${p.name.replace(/'/g,"\\'")}',${p.price})" class="btn-buy">
+              Beli <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        `;
+        productGrid.appendChild(card);
+      });
+    } else {
+      productStatus.className = "status-box error-status";
+      productStatus.innerHTML = `
+        <div class="status-icon-badge">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <p>Produk tidak tersedia saat ini.</p>`;
+    }
+  } catch (err) {
+    productStatus.className = "status-box error-status";
+    productStatus.innerHTML = `
+      <div class="status-icon-badge">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      </div>
+      <p>Gagal memuat produk dari server.</p>`;
+  }
+}
+
+/* ─── PROSES BELI ─── */
+async function prosesBeli(sku, productName, price) {
+  const target = inputTarget.value.trim();
+  if (!target) {
+    Swal.fire({ icon:'warning', title:'Target Kosong', text:'Nomor HP / ID tujuan tidak boleh kosong!', confirmButtonColor:'#7B2FBE' });
+    inputTarget.focus(); return;
+  }
+  Swal.fire({
+    title: 'Konfirmasi Transaksi',
+    html: `Apakah kamu yakin ingin memesan:<br><span style="color:var(--purple);font-weight:800;">${productName}</span><br><br>Tujuan:<br><code style="background:var(--purple-soft);padding:4px 10px;border-radius:6px;color:var(--purple-dark);font-weight:bold;">${target}</code><br><br>Total Bayar: <b style="color:var(--green)">Rp ${price.toLocaleString('id-ID')}</b>`,
+    icon: 'question', showCancelButton: true,
+    confirmButtonColor: '#12C28A', cancelButtonColor: '#E84040',
+    confirmButtonText: 'Beli Sekarang', cancelButtonText: 'Batal'
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      Swal.fire({ title:'Memproses Pembelian...', allowOutsideClick:false, didOpen:()=>Swal.showLoading() });
+      try {
+        const res = await fetch('/api/ppob/buy', {
+          method: 'POST', headers: getHeaders(),
+          body: JSON.stringify({ sku, target, product_name: productName, price })
+        });
+        const data = await res.json();
+        if (data.success) {
+          Swal.fire({ icon:'success', title:'Sukses!', text: data.message || 'Transaksi berhasil diproses.', confirmButtonColor:'#12C28A' });
+          fetchBalance();
+        } else {
+          Swal.fire({ icon:'error', title:'Gagal', text: data.message || 'Gagal melakukan pembelian.', confirmButtonColor:'#E84040' });
+        }
+      } catch (err) {
+        Swal.fire({ icon:'error', title:'Error Server', text:'Koneksi API bermasalah.', confirmButtonColor:'#E84040' });
+      }
+    }
+  });
+}
+
+/* ─── RESET FORM ─── */
+function resetForm(steps) {
+  if (steps.includes('brand')) {
+    boxBrand.classList.add('hidden'); providerGridEl.innerHTML = ''; hiddenBrand.value = '';
+  }
+  if (steps.includes('sub')) {
+    boxSubcategory.classList.add('hidden'); selectSubcategory.innerHTML = '';
+  }
+  if (steps.includes('target')) {
+    boxTarget.classList.add('hidden'); inputTarget.value = '';
+  }
+  if (steps.includes('prod')) {
+    productGrid.innerHTML = ''; productCount.textContent = '0 item';
+    productAreaHeader.classList.add('hidden');
+    productStatus.classList.remove('hidden');
+    productStatus.className = "status-box";
+    productStatus.innerHTML = `
+      <div class="status-icon-badge">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <p>Pilih kategori di atas lalu operator untuk menampilkan produk otomatis.</p>`;
+  }
+}
+
+/* ─── INIT ─── */
+loadProfile();
+loadCategories();
 </script>
 </body>
 </html>
