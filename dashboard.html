@@ -65,17 +65,24 @@ body {
   pointer-events: none;
 }
 .hero-top {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 14px;
   position: relative; z-index: 2;
   max-width: 440px; margin: 0 auto;
   animation: fadeUp 0.35s ease both;
 }
+
+/* ─── AVATAR — diperbesar & dipercantik ─── */
 .avatar {
-  width: 46px; height: 46px; border-radius: 50%;
-  border: 2.5px solid rgba(255,255,255,0.35);
-  object-fit: cover; background: rgba(255,255,255,0.1);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.45);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.15), 0 4px 14px rgba(0,0,0,0.25);
+  object-fit: cover;
+  background: rgba(255,255,255,0.1);
   flex-shrink: 0;
 }
+
 .hero-greeting { flex: 1; }
 .greeting-hi {
   font-size: 10.5px; font-weight: 800; color: rgba(255,255,255,0.55);
@@ -157,7 +164,6 @@ body {
   animation: fadeUp 0.38s 0.14s ease both;
 }
 
-/* ── Category grid wrap (2 baris) ── */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -182,64 +188,67 @@ body {
   background-size: 200% 100%; animation: shimmer 1.4s infinite;
 }
 
-/* ─── AUTO SLIDER (FIXED NO ZOOM) ─── */
-.info-slider {
-  position: relative;
-  width: 100%;
-  height: 170px; /* FIX: Naikkan tinggi sedikit biar proporsional sama contain */
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-  animation: fadeUp 0.38s 0.18s ease both;
-  background: #fff; /* Latar belakang slider putih */
-}
+/* ─── AUTO SLIDER ─── */
+.info-card{
+  min-width:100%;
+  height:100%;
 
-.info-track {
-  display: flex;
-  width: 300%;
-  height: 100%;
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.info-card {
-  width: 100%;
-  height: 100%;
-  flex-shrink: 0;
-  /* FIX: Ganti ke contain & posisikan ke atas */
-  background-size: contain; 
-  background-position: top center; 
+  background-size: contain;
+  background-position: center center;
   background-repeat: no-repeat;
-  background-color: #fff; /* Pastikan latar kartu juga putih */
+
+  background-color:#fff;
 }
 
-.info-card-1 { background-image: url('https://app.isdarprem.net/images/akun1.png'); }
-.info-card-2 { background-image: url('https://app.isdarprem.net/images/trial1.png'); }
-.info-card-3 { background-image: url('https://app.isdarprem.net/images/ppob1.png'); }
+.info-track{
+  display:flex;
+  height:100%;
+  transition:transform .5s ease;
+}
+
+.info-card{
+  min-width:100%;
+  height:100%;
+
+  background-size:100% 100%;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+.info-card-1{
+  background-image:url('https://app.isdarprem.net/images/akun1.png');
+}
+
+.info-card-2{
+  background-image:url('https://app.isdarprem.net/images/trial1.png');
+}
+
+.info-card-3{
+  background-image:url('https://app.isdarprem.net/images/ppob1.png');
+}
 
 /* DOTS */
-.slider-dots {
-  position: absolute;
-  bottom: 8px; /* Sedikit lebih ke atas dari dasar */
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-  z-index: 5;
+.slider-dots{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:6px;
+  z-index:5;
 }
 
-.slider-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50px;
-  background: rgba(0, 0, 0, 0.15); /* Diubah biar lebih kelihatan di atas contain putih */
-  transition: all 0.3s ease;
-  cursor: pointer;
+.slider-dot{
+  width:7px;
+  height:7px;
+  border-radius:50px;
+  background:rgba(255,255,255,.5);
+  transition:.3s;
 }
 
-.slider-dot.active {
-  width: 18px;
-  background: var(--purple);
+.slider-dot.active{
+  width:18px;
+  background:#fff;
 }
 
 /* ─── UTILITY PANEL ─── */
@@ -280,7 +289,7 @@ body {
 <div class="hero">
   <div class="hero-dots"></div>
   <div class="hero-top">
-    <img class="avatar" id="avatar" src="https://via.placeholder.com/48" alt="avatar">
+    <img class="avatar" id="avatar" src="https://via.placeholder.com/56" alt="avatar">
     <div class="hero-greeting">
       <div class="greeting-hi">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5">
@@ -337,8 +346,22 @@ body {
     </div>
   </div>
 
+  <div class="ppob-section">
+    <div class="sec-title">
+      Produk Digital
+      <span class="sec-pill" style="background:#FFF3E0;color:#F57C00;" id="categoryCount">Loading…</span>
+    </div>
+    <div class="category-grid" id="categoryScroll">
+      <div class="cat-skeleton"></div>
+      <div class="cat-skeleton"></div>
+      <div class="cat-skeleton"></div>
+      <div class="cat-skeleton"></div>
+      <div class="cat-skeleton"></div>
+    </div>
+  </div>
+  
   <div class="sec-title">
-    Menu <span class="sec-pill" style="background:var(--purple-soft);color:var(--purple);">Layanan</span>
+    Menu <span class="sec-pill" style="background:var(--purple-soft);color:var(--purple);">Lainnya</span>
   </div>
   <div class="menu-grid">
     <a class="menu-item" href="products.html">
@@ -367,41 +390,27 @@ body {
     </a>
   </div>
 
-  <div class="ppob-section">
-    <div class="sec-title">
-      Produk Digital
-      <span class="sec-pill" style="background:#FFF3E0;color:#F57C00;" id="categoryCount">Loading…</span>
-    </div>
-    <div class="category-grid" id="categoryScroll">
-      <div class="cat-skeleton"></div>
-      <div class="cat-skeleton"></div>
-      <div class="cat-skeleton"></div>
-      <div class="cat-skeleton"></div>
-      <div class="cat-skeleton"></div>
-    </div>
-  </div>
-    
-  <div class="sec-title">
-    Pusat <span class="sec-pill" style="background:var(--purple-soft);color:var(--purple);">Kontrol &amp; Bantuan</span>
-  </div>
-  <div class="utility-panel">
-    <div id="adminSection"></div>
-    <a class="util-card card-telegram" href="https://t.me/joyhayabuse" target="_blank">
-      <div class="util-icon">
-        <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
-      </div>
-      <div class="util-body">
-        <div class="util-title">Bantuan Customer Service</div>
-        <div class="util-desc">Hubungi via Telegram · Solusi Kendala 24/7</div>
-      </div>
-      <div class="util-arrow">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </a>
-  </div>
-
 </div>
 
+<div class="sec-title" style="padding: 0 16px; max-width: 440px; margin: 0 auto 12px;">
+  Pusat <span class="sec-pill" style="background:var(--purple-soft);color:var(--purple);">Kontrol &amp; Bantuan</span>
+</div>
+<div class="utility-panel" style="padding: 0 16px; max-width: 440px; margin: 0 auto;">
+  <div id="adminSection"></div>
+  <a class="util-card card-telegram" href="https://t.me/joyhayabuse" target="_blank">
+    <div class="util-icon">
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+    </div>
+    <div class="util-body">
+      <div class="util-title">Bantuan Customer Service</div>
+      <div class="util-desc">Hubungi via Telegram · Solusi Kendala 24/7</div>
+    </div>
+    <div class="util-arrow">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </a>
+</div>
+  
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
     <a class="nav-item active" href="#">
@@ -420,29 +429,33 @@ body {
 </nav>
 
 <script>
-/* ─── SINKRONISASI SLIDER BANNER (FIX) ─── */
+/* ─── SLIDER ─── */
 const track = document.getElementById('infoTrack');
-const dots  = document.querySelectorAll('.slider-dot');
+const dots = document.querySelectorAll('.slider-dot');
 
 let currentSlide = 0;
 const totalSlides = 3;
-let sliderInterval;
 
 function updateSlider(){
-  track.style.transform = `translateX(-${currentSlide * (100 / totalSlides)}%)`;
-  dots.forEach(dot => dot.classList.remove('active'));
-  if(dots[currentSlide]) {
-    dots[currentSlide].classList.add('active');
-  }
+  track.style.transform =
+    `translateX(-${currentSlide * 100}%)`;
+
+  dots.forEach(dot =>
+    dot.classList.remove('active')
+  );
+
+  dots[currentSlide].classList.add('active');
 }
 
-function startSliderTimer() {
-  clearInterval(sliderInterval);
-  sliderInterval = setInterval(() => {
-    currentSlide = (currentSlide + 1) % totalSlides;
-    updateSlider();
-  }, 5000);
-}
+setInterval(() => {
+  currentSlide++;
+
+  if(currentSlide >= totalSlides){
+    currentSlide = 0;
+  }
+
+  updateSlider();
+}, 4000);
 
 dots.forEach((dot, index) => {
   dot.addEventListener('click', () => {
@@ -454,9 +467,8 @@ dots.forEach((dot, index) => {
 
 startSliderTimer();
 
-
 /* ─── DATA & LOAD PROFILE/CATEGORIES ─── */
-const localUser = JSON.parse(localStorage.getItem('user'));
+const localUser = JSON.parse(localStorage.getItem('user') || 'null');
 if (!localUser) window.location.href = 'index.html';
 
 const token = localStorage.getItem('token') || '';
@@ -496,7 +508,7 @@ async function loadProfile() {
     document.getElementById('username').innerText = u.username || '—';
     document.getElementById('email').innerText = u.email || '—';
     document.getElementById('balance').innerText = 'Rp ' + Number(u.balance || 0).toLocaleString('id-ID');
-    document.getElementById('avatar').src = u.avatar || 'https://via.placeholder.com/48';
+    document.getElementById('avatar').src = u.avatar || 'https://via.placeholder.com/56';
     if (u.role === 'admin') {
       document.getElementById('roleVal').innerText = 'Admin';
       document.getElementById('adminSection').innerHTML = `
