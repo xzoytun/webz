@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,6 +27,26 @@
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
+  --card-bg:      #FFFFFF;
+  --nav-bg:       #FFFFFF;
+  --nav-shadow:   rgba(90,26,154,0.04);
+}
+
+[data-theme="dark"] {
+  --white:        #1E1130;
+  --bg:           #120B22;
+  --gray-line:    #2A1D42;
+  --text-dark:    #F0E8FF;
+  --text-mid:     #C4A0EE;
+  --text-light:   #7A5BAA;
+  --card-bg:      #1E1130;
+  --purple-soft:  #2D1A50;
+  --purple-mid:   #3D2265;
+  --nav-bg:       #1E1130;
+  --nav-shadow:   rgba(0,0,0,0.3);
+  --red-bg:       #3A1F1F;
+  --green-bg:     #143A2E;
+  --orange-bg:    #3D271D;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -36,7 +56,9 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   overflow-x: hidden;
-  padding-bottom: 100px;
+  padding-bottom: 90px;
+  color: var(--text-dark);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 @keyframes fadeUp {
@@ -49,7 +71,6 @@ body {
   padding: 24px 20px 40px;
   position: relative;
   overflow: hidden;
-  animation: fadeUp 0.4s ease both;
 }
 .hero::before {
   content:''; position:absolute; top:-40px; right:-20px;
@@ -57,7 +78,7 @@ body {
   border:28px solid rgba(255,255,255,0.05); border-radius:50%;
 }
 .hero-top {
-  display:flex; align-items:center; justify-content:between; position:relative; z-index:2;
+  display:flex; align-items:center; justify-content:space-between; position:relative; z-index:2;
   max-width: 440px; margin: 0 auto;
 }
 .hero-title-area { flex: 1; }
@@ -69,7 +90,23 @@ body {
 .hero-greeting svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:2.5; }
 .hero-main-title { font-size:20px; font-weight:900; color:#fff; line-height:1.2; letter-spacing:-0.2px; }
 
-.container { padding: 16px; max-width:440px; margin:0 auto; }
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+  backdrop-filter: blur(6px);
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.24); transform: scale(1.08); }
+.theme-toggle svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+[data-theme="dark"] .icon-sun  { display: block; }
+[data-theme="dark"] .icon-moon { display: none; }
+
+.container { padding: 16px; max-width:440px; margin:0 auto; position: relative; z-index: 2; }
 
 .filter-container {
   display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto;
@@ -77,45 +114,39 @@ body {
 }
 .filter-container::-webkit-scrollbar { display: none; }
 .filter-btn {
-  background: var(--white); border: 1px solid var(--gray-line);
+  background: var(--card-bg); border: 1px solid var(--gray-line);
   padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 800;
   color: var(--text-light); cursor: pointer; white-space: nowrap; transition: all 0.2s;
   display: inline-flex; align-items: center; gap: 5px;
 }
-.filter-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+.filter-btn svg { width: 13px; height: 13px; flex-shrink: 0; stroke: var(--text-light); fill: none; }
 .filter-btn.active {
   background: var(--purple); color: var(--white); border-color: var(--purple);
   box-shadow: 0 4px 12px rgba(123,47,190,0.25);
 }
-.filter-btn.active svg { stroke: #fff; }
+.filter-btn.active svg { stroke: #fff !important; }
 
-/* filter pending aktif → ikon oranye saat tidak aktif */
+/* Filter Badge Colors */
 .filter-btn.btn-pending svg { stroke: var(--orange); }
-.filter-btn.btn-pending.active svg { stroke: #fff; }
-
-/* filter sukses aktif → ikon hijau saat tidak aktif */
 .filter-btn.btn-sukses svg { stroke: var(--green); }
-.filter-btn.btn-sukses.active svg { stroke: #fff; }
-
-/* filter gagal aktif → ikon merah saat tidak aktif */
 .filter-btn.btn-gagal svg { stroke: var(--red); }
-.filter-btn.btn-gagal.active svg { stroke: #fff; }
 
 .history-list { display: flex; flex-direction: column; gap: 12px; }
 .history-card {
-  background: var(--white); border-radius: 16px; padding: 14px 16px;
+  background: var(--card-bg); border-radius: 16px; padding: 14px 16px;
   border: 1px solid var(--gray-line); display: flex; flex-direction: column; gap: 10px;
   box-shadow: 0 4px 12px rgba(90,26,154,0.01);
   animation: fadeUp 0.35s ease both;
+  transition: background 0.3s, border-color 0.3s;
 }
 .card-top { display: flex; justify-content: space-between; align-items: center; }
 .card-service { font-size: 13px; font-weight: 900; color: var(--text-dark); }
 .card-date { font-size: 11px; font-weight: 700; color: var(--text-light); }
 
-.card-mid { display: flex; flex-direction: column; gap: 2px; background: var(--bg); padding: 10px; border-radius: 10px; }
-.info-row { display: flex; justify-content: space-between; font-size: 12px; }
+.card-mid { display: flex; flex-direction: column; gap: 2px; background: var(--bg); padding: 10px; border-radius: 10px; transition: background 0.3s; }
+.info-row { display: flex; justify-content: space-between; font-size: 12px; align-items: center; }
 .info-label { color: var(--text-light); font-weight: 600; }
-.info-value { color: var(--text-dark); font-weight: 800; text-align: right; }
+.info-value { color: var(--text-dark); font-weight: 800; text-align: right; word-break: break-all; margin-left: 8px; }
 
 .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
 .card-price { font-size: 15px; font-weight: 900; color: var(--purple); }
@@ -131,13 +162,16 @@ body {
   background: var(--purple-soft); border: none; color: var(--purple);
   padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 800;
   cursor: pointer; display: inline-flex; align-items: center; gap: 4px; transition: all 0.15s;
+  margin-left: 6px; flex-shrink: 0;
 }
 .btn-copy:hover { background: var(--purple-mid); }
+.btn-copy svg { fill: none; stroke: currentColor; }
 
 .status-box {
-  background: var(--white); border-radius: 16px; padding: 40px 20px;
+  background: var(--card-bg); border-radius: 16px; padding: 40px 20px;
   border: 1px solid var(--gray-line); text-align: center;
   display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text-light);
+  transition: background 0.3s, border-color 0.3s;
 }
 .status-icon-badge {
   width: 44px; height: 44px; border-radius: 50%; background: var(--purple-soft);
@@ -145,21 +179,29 @@ body {
 }
 .status-box svg { width: 20px; height: 20px; fill: none; stroke: var(--purple); stroke-width: 2.3; }
 .status-box.loading svg { animation: spin 1s linear infinite; }
-.status-box p { font-size: 12px; font-weight: 700; max-width: 260px; line-height: 1.5; }
+.status-box p { font-size: 12px; font-weight: 700; max-width: 260px; line-height: 1.5; color: var(--text-mid); }
 .hidden { display: none !important; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── BOTTOM NAV ── */
 .bottom-nav {
-  position:fixed; bottom:0; left:0; right:0; background:#fff;
-  border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px;
-  box-shadow:0 -4px 20px rgba(90,26,154,0.04); z-index:100; max-width:440px; margin:0 auto;
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 440px; background: var(--nav-bg);
+  border-top: 1px solid var(--gray-line);
+  box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
+  transition: background 0.3s, border-color 0.3s;
 }
-.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
-.nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
-.nav-label { font-size:10px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
-.nav-item.active .nav-label { color:var(--purple); }
-.nav-item.active .nav-icon svg { stroke: var(--purple); }
+.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 8px 0; }
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  text-decoration: none; color: var(--text-light); width: 70px; transition: all 0.2s;
+}
+.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
+.nav-label { font-size: 11px; font-weight: 800; }
+.nav-item:hover .nav-icon svg { transform: translateY(-2px); }
+.nav-item.active { color: var(--purple); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); fill: var(--purple-soft); }
 </style>
 </head>
 <body>
@@ -173,37 +215,50 @@ body {
       </div>
       <div class="hero-main-title">PPOB &amp; Top Up</div>
     </div>
+    
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
+      <svg class="icon-moon" viewBox="0 0 24 24">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
   </div>
 </div>
 
 <div class="container">
 
   <div class="filter-container">
-    <!-- Semua -->
     <button class="filter-btn active" onclick="filterStatus('ALL', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <svg viewBox="0 0 24 24" stroke-width="2.5">
         <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
         <circle cx="3" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1" fill="currentColor" stroke="none"/>
       </svg>
       Semua
     </button>
-    <!-- Pending -->
     <button class="filter-btn btn-pending" onclick="filterStatus('PENDING', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.3">
+      <svg viewBox="0 0 24 24" stroke-width="2.3">
         <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
       </svg>
       Pending
     </button>
-    <!-- Sukses -->
     <button class="filter-btn btn-sukses" onclick="filterStatus('SUKSES', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.3">
+      <svg viewBox="0 0 24 24" stroke-width="2.3">
         <circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/>
       </svg>
       Sukses
     </button>
-    <!-- Gagal -->
     <button class="filter-btn btn-gagal" onclick="filterStatus('GAGAL', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.3">
+      <svg viewBox="0 0 24 24" stroke-width="2.3">
         <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
       </svg>
       Gagal
@@ -224,34 +279,43 @@ body {
 </div>
 
 <nav class="bottom-nav">
-  <a class="nav-item" href="dashboard.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
-    </div>
-    <div class="nav-label">Home</div>
-  </a>
-  <a class="nav-item active" href="riwayat-ppob.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
-    </div>
-    <div class="nav-label">Riwayat</div>
-  </a>
-  <a class="nav-item" href="profile.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    </div>
-    <div class="nav-label">Profile</div>
-  </a>
+  <div class="bottom-nav-inner">
+    <a class="nav-item" href="dashboard.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a class="nav-item active" href="riwayat-ppob.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
+      <div class="nav-label">Riwayat</div>
+    </a>
+    <a class="nav-item" href="profile.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <div class="nav-label">Profile</div>
+    </a>
+  </div>
 </nav>
 
 <script>
+  // ─── THEME MANAGER ───
+  function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('xt-theme', next);
+  }
+  (function() {
+    const saved = localStorage.getItem('xt-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
+
   let allTransactions = [];
   let currentFilter = 'ALL';
 
   const token = localStorage.getItem('token') || '';
   const localUser = JSON.parse(localStorage.getItem('user'));
 
-  if (!localUser || !localUser.email) {
+  // Proteksi Login
+  if (!token || !localUser) {
     window.location.href = 'index.html';
   }
 
@@ -269,7 +333,9 @@ body {
     statusBox.classList.remove('hidden');
 
     try {
-      const res = await fetch(`/api/ppob/history?email=${encodeURIComponent(localUser.email)}`, {
+      // ✅ AMAN: Endpoint bersih tanpa query parameter email empuk di-sniffing
+      const res = await fetch('/api/ppob/history', {
+        method: 'GET',
         headers: getHeaders()
       });
       const data = await res.json();
@@ -307,9 +373,10 @@ body {
 
     statusBox.classList.add('hidden');
 
-    filtered.forEach(t => {
+    filtered.forEach((t, i) => {
       const card = document.createElement('div');
       card.className = "history-card";
+      card.style.animationDelay = `${i * 0.05}s`;
 
       const stat = (t.status || 'PENDING').toUpperCase();
       let statusClass = 'pending';
@@ -336,17 +403,17 @@ body {
             <span class="info-label">No. Target</span>
             <span class="info-value">${t.target}</span>
           </div>
-          <div class="info-row" style="margin-top: 4px;">
+          <div class="info-row" style="margin-top: 5px;">
             <span class="info-label">Ref ID</span>
             <span class="info-value" style="font-size:11px; font-family:monospace;">${t.ref_id}</span>
           </div>
           ${ t.sn ? `
-          <div class="info-row" style="margin-top: 4px; align-items: center;">
+          <div class="info-row" style="margin-top: 5px;">
             <span class="info-label">SN / Keterangan</span>
-            <span class="info-value" style="color:var(--text-dark);">
-              ${t.sn}
+            <span class="info-value" style="color:var(--text-dark); display:inline-flex; align-items:center; justify-content:flex-end;">
+              <span>${t.sn}</span>
               <button class="btn-copy" onclick="copySN('${t.sn}')">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                <svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
               </button>
             </span>
           </div>` : '' }
