@@ -65,21 +65,26 @@ body {
   pointer-events: none;  
 }  
 .hero-top {  
-  display: flex; align-items: center; gap: 12px;  
+  display: flex; align-items: center; gap: 14px;  
   position: relative; z-index: 2;  
   max-width: 440px; margin: 0 auto;  
   animation: fadeUp 0.35s ease both;  
 }  
-.avatar {  
-  width: 46px; height: 46px; border-radius: 50%;  
-  border: 2.5px solid rgba(255,255,255,0.35);  
-  object-fit: cover; background: rgba(255,255,255,0.1);  
+
+/* ─── LOGO (ganti avatar) ─── */  
+.brand-logo {  
+  width: 52px; height: 52px; border-radius: 14px;  
+  object-fit: contain;  
+  background: rgba(255,255,255,0.12);  
+  border: 1.5px solid rgba(255,255,255,0.22);  
+  padding: 5px;
   flex-shrink: 0;  
 }  
+
 .hero-greeting { flex: 1; }  
 .greeting-hi {  
-  font-size: 10.5px; font-weight: 800; color: rgba(255,255,255,0.55);  
-  margin-bottom: 2px; letter-spacing: 0.2px;  
+  font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.55);  
+  margin-bottom: 3px; letter-spacing: 0.2px;  
   display: flex; align-items: center; gap: 4px;  
 }  
 .role-badge {  
@@ -87,8 +92,13 @@ body {
   color: #fff; padding: 1px 7px; border-radius: 5px; margin-left: 4px;  
   border: 1px solid rgba(255,255,255,0.12); text-transform: uppercase; letter-spacing: 0.5px;  
 }  
-.greeting-name { font-size: 17px; font-weight: 900; color: #fff; line-height: 1.2; letter-spacing: -0.3px; }  
-.greeting-email { font-size: 10.5px; color: rgba(255,255,255,0.42); font-weight: 600; margin-top: 1px; }  
+.brand-title {  
+  font-size: 16px; font-weight: 900; color: #fff; line-height: 1.2; letter-spacing: -0.3px;  
+}  
+.brand-subtitle {  
+  font-size: 10px; color: rgba(255,255,255,0.45); font-weight: 600; margin-top: 2px;  
+}  
+.greeting-name { font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.85); margin-top: 4px; }  
   
 /* ─── BALANCE CARD ─── */  
 .balance-wrap { max-width: 440px; margin: -46px auto 0; padding: 0 16px; position: relative; z-index: 20; }  
@@ -157,7 +167,6 @@ body {
   animation: fadeUp 0.38s 0.14s ease both;  
 }  
   
-/* ── Category grid wrap (2 baris) ── */  
 .category-grid {  
   display: grid;  
   grid-template-columns: repeat(4, 1fr);  
@@ -239,18 +248,15 @@ body {
 <div class="hero">  
   <div class="hero-dots"></div>  
   <div class="hero-top">  
-    <img class="avatar" id="avatar" src="https://via.placeholder.com/48" alt="avatar">  
+    <img class="brand-logo" src="https://app.isdarprem.net/images/duren.png" alt="Xtrimer Media">  
     <div class="hero-greeting">  
       <div class="greeting-hi">  
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5">  
-          <path d="M18 11V6a2 2 0 00-4 0v5"/><path d="M14 10V4a2 2 0 00-4 0v6"/>  
-          <path d="M10 10.5V6a2 2 0 00-4 0v8"/><path d="M6 14v1a6 6 0 0012 0v-5"/>  
-        </svg>  
-        Halo, Selamat Datang  
+        Selamat Datang di  
         <span class="role-badge" id="roleVal">User</span>  
       </div>  
+      <div class="brand-title">Xtrimer Media</div>  
+      <div class="brand-subtitle">Platform Digital & VPN Terpercaya</div>  
       <div class="greeting-name" id="username">—</div>  
-      <div class="greeting-email" id="email">—</div>  
     </div>  
   </div>  
 </div>  
@@ -417,9 +423,7 @@ async function loadProfile() {
     if (!result.success) { localStorage.clear(); window.location.href = 'index.html'; return; }  
     const u = result.user;  
     document.getElementById('username').innerText = u.username || '—';  
-    document.getElementById('email').innerText = u.email || '—';  
     document.getElementById('balance').innerText = 'Rp ' + Number(u.balance || 0).toLocaleString('id-ID');  
-    document.getElementById('avatar').src = u.avatar || 'https://via.placeholder.com/48';  
     if (u.role === 'admin') {  
       document.getElementById('roleVal').innerText = 'Admin';  
       document.getElementById('adminSection').innerHTML = `  
@@ -471,4 +475,4 @@ loadProfile();
 loadCategories();  
 </script>  
 </body>  
-</html>  
+</html>
