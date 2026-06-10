@@ -37,6 +37,10 @@ body {
   from { opacity:0; transform:translateY(14px); }
   to   { opacity:1; transform:translateY(0); }
 }
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 
 /* ─── HERO ─── */
 .hero {
@@ -126,32 +130,11 @@ body {
   display: inline-flex; align-items: center;
 }
 
-/* ─── TEXT ANNOUNCEMENT / CARD KATA-KATA ─── */
-.info-text-card {
-  background: linear-gradient(135deg, var(--white) 0%, var(--purple-soft) 100%);
-  border-radius: 16px;
-  padding: 16px;
-  border: 1px solid rgba(123,47,190,0.15);
-  box-shadow: 0 4px 14px rgba(90,26,154,0.05);
-  margin-bottom: 20px;
-  animation: fadeUp 0.38s 0.12s ease both;
-  display: flex; gap: 12px; align-items: flex-start;
-}
-.info-text-icon {
-  background: var(--purple); color: #fff;
-  width: 32px; height: 32px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.info-text-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5; }
-.info-text-content { flex: 1; }
-.info-text-title { font-size: 13px; font-weight: 800; color: var(--purple-dark); margin-bottom: 4px; }
-.info-text-p { font-size: 11.5px; color: var(--text-dark); font-weight: 600; line-height: 1.5; }
-
 /* ─── MENU GRID ─── */
 .menu-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
   margin-bottom: 20px;
-  animation: fadeUp 0.38s 0.14s ease both;
+  animation: fadeUp 0.38s 0.10s ease both;
 }
 .menu-item { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; }
 .menu-icon-wrap {
@@ -171,13 +154,16 @@ body {
 /* ─── PPOB SECTION ─── */
 .ppob-section {
   margin-bottom: 24px;
-  animation: fadeUp 0.38s 0.16s ease both;
+  animation: fadeUp 0.38s 0.14s ease both;
 }
+
+/* ── Category grid wrap (2 baris) ── */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
 }
+
 .cat-chip {
   display: flex; flex-direction: column; align-items: center; gap: 6px;
   background: var(--white); border: 1.5px solid var(--gray-line);
@@ -196,8 +182,68 @@ body {
   background-size: 200% 100%; animation: shimmer 1.4s infinite;
 }
 
+/* ─── AUTO SLIDER (FIXED NO ZOOM) ─── */
+.info-slider {
+  position: relative;
+  width: 100%;
+  height: 170px; /* FIX: Naikkan tinggi sedikit biar proporsional sama contain */
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+  animation: fadeUp 0.38s 0.18s ease both;
+  background: #fff; /* Latar belakang slider putih */
+}
+
+.info-track {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.info-card {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  /* FIX: Ganti ke contain & posisikan ke atas */
+  background-size: contain; 
+  background-position: top center; 
+  background-repeat: no-repeat;
+  background-color: #fff; /* Pastikan latar kartu juga putih */
+}
+
+.info-card-1 { background-image: url('https://app.isdarprem.net/images/akun1.png'); }
+.info-card-2 { background-image: url('https://app.isdarprem.net/images/trial1.png'); }
+.info-card-3 { background-image: url('https://app.isdarprem.net/images/ppob1.png'); }
+
+/* DOTS */
+.slider-dots {
+  position: absolute;
+  bottom: 8px; /* Sedikit lebih ke atas dari dasar */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 5;
+}
+
+.slider-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50px;
+  background: rgba(0, 0, 0, 0.15); /* Diubah biar lebih kelihatan di atas contain putih */
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.slider-dot.active {
+  width: 18px;
+  background: var(--purple);
+}
+
 /* ─── UTILITY PANEL ─── */
-.utility-panel { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; animation: fadeUp 0.38s 0.20s ease both; }
+.utility-panel { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; animation: fadeUp 0.38s 0.22s ease both; }
 .util-card {
   background: var(--white); border-radius: 14px; padding: 12px 14px;
   display: flex; align-items: center; gap: 12px;
@@ -274,19 +320,20 @@ body {
 
 <div class="container">
 
-  <!-- BAGIAN KATA-KATA / INFORMASI TERBARU -->
   <div class="sec-title" style="margin-top:16px;">
-    Informasi &amp; Edukasi
-    <span class="sec-pill" style="background:#EEF4FF;color:#3B82F6;">Terbaru</span>
+    Informasi Digital
+    <span class="sec-pill" style="background:#EEF4FF;color:#3B82F6;">Terpopuler</span>
   </div>
-  
-  <div class="info-text-card">
-    <div class="info-text-icon">
-      <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+  <div class="info-slider">
+    <div class="info-track" id="infoTrack">
+      <div class="info-card info-card-1"></div>
+      <div class="info-card info-card-2"></div>
+      <div class="info-card info-card-3"></div>
     </div>
-    <div class="info-text-content">
-      <div class="info-text-title">Pengumuman Penting</div>
-      <div class="info-text-p">Gunakan layanan VPN secara bijak. Jika terjadi kendala pada server tunneling atau transaksi produk digital, segera hubungi admin melalui Customer Service di bawah.</div>
+    <div class="slider-dots" id="sliderDots">
+      <div class="slider-dot active"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
     </div>
   </div>
 
@@ -373,6 +420,41 @@ body {
 </nav>
 
 <script>
+/* ─── SINKRONISASI SLIDER BANNER (FIX) ─── */
+const track = document.getElementById('infoTrack');
+const dots  = document.querySelectorAll('.slider-dot');
+
+let currentSlide = 0;
+const totalSlides = 3;
+let sliderInterval;
+
+function updateSlider(){
+  track.style.transform = `translateX(-${currentSlide * (100 / totalSlides)}%)`;
+  dots.forEach(dot => dot.classList.remove('active'));
+  if(dots[currentSlide]) {
+    dots[currentSlide].classList.add('active');
+  }
+}
+
+function startSliderTimer() {
+  clearInterval(sliderInterval);
+  sliderInterval = setInterval(() => {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlider();
+  }, 5000);
+}
+
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => {
+    currentSlide = index;
+    updateSlider();
+    startSliderTimer();
+  });
+});
+
+startSliderTimer();
+
+
 /* ─── DATA & LOAD PROFILE/CATEGORIES ─── */
 const localUser = JSON.parse(localStorage.getItem('user'));
 if (!localUser) window.location.href = 'index.html';
