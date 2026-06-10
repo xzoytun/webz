@@ -27,6 +27,7 @@
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
+  --nav-active:   #7B2FBE;
 }
 
 [data-theme="dark"] {
@@ -41,6 +42,7 @@
   --purple-mid:   #3D2265;
   --red-bg:       #3A1F1F;
   --green-bg:     #143A2E;
+  --nav-active:   #C4A0EE;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -50,7 +52,7 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   overflow-x: hidden;
-  padding-bottom: 40px;
+  padding-bottom: 90px; /* Ditambah biar ga mentok ketutup bottom nav */
   color: var(--text-dark);
   transition: background 0.3s ease, color 0.3s ease;
 }
@@ -125,7 +127,7 @@ body {
   font-weight:700; margin-top:3px;
 }
 
-/* ─── THEME TOGGLE FOR ADMIN ─── */
+/* ─── THEME TOGGLE ─── */
 .theme-toggle {
   width: 40px; height: 40px; border-radius: 13px;
   background: rgba(255,255,255,0.14);
@@ -280,45 +282,34 @@ body {
   color:var(--purple); transform:translateX(3px);
 }
 
-/* ─── ACTION ROW ─── */
-.action-row {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:12px; margin-top:16px;
-  animation: fadeUp 0.4s 0.35s ease both;
+/* ─── BOTTOM NAV ─── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--card-bg);
+  border-top: 1.5px solid var(--gray-line);
+  padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px));
+  z-index: 990;
+  box-shadow: 0 -4px 20px rgba(90,26,154,0.05);
+  transition: background 0.3s, border-color 0.3s;
 }
-
-.action-btn {
-  padding:14px 10px;
-  border:none; border-radius:14px;
-  font-family:'Nunito',sans-serif;
-  font-weight:900; font-size:14px;
-  cursor:pointer;
-  display:flex; align-items:center; justify-content:center; gap:8px;
-  transition:transform 0.15s, box-shadow 0.15s, background 0.3s;
-  text-decoration:none;
+.bottom-nav-inner {
+  display: flex; justify-content: space-around; align-items: center;
+  max-width: 480px; margin: 0 auto; padding: 0 10px;
 }
-.action-btn svg {
-  width:18px; height:18px; fill:none;
-  stroke:#fff; stroke-width:2.5;
-  stroke-linecap:round; stroke-linejoin:round;
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  text-decoration: none; color: var(--text-light); width: 60px;
+  transition: color 0.2s;
 }
-.action-btn:hover  { transform:translateY(-2px); }
-.action-btn:active { transform:translateY(0); }
-
-.btn-dashboard {
-  background:linear-gradient(135deg, var(--purple-dark), var(--purple-light));
-  color:#fff;
-  box-shadow:0 4px 14px rgba(123,47,190,0.25);
+.nav-icon svg {
+  width: 22px; height: 22px; fill: none;
+  stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: transform 0.2s;
 }
-.btn-dashboard:hover { box-shadow:0 8px 20px rgba(123,47,190,0.35); }
-
-.btn-logout {
-  background:var(--card-bg);
-  color:var(--red);
-  border:1.5px solid rgba(232,64,64,0.3);
-}
-.btn-logout svg { stroke:var(--red); }
-.btn-logout:hover { background:var(--red-bg); border-color:var(--red); }
+.nav-label { font-size: 11px; font-weight: 800; }
+.nav-item:hover .nav-icon svg { transform: translateY(-2px); }
+.nav-item.active { color: var(--nav-active); }
 
 /* ─── TOAST ─── */
 .toast {
@@ -445,18 +436,24 @@ body {
     <div class="menu-arrow">›</div>
   </a>
 
-  <div class="action-row">
-    <a class="action-btn btn-dashboard" href="dashboard.html">
-      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
-      Dashboard
-    </a>
-    <button class="action-btn btn-logout" onclick="logout()">
-      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Logout
-    </button>
-  </div>
-
 </div>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a class="nav-item active" href="dashboard.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a class="nav-item" href="transactions.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
+      <div class="nav-label">Riwayat</div>
+    </a>
+    <a class="nav-item" href="profile.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <div class="nav-label">Profile</div>
+    </a>
+  </div>
+</nav>
 
 <div class="toast" id="toast"></div>
 
@@ -511,14 +508,6 @@ function showToast(msg, type='') {
     t.textContent = msg;
     t.className = 'toast ' + type + ' show';
     setTimeout(() => { t.className = 'toast ' + type; }, 2600);
-}
-
-function logout() {
-    if (confirm('Yakin mau keluar?')) {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        window.location.href = 'index.html';
-    }
 }
 </script>
 </body>
