@@ -334,22 +334,112 @@ document.getElementById('heroCatName').textContent = CAT;
 
 /* ─── PROVIDER LOGOS ─── */
 const PROVIDER_BASE = 'https://app.isdarprem.net/images/provider/';
+
 const PROVIDER_LOGOS = {
-  'axis':PROVIDER_BASE+'axisnet.png','axisnet':PROVIDER_BASE+'axisnet.png','axis net':PROVIDER_BASE+'axisnet.png',
-  'by.u':PROVIDER_BASE+'byu.jpg',
-  'indosat':PROVIDER_BASE+'indosat.jpg','im3':PROVIDER_BASE+'indosat.jpg','im3 ooredoo':PROVIDER_BASE+'indosat.jpg',
-  'smartfren':PROVIDER_BASE+'smartfren.png','smart':PROVIDER_BASE+'smartfren.png',
-  'telkomsel':PROVIDER_BASE+'telkomsel.png','simpati':PROVIDER_BASE+'telkomsel.png','kartu as':PROVIDER_BASE+'telkomsel.png','loop':PROVIDER_BASE+'telkomsel.png',
-  'tri':PROVIDER_BASE+'tri.jpg','3':PROVIDER_BASE+'tri.jpg','three':PROVIDER_BASE+'tri.jpg',
-  'xl':PROVIDER_BASE+'xl.jpg','xl axiata':PROVIDER_BASE+'xl.jpg',
-  'dana':PROVIDER_BASE+'dana.jpeg',
-  'gopay':PROVIDER_BASE+'gopay.jpeg','go-pay':PROVIDER_BASE+'gopay.jpeg',
-  'ovo':PROVIDER_BASE+'ovo.jpg',
-  'shopeepay':PROVIDER_BASE+'ShopeePay.png','shopee pay':PROVIDER_BASE+'ShopeePay.png','shopee':PROVIDER_BASE+'ShopeePay.png',
-  'free fire':PROVIDER_BASE+'FreeFire.png','freefire':PROVIDER_BASE+'FreeFire.png','ff':PROVIDER_BASE+'FreeFire.png',
-  'pubg':PROVIDER_BASE+'pubg.webp','pubg mobile':PROVIDER_BASE+'pubg.webp',
-  'mobile legends':PROVIDER_BASE+'mobillegend.jpeg','mobile legend':PROVIDER_BASE+'mobillegend.jpeg','mobilelegends':PROVIDER_BASE+'mobillegend.jpeg','ml':PROVIDER_BASE+'mobillegend.jpeg','mlbb':PROVIDER_BASE+'mobillegend.jpeg',
-  'pln':PROVIDER_BASE+'pln.png','listrik':PROVIDER_BASE+'pln.png','token pln':PROVIDER_BASE+'pln.png',
+
+  /* TELCO */
+  'axis': PROVIDER_BASE+'axisnet.png',
+  'axisnet': PROVIDER_BASE+'axisnet.png',
+  'axis net': PROVIDER_BASE+'axisnet.png',
+
+  'by.u': PROVIDER_BASE+'byu.jpg',
+  'byu': PROVIDER_BASE+'byu.jpg',
+
+  'indosat': PROVIDER_BASE+'indosat.jpg',
+  'im3': PROVIDER_BASE+'indosat.jpg',
+  'im3 ooredoo': PROVIDER_BASE+'indosat.jpg',
+  'indosat ooredoo': PROVIDER_BASE+'indosat.jpg',
+
+  'smartfren': PROVIDER_BASE+'smartfren.png',
+  'smart': PROVIDER_BASE+'smartfren.png',
+
+  'telkomsel': PROVIDER_BASE+'telkomsel.png',
+  'simpati': PROVIDER_BASE+'telkomsel.png',
+  'kartu as': PROVIDER_BASE+'telkomsel.png',
+  'loop': PROVIDER_BASE+'telkomsel.png',
+  'byu telkomsel': PROVIDER_BASE+'byu.jpg',
+
+  'tri': PROVIDER_BASE+'tri.jpg',
+  '3': PROVIDER_BASE+'tri.jpg',
+  'three': PROVIDER_BASE+'tri.jpg',
+
+  'xl': PROVIDER_BASE+'xl.jpg',
+  'xl axiata': PROVIDER_BASE+'xl.jpg',
+
+  /* E-WALLET */
+  'dana': PROVIDER_BASE+'dana.jpeg',
+
+  'gopay': PROVIDER_BASE+'gopay.jpeg',
+  'go pay': PROVIDER_BASE+'gopay.jpeg',
+  'go-pay': PROVIDER_BASE+'gopay.jpeg',
+  'go pay customer': PROVIDER_BASE+'gopay.jpeg',
+  'gopay customer': PROVIDER_BASE+'gopay.jpeg',
+
+  'ovo': PROVIDER_BASE+'ovo.jpg',
+
+  'shopeepay': PROVIDER_BASE+'ShopeePay.png',
+  'shopee pay': PROVIDER_BASE+'ShopeePay.png',
+  'shopee-pay': PROVIDER_BASE+'ShopeePay.png',
+  'shopee': PROVIDER_BASE+'ShopeePay.png',
+
+  'linkaja': PROVIDER_BASE+'linkaja.png',
+  'link aja': PROVIDER_BASE+'linkaja.png',
+
+  'sakuku': PROVIDER_BASE+'sakuku.png',
+
+  'isaku': PROVIDER_BASE+'isaku.png',
+
+  'doku': PROVIDER_BASE+'doku.png',
+
+  'maxim': PROVIDER_BASE+'maxim.png',
+
+  /* GAME */
+  'free fire': PROVIDER_BASE+'FreeFire.png',
+  'freefire': PROVIDER_BASE+'FreeFire.png',
+  'ff': PROVIDER_BASE+'FreeFire.png',
+
+  'pubg': PROVIDER_BASE+'pubg.webp',
+  'pubg mobile': PROVIDER_BASE+'pubg.webp',
+
+  'mobile legends': PROVIDER_BASE+'mobillegend.jpeg',
+  'mobile legend': PROVIDER_BASE+'mobillegend.jpeg',
+  'mobilelegends': PROVIDER_BASE+'mobillegend.jpeg',
+  'ml': PROVIDER_BASE+'mobillegend.jpeg',
+  'mlbb': PROVIDER_BASE+'mobillegend.jpeg',
+
+  'genshin impact': PROVIDER_BASE+'genshin.png',
+  'genshin': PROVIDER_BASE+'genshin.png',
+
+  'valorant': PROVIDER_BASE+'valorant.png',
+  'valo': PROVIDER_BASE+'valorant.png',
+
+  'higgs domino': PROVIDER_BASE+'higgsdomino.png',
+  'domino': PROVIDER_BASE+'higgsdomino.png',
+
+  'codm': PROVIDER_BASE+'codm.png',
+  'call of duty': PROVIDER_BASE+'codm.png',
+
+  'arena of valor': PROVIDER_BASE+'aov.png',
+  'aov': PROVIDER_BASE+'aov.png',
+
+  /* PLN */
+  'pln': PROVIDER_BASE+'pln.png',
+  'listrik': PROVIDER_BASE+'pln.png',
+  'token pln': PROVIDER_BASE+'pln.png',
+
+  /* INTERNET */
+  'indihome': PROVIDER_BASE+'indihome.png',
+  'wifi id': PROVIDER_BASE+'wifiid.png',
+  'my republic': PROVIDER_BASE+'myrepublic.png',
+
+  /* STREAMING */
+  'netflix': PROVIDER_BASE+'netflix.png',
+  'spotify': PROVIDER_BASE+'spotify.png',
+  'youtube premium': PROVIDER_BASE+'youtube.png',
+  'viu': PROVIDER_BASE+'viu.png',
+
+  /* DEFAULT */
+  'default': PROVIDER_BASE+'default.png'
 };
 
 function getProviderLogo(name) {
