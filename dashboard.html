@@ -145,21 +145,36 @@ body {
 .menu-icon-wrap svg { width:22px; height:22px; fill:none; stroke:#fff; stroke-width:2; }
 .menu-label { font-size:11px; font-weight:800; color:var(--text-dark); text-align:center; line-height:1.2; }
 
-/* ─── INFO DIGITAL BANNER ─── */
+/* ─── INFO DIGITAL BANNER — FIXED ─── */
 .info-scroll {
-  display:flex; gap:12px; overflow-x:auto; padding-bottom:6px;
-  margin-bottom:24px; scrollbar-width:none; animation: fadeUp 0.4s 0.16s ease both;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 0 0 8px 0;
+  margin-bottom: 24px;
+  scrollbar-width: none;
+  animation: fadeUp 0.4s 0.16s ease both;
+  /* snap scroll biar enak di-swipe */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
-.info-scroll::-webkit-scrollbar { display:none; }
+.info-scroll::-webkit-scrollbar { display: none; }
 
 .info-card {
-  border-radius:16px; overflow:hidden; min-width:220px; height:140px;
-  position:relative; flex-shrink:0;
-  background-size:cover; background-position:center; background-repeat:no-repeat;
-}
-.info-card::before {
-  content:''; position:absolute; inset:0;
-  background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+  /* Lebar card = 85% layar, max 320px — tampil sempurna di HP */
+  flex: 0 0 calc(85vw);
+  max-width: 320px;
+  /* Rasio 16:9 → tinggi proporsional */
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  scroll-snap-align: start;
+  /* Sedikit shadow biar kartu terasa berisi */
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
 }
 
 .info-card-1 { background-image: url('https://app.isdarprem.net/images/akun1.png'); }
