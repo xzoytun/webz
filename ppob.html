@@ -501,14 +501,37 @@ body {
 
   // Load Saldo
   async function fetchBalance() {
-    try {
-      const response = await fetch(`/api/profile?email=${encodeURIComponent(localUser.email)}`);
-      const result = await response.json();
-      if (result.success) {
-        document.getElementById('web-balance').innerText = 'Rp ' + Number(result.user.balance || 0).toLocaleString('id-ID');
+  try {
+
+    const response = await fetch(
+      `/api/profile?email=${encodeURIComponent(localUser.email)}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       }
-    } catch (err) { console.error("Gagal sinkron saldo:", err); }
+    );
+
+    const result = await response.json();
+
+    if (result.success) {
+
+      document.getElementById('web-balance').innerText =
+        'Rp ' +
+        Number(result.user.balance || 0)
+        .toLocaleString('id-ID');
+
+    }
+
+  } catch (err) {
+
+    console.error(
+      "Gagal sinkron saldo:",
+      err
+    );
+
   }
+}
 
   // 1. Load Kategori
   async function loadCategories() {
