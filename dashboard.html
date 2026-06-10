@@ -98,7 +98,7 @@ body {
 .brand-subtitle {  
   font-size: 10px; color: rgba(255,255,255,0.45); font-weight: 600; margin-top: 2px;  
 }  
-.greeting-name { font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.85); margin-top: 4px; }  
+
   
 /* ─── BALANCE CARD ─── */  
 .balance-wrap { max-width: 440px; margin: -46px auto 0; padding: 0 16px; position: relative; z-index: 20; }  
@@ -256,7 +256,7 @@ body {
       </div>  
       <div class="brand-title">Xtrimer Media</div>  
       <div class="brand-subtitle">Platform Digital & VPN Terpercaya</div>  
-      <div class="greeting-name" id="username">—</div>  
+
     </div>  
   </div>  
 </div>  
@@ -422,7 +422,7 @@ async function loadProfile() {
     const result = await res.json();  
     if (!result.success) { localStorage.clear(); window.location.href = 'index.html'; return; }  
     const u = result.user;  
-    document.getElementById('username').innerText = u.username || '—';  
+
     document.getElementById('balance').innerText = 'Rp ' + Number(u.balance || 0).toLocaleString('id-ID');  
     if (u.role === 'admin') {  
       document.getElementById('roleVal').innerText = 'Admin';  
