@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PPOB Market - Xtrimer Tunnel</title>
+<title>PPOB Market - Produk Digital</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
@@ -63,7 +63,7 @@ body {
   background-size: 20px 20px; pointer-events:none;
 }
 .hero-top {
-  display:flex; align-items:center; justify-content:between; position:relative; z-index:2;
+  display:flex; align-items:center; justify-content:space-between; position:relative; z-index:2;
   max-width: 440px; margin: 0 auto;
 }
 .hero-title-area { flex: 1; }
@@ -127,6 +127,8 @@ body {
   font-size: 11px; font-weight: 800; color: var(--text-light);
   text-transform: uppercase; letter-spacing: 0.5px;
 }
+
+/* Base style untuk select & input */
 .form-select, .form-input {
   width: 100%; background: var(--bg); border: 1px solid var(--gray-line);
   border-radius: 12px; padding: 11px 14px; font-family: 'Nunito', sans-serif;
@@ -137,6 +139,17 @@ body {
   border-color: var(--purple-light); background: var(--white);
   box-shadow: 0 0 0 3px rgba(123,47,190,0.1);
 }
+
+/* Custom arrow untuk select — harus setelah .form-select di atas */
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237B2FBE' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+}
+
 .input-relative { position: relative; }
 .input-relative .form-input { padding-left: 38px; }
 .input-icon {
@@ -183,7 +196,6 @@ body {
   text-align: center; letter-spacing: 0.3px; text-transform: uppercase;
   line-height: 1.2;
 }
-/* Fallback logo (inisial) kalau gambar gagal load */
 .provider-logo-fallback {
   width: 40px; height: 40px; border-radius: 8px;
   background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
@@ -257,7 +269,7 @@ body {
         <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/></svg>
         Multi Payment PPOB
       </div>
-      <div class="hero-main-title">Top Up &amp; Pulsa</div>
+      <div class="hero-main-title">Produk Digital</div>
     </div>
     <a href="dashboard.html" class="btn-back">
       <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
@@ -297,11 +309,10 @@ body {
       </select>
     </div>
 
-    <!-- Provider Logo Grid (gantikan select brand) -->
+    <!-- Provider Logo Grid -->
     <div class="form-group hidden" id="box-brand">
       <label class="form-label">Operator / Provider</label>
       <div id="provider-grid" class="provider-grid"></div>
-      <!-- Hidden input untuk nilai brand terpilih -->
       <input type="hidden" id="select-brand" value="">
     </div>
 
@@ -375,15 +386,10 @@ body {
     'Authorization': `Bearer ${token}`
   });
 
-  // ─── PROVIDER LOGO MAP ───
-  // Key: nama brand (lowercase, flexible matching)
-  // Value: URL logo dari CDN
-  // Kategori yang disembunyikan dari dropdown
   const HIDDEN_CATEGORIES = ['gas', 'tv', 'tv kabel', 'gas pln', 'gas elpiji', 'tagihan gas'];
 
   const PROVIDER_BASE = 'https://app.isdarprem.net/images/provider/';
   const PROVIDER_LOGOS = {
-    // Telco
     'axis':           PROVIDER_BASE + 'axisnet.png',
     'axisnet':        PROVIDER_BASE + 'axisnet.png',
     'axis net':       PROVIDER_BASE + 'axisnet.png',
@@ -402,7 +408,6 @@ body {
     'three':          PROVIDER_BASE + 'tri.jpg',
     'xl':             PROVIDER_BASE + 'xl.jpg',
     'xl axiata':      PROVIDER_BASE + 'xl.jpg',
-    // E-Wallet
     'dana':           PROVIDER_BASE + 'dana.jpeg',
     'gopay':          PROVIDER_BASE + 'gopay.jpeg',
     'go-pay':         PROVIDER_BASE + 'gopay.jpeg',
@@ -410,7 +415,6 @@ body {
     'shopeepay':      PROVIDER_BASE + 'ShopeePay.png',
     'shopee pay':     PROVIDER_BASE + 'ShopeePay.png',
     'shopee':         PROVIDER_BASE + 'ShopeePay.png',
-    // Game
     'free fire':      PROVIDER_BASE + 'FreeFire.png',
     'freefire':       PROVIDER_BASE + 'FreeFire.png',
     'ff':             PROVIDER_BASE + 'FreeFire.png',
@@ -421,30 +425,20 @@ body {
     'mobilelegends':  PROVIDER_BASE + 'mobillegend.jpeg',
     'ml':             PROVIDER_BASE + 'mobillegend.jpeg',
     'mlbb':           PROVIDER_BASE + 'mobillegend.jpeg',
-    // Listrik
     'pln':            PROVIDER_BASE + 'pln.png',
     'listrik':        PROVIDER_BASE + 'pln.png',
     'token pln':      PROVIDER_BASE + 'pln.png',
   };
 
-  /**
-   * Resolve logo URL dari nama brand.
-   * Matching case-insensitive & partial key check.
-   */
   function getProviderLogo(brandName) {
     const key = brandName.toLowerCase().trim();
     if (PROVIDER_LOGOS[key]) return PROVIDER_LOGOS[key];
-    // Partial matching: cek apakah key ada dalam brand name atau sebaliknya
     for (const [k, v] of Object.entries(PROVIDER_LOGOS)) {
       if (key.includes(k) || k.includes(key)) return v;
     }
-    return null; // tidak ada logo, fallback ke inisial
+    return null;
   }
 
-  /**
-   * Render satu provider chip (logo card).
-   * Kalau logo tidak ada / gagal load, tampilkan fallback inisial.
-   */
   function createProviderChip(brandName, onClick) {
     const logoUrl = getProviderLogo(brandName);
     const initials = brandName.substring(0, 2).toUpperCase();
@@ -460,7 +454,6 @@ body {
       logoEl.src = logoUrl;
       logoEl.alt = brandName;
       logoEl.className = 'provider-logo';
-      // Fallback kalau gambar gagal load
       logoEl.onerror = function() {
         const fb = document.createElement('div');
         fb.className = 'provider-logo-fallback';
@@ -484,63 +477,40 @@ body {
     return chip;
   }
 
-  // DOM Elements
-  const selectCategory   = document.getElementById('select-category');
-  const selectSubcategory= document.getElementById('select-subcategory');
-  const inputTarget      = document.getElementById('input-target');
-  const hiddenBrand      = document.getElementById('select-brand');
-  const providerGridEl   = document.getElementById('provider-grid');
-  
-  const boxBrand         = document.getElementById('box-brand');
-  const boxSubcategory   = document.getElementById('box-subcategory');
-  const boxTarget        = document.getElementById('box-target');
-  
-  const productGrid      = document.getElementById('product-grid');
-  const productStatus    = document.getElementById('product-status');
-  const productCount     = document.getElementById('product-count');
+  const selectCategory    = document.getElementById('select-category');
+  const selectSubcategory = document.getElementById('select-subcategory');
+  const inputTarget       = document.getElementById('input-target');
+  const hiddenBrand       = document.getElementById('select-brand');
+  const providerGridEl    = document.getElementById('provider-grid');
+  const boxBrand          = document.getElementById('box-brand');
+  const boxSubcategory    = document.getElementById('box-subcategory');
+  const boxTarget         = document.getElementById('box-target');
+  const productGrid       = document.getElementById('product-grid');
+  const productStatus     = document.getElementById('product-status');
+  const productCount      = document.getElementById('product-count');
 
-  // Load Saldo
   async function fetchBalance() {
-  try {
-
-    const response = await fetch(
-      `/api/profile?email=${encodeURIComponent(localUser.email)}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+    try {
+      const response = await fetch(
+        `/api/profile?email=${encodeURIComponent(localUser.email)}`,
+        { headers: { 'Authorization': `Bearer ${token}` } }
+      );
+      const result = await response.json();
+      if (result.success) {
+        document.getElementById('web-balance').innerText =
+          'Rp ' + Number(result.user.balance || 0).toLocaleString('id-ID');
       }
-    );
-
-    const result = await response.json();
-
-    if (result.success) {
-
-      document.getElementById('web-balance').innerText =
-        'Rp ' +
-        Number(result.user.balance || 0)
-        .toLocaleString('id-ID');
-
+    } catch (err) {
+      console.error("Gagal sinkron saldo:", err);
     }
-
-  } catch (err) {
-
-    console.error(
-      "Gagal sinkron saldo:",
-      err
-    );
-
   }
-}
 
-  // 1. Load Kategori
   async function loadCategories() {
     try {
       const res = await fetch('/api/ppob/categories', { headers: getHeaders() });
       const data = await res.json();
       if (data.success) {
         data.categories.forEach(cat => {
-          // Sembunyikan kategori Gas & TV
           if (HIDDEN_CATEGORIES.some(h => cat.toLowerCase().includes(h))) return;
           const opt = document.createElement('option');
           opt.value = cat; opt.textContent = cat;
@@ -550,7 +520,6 @@ body {
     } catch (err) { console.error("Gagal load kategori", err); }
   }
 
-  // 2. Kategori berubah → load brand / provider
   selectCategory.addEventListener('change', async () => {
     const cat = selectCategory.value;
     resetForm(['brand', 'sub', 'prod']);
@@ -562,14 +531,11 @@ body {
       if (data.success && data.brands.length > 0) {
         boxBrand.classList.remove('hidden');
         providerGridEl.innerHTML = '';
-
         data.brands.forEach(b => {
           const chip = createProviderChip(b.brand, (chipEl, brandName) => {
-            // Deselect semua, aktifkan yang dipilih
             providerGridEl.querySelectorAll('.provider-chip').forEach(c => c.classList.remove('active'));
             chipEl.classList.add('active');
             hiddenBrand.value = brandName;
-            // Trigger logika brand change
             onBrandSelected(cat, brandName);
           });
           providerGridEl.appendChild(chip);
@@ -578,7 +544,6 @@ body {
     } catch (err) { console.error(err); }
   });
 
-  // 3. Brand dipilih → load sub kategori + produk
   async function onBrandSelected(cat, brd) {
     resetForm(['sub', 'prod']);
     boxTarget.classList.remove('hidden');
@@ -586,7 +551,6 @@ body {
     try {
       const res = await fetch(`/api/ppob/subcategories?category=${encodeURIComponent(cat)}&brand=${encodeURIComponent(brd)}`, { headers: getHeaders() });
       const data = await res.json();
-
       if (data.success && data.subcategories.length > 0) {
         boxSubcategory.classList.remove('hidden');
         selectSubcategory.innerHTML = '<option value="">-- Semua Tipe --</option>';
@@ -600,12 +564,10 @@ body {
     } catch (err) { console.error(err); }
   }
 
-  // 4. Filter sub kategori
   selectSubcategory.addEventListener('change', () => {
     loadProducts(selectCategory.value, hiddenBrand.value, selectSubcategory.value);
   });
 
-  // 5. Load produk
   async function loadProducts(category, brand, subcategory) {
     productGrid.innerHTML = '';
     productStatus.className = "status-box loading";
@@ -628,7 +590,6 @@ body {
       if (data.success && data.products.length > 0) {
         productStatus.classList.add('hidden');
         productCount.textContent = `${data.products.length} item`;
-
         data.products.forEach(p => {
           const card = document.createElement('div');
           card.className = "product-card";
@@ -665,7 +626,6 @@ body {
     }
   }
 
-  // 6. Proses Beli
   async function prosesBeli(sku, productName, price) {
     const target = inputTarget.value.trim();
     if (!target) {
@@ -686,7 +646,6 @@ body {
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire({ title: 'Memproses Pembelian...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
-        
         try {
           const res = await fetch('/api/ppob/buy', {
             method: 'POST',
@@ -694,7 +653,6 @@ body {
             body: JSON.stringify({ sku, target, product_name: productName, price })
           });
           const data = await res.json();
-          
           if (data.success) {
             Swal.fire({ icon: 'success', title: 'Sukses!', text: data.message || 'Transaksi berhasil diproses server.', confirmButtonColor: '#12C28A' });
             fetchBalance();
@@ -735,7 +693,6 @@ body {
     }
   }
 
-  // Init
   fetchBalance();
   loadCategories();
 </script>
