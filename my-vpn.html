@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,6 +28,25 @@
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
+  --card-bg:      #FFFFFF;
+  --nav-bg:       #FFFFFF;
+  --nav-shadow:   rgba(90,26,154,0.06);
+}
+
+[data-theme="dark"] {
+  --white:        #1E1130;
+  --bg:           #120B22;
+  --gray-line:    #2A1D42;
+  --text-dark:    #F0E8FF;
+  --text-mid:     #C4A0EE;
+  --text-light:   #7A5BAA;
+  --card-bg:      #1E1130;
+  --purple-soft:  #2D1A50;
+  --purple-mid:   #3D2265;
+  --nav-bg:       #1E1130;
+  --nav-shadow:   rgba(0,0,0,0.3);
+  --red-bg:       #3A1F1F;
+  --green-bg:     #143A2E;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -37,8 +56,9 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   color: var(--text-dark);
-  padding-bottom: 40px;
+  padding-bottom: 90px; /* Jarak aman dari Bottom Nav */
   overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* ── BLOBS ── */
@@ -88,7 +108,7 @@ body {
 }
 .header-inner {
   display:flex; align-items:center; gap:14px;
-  position:relative; z-index:2;
+  max-width: 480px; margin: 0 auto; position:relative; z-index:2;
 }
 .back-btn-hdr {
   width:40px; height:40px; border-radius:13px;
@@ -126,6 +146,22 @@ body {
   backdrop-filter:blur(8px);
 }
 
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+  backdrop-filter: blur(6px);
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.24); transform: scale(1.08); }
+.theme-toggle svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+[data-theme="dark"] .icon-sun  { display: block; }
+[data-theme="dark"] .icon-moon { display: none; }
+
 /* ── CONTAINER ── */
 .container {
   max-width:480px; margin:0 auto;
@@ -156,13 +192,14 @@ body {
 
 /* ── ACCOUNT CARD ── */
 .account-card {
-  background:var(--white);
+  background:var(--card-bg);
   border-radius:22px;
   margin-bottom:14px;
   overflow:hidden;
   border:1.5px solid var(--gray-line);
   box-shadow:0 4px 16px rgba(90,26,154,0.09);
   animation: fadeUp 0.35s ease both;
+  transition: background 0.3s, border-color 0.3s;
 }
 
 /* card banner */
@@ -258,7 +295,7 @@ body {
   cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
   transition:all 0.15s;
 }
-.result-toggle:hover { border-color:var(--purple); color:var(--purple); background:#fff; }
+.result-toggle:hover { border-color:var(--purple); color:var(--purple); background:var(--card-bg); }
 .result-toggle svg {
   width:16px; height:16px;
   fill:none; stroke:currentColor;
@@ -272,22 +309,24 @@ body {
 }
 .result-body.open { display:block; }
 
-/* ── BACK BTN ── */
-.back-btn-bottom {
-  width:100%; padding:14px;
-  border:1.5px solid var(--gray-line); border-radius:14px;
-  background:var(--white); color:var(--text-mid);
-  font-family:'Nunito',sans-serif; font-weight:800; font-size:14px;
-  cursor:pointer; margin-top:6px;
-  display:flex; align-items:center; justify-content:center; gap:8px;
-  transition:border-color 0.2s, color 0.2s, background 0.2s;
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px; background: var(--nav-bg);
+  border-top: 1px solid var(--gray-line);
+  box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
+  transition: background 0.3s, border-color 0.3s;
 }
-.back-btn-bottom svg {
-  width:16px; height:16px;
-  fill:none; stroke:currentColor;
-  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
+.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 8px 0; }
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  text-decoration: none; color: var(--text-light); width: 70px; transition: all 0.2s;
 }
-.back-btn-bottom:hover { border-color:var(--purple); color:var(--purple); background:var(--purple-soft); }
+.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
+.nav-label { font-size: 11px; font-weight: 800; }
+.nav-item:hover .nav-icon svg { transform: translateY(-2px); }
+.nav-item.active { color: var(--purple); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); fill: var(--purple-soft); }
 
 </style>
 </head>
@@ -296,7 +335,6 @@ body {
 <div class="blob1"></div>
 <div class="blob2"></div>
 
-<!-- Header -->
 <div class="header">
   <div class="hero-dots"></div>
   <div class="header-inner">
@@ -308,7 +346,6 @@ body {
     </a>
     <div class="header-title">
       <h1>
-        <!-- grid/dashboard icon -->
         <svg viewBox="0 0 24 24">
           <rect x="3" y="3" width="7" height="7" rx="1"/>
           <rect x="14" y="3" width="7" height="7" rx="1"/>
@@ -320,6 +357,23 @@ body {
       <p id="subtitle">Memuat akun...</p>
     </div>
     <div class="header-count" id="countBadge">—</div>
+    
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
+      <svg class="icon-moon" viewBox="0 0 24 24">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
   </div>
 </div>
 
@@ -332,23 +386,41 @@ body {
       Memuat akun VPN kamu...
     </div>
   </div>
-
-  <button class="back-btn-bottom" onclick="location.href='dashboard.html'">
-    <svg viewBox="0 0 24 24">
-      <line x1="19" y1="12" x2="5" y2="12"/>
-      <polyline points="12 19 5 12 12 5"/>
-    </svg>
-    Kembali ke Dashboard
-  </button>
 </div>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a class="nav-item active" href="index.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a class="nav-item" href="transactions.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
+      <div class="nav-label">Riwayat</div>
+    </a>
+    <a class="nav-item" href="profile.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <div class="nav-label">Profile</div>
+    </a>
+  </div>
+</nav>
 
 <script>
 
+// ─── THEME MANAGER ───
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('xt-theme', next);
+}
+(function() {
+  const saved = localStorage.getItem('xt-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+})();
+
 // ✅ 1. Ambil token JWT dari localStorage
 const token = localStorage.getItem('token');
-// Catatan: Jika token disimpan di dalam objek user, ganti menjadi:
-// const localUser = JSON.parse(localStorage.getItem('user'));
-// const token = localUser ? localUser.token : null;
 
 // ✅ 2. Proteksi awal: Jika token tidak ada, tendang langsung ke halaman login
 if (!token) {
