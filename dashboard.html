@@ -157,6 +157,7 @@ body {
   animation: fadeUp 0.38s 0.14s ease both;  
 }  
   
+/* ── Category grid wrap (2 baris) ── */  
 .category-grid {  
   display: grid;  
   grid-template-columns: repeat(4, 1fr);  
@@ -181,69 +182,24 @@ body {
   background-size: 200% 100%; animation: shimmer 1.4s infinite;  
 }  
   
-/* ─── INFO CAROUSEL ─── */  
-.info-carousel-wrap {  
-  margin-bottom: 24px;  
+/* ─── INFO BANNER ─── */  
+.info-scroll {  
+  display: flex; gap: 12px; overflow-x: auto; padding: 0 0 8px;  
+  margin-bottom: 24px; scrollbar-width: none;  
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;  
   animation: fadeUp 0.38s 0.18s ease both;  
-  position: relative;  
 }  
-
-/* viewport — clips to one slide width */  
-.info-carousel {  
-  overflow: hidden;  
-  border-radius: 16px;  
-  touch-action: pan-y pinch-zoom;
-  user-select: none;  
+.info-scroll::-webkit-scrollbar { display: none; }  
+.info-card {  
+  flex: 0 0 calc(82vw); max-width: 310px; aspect-ratio: 16/9;  
+  border-radius: 14px; overflow: hidden;  
+  background-size: cover; background-position: center top;  
+  scroll-snap-align: start; box-shadow: 0 4px 14px rgba(0,0,0,0.09);  
 }  
-
-/* track — slides sit side by side */  
-.info-track {  
-  display: flex;  
-  transition: transform 0.42s cubic-bezier(0.25, 0.8, 0.25, 1);  
-  will-change: transform;  
-}  
-
-/* each slide */  
-.info-slide {  
-  flex: 0 0 100%;  
-  aspect-ratio: 16/9;  
-  background-size: cover;  
-  background-position: center top;  
-  border-radius: 16px;  
-  box-shadow: 0 4px 18px rgba(60,15,114,0.14);  
-  overflow: hidden;
-  position: relative;
-}  
-
-/* slide overlay gradient (bottom fade for depth) */
-.info-slide::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(30,5,60,0.18) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-.info-slide-1 { background-image: url('https://app.isdarprem.net/images/akun1.png'); }  
-.info-slide-2 { background-image: url('https://app.isdarprem.net/images/trial1.png'); }  
-.info-slide-3 { background-image: url('https://app.isdarprem.net/images/ppob1.png'); }  
-
-/* dot indicators */  
-.info-dots {  
-  display: flex; align-items: center; justify-content: center; gap: 6px;  
-  margin-top: 10px;  
-}  
-.info-dot {  
-  width: 6px; height: 6px; border-radius: 3px;  
-  background: var(--purple-mid);  
-  transition: all 0.3s cubic-bezier(0.25,0.8,0.25,1);  
-  cursor: pointer;  
-}  
-.info-dot.active {  
-  width: 20px;  
-  background: var(--purple);  
-}  
-
+.info-card-1 { background-image: url('https://app.isdarprem.net/images/akun1.png'); }  
+.info-card-2 { background-image: url('https://app.isdarprem.net/images/trial1.png'); }  
+.info-card-3 { background-image: url('https://app.isdarprem.net/images/ppob1.png'); }  
+  
 /* ─── UTILITY PANEL ─── */  
 .utility-panel { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; animation: fadeUp 0.38s 0.22s ease both; }  
 .util-card {  
@@ -371,24 +327,15 @@ body {
     </div>  
   </div>  
   
-  <!-- ─── INFO CAROUSEL ─── -->  
+  <!-- INFO BANNERS -->  
   <div class="sec-title">  
     Informasi Digital  
     <span class="sec-pill" style="background:#EEF4FF;color:#3B82F6;">Terpopuler</span>  
   </div>  
-  <div class="info-carousel-wrap">  
-    <div class="info-carousel" id="infoCarousel">  
-      <div class="info-track" id="infoTrack">  
-        <div class="info-slide info-slide-1"></div>  
-        <div class="info-slide info-slide-2"></div>  
-        <div class="info-slide info-slide-3"></div>  
-      </div>  
-    </div>  
-    <div class="info-dots" id="infoDots">  
-      <div class="info-dot active" data-idx="0"></div>  
-      <div class="info-dot" data-idx="1"></div>  
-      <div class="info-dot" data-idx="2"></div>  
-    </div>  
+  <div class="info-scroll">  
+    <div class="info-card info-card-1"></div>  
+    <div class="info-card info-card-2"></div>  
+    <div class="info-card info-card-3"></div>  
   </div>  
   
   <!-- UTILITY -->  
@@ -432,80 +379,6 @@ body {
 </nav>  
   
 <script>  
-/* ─── CAROUSEL ─── */
-(function() {
-  const track   = document.getElementById('infoTrack');
-  const dots    = document.querySelectorAll('.info-dot');
-  const carousel = document.getElementById('infoCarousel');
-  const total   = 3;
-  let current   = 0;
-  let autoTimer = null;
-  let startX    = 0;
-  let isDragging = false;
-
-  function goTo(idx) {
-    current = (idx + total) % total;
-    track.style.transform = `translateX(-${current * 100}%)`;
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
-  }
-
-  function next() { goTo(current + 1); }
-
-  function startAuto() {
-    clearInterval(autoTimer);
-    autoTimer = setInterval(next, 3500);
-  }
-
-  function stopAuto() {
-    clearInterval(autoTimer);
-  }
-
-  // dot click
-  dots.forEach(d => {
-    d.addEventListener('click', () => {
-      goTo(+d.dataset.idx);
-      stopAuto(); startAuto();
-    });
-  });
-
-  // touch swipe
-  carousel.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-    stopAuto();
-  }, { passive: true });
-
-  carousel.addEventListener('touchend', e => {
-    if (!isDragging) return;
-    const diff = startX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) {
-      diff > 0 ? goTo(current + 1) : goTo(current - 1);
-    }
-    isDragging = false;
-    startAuto();
-  }, { passive: true });
-
-  // mouse drag (desktop)
-  carousel.addEventListener('mousedown', e => {
-    startX = e.clientX;
-    isDragging = true;
-    stopAuto();
-  });
-  carousel.addEventListener('mouseup', e => {
-    if (!isDragging) return;
-    const diff = startX - e.clientX;
-    if (Math.abs(diff) > 40) {
-      diff > 0 ? goTo(current + 1) : goTo(current - 1);
-    }
-    isDragging = false;
-    startAuto();
-  });
-  carousel.addEventListener('mouseleave', () => { isDragging = false; });
-
-  startAuto();
-})();
-
-/* ─── PROFILE & CATEGORIES ─── */
 const localUser = JSON.parse(localStorage.getItem('user'));  
 if (!localUser) window.location.href = 'index.html';  
   
@@ -598,4 +471,4 @@ loadProfile();
 loadCategories();  
 </script>  
 </body>  
-</html>
+</html>  
