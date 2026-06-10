@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,11 +20,29 @@
   --red-bg:       #FFECEC;
   --white:        #FFFFFF;
   --bg:           #F8F6FC;
-  --card:         #FFFFFF;
+  --card-bg:      #FFFFFF;
   --gray-line:    #EEF0F6;
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
+  --nav-bg:       #FFFFFF;
+  --nav-shadow:   rgba(90,26,154,0.04);
+}
+
+[data-theme="dark"] {
+  --white:        #1E1130;
+  --bg:           #120B22;
+  --gray-line:    #2A1D42;
+  --text-dark:    #F0E8FF;
+  --text-mid:     #C4A0EE;
+  --text-light:   #7A5BAA;
+  --card-bg:      #1E1130;
+  --purple-soft:  #2D1A50;
+  --purple-mid:   #3D2265;
+  --nav-bg:       #1E1130;
+  --nav-shadow:   rgba(0,0,0,0.3);
+  --red-bg:       #3A1F1F;
+  --green-bg:     #143A2E;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -34,7 +52,9 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   overflow-x: hidden;
-  padding-bottom: 100px; /* Ditambah space agar tidak mentok ke bottom nav */
+  padding-bottom: 90px;
+  color: var(--text-dark);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* ─── ANIMATIONS ─── */
@@ -47,10 +67,9 @@ body {
 /* ─── HERO HEADER ─── */
 .hero {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
-  padding: 28px 20px 64px;
+  padding: 24px 20px 56px;
   position: relative;
   overflow: hidden;
-  animation: fadeUp 0.4s ease both;
 }
 .hero::before {
   content:''; position:absolute; top:-40px; right:-20px;
@@ -64,9 +83,10 @@ body {
 }
 
 .hero-top {
-  display:flex; align-items:center; gap:12px;
-  position:relative; z-index:2;
+  display:flex; align-items:center; justify-content:space-between; position:relative; z-index:2;
+  max-width: 440px; margin: 0 auto; gap:12px;
 }
+.hero-left-area { display: flex; align-items: center; gap: 12px; flex: 1; }
 
 .back-btn {
   width:36px; height:36px; border-radius:11px;
@@ -84,40 +104,59 @@ body {
 .hero-title h1 { font-size:18px; font-weight:900; color:#fff; line-height:1.1; letter-spacing:-0.2px; }
 .hero-title p { font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; margin-top:3px; }
 
+.hero-right-area { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
 .hero-badge {
   background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
   border-radius:8px; padding:4px 10px; font-size:10px; font-weight:800; color:#fff;
-  white-space:nowrap; flex-shrink:0; text-transform: uppercase; letter-spacing: 0.3px;
+  white-space:nowrap; text-transform: uppercase; letter-spacing: 0.3px;
 }
 
+/* ─── THEME TOGGLE ─── */
+.theme-toggle {
+  width: 36px; height: 36px; border-radius: 11px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+  backdrop-filter: blur(8px);
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+.theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.3; }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+[data-theme="dark"] .icon-sun  { display: block; }
+[data-theme="dark"] .icon-moon { display: none; }
+
 /* ─── CONTAINER ─── */
-.container { max-width:440px; margin:0 auto; padding:0 16px; }
+.container { max-width:440px; margin:0 auto; padding:0 16px; position: relative; z-index: 2; }
 
 /* ─── SUMMARY CARD ─── */
 .summary-card {
-  background:var(--white); border-radius:16px; padding:16px;
-  margin: -36px 0 16px; position:relative; z-index:10;
-  box-shadow: 0 8px 24px rgba(90,26,154,0.06);
+  background:var(--card-bg); border-radius:16px; padding:14px;
+  margin: -30px 0 16px; position:relative; z-index:10;
+  box-shadow: 0 8px 24px rgba(90,26,154,0.03);
   border: 1px solid var(--gray-line);
   display:none; gap:10px;
-  animation: fadeUp 0.4s 0.08s ease both;
+  animation: fadeUp 0.4s ease both;
+  transition: background 0.3s, border-color 0.3s;
 }
 .summary-card.visible { display:grid; grid-template-columns:1fr 1fr; }
 
-.summary-item { border-radius:12px; padding:12px; }
-.summary-item.green-item { background:var(--green-bg); border:1px solid rgba(18,194,138,0.15); }
-.summary-item.purple-item { background:var(--purple-soft); border:1px solid rgba(123,47,190,0.1); }
+.summary-item { border-radius:12px; padding:12px; transition: background 0.3s, border-color 0.3s; }
+.summary-item.green-item { background:var(--green-bg); border:1px solid rgba(18,194,138,0.12); }
+.summary-item.purple-item { background:var(--purple-soft); border:1px solid rgba(123,47,190,0.08); }
 
 .summary-label {
   font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;
   color:var(--text-light); margin-bottom:4px; display:flex; align-items:center; gap:4px;
 }
 .summary-label svg { width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:2.2; flex-shrink:0; }
-.summary-label.green-label svg { stroke:var(--green-dark); }
+.summary-label.green-label svg { stroke:var(--green); }
 .summary-label.purple-label svg { stroke:var(--purple); }
 
 .summary-val { font-size:16px; font-weight:900; color:var(--text-dark); letter-spacing:-0.2px; }
-.summary-val.green-val { color:var(--green-dark); }
+.summary-val.green-val { color:var(--green); }
 
 /* ─── SECTION TITLE ─── */
 .sec-title {
@@ -128,65 +167,73 @@ body {
 
 /* ─── TOPUP CARD ─── */
 .topup-card {
-  background:var(--white); border-radius:14px; margin-bottom:10px;
+  background:var(--card-bg); border-radius:14px; margin-bottom:10px;
   border:1px solid var(--gray-line); border-left:3.5px solid var(--green);
-  box-shadow:0 4px 12px rgba(90,26,154,0.02); overflow:hidden;
-  animation: fadeUp 0.35s ease both; transition:transform 0.15s;
+  box-shadow:0 4px 12px rgba(90,26,154,0.01); overflow:hidden;
+  animation: fadeUp 0.35s ease both; transition: transform 0.15s, background 0.3s, border-color 0.3s;
 }
 .topup-card:hover { transform:translateY(-1px); }
 .topup-card-inner { padding:12px 14px; display:flex; align-items:center; gap:10px; }
 
 .topup-icon {
-  width:38px; height:38px; border-radius:10px;
+  width:36px; height:36px; border-radius:10px;
   background:linear-gradient(135deg, var(--green-dark), var(--green));
   display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
-.topup-icon svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.2; }
+.topup-icon svg { width:16px; height:16px; fill:none; stroke:#fff; stroke-width:2.5; }
 
 .topup-main { flex:1; min-width:0; }
-.topup-amount { font-size:15px; font-weight:900; color:var(--green-dark); line-height:1.2; letter-spacing:-0.1px; }
-.topup-method { font-size:11px; font-weight:800; color:var(--text-mid); display:flex; align-items:center; gap:4px; margin-top: 1px; }
+.topup-amount { font-size:15px; font-weight:900; color:var(--green); line-height:1.2; letter-spacing:-0.1px; }
+.topup-method { font-size:11px; font-weight:800; color:var(--text-mid); display:flex; align-items:center; gap:4px; margin-top: 2px; }
 .method-dot { width:5px; height:5px; border-radius:50%; background:var(--purple-light); flex-shrink:0; }
 
 .success-badge {
   display:inline-flex; align-items:center; gap:3px;
-  background:var(--green-bg); border:1px solid rgba(18,194,138,0.2);
-  border-radius:6px; padding:1px 6px; font-size:9px; font-weight:800; color:var(--green-dark);
+  background:var(--green-bg); border:1px solid rgba(18,194,138,0.15);
+  border-radius:6px; padding:1px 6px; font-size:9px; font-weight:800; color:var(--green);
   margin-top:5px; text-transform: uppercase;
 }
-.success-badge svg { width:9px; height:9px; fill:none; stroke:var(--green-dark); stroke-width:2.5; }
+.success-badge svg { width:9px; height:9px; fill:none; stroke:var(--green); stroke-width:2.5; }
 
 .topup-right { text-align:right; flex-shrink:0; }
-.topup-ref { font-size:9px; font-weight:800; color:var(--text-light); margin-bottom:2px; max-width:100px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.topup-ref { font-size:9px; font-weight:800; color:var(--text-light); margin-bottom:2px; max-width:110px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family: monospace; }
 .topup-date { font-size:10px; font-weight:700; color:var(--text-light); display:flex; align-items:center; gap:3px; justify-content:flex-end; }
 .topup-date svg { width:11px; height:11px; fill:none; stroke:var(--text-light); stroke-width:2; }
 
 /* ─── EMPTY / LOADING ─── */
-.empty-state, .loading-state { text-align:center; padding:48px 16px; display:flex; flex-direction:column; align-items:center; gap:10px; }
-.state-icon-wrap { width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.state-icon-wrap.empty-wrap { background:var(--purple-soft); border:1px solid var(--gray-line); }
-.state-icon-wrap.loading-wrap { background:var(--green-bg); border:1px solid rgba(18,194,138,0.15); }
-.state-icon-wrap.error-wrap { background:var(--red-bg); border:1px solid rgba(232,64,64,0.15); }
-
-.state-icon-wrap svg { width:24px; height:24px; fill:none; stroke-width:2.2; }
-.state-icon-wrap.empty-wrap svg  { stroke:var(--purple-light); }
-.state-icon-wrap.loading-wrap svg { stroke:var(--green); animation:spin 1s linear infinite; }
-.state-icon-wrap.error-wrap svg  { stroke:var(--red); }
-
-.state-title { font-size:15px; font-weight:900; color:var(--text-dark); letter-spacing:-0.1px; }
-.state-sub { font-size:12px; color:var(--text-light); font-weight:700; }
+.status-box {
+  background: var(--card-bg); border-radius: 16px; padding: 40px 20px;
+  border: 1px solid var(--gray-line); text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text-light);
+  transition: background 0.3s, border-color 0.3s;
+}
+.status-icon-badge {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--purple-soft);
+  display: flex; align-items: center; justify-content: center;
+}
+.status-box svg { width: 20px; height: 20px; fill: none; stroke: var(--purple); stroke-width: 2.3; }
+.status-box.loading svg { animation: spin 1s linear infinite; }
+.status-box p { font-size: 12px; font-weight: 700; max-width: 260px; line-height: 1.5; color: var(--text-mid); }
+.hidden { display: none !important; }
 
 /* ─── BOTTOM NAV ─── */
 .bottom-nav {
-  position:fixed; bottom:0; left:0; right:0; background:#fff;
-  border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px;
-  box-shadow:0 -4px 20px rgba(90,26,154,0.04); z-index:100; max-width:440px; margin:0 auto;
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 440px; background: var(--nav-bg);
+  border-top: 1px solid var(--gray-line);
+  box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
+  transition: background 0.3s, border-color 0.3s;
 }
-.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
-.nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
-.nav-label { font-size:10px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
-.nav-item.active .nav-label { color:var(--purple); }
-.nav-item.active .nav-icon svg { stroke: var(--purple); }
+.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 8px 0; }
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  text-decoration: none; color: var(--text-light); width: 70px; transition: all 0.2s;
+}
+.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
+.nav-label { font-size: 11px; font-weight: 800; }
+.nav-item:hover .nav-icon svg { transform: translateY(-2px); }
+.nav-item.active { color: var(--purple); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); fill: var(--purple-soft); }
 </style>
 </head>
 <body>
@@ -194,14 +241,23 @@ body {
 <div class="hero">
   <div class="hero-dots"></div>
   <div class="hero-top">
-    <a class="back-btn" href="dashboard.html">
-      <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
-    </a>
-    <div class="hero-title">
-      <h1>Riwayat Topup</h1>
-      <p id="subtitle">Memuat data...</p>
+    <div class="hero-left-area">
+      <a class="back-btn" href="dashboard.html">
+        <svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+      </a>
+      <div class="hero-title">
+        <h1>Riwayat Topup</h1>
+        <p id="subtitle">Memuat data...</p>
+      </div>
     </div>
-    <div class="hero-badge" id="countBadge">— Topup</div>
+    
+    <div class="hero-right-area">
+      <div class="hero-badge" id="countBadge">— Topup</div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -225,145 +281,148 @@ body {
   </div>
 
   <div class="sec-title" id="secTitle" style="display:none;">
-    Riwayat <span class="sec-title-pill">Topup</span>
+    Daftar <span class="sec-title-pill">Topup</span>
   </div>
 
   <div id="historyArea">
-    <div class="loading-state">
-      <div class="state-icon-wrap loading-wrap">
+    <div id="history-status" class="status-box loading">
+      <div class="status-icon-badge">
         <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
       </div>
-      <div class="state-title">Memuat riwayat...</div>
-      <div class="state-sub">Mohon tunggu sebentar</div>
+      <p>Memuat riwayat topup kamu...</p>
     </div>
   </div>
 
 </div>
 
 <nav class="bottom-nav">
-  <a class="nav-item" href="dashboard.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
-    </div>
-    <div class="nav-label">Home</div>
-  </a>
-  <a class="nav-item active" href="#">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
-    </div>
-    <div class="nav-label">Riwayat</div>
-  </a>
-  <a class="nav-item" href="profile.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    </div>
-    <div class="nav-label">Profile</div>
-  </a>
+  <div class="bottom-nav-inner">
+    <a class="nav-item" href="dashboard.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a class="nav-item active" href="riwayat-ppob.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
+      <div class="nav-label">Riwayat</div>
+    </a>
+    <a class="nav-item" href="profile.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <div class="nav-label">Profile</div>
+    </a>
+  </div>
 </nav>
 
 <script>
-// ✅ 1. Ambil token JWT dari localStorage
-const token = localStorage.getItem('token');
+  // ─── THEME MANAGER ───
+  function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('xt-theme', next);
+  }
+  (function() {
+    const saved = localStorage.getItem('xt-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
 
-// Proteksi Awal: Jika user belum login/tidak ada token, langsung tendang ke login
-if (!token) {
-  window.location.href = 'index.html';
-} else {
-  // Jalankan fungsi load riwayat jika token tersedia
-  loadHistory();
-}
+  // Token & Proteksi Login
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = 'index.html';
+  } else {
+    loadHistory();
+  }
 
-async function loadHistory() {
-  try {
-    // ✅ 2. AMAN: Hapus parameter ?email=... dan kirim token lewat Header Authorization
-    const res = await fetch('/api/topup-history', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}` // Autentikasi berbasis JWT
-      }
-    });
-    
-    const data = await res.json();
-    const area = document.getElementById('historyArea');
+  async function loadHistory() {
+    const statusBox = document.getElementById('history-status');
+    try {
+      // ✅ AMAN: Menggunakan Authorization header Bearer Token JWT
+      const res = await fetch('/api/topup-history', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      const data = await res.json();
+      const area = document.getElementById('historyArea');
 
-    if (!data.success || !data.data || data.data.length === 0) {
-      document.getElementById('subtitle').textContent   = 'Belum ada transaksi';
-      document.getElementById('countBadge').textContent = '0 Topup';
-      area.innerHTML = `
-        <div class="empty-state">
-          <div class="state-icon-wrap empty-wrap">
+      if (!data.success || !data.data || data.data.length === 0) {
+        document.getElementById('subtitle').textContent   = 'Belum ada transaksi';
+        document.getElementById('countBadge').textContent = '0 Topup';
+        
+        statusBox.className = "status-box";
+        statusBox.innerHTML = `
+          <div class="status-icon-badge">
             <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="12" y1="12" x2="12" y2="18"/></svg>
           </div>
-          <div class="state-title">Belum Ada Riwayat</div>
-          <div class="state-sub">Topup pertamamu akan muncul di sini</div>
+          <p>Belum Ada Riwayat. Topup pertamamu akan muncul di sini.</p>
+        `;
+        return;
+      }
+
+      const items    = data.data;
+      const totalSum = items.reduce((s, i) => s + Number(i.amount || 0), 0);
+
+      document.getElementById('subtitle').textContent   = items.length + ' transaksi topup';
+      document.getElementById('countBadge').textContent = items.length + ' Topup';
+      document.getElementById('sumTotal').textContent   = 'Rp ' + totalSum.toLocaleString('id-ID');
+      document.getElementById('sumCount').textContent   = items.length + 'x';
+      document.getElementById('summaryCard').classList.add('visible');
+      document.getElementById('secTitle').style.display = 'flex';
+
+      area.innerHTML = items.map((item, i) => {
+        const date = item.created_at
+          ? new Date(item.created_at).toLocaleString('id-ID', {
+              timeZone: 'Asia/Jakarta',
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })
+          : '—';
+
+        return `
+        <div class="topup-card" style="animation-delay:${i * 0.05}s;">
+          <div class="topup-card-inner">
+            <div class="topup-icon">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5,12 12,5 19,12"/></svg>
+            </div>
+            <div class="topup-main">
+              <div class="topup-amount">+ Rp ${Number(item.amount).toLocaleString('id-ID')}</div>
+              <div class="topup-method">
+                <div class="method-dot"></div>
+                ${item.metode || 'QRIS'}
+              </div>
+              <div class="success-badge">
+                <svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,7"/></svg>
+                Berhasil
+              </div>
+            </div>
+            <div class="topup-right">
+              <div class="topup-ref">${item.reference || '—'}</div>
+              <div class="topup-date">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
+                ${date}
+              </div>
+            </div>
+          </div>
         </div>`;
-      return;
+      }).join('');
+
+    } catch (err) {
+      console.error(err);
+      document.getElementById('historyArea').innerHTML = `
+        <div class="status-box">
+          <div class="status-icon-badge" style="background:var(--red-bg);">
+            <svg viewBox="0 0 24 24" style="stroke:var(--red);"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.56 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/></svg>
+          </div>
+          <p style="color:var(--text-mid);">Koneksi Gagal. Tidak dapat memuat riwayat topup dari server.</p>
+        </div>`;
     }
-
-    const items    = data.data;
-    const totalSum = items.reduce((s, i) => s + Number(i.amount || 0), 0);
-
-    document.getElementById('subtitle').textContent   = items.length + ' transaksi topup';
-    document.getElementById('countBadge').textContent = items.length + ' Topup';
-    document.getElementById('sumTotal').textContent   = 'Rp ' + totalSum.toLocaleString('id-ID');
-    document.getElementById('sumCount').textContent   = items.length + 'x';
-    document.getElementById('summaryCard').classList.add('visible');
-    document.getElementById('secTitle').style.display = 'flex';
-
-    area.innerHTML = items.map((item, i) => {
-      const date = item.created_at
-? new Date(item.created_at).toLocaleString(
-    'id-ID',
-    {
-      timeZone: 'Asia/Jakarta',
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    }
-  )
-: '—';
-      return `
-      <div class="topup-card" style="animation-delay:${i * 0.05}s;">
-        <div class="topup-card-inner">
-          <div class="topup-icon">
-            <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5,12 12,5 19,12"/></svg>
-          </div>
-          <div class="topup-main">
-            <div class="topup-amount">+ Rp ${Number(item.amount).toLocaleString('id-ID')}</div>
-            <div class="topup-method">
-              <div class="method-dot"></div>
-              ${item.metode || 'QRIS'}
-            </div>
-            <div class="success-badge">
-              <svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,7"/></svg>
-              Berhasil
-            </div>
-          </div>
-          <div class="topup-right">
-            <div class="topup-ref">${item.reference || '—'}</div>
-            <div class="topup-date">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
-              ${date}
-            </div>
-          </div>
-        </div>
-      </div>`;
-    }).join('');
-
-  } catch (err) {
-    console.error(err);
-    document.getElementById('historyArea').innerHTML = `
-      <div class="empty-state">
-        <div class="state-icon-wrap error-wrap">
-          <svg viewBox="0 0 24 24"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.56 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/></svg>
-        </div>
-        <div class="state-title">Koneksi Gagal</div>
-        <div class="state-sub">Tidak dapat memuat riwayat topup</div>
-      </div>`;
   }
-}
 </script>
 </body>
 </html>
