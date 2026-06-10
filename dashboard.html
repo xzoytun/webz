@@ -186,7 +186,7 @@ body {
 .info-slider{
   position:relative;
   width:100%;
-  height:125px; /* sebelumnya 180px */
+  height:125px;
   border-radius:14px;
   overflow:hidden;
   margin-bottom:20px;
@@ -208,7 +208,6 @@ body {
   background-position:center;
 }
 
-/* biar gambar gak terlalu zoom */
 .info-card-1,
 .info-card-2,
 .info-card-3{
@@ -246,6 +245,7 @@ body {
   border-radius:50px;
   background:rgba(255,255,255,0.45);
   transition:all .3s ease;
+  cursor:pointer;
 }
 
 .slider-dot.active{
@@ -288,7 +288,6 @@ body {
 </head>
 <body>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-dots"></div>
   <div class="hero-top">
@@ -308,7 +307,6 @@ body {
   </div>
 </div>
 
-<!-- BALANCE CARD -->
 <div class="balance-wrap">
   <div class="balance-card">
     <div class="balance-inner">
@@ -331,11 +329,26 @@ body {
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="container">
 
-  <!-- MENU -->
-  <div class="sec-title" style="margin-top:12px;">
+  <div class="sec-title" style="margin-top:16px;">
+    Informasi Digital
+    <span class="sec-pill" style="background:#EEF4FF;color:#3B82F6;">Terpopuler</span>
+  </div>
+  <div class="info-slider">
+    <div class="info-track" id="infoTrack">
+      <div class="info-card info-card-1"></div>
+      <div class="info-card info-card-2"></div>
+      <div class="info-card info-card-3"></div>
+    </div>
+    <div class="slider-dots" id="sliderDots">
+      <div class="slider-dot active"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
+    </div>
+  </div>
+
+  <div class="sec-title">
     Menu <span class="sec-pill" style="background:var(--purple-soft);color:var(--purple);">Layanan</span>
   </div>
   <div class="menu-grid">
@@ -365,7 +378,6 @@ body {
     </a>
   </div>
 
-  <!-- ─── PPOB ─── -->
   <div class="ppob-section">
     <div class="sec-title">
       Produk Digital
@@ -379,33 +391,7 @@ body {
       <div class="cat-skeleton"></div>
     </div>
   </div>
-
-  <!-- INFO BANNERS -->
-  <div class="sec-title">
-    Informasi Digital
-    <span class="sec-pill" style="background:#EEF4FF;color:#3B82F6;">Terpopuler</span>
-  </div>
-  <div class="info-slider">
-
-  <div class="info-track" id="infoTrack">
-
-    <div class="info-card info-card-1"></div>
-
-    <div class="info-card info-card-2"></div>
-
-    <div class="info-card info-card-3"></div>
-
-  </div>
-
-  <div class="slider-dots">
-    <div class="slider-dot active"></div>
-    <div class="slider-dot"></div>
-    <div class="slider-dot"></div>
-  </div>
-
-</div>
     
-  <!-- UTILITY -->
   <div class="sec-title">
     Pusat <span class="sec-pill" style="background:var(--purple-soft);color:var(--purple);">Kontrol &amp; Bantuan</span>
   </div>
@@ -427,7 +413,6 @@ body {
 
 </div>
 
-<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
     <a class="nav-item active" href="#">
@@ -446,36 +431,42 @@ body {
 </nav>
 
 <script>
-/* ─── AUTO SLIDER ─── */
+/* ─── SINKRONISASI SLIDER BANNER ─── */
 const track = document.getElementById('infoTrack');
 const dots  = document.querySelectorAll('.slider-dot');
 
 let currentSlide = 0;
 const totalSlides = 3;
+let sliderInterval;
 
 function updateSlider(){
-  track.style.transform =
-    `translateX(-${currentSlide * 100}%)`;
-
-  dots.forEach(dot=>{
-    dot.classList.remove('active');
-  });
-
+  track.style.transform = `translateX(-${currentSlide * 100}%)`;
+  dots.forEach(dot => dot.classList.remove('active'));
   dots[currentSlide].classList.add('active');
 }
 
-setInterval(()=>{
+function startSliderTimer() {
+  clearInterval(sliderInterval);
+  sliderInterval = setInterval(() => {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlider();
+  }, 6000); // 6 detik otomatis
+}
 
-  currentSlide++;
+// Bikin dots bisa di-klik manual dan tetap sinkron
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => {
+    currentSlide = index;
+    updateSlider();
+    startSliderTimer(); // Reset timer biar ga bentrok setelah diklik manual
+  });
+});
 
-  if(currentSlide >= totalSlides){
-    currentSlide = 0;
-  }
+// Jalankan pertama kali
+startSliderTimer();
 
-  updateSlider();
 
-},6000); // 6 detik
-
+/* ─── DATA & LOAD PROFILE/CATEGORIES ─── */
 const localUser = JSON.parse(localStorage.getItem('user'));
 if (!localUser) window.location.href = 'index.html';
 
