@@ -65,17 +65,24 @@ body {
   pointer-events: none;
 }
 .hero-top {
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 14px;
   position: relative; z-index: 2;
   max-width: 440px; margin: 0 auto;
   animation: fadeUp 0.35s ease both;
 }
+
+/* ─── AVATAR — diperbesar & dipercantik ─── */
 .avatar {
-  width: 46px; height: 46px; border-radius: 50%;
-  border: 2.5px solid rgba(255,255,255,0.35);
-  object-fit: cover; background: rgba(255,255,255,0.1);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.45);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.15), 0 4px 14px rgba(0,0,0,0.25);
+  object-fit: cover;
+  background: rgba(255,255,255,0.1);
   flex-shrink: 0;
 }
+
 .hero-greeting { flex: 1; }
 .greeting-hi {
   font-size: 10.5px; font-weight: 800; color: rgba(255,255,255,0.55);
@@ -157,7 +164,6 @@ body {
   animation: fadeUp 0.38s 0.14s ease both;
 }
 
-/* ── Category grid wrap (2 baris) ── */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -214,7 +220,6 @@ body {
 .info-card-2 { background-image: url('https://app.isdarprem.net/images/trial1.png'); }
 .info-card-3 { background-image: url('https://app.isdarprem.net/images/ppob1.png'); }
 
-/* DOTS */
 .slider-dots {
   position: absolute;
   bottom: 10px;
@@ -277,7 +282,7 @@ body {
 <div class="hero">
   <div class="hero-dots"></div>
   <div class="hero-top">
-    <img class="avatar" id="avatar" src="https://via.placeholder.com/48" alt="avatar">
+    <img class="avatar" id="avatar" src="https://via.placeholder.com/56" alt="avatar">
     <div class="hero-greeting">
       <div class="greeting-hi">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="2.5">
@@ -347,26 +352,7 @@ body {
       <div class="cat-skeleton"></div>
     </div>
   </div>
-
-  <div class="sec-title">
-    Pusat <span class="sec-pill" style="background:var(--purple-soft);color:var(--purple);">Kontrol &amp; Bantuan</span>
-  </div>
-  <div class="utility-panel">
-    <div id="adminSection"></div>
-    <a class="util-card card-telegram" href="https://t.me/joyhayabuse" target="_blank">
-      <div class="util-icon">
-        <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
-      </div>
-      <div class="util-body">
-        <div class="util-title">Bantuan Customer Service</div>
-        <div class="util-desc">Hubungi via Telegram · Solusi Kendala 24/7</div>
-      </div>
-      <div class="util-arrow">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </a>
-  </div>
-
+  
   <div class="sec-title">
     Menu <span class="sec-pill" style="background:var(--purple-soft);color:var(--purple);">Lainnya</span>
   </div>
@@ -399,6 +385,25 @@ body {
 
 </div>
 
+<div class="sec-title" style="padding: 0 16px; max-width: 440px; margin: 0 auto 12px;">
+  Pusat <span class="sec-pill" style="background:var(--purple-soft);color:var(--purple);">Kontrol &amp; Bantuan</span>
+</div>
+<div class="utility-panel" style="padding: 0 16px; max-width: 440px; margin: 0 auto;">
+  <div id="adminSection"></div>
+  <a class="util-card card-telegram" href="https://t.me/joyhayabuse" target="_blank">
+    <div class="util-icon">
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+    </div>
+    <div class="util-body">
+      <div class="util-title">Bantuan Customer Service</div>
+      <div class="util-desc">Hubungi via Telegram · Solusi Kendala 24/7</div>
+    </div>
+    <div class="util-arrow">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </a>
+</div>
+  
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
     <a class="nav-item active" href="#">
@@ -449,9 +454,8 @@ dots.forEach((dot, index) => {
 
 startSliderTimer();
 
-
 /* ─── DATA & LOAD PROFILE/CATEGORIES ─── */
-const localUser = JSON.parse(localStorage.getItem('user'));
+const localUser = JSON.parse(localStorage.getItem('user') || 'null');
 if (!localUser) window.location.href = 'index.html';
 
 const token = localStorage.getItem('token') || '';
@@ -491,7 +495,7 @@ async function loadProfile() {
     document.getElementById('username').innerText = u.username || '—';
     document.getElementById('email').innerText = u.email || '—';
     document.getElementById('balance').innerText = 'Rp ' + Number(u.balance || 0).toLocaleString('id-ID');
-    document.getElementById('avatar').src = u.avatar || 'https://via.placeholder.com/48';
+    document.getElementById('avatar').src = u.avatar || 'https://via.placeholder.com/56';
     if (u.role === 'admin') {
       document.getElementById('roleVal').innerText = 'Admin';
       document.getElementById('adminSection').innerHTML = `
