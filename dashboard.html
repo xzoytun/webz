@@ -145,49 +145,26 @@ body {
 .menu-icon-wrap svg { width:22px; height:22px; fill:none; stroke:#fff; stroke-width:2; }
 .menu-label { font-size:11px; font-weight:800; color:var(--text-dark); text-align:center; line-height:1.2; }
 
-/* ─── PROMO BANNER WITH BACKGROUND IMAGE ─── */
-.promo-scroll {
+/* ─── INFO DIGITAL BANNER ─── */
+.info-scroll {
   display:flex; gap:12px; overflow-x:auto; padding-bottom:6px;
   margin-bottom:24px; scrollbar-width:none; animation: fadeUp 0.4s 0.16s ease both;
 }
-.promo-scroll::-webkit-scrollbar { display:none; }
+.info-scroll::-webkit-scrollbar { display:none; }
 
-.promo-card {
+.info-card {
   border-radius:16px; overflow:hidden; min-width:220px; height:140px;
-  padding:16px; position:relative; flex-shrink:0;
+  position:relative; flex-shrink:0;
   background-size:cover; background-position:center; background-repeat:no-repeat;
-  display:flex; flex-direction:column; justify-content:flex-end;
 }
-
-/* dark overlay agar teks tetap terbaca di atas foto */
-.promo-card::before {
+.info-card::before {
   content:''; position:absolute; inset:0;
-  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
-  border-radius:16px;
+  background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
 }
 
-.promo-card-1 { background-image: url('https://app.isdarprem.net/images/akunvpn.png'); }
-.promo-card-2 { background-image: url('https://app.isdarprem.net/images/trial.png'); }
-.promo-card-3 { background-image: url('https://app.isdarprem.net/images/ppob.png'); }
-
-.promo-tag {
-  display:inline-flex; align-items:center; gap:4px; background:rgba(255,255,255,0.2);
-  backdrop-filter: blur(4px);
-  color:#fff; font-size:9px; font-weight:800; text-transform:uppercase;
-  letter-spacing:0.5px; border-radius:6px; padding:2px 8px; margin-bottom:6px;
-  position:relative; z-index:1; width:fit-content;
-}
-.promo-tag svg { width:10px; height:10px; fill:none; stroke:#fff; stroke-width:2.5; }
-.promo-title { font-size:15px; font-weight:900; color:#fff; line-height:1.2; margin-bottom:4px; position:relative; z-index:1; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
-.promo-sub { font-size:10px; color:rgba(255,255,255,0.85); margin-bottom:10px; font-weight:600; position:relative; z-index:1; }
-.promo-cta {
-  display:inline-flex; align-items:center; background:rgba(255,255,255,0.92);
-  backdrop-filter: blur(4px);
-  border-radius:8px; padding:5px 11px; text-decoration:none;
-  font-weight:800; font-size:11px; color:var(--text-dark);
-  transition:transform 0.15s; position:relative; z-index:1; width:fit-content;
-}
-.promo-cta:hover { transform:scale(1.03); }
+.info-card-1 { background-image: url('https://app.isdarprem.net/images/akunvpn.png'); }
+.info-card-2 { background-image: url('https://app.isdarprem.net/images/trial.jpg'); }
+.info-card-3 { background-image: url('https://app.isdarprem.net/images/ppob.png'); }
 
 /* ─── MODERN UTILITY PANEL ─── */
 .utility-panel {
@@ -316,7 +293,13 @@ body {
   <div class="sec-title">
     Informasi Digital
     <span class="sec-title-pill" style="background:#EEF4FF; color:#3B82F6;">Terpopuler</span>
-  </div>  
+  </div>
+
+  <div class="info-scroll">
+    <div class="info-card info-card-1"></div>
+    <div class="info-card info-card-2"></div>
+    <div class="info-card info-card-3"></div>
+  </div>
 
   <div class="sec-title">
     Pusat <span class="sec-title-pill">Kontrol &amp; Bantuan</span>
