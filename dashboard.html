@@ -38,7 +38,6 @@ body {
   padding-bottom: 100px;
 }
 
-/* ─── ANIMATIONS ─── */
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(12px); }
   to   { opacity:1; transform:translateY(0); }
@@ -48,7 +47,6 @@ body {
   50%      { transform:scale(1.1); }
 }
 
-/* ─── HERO MODERN & COMPACT ─── */
 .hero {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
   padding: 24px 20px 64px;
@@ -90,7 +88,6 @@ body {
   border: 1px solid rgba(255,255,255,0.1); text-transform: uppercase;
 }
 
-/* ─── BALANCE CARD (FINTECH STYLE) ─── */
 .balance-card {
   background:var(--white); border-radius:18px; padding:16px 18px;
   margin: -40px auto 0; position:relative; z-index:10; max-width: 440px;
@@ -116,10 +113,8 @@ body {
 .balance-topup:hover { background: var(--purple); transform:translateY(-1px); }
 .balance-topup svg { width:14px; height:14px; fill:none; stroke:#fff; stroke-width:2.5; }
 
-/* ─── CONTAINER ─── */
 .container { padding:20px 16px 0; max-width:440px; margin:0 auto; }
 
-/* ─── SECTION TITLE ─── */
 .sec-title {
   font-size:14px; font-weight:900; color:var(--text-dark);
   margin-bottom:12px; display:flex; align-items:center; gap:6px; letter-spacing:-0.1px;
@@ -129,7 +124,6 @@ body {
   color:var(--purple); border-radius:6px; padding:1px 8px;
 }
 
-/* ─── MENU GRID ULTRA CLEAN ─── */
 .menu-grid {
   display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
   margin-bottom:24px; animation: fadeUp 0.4s 0.12s ease both;
@@ -151,41 +145,56 @@ body {
 .menu-icon-wrap svg { width:22px; height:22px; fill:none; stroke:#fff; stroke-width:2; }
 .menu-label { font-size:11px; font-weight:800; color:var(--text-dark); text-align:center; line-height:1.2; }
 
-/* ─── PROMO BANNER COMPACT ─── */
+/* ─── PROMO BANNER WITH BACKGROUND IMAGE ─── */
 .promo-scroll {
   display:flex; gap:12px; overflow-x:auto; padding-bottom:6px;
   margin-bottom:24px; scrollbar-width:none; animation: fadeUp 0.4s 0.16s ease both;
 }
 .promo-scroll::-webkit-scrollbar { display:none; }
+
 .promo-card {
-  border-radius:16px; overflow:hidden; min-width:250px; padding:16px;
-  position:relative; flex-shrink:0; border: 1px solid var(--gray-line); background: #fff;
+  border-radius:16px; overflow:hidden; min-width:220px; height:140px;
+  padding:16px; position:relative; flex-shrink:0;
+  background-size:cover; background-position:center; background-repeat:no-repeat;
+  display:flex; flex-direction:column; justify-content:flex-end;
 }
-.promo-card-1 { background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 100%); }
-.promo-card-2 { background: linear-gradient(135deg, #FF6B2B 0%, #FF9E2C 100%); }
-.promo-card-3 { background: linear-gradient(135deg, #0052D4 0%, #4364F7 100%); }
+
+/* dark overlay agar teks tetap terbaca di atas foto */
+.promo-card::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);
+  border-radius:16px;
+}
+
+.promo-card-1 { background-image: url('https://app.isdarprem.net/images/akunvpn.png'); }
+.promo-card-2 { background-image: url('https://app.isdarprem.net/images/trial.jpg'); }
+.promo-card-3 { background-image: url('https://app.isdarprem.net/images/ppob.png'); }
 
 .promo-tag {
-  display:inline-flex; align-items:center; gap:4px; background:rgba(255,255,255,0.15);
+  display:inline-flex; align-items:center; gap:4px; background:rgba(255,255,255,0.2);
+  backdrop-filter: blur(4px);
   color:#fff; font-size:9px; font-weight:800; text-transform:uppercase;
-  letter-spacing:0.5px; border-radius:6px; padding:2px 8px; margin-bottom:8px;
+  letter-spacing:0.5px; border-radius:6px; padding:2px 8px; margin-bottom:6px;
+  position:relative; z-index:1; width:fit-content;
 }
 .promo-tag svg { width:10px; height:10px; fill:none; stroke:#fff; stroke-width:2.5; }
-.promo-title { font-size:16px; font-weight:900; color:#fff; line-height:1.2; margin-bottom:4px; }
-.promo-sub { font-size:11px; color:rgba(255,255,255,0.75); margin-bottom:12px; font-weight:600; }
+.promo-title { font-size:15px; font-weight:900; color:#fff; line-height:1.2; margin-bottom:4px; position:relative; z-index:1; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+.promo-sub { font-size:10px; color:rgba(255,255,255,0.85); margin-bottom:10px; font-weight:600; position:relative; z-index:1; }
 .promo-cta {
-  display:inline-flex; align-items:center; background:#fff; border-radius:8px;
-  padding:6px 12px; text-decoration:none; font-weight:800; font-size:11px; color: var(--text-dark); transition:transform 0.15s;
+  display:inline-flex; align-items:center; background:rgba(255,255,255,0.92);
+  backdrop-filter: blur(4px);
+  border-radius:8px; padding:5px 11px; text-decoration:none;
+  font-weight:800; font-size:11px; color:var(--text-dark);
+  transition:transform 0.15s; position:relative; z-index:1; width:fit-content;
 }
 .promo-cta:hover { transform:scale(1.03); }
 
-/* ─── MODERN UTILITY PANEL (ADMIN PANEL & BANTUAN) ─── */
+/* ─── MODERN UTILITY PANEL ─── */
 .utility-panel {
   display: flex; flex-direction: column; gap: 10px;
   margin-bottom: 24px; animation: fadeUp 0.4s 0.2s ease both;
 }
 
-/* Base style premium seamless card */
 .util-card {
   background: var(--white); border-radius: 14px; padding: 12px 14px;
   display: flex; align-items: center; gap: 12px;
@@ -207,11 +216,9 @@ body {
 .util-desc { font-size: 11px; color: var(--text-light); font-weight: 600; margin-top: 1px; }
 .util-arrow svg { width: 16px; height: 16px; fill: none; stroke: var(--text-light); stroke-width: 2.5; }
 
-/* Style Khusus Bantuan Telegram */
 .card-telegram { --card-border-hover: #27A7E5; --card-shadow: rgba(39,167,229,0.08); }
 .card-telegram .util-icon { background: linear-gradient(135deg, #229ED9, #27A7E5); }
 
-/* Style Khusus Admin Panel */
 .card-admin { --card-border-hover: var(--red); --card-shadow: rgba(232,64,64,0.08); }
 .card-admin .util-icon { background: linear-gradient(135deg, #9B1C1C, var(--red)); }
 
@@ -226,7 +233,6 @@ body {
 .nav-label { font-size:10px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
 .nav-item.active .nav-label { color:var(--purple); }
 .nav-item.active .nav-icon svg { stroke: var(--purple); }
-
 </style>
 </head>
 <body>
@@ -309,7 +315,7 @@ body {
 
   <div class="sec-title">
     Promo Terbatas
-    <span class="sec-title-pill" style="background:#FFF0E6; color:#FF6B2B;">HOT</span>
+    <span class="sec-title-pill" style="background:#EEF4FF; color:#3B82F6;">Terpopuler</span>
   </div>
 
   <div class="promo-scroll">
@@ -340,7 +346,6 @@ body {
   <div class="utility-panel">
     <div id="adminSection"></div>
 
-    <!-- Nama Telegram disembunyikan dari tampilan, link tetap berfungsi -->
     <a class="util-card card-telegram" href="https://t.me/joyhayabuse" target="_blank">
       <div class="util-icon">
         <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
@@ -385,110 +390,57 @@ if (!localUser) window.location.href = 'index.html';
 loadProfile();
 
 async function loadProfile() {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      window.location.href = 'index.html';
+      return;
+    }
 
-try {
+    const response = await fetch('/api/profile', {
+      headers: { Authorization: 'Bearer ' + token }
+    });
+    const result = await response.json();
+    console.log(result);
 
-const token =
-localStorage.getItem('token');
+    if (!result.success) {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      window.location.href = 'index.html';
+      return;
+    }
 
-if (!token) {
+    const user = result.user;
+    document.getElementById('username').innerText = user.username || '—';
+    document.getElementById('email').innerText = user.email || '—';
+    document.getElementById('balance').innerText = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
+    document.getElementById('avatar').src = user.avatar || 'https://via.placeholder.com/48';
 
-  localStorage.removeItem('user');
-  localStorage.removeItem('token');
-
-  window.location.href =
-  'index.html';
-
-  return;
-
-}
-
-const response =
-await fetch('/api/profile', {
-  headers: {
-    Authorization:
-    'Bearer ' + token
+    const roleVal = document.getElementById('roleVal');
+    if (user.role === 'admin') {
+      roleVal.innerText = 'Admin';
+      document.getElementById('adminSection').innerHTML = `
+        <a class="util-card card-admin" href="admin.html" style="margin-bottom: 10px;">
+          <div class="util-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <div class="util-body">
+            <div class="util-title" style="color: var(--red);">Admin Kontrol Panel</div>
+            <div class="util-desc">Kelola manajemen user, produk & transaksi</div>
+          </div>
+          <div class="util-arrow">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </a>`;
+    }
+  } catch(err) {
+    console.error(err);
+    alert('Dashboard Error: ' + err.message);
   }
-});
-
-const result =
-await response.json();
-
-console.log(result);
-
-if (!result.success) {
-
-  localStorage.removeItem('user');
-  localStorage.removeItem('token');
-
-  window.location.href =
-  'index.html';
-
-  return;
-
-}
-
-const user =
-result.user;
-
-document.getElementById('username').innerText =
-user.username || '—';
-
-document.getElementById('email').innerText =
-user.email || '—';
-
-document.getElementById('balance').innerText =
-'Rp ' +
-Number(user.balance || 0)
-.toLocaleString('id-ID');
-
-document.getElementById('avatar').src =
-user.avatar ||
-'https://via.placeholder.com/48';
-
-const roleVal =
-document.getElementById('roleVal');
-
-if (user.role === 'admin') {
-
-  roleVal.innerText =
-  'Admin';
-
-  document.getElementById('adminSection').innerHTML = `
-    <a class="util-card card-admin" href="admin.html" style="margin-bottom: 10px;">
-      <div class="util-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
-        </svg>
-      </div>
-      <div class="util-body">
-        <div class="util-title" style="color: var(--red);">
-          Admin Kontrol Panel
-        </div>
-        <div class="util-desc">
-          Kelola manajemen user, produk & transaksi
-        </div>
-      </div>
-      <div class="util-arrow">
-        <svg viewBox="0 0 24 24">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
-      </div>
-    </a>`;
-
-}
-
-} catch(err) {
-
-console.error(err);
-
-alert(
-  'Dashboard Error: ' +
-  err.message
-);
-
-}
-
 }
 </script>
 </body>
