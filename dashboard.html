@@ -89,24 +89,23 @@ img{display:block;}
 
 .header-inner{
   max-width:480px;margin:0 auto;
-  display:flex;align-items:flex-start;justify-content:space-between;
+  display:flex;align-items:center;justify-content:space-between;
   position:relative;z-index:2;
 }
-.greeting-chip{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.15);
-  color:rgba(255,255,255,.9);
-  font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
-  padding:5px 11px;border-radius:30px;
+.header-left{display:flex;align-items:center;gap:12px;}
+.avatar-initial{
+  width:40px;height:40px;border-radius:13px;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:900;color:#fff;
+  letter-spacing:0;
   backdrop-filter:blur(8px);
-  margin-bottom:8px;
+  flex-shrink:0;
 }
-.greeting-chip .dot{width:6px;height:6px;border-radius:50%;background:#34D399;box-shadow:0 0 6px #34D399;}
-.header-name{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.5px;line-height:1.15;}
-.header-name small{display:block;font-size:12px;font-weight:500;color:rgba(255,255,255,.55);margin-top:3px;letter-spacing:0;}
+.header-name{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.4px;line-height:1;}
 
-.hdr-actions{display:flex;gap:8px;align-items:center;margin-top:2px;}
+.hdr-actions{display:flex;gap:8px;align-items:center;}
 .hdr-btn{
   width:40px;height:40px;border-radius:12px;
   background:rgba(255,255,255,.12);
@@ -116,18 +115,6 @@ img{display:block;}
 }
 .hdr-btn:hover{background:rgba(255,255,255,.22);transform:translateY(-2px);}
 .hdr-btn svg{width:18px;height:18px;stroke:#fff;stroke-width:2.2;fill:none;}
-
-.role-pill{
-  background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.2);
-  color:#fff;font-size:10px;font-weight:800;
-  padding:6px 12px;border-radius:10px;
-  letter-spacing:.5px;text-transform:uppercase;
-  backdrop-filter:blur(8px);
-  transition:all .2s;
-}
-.role-pill:hover{background:rgba(255,255,255,.25);}
-.role-pill.admin{background:rgba(239,68,68,.25);border-color:rgba(239,68,68,.4);}
 
 [data-theme="light"] .icon-sun{display:block;}
 [data-theme="light"] .icon-moon{display:none;}
@@ -285,7 +272,7 @@ img{display:block;}
 .banner-scroll::-webkit-scrollbar{display:none;}
 .banner-card{
   flex:0 0 78vw;max-width:300px;
-  aspect-ratio:18/12;border-radius:18px;overflow:hidden;
+  aspect-ratio:16/8;border-radius:18px;overflow:hidden;
   background-size:cover;background-position:center;
   scroll-snap-align:start;
   border:1px solid var(--c-border);
@@ -360,22 +347,18 @@ img{display:block;}
     <span></span><span></span><span></span>
   </div>
   <div class="header-inner">
-    <div>
-      <div class="greeting-chip">
-        <span class="dot"></span>
-        <span id="greetText">Selamat Pagi</span>
-      </div>
-      <div class="header-name" id="headerName">
-        Xtrimer User
-        <small>Selamat datang kembali 👋</small>
-      </div>
+    <div class="header-left">
+      <div class="avatar-initial" id="avatarInitial">X</div>
+      <div class="header-name" id="headerName">Xtrimer User</div>
     </div>
     <div class="hdr-actions">
       <button class="hdr-btn" onclick="toggleTheme()" aria-label="Ganti tema">
         <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
-      <div class="role-pill" id="rolePill">Member</div>
+      <a class="hdr-btn" href="help.html" aria-label="Bantuan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </a>
     </div>
   </div>
 </header>
@@ -526,34 +509,24 @@ function toggleTheme(){
 (function(){
   const t=localStorage.getItem('xt-theme')||'light';
   document.documentElement.setAttribute('data-theme',t);
-  const h=new Date().getHours();
-  const g=h<11?'Selamat Pagi ☀️':h<15?'Selamat Siang 🌤':h<19?'Selamat Sore 🌇':'Selamat Malam 🌙';
-  document.getElementById('greetText').textContent=g;
 })();
 
-/* ── AUTH CHECK ── */
-const localUser = JSON.parse(localStorage.getItem('user') || 'null');
-
-// uncomment for production:
-// if(!localUser) window.location.href='index.html';
-
-if(localUser?.username || localUser?.email){
-
-    document.getElementById('headerName').childNodes[0].textContent =
-        localUser.username ||
-        localUser.email ||
-        'Xtrimer User';
-
+function setAvatar(name){
+  const el=document.getElementById('avatarInitial');
+  if(el&&name) el.textContent=name.charAt(0).toUpperCase();
 }
 
-const token = localStorage.getItem('token') || '';
+/* ── AUTH CHECK ── */
+const localUser=JSON.parse(localStorage.getItem('user')||'null');
+// uncomment for production: if(!localUser) window.location.href='index.html';
 
-const hdrs = {
-    headers:{
-        'Content-Type':'application/json',
-        'Authorization':'Bearer ' + token
-    }
-};
+if(localUser?.name){
+  document.getElementById('headerName').textContent=localUser.name;
+  setAvatar(localUser.name);
+}
+
+const token=localStorage.getItem('token')||'';
+const hdrs={headers:{'Content-Type':'application/json','Authorization':'Bearer '+token}};
 
 /* ── PROFILE ── */
 async function loadProfile(){
@@ -562,13 +535,10 @@ async function loadProfile(){
     const d=await r.json();
     if(!d.success){localStorage.clear();window.location.href='index.html';return;}
     const u=d.user;
-    document.getElementById('headerName').firstChild.textContent=u.name||'Xtrimer User';
+    const name=u.name||'Xtrimer User';
+    document.getElementById('headerName').textContent=name;
+    setAvatar(name);
     document.getElementById('balanceAmt').textContent='Rp '+Number(u.balance||0).toLocaleString('id-ID');
-    if(u.role){
-      const pill=document.getElementById('rolePill');
-      pill.textContent=u.role.charAt(0).toUpperCase()+u.role.slice(1);
-      if(u.role==='admin')pill.classList.add('admin');
-    }
     if(u.total_in) document.getElementById('totalIn').textContent='Rp '+Number(u.total_in).toLocaleString('id-ID');
     if(u.total_out) document.getElementById('totalOut').textContent='Rp '+Number(u.total_out).toLocaleString('id-ID');
     if(u.role==='admin'){
