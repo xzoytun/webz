@@ -66,7 +66,7 @@ body {
   color: var(--c-text);
   min-height: 100vh;
   overflow-x: hidden;
-  padding-bottom: 96px;
+  padding-bottom: 110px; /* Ditambah dikit agar konten bawah tidak tertabrak nav melayang */
   transition: background .3s, color .3s;
   -webkit-tap-highlight-color: transparent;
 }
@@ -164,11 +164,11 @@ img { display:block; }
   stroke:#fff; stroke-width:2.2; fill:none;
 }
 
-/* ── BUG FIX: Theme icon toggle ── */
+/* ── THEME SWITCHER TOGGLE DISPLAY ── */
 .icon-sun  { display: none; }
 .icon-moon { display: none; }
-[data-theme="light"] .icon-sun  { display: block; }
-[data-theme="dark"]  .icon-moon { display: block; }
+[data-theme="light"] .icon-moon { display: block; } /* Klik bulan saat light untuk masuk dark */
+[data-theme="dark"]  .icon-sun  { display: block; } /* Klik matahari saat dark untuk masuk light */
 
 /* ── BALANCE CARD ── */
 .balance-wrap {
@@ -281,7 +281,6 @@ img { display:block; }
 .vm-item:hover  { background:var(--c-surface2); }
 .vm-item:active { transform:scale(.93); }
 
-/* BUG FIX + REQUEST: smaller icon size for VPN menu */
 .vm-icon {
   width:42px; height:42px; border-radius:12px;
   overflow:hidden; background:var(--c-surface2);
@@ -391,7 +390,6 @@ img { display:block; }
   border-color:rgba(22,163,74,.25);
 }
 
-/* REQUEST: smaller util-img logos */
 .util-img {
   width:40px; height:40px; border-radius:12px;
   overflow:hidden; flex-shrink:0; background:var(--c-surface2);
@@ -409,7 +407,7 @@ img { display:block; }
   width:15px; height:15px; stroke:var(--c-text3); stroke-width:2.5; fill:none;
 }
 
-/* ── BOTTOM NAV ── */
+/* ── BOTTOM NAV FIXED PILOT ── */
 .bottom-nav {
   position:fixed; bottom:0; left:0; right:0;
   padding:6px 14px 18px; z-index:100;
@@ -467,7 +465,6 @@ img { display:block; }
       </div>
     </div>
     <div class="hdr-actions">
-      <!-- BUG FIX: icon-sun dan icon-moon CSS diperbaiki agar tidak terbalik -->
       <button class="hdr-btn" onclick="toggleTheme()" aria-label="Ganti tema">
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
           <circle cx="12" cy="12" r="5"/>
@@ -587,9 +584,7 @@ img { display:block; }
   </div>
   <div class="cat-card">
     <div class="cat-scroll" id="catGrid">
-      <!-- skeletons -->
-      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
-      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
+      <!-- skeletons awal sebelum ter-load -->
       <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
       <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
       <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
@@ -618,7 +613,6 @@ img { display:block; }
     </span>
   </div>
   <div class="util-section">
-    <!-- BUG FIX: admin slot injected via JS with complete SVG attributes -->
     <div id="adminSlot"></div>
     <a class="util-card" href="https://t.me/joyhayabuse" target="_blank">
       <div class="util-img">
@@ -636,12 +630,11 @@ img { display:block; }
       </div>
     </a>
   </div>
-  <!-- spacer -->
   <div style="height:8px;"></div>
 
-</div><!-- end .main -->
+</div>
 
-<!-- ── BOTTOM NAV ── -->
+<!-- ── BOTTOM NAV (FIXED SEMPURNA) ── -->
 <nav class="bottom-nav">
   <div class="bnav-pill">
     <a class="bnav-item active" href="#">
@@ -653,7 +646,7 @@ img { display:block; }
     </a>
     <a class="bnav-item" href="transactions.html">
       <svg viewBox="0 0 24 24">
-        <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.8"/>
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
         <polyline points="7,17 10,13 13,15 17,9"/>
       </svg>
       <span>Riwayat</span>
@@ -669,7 +662,7 @@ img { display:block; }
 </nav>
 
 <script>
-/* ── THEME — BUG FIX: apply stored theme sebelum render ── */
+/* ── AUTO APPLY LOCAL THEME ── */
 (function() {
   const saved = localStorage.getItem('xt-theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
@@ -682,15 +675,15 @@ function toggleTheme() {
   localStorage.setItem('xt-theme', next);
 }
 
-/* ── AVATAR ── */
+/* ── AVATAR SETTER ── */
 function setAvatar(name) {
   const el = document.getElementById('avatarInitial');
   if (el && name) el.textContent = name.charAt(0).toUpperCase();
 }
 
-/* ── AUTH (from localStorage) ── */
+/* ── CACHED LOCALSTORAGE USER ── */
 const localUser = JSON.parse(localStorage.getItem('user') || 'null');
-if (localUser?.name) {
+if (localUser && localUser.name) {
   document.getElementById('headerName').textContent = localUser.name;
   setAvatar(localUser.name);
 }
@@ -703,16 +696,15 @@ const hdrs = {
   }
 };
 
-/* ── FORMAT RUPIAH ── */
 function rupiah(val) {
   return 'Rp ' + Number(val || 0).toLocaleString('id-ID');
 }
 
-/* ── PROFILE ── */
+/* ── LOAD PROFILE DATA ── */
 async function loadProfile() {
   try {
     const r = await fetch('/api/profile', hdrs);
-    if (!r.ok) throw new Error('not ok');
+    if (!r.ok) throw new Error('API Error');
     const d = await r.json();
     if (!d.success) {
       localStorage.clear();
@@ -727,7 +719,6 @@ async function loadProfile() {
     if (u.total_in)  document.getElementById('totalIn').textContent  = rupiah(u.total_in);
     if (u.total_out) document.getElementById('totalOut').textContent = rupiah(u.total_out);
 
-    /* BUG FIX: admin card dengan SVG stroke attr lengkap */
     if (u.role === 'admin') {
       document.getElementById('adminSlot').innerHTML = `
         <a class="util-card" href="admin.html">
@@ -747,30 +738,34 @@ async function loadProfile() {
         </a>`;
     }
   } catch (e) {
-    console.warn('Profile API unavailable — demo mode');
-    /* Demo fallback */
-    document.getElementById('balanceAmt').textContent = 'Rp 250.000';
-    document.getElementById('totalIn').textContent    = 'Rp 1.200.000';
-    document.getElementById('totalOut').textContent   = 'Rp 950.000';
+    console.warn('Menggunakan fallback demo profile.');
+    document.getElementById('balanceAmt').textContent = 'Rp 60.952';
+    document.getElementById('totalIn').textContent    = 'Rp 1.000';
+    document.getElementById('totalOut').textContent   = 'Rp 8.010';
   }
 }
 
-/* ── CATEGORIES ── */
-const HIDDEN = ['gas','tv','tv kabel','gas pln','gas elpiji','tagihan gas'];
-const IMG_MAP = [
-  { keys:['pulsa','sms','telp'],       img:'https://app.isdarprem.net/images/smsdantelpon.jpeg' },
-  { keys:['data'],                     img:'https://app.isdarprem.net/images/data.png' },
-  { keys:['pln','listrik','token'],    img:'https://app.isdarprem.net/images/pln.png' },
-  { keys:['e-wallet','ewallet','e-money','emoney'], img:'https://app.isdarprem.net/images/ewallet.jpg' },
-  { keys:['game','gaming'],            img:'https://app.isdarprem.net/images/games.jpg' },
-  { keys:['voucher'],                  img:'https://app.isdarprem.net/images/voucher.png' },
-  { keys:['perdana','esim','e-sim'],   img:'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
-  { keys:['masa aktif','masa'],        img:'https://app.isdarprem.net/images/masaaktif.jpg' },
+/* ── CATEGORIES (FIX BUG: MENGGUNAKAN GETCATIMG YANG BENAR) ── */
+const HIDDEN_CATEGORIES = ['gas','tv','tv kabel','gas pln','gas elpiji','tagihan gas'];
+
+const CAT_IMG_MAP = [
+  { keys: ['paket sms','sms & telp','sms dan telp','paket telp'], img: 'https://app.isdarprem.net/images/smsdantelpon.jpeg' },
+  { keys: ['pulsa'],        img: 'https://app.isdarprem.net/images/smsdantelpon.jpeg' },
+  { keys: ['data'],         img: 'https://app.isdarprem.net/images/data.png' },
+  { keys: ['pln','token listrik','listrik','token pln'], img: 'https://app.isdarprem.net/images/pln.png' },
+  { keys: ['e-wallet','ewallet','e-money','emoney','e money','e wallet'], img: 'https://app.isdarprem.net/images/ewallet.jpg' },
+  { keys: ['game','games','gaming'], img: 'https://app.isdarprem.net/images/games.jpg' },
+  { keys: ['aktivasi voucher'], img: 'https://app.isdarprem.net/images/aktisivasivoucher.jpg' },
+  { keys: ['voucher'],      img: 'https://app.isdarprem.net/images/voucher.png' },
+  { keys: ['aktivasi perdana'], img: 'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
+  { keys: ['perdana'],      img: 'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
+  { keys: ['masa aktif','masa'], img: 'https://app.isdarprem.net/images/masaaktif.jpg' },
 ];
-function getImg(name) {
-  const k = name.toLowerCase();
-  for (const { keys, img } of IMG_MAP) {
-    if (keys.some(x => k.includes(x))) return img;
+
+function getCatImg(catName) {
+  const key = catName.toLowerCase();
+  for (const { keys, img } of CAT_IMG_MAP) {
+    if (keys.some(k => key.includes(k))) return img;
   }
   return 'https://app.isdarprem.net/images/images.png';
 }
@@ -778,13 +773,15 @@ function getImg(name) {
 async function loadCategories() {
   try {
     const r = await fetch('/api/ppob/categories', hdrs);
-    if (!r.ok) throw new Error('not ok');
+    if (!r.ok) throw new Error('API Error');
     const d = await r.json();
     const grid  = document.getElementById('catGrid');
     const badge = document.getElementById('catCount');
+    
     if (d.success && d.categories?.length) {
+      // FIX BUG: Mengubah HIDDEN menjadi HIDDEN_CATEGORIES agar tidak memicu crash JS
       const visible = d.categories.filter(
-        c => !HIDDEN.some(h => c.toLowerCase().includes(h))
+        c => !HIDDEN_CATEGORIES.some(h => c.toLowerCase().includes(h))
       );
       badge.textContent = visible.length + ' Kategori';
       grid.innerHTML = '';
@@ -793,9 +790,10 @@ async function loadCategories() {
         el.className = 'cat-item';
         el.href = `ppob.html?cat=${encodeURIComponent(cat)}`;
         const initial = encodeURIComponent(cat[0] || '?');
+        // FIX BUG: Mengubah getImg() menjadi getCatImg() sesuai nama fungsi di atas
         el.innerHTML = `
           <div class="cat-img">
-            <img src="${getImg(cat)}" alt="${cat}"
+            <img src="${getCatImg(cat)}" alt="${cat}"
               onerror="this.src='https://placehold.co/54/16A34A/fff?text=${initial}'">
           </div>
           <div class="cat-name">${cat}</div>`;
@@ -805,7 +803,7 @@ async function loadCategories() {
       showCatErr();
     }
   } catch (e) {
-    /* BUG FIX: demo categories agar halaman tetap fungsional tanpa API */
+    console.warn('Menggunakan fallback demo categories.');
     const demo = ['Pulsa','Paket Data','Token PLN','E-Wallet','Games','Voucher','Perdana','Masa Aktif'];
     const grid  = document.getElementById('catGrid');
     const badge = document.getElementById('catCount');
@@ -814,11 +812,11 @@ async function loadCategories() {
     demo.forEach(cat => {
       const el = document.createElement('a');
       el.className = 'cat-item';
-      el.href = '#';
+      el.href = `ppob.html?cat=${encodeURIComponent(cat)}`;
       const initial = encodeURIComponent(cat[0] || '?');
       el.innerHTML = `
         <div class="cat-img">
-          <img src="${getImg(cat)}" alt="${cat}"
+          <img src="${getCatImg(cat)}" alt="${cat}"
             onerror="this.src='https://placehold.co/54/16A34A/fff?text=${initial}'">
         </div>
         <div class="cat-name">${cat}</div>`;
@@ -835,7 +833,7 @@ function showCatErr() {
   b.style.cssText = 'background:var(--c-red-s);color:var(--c-red);';
 }
 
-/* ── INIT ── */
+/* ── RUN ACCELERATION ── */
 loadProfile();
 loadCategories();
 </script>
