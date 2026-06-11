@@ -406,7 +406,44 @@ body {
 </nav>
 
 <script>
+// ─────────────────────────────────────────
+// COPY FUNCTION — untuk result card dari backend
+// ─────────────────────────────────────────
+function copyDirectLink(btnEl, encodedText) {
+  var rowEl = btnEl.closest('.link-row');
+  var text = decodeURIComponent(encodedText);
+  var originalHTML = btnEl.innerHTML;
 
+  function onSuccess() {
+    rowEl.classList.add('copied-active');
+    btnEl.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="20 6 9 17 4 12"></polyline></svg> Berhasil!';
+    setTimeout(function() {
+      rowEl.classList.remove('copied-active');
+      btnEl.innerHTML = originalHTML;
+    }, 2000);
+  }
+
+  function fallback() {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    ta.setSelectionRange(0, 99999);
+    try {
+      var ok = document.execCommand('copy');
+      if (ok) onSuccess();
+    } catch(e) { console.error('Copy gagal:', e); }
+    document.body.removeChild(ta);
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(onSuccess).catch(fallback);
+  } else {
+    fallback();
+  }
+}
 // ─── THEME MANAGER ───
 function toggleTheme() {
   const html = document.documentElement;
