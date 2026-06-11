@@ -15,16 +15,16 @@
   --green:        #12C28A;
   --red:          #E84040;
 
-  --bg:           #F5F6FA;
+  --bg:           #F8F9FD;
   --card-bg:      #FFFFFF;
   --text-dark:    #1A1A2E;
   --text-mid:     #555577;
   --text-light:   #9999BB;
-  --border:       #EEEEF5;
+  --border:       #EEEEF6;
   --nav-bg:       #FFFFFF;
 
-  --icon-bg:      #EEF9F5;
-  --icon-color:   #12C28A;
+  --icon-bg:      #F4EDFA;
+  --icon-color:   #7B2FBE;
 }
 
 [data-theme="dark"] {
@@ -37,8 +37,8 @@
   --nav-bg:       #150F28;
   --primary-soft: #2D1A50;
   --primary-mid:  #3D2265;
-  --icon-bg:      #1A2E24;
-  --icon-color:   #12C28A;
+  --icon-bg:      #2D1A50;
+  --icon-color:   #A05DE0;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -47,7 +47,7 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   overflow-x: hidden;
-  padding-bottom: 90px;
+  padding-bottom: 100px;
   transition: background 0.3s, color 0.3s;
 }
 
@@ -63,7 +63,7 @@ body {
 /* ── HEADER ── */
 .header {
   background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 60%, #A05DE0 100%);
-  padding: 18px 20px 22px;
+  padding: 24px 20px 28px;
   position: relative; overflow: hidden;
 }
 .header-dots {
@@ -83,26 +83,27 @@ body {
 }
 .header-inner {
   max-width: 440px; margin: 0 auto;
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 14px;
   position: relative; z-index: 2;
 }
 .header-avatar {
-  width: 46px; height: 46px; border-radius: 14px;
-  object-fit: cover; border: 2px solid rgba(255,255,255,0.3);
+  width: 48px; height: 48px; border-radius: 50%; /* Membuat avatar bulat sempurna ala aplikasi modern */
+  object-fit: cover; border: 2px solid rgba(255,255,255,0.4);
   flex-shrink: 0; background: rgba(255,255,255,0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 .header-text { flex: 1; }
-.header-greeting { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); margin-bottom: 2px; }
-.header-name { font-size: 17px; font-weight: 900; color: #fff; letter-spacing: -0.3px; }
+.header-greeting { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 1px; }
+.header-name { font-size: 18px; font-weight: 900; color: #fff; letter-spacing: -0.3px; }
 .header-actions { display: flex; gap: 8px; }
 .hdr-btn {
-  width: 36px; height: 36px; border-radius: 10px;
+  width: 38px; height: 38px; border-radius: 12px;
   background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.2);
   display: flex; align-items: center; justify-content: center; cursor: pointer;
   transition: all 0.2s; backdrop-filter: blur(6px);
 }
-.hdr-btn:hover { background: rgba(255,255,255,0.24); }
-.hdr-btn svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; }
+.hdr-btn:hover { background: rgba(255,255,255,0.24); transform: scale(1.05); }
+.hdr-btn svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; }
 .icon-sun { display: none; }
 .icon-moon { display: block; }
 [data-theme="dark"] .icon-sun  { display: block; }
@@ -110,92 +111,94 @@ body {
 
 /* ── BALANCE ── */
 .balance-section {
-  max-width: 440px; margin: 0 auto;
-  padding: 14px 16px 0;
+  max-width: 440px; margin: -14px auto 0; /* Menaikkan card sedikit agar overlapping estetik */
+  padding: 0 16px;
+  position: relative; z-index: 10;
   animation: fadeUp 0.35s 0.05s ease both;
 }
 .balance-card {
   background: var(--card-bg);
-  border-radius: 18px;
-  padding: 16px 18px;
+  border-radius: 20px;
+  padding: 18px;
   border: 1px solid var(--border);
-  box-shadow: 0 4px 20px rgba(90,26,154,0.07);
+  box-shadow: 0 8px 24px rgba(90,26,154,0.08);
   display: flex; align-items: center; gap: 14px;
   transition: background 0.3s, border-color 0.3s;
 }
 .balance-icon {
-  width: 44px; height: 44px; border-radius: 13px;
+  width: 46px; height: 46px; border-radius: 14px;
   background: var(--primary-soft);
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.balance-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--primary); stroke-width: 2.2; }
+.balance-icon svg { width: 22px; height: 22px; fill: none; stroke: var(--primary); stroke-width: 2.2; }
 .balance-body { flex: 1; }
-.balance-lbl { font-size: 10px; font-weight: 800; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
+.balance-lbl { font-size: 11px; font-weight: 800; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
 .balance-amt { font-size: 22px; font-weight: 900; color: var(--text-dark); letter-spacing: -0.5px; }
 .balance-topup {
   background: linear-gradient(135deg, var(--primary-dark), var(--primary));
   color: #fff; border: none; border-radius: 12px; padding: 10px 16px;
   font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 12px;
-  cursor: pointer; display: flex; align-items: center; gap: 5px; text-decoration: none;
-  white-space: nowrap; transition: all 0.15s; flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(90,26,154,0.25);
+  cursor: pointer; display: flex; align-items: center; gap: 6px; text-decoration: none;
+  white-space: nowrap; transition: all 0.2s; flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(90,26,154,0.2);
 }
-.balance-topup:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(90,26,154,0.35); }
-.balance-topup svg { width: 13px; height: 13px; fill: none; stroke: #fff; stroke-width: 2.5; }
+.balance-topup:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(90,26,154,0.3); }
+.balance-topup svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 2.5; }
 
 /* ── CONTAINER ── */
-.container { padding: 16px 16px 0; max-width: 440px; margin: 0 auto; }
+.container { padding: 20px 16px 0; max-width: 440px; margin: 0 auto; }
 
 .sec-label {
   font-size: 14px; font-weight: 900; color: var(--text-dark);
-  margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
+  margin: 12px 4px 12px; display: flex; align-items: center; justify-content: space-between;
 }
 .sec-label-left { display: flex; align-items: center; gap: 8px; }
-.sec-label-left span { font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 20px; }
+.sec-label-left span { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
 .sec-see-all { font-size: 11px; font-weight: 800; color: var(--primary); text-decoration: none; }
 
-/* ── QUICK MENU ── */
+/* ── QUICK MENU LAYANAN VPN ── */
 .quick-menu {
-  background: var(--card-bg); border-radius: 18px;
-  padding: 16px 12px; margin-bottom: 16px;
+  background: var(--card-bg); border-radius: 20px;
+  padding: 16px 14px; margin-bottom: 20px;
   border: 1px solid var(--border);
-  box-shadow: 0 2px 12px rgba(90,26,154,0.04);
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
   animation: fadeUp 0.35s 0.08s ease both;
   transition: background 0.3s, border-color 0.3s;
 }
-.qm-item { display: flex; flex-direction: column; align-items: center; gap: 7px; text-decoration: none; padding: 4px 2px; }
+.qm-item { display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; }
 .qm-icon {
-  width: 50px; height: 50px; border-radius: 15px;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;
+  width: 56px; height: 56px; border-radius: 16px; /* Konsisten berbentuk square-rounded modern */
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: var(--bg); /* Mencegah background transparan ngaco */
 }
-.qm-icon img { width: 50px; height: 50px; object-fit: cover; border-radius: 15px; display: block; }
-.qm-item:hover .qm-icon { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(90,26,154,0.2); }
+.qm-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.qm-item:hover .qm-icon { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(90,26,154,0.15); }
 .qm-item:active .qm-icon { transform: scale(0.93); }
-.qm-label { font-size: 10px; font-weight: 800; color: var(--text-mid); text-align: center; line-height: 1.3; }
+.qm-label { font-size: 11px; font-weight: 800; color: var(--text-mid); text-align: center; line-height: 1.3; }
 
-/* ── CATEGORIES ── */
+/* ── CATEGORIES PRODUK DIGITAL ── */
 .cat-section {
-  background: var(--card-bg); border-radius: 18px;
-  padding: 16px 14px; margin-bottom: 16px;
+  background: var(--card-bg); border-radius: 20px;
+  padding: 18px 14px; margin-bottom: 20px;
   border: 1px solid var(--border);
-  box-shadow: 0 2px 12px rgba(90,26,154,0.04);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.02);
   animation: fadeUp 0.35s 0.11s ease both;
   transition: background 0.3s, border-color 0.3s;
 }
-.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.cat-item { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; }
+.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 10px; } /* Jarak baris vertikal diperlebar agar seimbang */
+.cat-item { display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; }
 .cat-icon-wrap {
-  width: 52px; height: 52px; border-radius: 16px;
+  width: 52px; height: 52px; border-radius: 16px; /* Sama dengan ukuran menu utama */
   overflow: hidden; display: flex; align-items: center; justify-content: center;
-  background: var(--icon-bg);
-  transition: transform 0.18s, box-shadow 0.18s;
+  background: var(--bg);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.cat-icon-wrap img { width: 52px; height: 52px; object-fit: cover; display: block; }
-.cat-item:hover .cat-icon-wrap { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.1); }
+.cat-icon-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cat-item:hover .cat-icon-wrap { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(0,0,0,0.08); }
 .cat-item:active .cat-icon-wrap { transform: scale(0.93); }
-.cat-name { font-size: 10px; font-weight: 800; color: var(--text-mid); text-align: center; line-height: 1.3; max-width: 58px; word-break: break-word; }
+.cat-name { font-size: 11px; font-weight: 800; color: var(--text-mid); text-align: center; line-height: 1.3; max-width: 65px; word-break: break-word; }
 
 .cat-skeleton {
   border-radius: 16px; height: 52px; width: 52px; margin: 0 auto;
@@ -203,84 +206,87 @@ body {
   background-size: 200% 100%; animation: shimmer 1.4s infinite;
 }
 .cat-skeleton-label {
-  width: 44px; height: 9px; border-radius: 5px; margin: 0 auto;
+  width: 48px; height: 10px; border-radius: 5px; margin: 0 auto;
   background: linear-gradient(90deg, var(--border) 25%, var(--primary-soft) 50%, var(--border) 75%);
   background-size: 200% 100%; animation: shimmer 1.4s infinite;
 }
 
 /* ── BANNER ── */
 .banner-section {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   animation: fadeUp 0.35s 0.14s ease both;
 }
 .banner-scroll {
-  display: flex; gap: 10px; overflow-x: auto;
+  display: flex; gap: 12px; overflow-x: auto;
   scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; padding-bottom: 4px;
+  scrollbar-width: none; padding: 4px 4px 8px;
 }
 .banner-scroll::-webkit-scrollbar { display: none; }
 .banner-card {
-  flex: 0 0 80vw; max-width: 300px;
-  aspect-ratio: 16/9; border-radius: 14px; overflow: hidden;
+  flex: 0 0 82vw; max-width: 320px;
+  aspect-ratio: 16/9; border-radius: 16px; overflow: hidden;
   background-size: cover; background-position: center;
   scroll-snap-align: start;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
   border: 1px solid var(--border);
   background-color: var(--card-bg);
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, transform 0.2s;
 }
+.banner-card:hover { transform: scale(1.01); }
 .banner-1 { background-image: url('https://app.isdarprem.net/images/akun2.png'); }
 .banner-2 { background-image: url('https://app.isdarprem.net/images/trial2.png'); }
 .banner-3 { background-image: url('https://app.isdarprem.net/images/ppo.png'); }
 
-/* ── UTILITY ── */
+/* ── PUSAT BANTUAN & UTILITY ── */
 .util-section {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   animation: fadeUp 0.35s 0.17s ease both;
 }
 .util-card {
-  background: var(--card-bg); border-radius: 14px; padding: 13px 14px;
-  display: flex; align-items: center; gap: 12px;
-  border: 1px solid var(--border); text-decoration: none; margin-bottom: 10px;
-  transition: all 0.18s;
+  background: var(--card-bg); border-radius: 16px; padding: 14px 16px;
+  display: flex; align-items: center; gap: 14px;
+  border: 1px solid var(--border); text-decoration: none; margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+  transition: all 0.2s;
 }
 .util-card:last-child { margin-bottom: 0; }
-.util-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.07); }
+.util-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); border-color: var(--primary-mid); }
 .util-icon-img {
-  width: 40px; height: 40px; border-radius: 12px;
+  width: 44px; height: 44px; border-radius: 14px; /* Dibuat serasi dengan struktur grid di atas */
   overflow: hidden; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
 }
-.util-icon-img img { width: 40px; height: 40px; object-fit: cover; display: block; }
+.util-icon-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .util-body { flex: 1; }
-.util-title { font-size: 13px; font-weight: 800; color: var(--text-dark); }
-.util-desc { font-size: 10.5px; color: var(--text-light); font-weight: 600; margin-top: 1px; }
+.util-title { font-size: 14px; font-weight: 800; color: var(--text-dark); }
+.util-desc { font-size: 11px; color: var(--text-light); font-weight: 600; margin-top: 2px; }
 .util-arrow { display: flex; align-items: center; }
-.util-arrow svg { width: 14px; height: 14px; fill: none; stroke: var(--text-light); stroke-width: 2.5; }
+.util-arrow svg { width: 16px; height: 16px; fill: none; stroke: var(--text-light); stroke-width: 2.5; }
 
 /* ── BOTTOM NAV ── */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
   background: var(--nav-bg); border-top: 1px solid var(--border);
-  display: flex; padding: 10px 0 16px;
-  box-shadow: 0 -2px 16px rgba(0,0,0,0.06); z-index: 100;
+  display: flex; padding: 12px 0 18px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.04); z-index: 100;
   transition: background 0.3s, border-color 0.3s;
 }
 .bnav-inner { display: flex; width: 100%; max-width: 440px; margin: 0 auto; }
-.bnav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; }
+.bnav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; }
 .bnav-icon { position: relative; }
-.bnav-icon svg { width: 22px; height: 22px; fill: none; stroke: var(--text-light); stroke-width: 2; transition: stroke 0.2s; }
-.bnav-label { font-size: 10px; font-weight: 800; color: var(--text-light); transition: color 0.2s; }
+.bnav-icon svg { width: 22px; height: 22px; fill: none; stroke: var(--text-light); stroke-width: 2.2; transition: stroke 0.2s; }
+.bnav-label { font-size: 11px; font-weight: 800; color: var(--text-light); transition: color 0.2s; }
 .bnav-item.active .bnav-label { color: var(--primary); }
 .bnav-item.active .bnav-icon svg { stroke: var(--primary); }
 .bnav-active-dot {
-  width: 4px; height: 4px; border-radius: 50%;
+  width: 5px; height: 5px; border-radius: 50%;
   background: var(--primary); margin: 1px auto 0;
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-dots"></div>
   <div class="header-circle1"></div>
@@ -306,7 +312,6 @@ body {
   </div>
 </div>
 
-<!-- BALANCE -->
 <div class="balance-section">
   <div class="balance-card">
     <div class="balance-icon">
@@ -325,8 +330,7 @@ body {
 
 <div class="container">
 
-  <!-- QUICK MENU -->
-  <div class="sec-label" style="margin-top:16px;">
+  <div class="sec-label">
     <div class="sec-label-left">
       Menu Layanan
       <span style="background:var(--primary-soft);color:var(--primary);">VPN</span>
@@ -351,7 +355,6 @@ body {
     </a>
   </div>
 
-  <!-- CATEGORIES -->
   <div class="sec-label">
     <div class="sec-label-left">
       Produk Digital
@@ -360,7 +363,6 @@ body {
   </div>
   <div class="cat-section">
     <div class="cat-grid" id="categoryGrid">
-      <!-- skeleton -->
       <div class="cat-item"><div class="cat-skeleton"></div><div class="cat-skeleton-label" style="margin-top:6px;"></div></div>
       <div class="cat-item"><div class="cat-skeleton"></div><div class="cat-skeleton-label" style="margin-top:6px;"></div></div>
       <div class="cat-item"><div class="cat-skeleton"></div><div class="cat-skeleton-label" style="margin-top:6px;"></div></div>
@@ -372,7 +374,6 @@ body {
     </div>
   </div>
 
-  <!-- BANNER -->
   <div class="sec-label">
     <div class="sec-label-left">
       Informasi
@@ -387,10 +388,11 @@ body {
     </div>
   </div>
 
-  <!-- UTILITY -->
   <div class="sec-label">
-    Pusat Bantuan
-    <span style="font-size:10px;font-weight:800;background:var(--primary-soft);color:var(--primary);padding:2px 8px;border-radius:20px;"></span>
+    <div class="sec-label-left">
+      Pusat Bantuan
+      <span style="background:var(--primary-soft);color:var(--primary);">Bantuan</span>
+    </div>
   </div>
   <div class="util-section">
     <div id="adminSection"></div>
@@ -408,7 +410,6 @@ body {
 
 </div>
 
-<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bnav-inner">
     <a class="bnav-item active" href="#">
@@ -447,25 +448,20 @@ const getHeaders = () => ({ 'Content-Type':'application/json', 'Authorization':`
 
 const HIDDEN_CATEGORIES = ['gas','tv','tv kabel','gas pln','gas elpiji','tagihan gas'];
 
-// Array-based map — urutan penting, spesifik di atas
 const CAT_IMG_MAP = [
-  // SMS & Telpon (harus di atas 'pulsa' biar gak nabrak)
   { keys: ['paket sms','sms & telp','sms dan telp','paket telp'], img: 'https://app.isdarprem.net/images/smsdantelpon.jpeg' },
   { keys: ['pulsa'],        img: 'https://app.isdarprem.net/images/smsdantelpon.jpeg' },
   { keys: ['data'],         img: 'https://app.isdarprem.net/images/data.png' },
   { keys: ['pln','token listrik','listrik','token pln'], img: 'https://app.isdarprem.net/images/pln.png' },
   { keys: ['e-wallet','ewallet','e-money','emoney','e money','e wallet'], img: 'https://app.isdarprem.net/images/ewallet.jpg' },
   { keys: ['game','games','gaming'], img: 'https://app.isdarprem.net/images/games.jpg' },
-  // Aktivasi Voucher harus di atas 'voucher' biar gak salah match
   { keys: ['aktivasi voucher'], img: 'https://app.isdarprem.net/images/aktisivasivoucher.jpg' },
   { keys: ['voucher'],      img: 'https://app.isdarprem.net/images/voucher.png' },
-  // Aktivasi Perdana harus di atas 'perdana'
   { keys: ['aktivasi perdana'], img: 'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
   { keys: ['perdana'],      img: 'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
   { keys: ['masa aktif','masa'], img: 'https://app.isdarprem.net/images/masaaktif.jpg' },
   { keys: ['streaming','media sosial','medsos'], img: 'https://app.isdarprem.net/images/voucher.png' },
   { keys: ['esim','e-sim'], img: 'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
-  // TOPUP internasional semua pakai ewallet sebagai fallback
   { keys: ['topup','top up','top-up','malaysia','china','vietnam','thailand','singapore','philippines','bundling'], img: 'https://app.isdarprem.net/images/ewallet.jpg' },
 ];
 
