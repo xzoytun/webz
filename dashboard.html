@@ -60,10 +60,10 @@ body {
   100% { background-position: -200% 0; }
 }
 
-/* ── HEADER PREMIUM RE-DESIGN ── */
+/* ── HEADER PREMIUM RE-DESIGN (TANPA FOTO) ── */
 .header {
   background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 60%, #A05DE0 100%);
-  padding: 40px 24px 60px;
+  padding: 38px 20px 55px;
   position: relative; 
   overflow: hidden;
 }
@@ -74,12 +74,12 @@ body {
 }
 .header-circle1 {
   position: absolute; top: -30px; right: -30px;
-  width: 160px; height: 160px; border-radius: 50%;
+  width: 150px; height: 150px; border-radius: 50%;
   background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.01)); pointer-events: none;
 }
 .header-circle2 {
   position: absolute; bottom: -40px; left: -10px;
-  width: 110px; height: 110px; border-radius: 50%;
+  width: 100px; height: 100px; border-radius: 50%;
   background: rgba(255,255,255,0.03); pointer-events: none;
 }
 .header-inner {
@@ -91,16 +91,16 @@ body {
   display: flex;
   flex-direction: column;
   text-align: left;
+  gap: 4px;
 }
 .header-greeting { 
   display: inline-flex;
   align-items: center;
   font-size: 11px; 
   font-weight: 800; 
-  color: #fff; 
-  margin-bottom: 6px; 
+  color: rgba(255, 255, 255, 0.9); 
   text-transform: uppercase;
-  letter-spacing: 1.2px;
+  letter-spacing: 1px;
   background: rgba(255, 255, 255, 0.15);
   padding: 4px 10px;
   border-radius: 30px;
@@ -109,58 +109,43 @@ body {
   border: 1px solid rgba(255,255,255,0.1);
 }
 .header-name { 
-  font-size: 26px; 
+  font-size: 24px; 
   font-weight: 900; 
   color: #fff; 
   letter-spacing: -0.5px;
   line-height: 1.2;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
 .header-right-zone {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
-.header-avatar-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.header-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-  object-fit: cover;
-  background: #fff;
-}
-.header-badge {
-  position: absolute;
-  bottom: -4px;
-  background: var(--green);
+.header-status-badge {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #fff;
-  font-size: 8px;
-  font-weight: 900;
-  padding: 2px 6px;
-  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 10px 14px;
+  border-radius: 14px;
   text-transform: uppercase;
-  border: 1.5px solid var(--primary);
-  white-space: nowrap;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
 }
 .hdr-btn {
   width: 42px; height: 42px; border-radius: 14px;
-  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18);
   display: flex; align-items: center; justify-content: center; cursor: pointer;
   transition: all 0.2s; backdrop-filter: blur(8px);
 }
-.hdr-btn:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+.hdr-btn:hover, .header-status-badge:hover { 
+  background: rgba(255,255,255,0.22); 
+  transform: translateY(-2px); 
+}
 .hdr-btn svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.5; }
-.icon-sun { display: none; }
-.icon-moon { display: block; }
-[data-theme="dark"] .icon-sun  { display: block; }
-[data-theme="dark"] .icon-moon { display: none; }
+
 
 /* ── BALANCE ── */
 .balance-section {
@@ -231,35 +216,69 @@ body {
 .qm-item:active .qm-icon { transform: scale(0.93); }
 .qm-label { font-size: 10.5px; font-weight: 800; color: var(--text-mid); text-align: center; line-height: 1.2; }
 
-/* ── CATEGORIES PRODUK DIGITAL ── */
+/* ── CATEGORIES PRODUK DIGITAL PREMIUM (HORIZONTAL SCROLL) ── */
 .cat-section {
-  background: var(--card-bg); border-radius: 20px;
-  padding: 18px 14px; margin-bottom: 20px;
+  background: var(--card-bg); 
+  border-radius: 20px;
+  padding: 16px 12px; 
+  margin-bottom: 20px;
   border: 1px solid var(--border);
   box-shadow: 0 4px 16px rgba(0,0,0,0.02);
   animation: fadeUp 0.35s 0.11s ease both;
   transition: background 0.3s, border-color 0.3s;
 }
-.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 10px; }
-.cat-item { display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; }
+.cat-grid { 
+  display: flex; 
+  gap: 16px; 
+  overflow-x: auto; 
+  padding-bottom: 4px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.cat-grid::-webkit-scrollbar { 
+  display: none;
+}
+.cat-item { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 8px; 
+  text-decoration: none; 
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
 .cat-icon-wrap {
-  width: 52px; height: 52px; border-radius: 16px;
+  width: 54px; height: 54px; border-radius: 16px;
   overflow: hidden; display: flex; align-items: center; justify-content: center;
   background: var(--bg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .cat-icon-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.cat-item:hover .cat-icon-wrap { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(0,0,0,0.08); }
+.cat-item:hover .cat-icon-wrap { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(90,26,154,0.15); }
 .cat-item:active .cat-icon-wrap { transform: scale(0.93); }
-.cat-name { font-size: 11px; font-weight: 800; color: var(--text-mid); text-align: center; line-height: 1.3; max-width: 65px; word-break: break-word; }
+.cat-name { 
+  font-size: 11px; 
+  font-weight: 800; 
+  color: var(--text-mid); 
+  text-align: center; 
+  line-height: 1.2; 
+  width: 60px; 
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 .cat-skeleton {
-  border-radius: 16px; height: 52px; width: 52px; margin: 0 auto;
+  border-radius: 16px; height: 54px; width: 54px; flex-shrink: 0;
   background: linear-gradient(90deg, var(--border) 25%, var(--primary-soft) 50%, var(--border) 75%);
   background-size: 200% 100%; animation: shimmer 1.4s infinite;
 }
 .cat-skeleton-label {
-  width: 48px; height: 10px; border-radius: 5px; margin: 0 auto;
+  width: 45px; height: 10px; border-radius: 5px; margin: 0 auto;
   background: linear-gradient(90deg, var(--border) 25%, var(--primary-soft) 50%, var(--border) 75%);
   background-size: 200% 100%; animation: shimmer 1.4s infinite;
 }
@@ -346,8 +365,8 @@ body {
   <div class="header-circle2"></div>
   <div class="header-inner">
     <div class="header-text">
-      <div class="header-greeting" id="greetingText">Halo, Selamat Hari 👋</div>
-      <div class="header-name" id="headerName">Xtrimer Media</div>
+      <div class="header-greeting" id="greetingText">Selamat Malam 👋</div>
+      <div class="header-name" id="headerName">Xtrimer User</div>
     </div>
     <div class="header-right-zone">
       <button class="hdr-btn" onclick="toggleTheme()" aria-label="Toggle tema">
@@ -360,13 +379,11 @@ body {
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
         </svg>
       </button>
-      <div class="header-avatar-wrap">
-        <img class="header-avatar" src="https://app.isdarprem.net/images/images.png" id="userAvatar" alt="User Avatar">
-        <span class="header-badge" id="userBadge">Member</span>
-      </div>
+      <div class="header-status-badge" id="userBadge">Member</div>
     </div>
   </div>
 </div>
+
 
 <div class="balance-section">
   <div class="balance-card">
@@ -495,7 +512,6 @@ function toggleTheme() {
   const saved = localStorage.getItem('xt-theme') || 'light';
   document.documentElement.setAttribute('data-theme', saved);
   
-  // Set Sapaan Otomatis berdasarkan Waktu Jam Pengguna
   const hours = new Date().getHours();
   let greet = "Selamat Malam 👋";
   if (hours < 11) greet = "Selamat Pagi 👋";
@@ -507,7 +523,6 @@ function toggleTheme() {
 const localUser = JSON.parse(localStorage.getItem('user'));
 if (!localUser) window.location.href = 'index.html';
 
-// Mengisi nama dari local storage jika tersedia sebelum API termuat
 if (localUser && localUser.name) {
   document.getElementById('headerName').textContent = localUser.name;
 }
@@ -549,7 +564,6 @@ async function loadProfile() {
     if (!result.success) { localStorage.clear(); window.location.href = 'index.html'; return; }
     const u = result.user;
     
-    // Perbarui Nama, Avatar, & Role secara Real-time dari API
     document.getElementById('headerName').textContent = u.name || 'Xtrimer User';
     document.getElementById('balance').innerText = 'Rp ' + Number(u.balance || 0).toLocaleString('id-ID');
     
@@ -584,10 +598,12 @@ async function loadCategories() {
     const data = await res.json();
     const grid = document.getElementById('categoryGrid');
     const pill = document.getElementById('categoryCount');
-    grid.innerHTML = '';
-    if (data.success) {
+    
+    if (data.success && data.categories && data.categories.length > 0) {
+      grid.innerHTML = '';
       const visible = data.categories.filter(c => !HIDDEN_CATEGORIES.some(h => c.toLowerCase().includes(h)));
-      pill.textContent = visible.length + ' kategori';
+      pill.textContent = visible.length + ' Kategori';
+      
       visible.forEach(cat => {
         const imgSrc = getCatImg(cat);
         const a = document.createElement('a');
@@ -595,17 +611,31 @@ async function loadCategories() {
         a.href = `ppob.html?cat=${encodeURIComponent(cat)}`;
         a.innerHTML = `
           <div class="cat-icon-wrap">
-            <img src="${imgSrc}" alt="${cat}">
+            <img src="${imgSrc}" alt="${cat}" onerror="this.src='https://app.isdarprem.net/images/images.png'">
           </div>
           <div class="cat-name">${cat}</div>`;
         grid.appendChild(a);
       });
     } else {
-      pill.textContent = 'Error';
+      showCatError();
     }
   } catch(e) {
-    document.getElementById('categoryCount').textContent = 'Error';
+    console.error(e);
+    showCatError();
   }
+}
+
+function showCatError() {
+  const grid = document.getElementById('categoryGrid');
+  const pill = document.getElementById('categoryCount');
+  pill.textContent = 'Offline';
+  pill.style.background = 'rgba(232, 64, 64, 0.1)';
+  pill.style.color = 'var(--red)';
+  
+  grid.innerHTML = `
+    <div style="width: 100%; text-align: center; padding: 10px 0; color: var(--text-light); font-size: 12px; font-weight: 700;">
+      Gagal memuat produk digital. Coba lagi nanti.
+    </div>`;
 }
 
 loadProfile();
