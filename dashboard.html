@@ -532,13 +532,28 @@ function toggleTheme(){
 })();
 
 /* ── AUTH CHECK ── */
-const localUser=JSON.parse(localStorage.getItem('user')||'null');
-// uncomment for production: if(!localUser) window.location.href='index.html';
+const localUser = JSON.parse(localStorage.getItem('user') || 'null');
 
-if(localUser?.name) document.getElementById('headerName').firstChild.textContent=localUser.name;
+// uncomment for production:
+// if(!localUser) window.location.href='index.html';
 
-const token=localStorage.getItem('token')||'';
-const hdrs={headers:{'Content-Type':'application/json','Authorization':'Bearer '+token}};
+if(localUser?.username || localUser?.email){
+
+    document.getElementById('headerName').childNodes[0].textContent =
+        localUser.username ||
+        localUser.email ||
+        'Xtrimer User';
+
+}
+
+const token = localStorage.getItem('token') || '';
+
+const hdrs = {
+    headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer ' + token
+    }
+};
 
 /* ── PROFILE ── */
 async function loadProfile(){
