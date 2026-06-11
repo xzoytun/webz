@@ -342,11 +342,11 @@ body {
       <div class="qm-label">Trial VPN</div>
     </a>
     <a class="qm-item" href="my-vpn.html">
-      <div class="qm-icon"><img src="https://app.isdarprem.net/images/images.png" alt="Akun Saya"></div>
+      <div class="qm-icon"><img src="https://app.isdarprem.net/images/my-akun.png" alt="Akun Saya"></div>
       <div class="qm-label">Akun Saya</div>
     </a>
     <a class="qm-item" href="riwayat-ppob.html">
-      <div class="qm-icon"><img src="https://app.isdarprem.net/images/riwayatppob.png" alt="Riwayat PPOB"></div>
+      <div class="qm-icon"><img src="https://app.isdarprem.net/images/riwayat-transaksi-ppob.png" alt="Riwayat PPOB"></div>
       <div class="qm-label">Riwayat PPOB</div>
     </a>
   </div>
@@ -447,28 +447,32 @@ const getHeaders = () => ({ 'Content-Type':'application/json', 'Authorization':`
 
 const HIDDEN_CATEGORIES = ['gas','tv','tv kabel','gas pln','gas elpiji','tagihan gas'];
 
-const CAT_IMG = {
-  'pulsa':    'https://app.isdarprem.net/images/smsdantelpon.jpeg',
-  'sms':      'https://app.isdarprem.net/images/smsdantelpon.jpeg',
-  'telepon':  'https://app.isdarprem.net/images/smsdantelpon.jpeg',
-  'data':     'https://app.isdarprem.net/images/data.png',
-  'pln':      'https://app.isdarprem.net/images/pln.png',
-  'token':    'https://app.isdarprem.net/images/pln.png',
-  'listrik':  'https://app.isdarprem.net/images/pln.png',
-  'e-wallet': 'https://app.isdarprem.net/images/ewallet.jpg',
-  'ewallet':  'https://app.isdarprem.net/images/ewallet.jpg',
-  'emoney':   'https://app.isdarprem.net/images/ewallet.jpg',
-  'game':     'https://app.isdarprem.net/images/games.jpg',
-  'voucher':  'https://app.isdarprem.net/images/voucher.png',
-  'aktivasi': 'https://app.isdarprem.net/images/aktisivasivoucher.jpg',
-  'perdana':  'https://app.isdarprem.net/images/aktivasiperdana.jpg',
-  'masa':     'https://app.isdarprem.net/images/masaaktif.jpg',
-};
+// Array-based map — urutan penting, spesifik di atas
+const CAT_IMG_MAP = [
+  // SMS & Telpon (harus di atas 'pulsa' biar gak nabrak)
+  { keys: ['paket sms','sms & telp','sms dan telp','paket telp'], img: 'https://app.isdarprem.net/images/smsdantelpon.jpeg' },
+  { keys: ['pulsa'],        img: 'https://app.isdarprem.net/images/smsdantelpon.jpeg' },
+  { keys: ['data'],         img: 'https://app.isdarprem.net/images/data.png' },
+  { keys: ['pln','token listrik','listrik','token pln'], img: 'https://app.isdarprem.net/images/pln.png' },
+  { keys: ['e-wallet','ewallet','e-money','emoney','e money','e wallet'], img: 'https://app.isdarprem.net/images/ewallet.jpg' },
+  { keys: ['game','games','gaming'], img: 'https://app.isdarprem.net/images/games.jpg' },
+  // Aktivasi Voucher harus di atas 'voucher' biar gak salah match
+  { keys: ['aktivasi voucher'], img: 'https://app.isdarprem.net/images/aktisivasivoucher.jpg' },
+  { keys: ['voucher'],      img: 'https://app.isdarprem.net/images/voucher.png' },
+  // Aktivasi Perdana harus di atas 'perdana'
+  { keys: ['aktivasi perdana'], img: 'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
+  { keys: ['perdana'],      img: 'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
+  { keys: ['masa aktif','masa'], img: 'https://app.isdarprem.net/images/masaaktif.jpg' },
+  { keys: ['streaming','media sosial','medsos'], img: 'https://app.isdarprem.net/images/voucher.png' },
+  { keys: ['esim','e-sim'], img: 'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
+  // TOPUP internasional semua pakai ewallet sebagai fallback
+  { keys: ['topup','top up','top-up','malaysia','china','vietnam','thailand','singapore','philippines','bundling'], img: 'https://app.isdarprem.net/images/ewallet.jpg' },
+];
 
 function getCatImg(catName) {
   const key = catName.toLowerCase();
-  for (const [k, img] of Object.entries(CAT_IMG)) {
-    if (key.includes(k)) return img;
+  for (const { keys, img } of CAT_IMG_MAP) {
+    if (keys.some(k => key.includes(k))) return img;
   }
   return 'https://app.isdarprem.net/images/images.png';
 }
