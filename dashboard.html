@@ -60,10 +60,10 @@ body {
   100% { background-position: -200% 0; }
 }
 
-/* ── HEADER ── */
+/* ── HEADER (LOGO & GREETING DIGEDEIN) ── */
 .header {
   background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 60%, #A05DE0 100%);
-  padding: 24px 20px 28px;
+  padding: 28px 20px 36px; /* Diperlebar sedikit space-nya */
   position: relative; overflow: hidden;
 }
 .header-dots {
@@ -83,21 +83,21 @@ body {
 }
 .header-inner {
   max-width: 440px; margin: 0 auto;
-  display: flex; align-items: center; gap: 14px;
+  display: flex; align-items: center; gap: 16px;
   position: relative; z-index: 2;
 }
 .header-avatar {
-  width: 48px; height: 48px; border-radius: 50%; /* Membuat avatar bulat sempurna ala aplikasi modern */
-  object-fit: cover; border: 2px solid rgba(255,255,255,0.4);
+  width: 56px; height: 56px; border-radius: 50%; /* Ditambah dari 48px ke 56px agar lebih besar */
+  object-fit: cover; border: 2.5px solid rgba(255,255,255,0.45);
   flex-shrink: 0; background: rgba(255,255,255,0.1);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.18);
 }
 .header-text { flex: 1; }
-.header-greeting { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 1px; }
-.header-name { font-size: 18px; font-weight: 900; color: #fff; letter-spacing: -0.3px; }
+.header-greeting { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.75); margin-bottom: 2px; }
+.header-name { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: -0.4px; } /* Ditambah dari 18px ke 20px */
 .header-actions { display: flex; gap: 8px; }
 .hdr-btn {
-  width: 38px; height: 38px; border-radius: 12px;
+  width: 40px; height: 40px; border-radius: 12px;
   background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.2);
   display: flex; align-items: center; justify-content: center; cursor: pointer;
   transition: all 0.2s; backdrop-filter: blur(6px);
@@ -111,7 +111,7 @@ body {
 
 /* ── BALANCE ── */
 .balance-section {
-  max-width: 440px; margin: -14px auto 0; /* Menaikkan card sedikit agar overlapping estetik */
+  max-width: 440px; margin: -18px auto 0;
   padding: 0 16px;
   position: relative; z-index: 10;
   animation: fadeUp 0.35s 0.05s ease both;
@@ -156,27 +156,27 @@ body {
 .sec-label-left span { font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
 .sec-see-all { font-size: 11px; font-weight: 800; color: var(--primary); text-decoration: none; }
 
-/* ── QUICK MENU LAYANAN VPN ── */
+/* ── QUICK MENU LAYANAN VPN (DIKECILIN) ── */
 .quick-menu {
   background: var(--card-bg); border-radius: 20px;
-  padding: 16px 14px; margin-bottom: 20px;
+  padding: 14px 10px; margin-bottom: 20px; /* Dikompres sedikit paddingnya */
   border: 1px solid var(--border);
   box-shadow: 0 4px 16px rgba(0,0,0,0.02);
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; /* Jarak antar kolom dirapatkan */
   animation: fadeUp 0.35s 0.08s ease both;
   transition: background 0.3s, border-color 0.3s;
 }
-.qm-item { display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; }
+.qm-item { display: flex; flex-direction: column; align-items: center; gap: 6px; text-decoration: none; }
 .qm-icon {
-  width: 56px; height: 56px; border-radius: 16px; /* Konsisten berbentuk square-rounded modern */
+  width: 46px; height: 46px; border-radius: 13px; /* Diperkecil dari 56px ke 46px */
   overflow: hidden; display: flex; align-items: center; justify-content: center;
   transition: transform 0.2s, box-shadow 0.2s;
-  background: var(--bg); /* Mencegah background transparan ngaco */
+  background: var(--bg);
 }
 .qm-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.qm-item:hover .qm-icon { transform: translateY(-4px); box-shadow: 0 6px 14px rgba(90,26,154,0.15); }
+.qm-item:hover .qm-icon { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(90,26,154,0.12); }
 .qm-item:active .qm-icon { transform: scale(0.93); }
-.qm-label { font-size: 11px; font-weight: 800; color: var(--text-mid); text-align: center; line-height: 1.3; }
+.qm-label { font-size: 10.5px; font-weight: 800; color: var(--text-mid); text-align: center; line-height: 1.2; } /* Teks disesuaikan agar imut dan pas */
 
 /* ── CATEGORIES PRODUK DIGITAL ── */
 .cat-section {
@@ -187,10 +187,10 @@ body {
   animation: fadeUp 0.35s 0.11s ease both;
   transition: background 0.3s, border-color 0.3s;
 }
-.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 10px; } /* Jarak baris vertikal diperlebar agar seimbang */
+.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 10px; }
 .cat-item { display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; }
 .cat-icon-wrap {
-  width: 52px; height: 52px; border-radius: 16px; /* Sama dengan ukuran menu utama */
+  width: 52px; height: 52px; border-radius: 16px;
   overflow: hidden; display: flex; align-items: center; justify-content: center;
   background: var(--bg);
   transition: transform 0.2s, box-shadow 0.2s;
@@ -252,7 +252,7 @@ body {
 .util-card:last-child { margin-bottom: 0; }
 .util-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); border-color: var(--primary-mid); }
 .util-icon-img {
-  width: 44px; height: 44px; border-radius: 14px; /* Dibuat serasi dengan struktur grid di atas */
+  width: 44px; height: 44px; border-radius: 14px;
   overflow: hidden; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   background: var(--bg);
