@@ -93,26 +93,6 @@ body {
 .sec-title { font-size:13px; font-weight:900; color:var(--text-dark); margin-bottom:10px; display:flex; align-items:center; gap:6px; }
 .sec-title-pill { font-size:10px; font-weight:800; background:var(--purple-soft); color:var(--purple); border-radius:6px; padding:1px 8px; }
 
-/* ─── PROVIDER GRID ─── */
-.provider-section { animation:slideDown 0.3s ease both; }
-.provider-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
-.provider-chip {
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:5px; padding:10px 6px; background:var(--bg); border:2px solid var(--gray-line);
-  border-radius:14px; cursor:pointer; transition:all 0.18s cubic-bezier(0.16,1,0.3,1); user-select:none;
-}
-.provider-chip:hover { border-color:var(--purple-mid); background:var(--purple-soft); transform:translateY(-2px); box-shadow:0 4px 12px rgba(123,47,190,0.1); }
-.provider-chip.active { border-color:var(--purple); background:var(--purple-soft); box-shadow:0 0 0 3px rgba(123,47,190,0.15); }
-.provider-chip.active .provider-name { color:var(--purple-dark); }
-.provider-logo { width:42px; height:42px; border-radius:10px; object-fit:contain; background:#fff; padding:4px; box-shadow:0 1px 4px rgba(0,0,0,0.08); transition:transform 0.18s; }
-.provider-chip:hover .provider-logo { transform:scale(1.07); }
-.provider-name { font-size:9px; font-weight:800; color:var(--text-light); text-align:center; letter-spacing:0.3px; text-transform:uppercase; line-height:1.2; }
-.provider-logo-fallback { width:42px; height:42px; border-radius:10px; background:linear-gradient(135deg,var(--purple),var(--purple-light)); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; color:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.1); flex-shrink:0; }
-
-/* Skeleton for provider */
-.prov-skeleton { height:90px; border-radius:14px; background:linear-gradient(90deg,#f0ebf8 25%,#e8dff5 50%,#f0ebf8 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
-@keyframes shimmer { 0%{background-position:200% 0;}100%{background-position:-200% 0;} }
-
 /* ─── TARGET INPUT CARD ─── */
 .target-card {
   background:var(--white); border-radius:16px; padding:16px;
@@ -134,10 +114,32 @@ body {
   font-size:13px; font-weight:700; color:var(--text-dark); outline:none; transition:all 0.2s;
 }
 .form-select:focus, .form-input:focus { border-color:var(--purple-light); background:var(--white); box-shadow:0 0 0 3px rgba(123,47,190,0.1); }
-.form-select { appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237B2FBE' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:40px; }
+.form-select { appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 24' fill='none' stroke='%237B2FBE' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:40px; }
 .input-relative { position:relative; }
-.input-relative .form-input { padding-left:40px; }
+.input-relative .form-input { padding-left:40px; padding-right:50px; }
 .input-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); width:15px; height:15px; fill:none; stroke:var(--text-light); stroke-width:2.5; }
+.detected-provider-badge { position:absolute; right:12px; top:50%; transform:translateY(-50%); display:flex; align-items:center; }
+.detected-provider-badge img { width:26px; height:26px; border-radius:6px; object-fit:contain; background:#fff; border:1px solid var(--gray-line); box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+
+/* ─── PROVIDER GRID ─── */
+.provider-section { animation:slideDown 0.3s ease both; }
+.provider-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.provider-chip {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:5px; padding:10px 6px; background:var(--bg); border:2px solid var(--gray-line);
+  border-radius:14px; cursor:pointer; transition:all 0.18s cubic-bezier(0.16,1,0.3,1); user-select:none;
+}
+.provider-chip:hover { border-color:var(--purple-mid); background:var(--purple-soft); transform:translateY(-2px); box-shadow:0 4px 12px rgba(123,47,190,0.1); }
+.provider-chip.active { border-color:var(--purple); background:var(--purple-soft); box-shadow:0 0 0 3px rgba(123,47,190,0.15); }
+.provider-chip.active .provider-name { color:var(--purple-dark); }
+.provider-logo { width:42px; height:42px; border-radius:10px; object-fit:contain; background:#fff; padding:4px; box-shadow:0 1px 4px rgba(0,0,0,0.08); transition:transform 0.18s; }
+.provider-chip:hover .provider-logo { transform:scale(1.07); }
+.provider-name { font-size:9px; font-weight:800; color:var(--text-light); text-align:center; letter-spacing:0.3px; text-transform:uppercase; line-height:1.2; }
+.provider-logo-fallback { width:42px; height:42px; border-radius:10px; background:linear-gradient(135deg,var(--purple),var(--purple-light)); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:900; color:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.1); flex-shrink:0; }
+
+/* Skeleton for provider */
+.prov-skeleton { height:90px; border-radius:14px; background:linear-gradient(90deg,#f0ebf8 25%,#e8dff5 50%,#f0ebf8 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
+@keyframes shimmer { 0%{background-position:200% 0;}100%{background-position:-200% 0;} }
 .hidden { display:none !important; }
 
 /* ─── PRODUCT LIST ─── */
@@ -171,9 +173,6 @@ body {
 .btn-buy:hover { background:var(--purple-dark); transform:translateY(-1px); }
 .btn-buy svg { width:10px; height:10px; fill:none; stroke:#fff; stroke-width:3; }
 
-/* Prod skeleton */
-.prod-skeleton { height:72px; border-radius:14px; background:linear-gradient(90deg,#f0ebf8 25%,#e8dff5 50%,#f0ebf8 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
-
 /* ─── BOTTOM NAV ─── */
 .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px; box-shadow:0 -4px 20px rgba(90,26,154,0.04); z-index:100; }
 .bottom-nav-inner { display:flex; width:100%; max-width:440px; margin:0 auto; }
@@ -186,7 +185,6 @@ body {
 </head>
 <body>
 
-<!-- ─── HERO ─── -->
 <div class="hero">
   <div class="hero-dots"></div>
   <div class="hero-top">
@@ -204,7 +202,6 @@ body {
   </div>
 </div>
 
-<!-- ─── BALANCE CARD ─── -->
 <div style="max-width:440px;margin:0 auto;padding:0 16px;">
   <div class="balance-card">
     <div class="balance-inner">
@@ -219,16 +216,15 @@ body {
   </div>
 </div>
 
-<!-- ─── STEP INDICATOR ─── -->
 <div class="steps-bar" id="stepsBar">
   <div class="step active" id="step1">
     <div class="step-dot">1</div>
-    <div class="step-label">Operator</div>
+    <div class="step-label">Nomor Tujuan</div>
   </div>
   <div class="step-line" id="line1"></div>
   <div class="step" id="step2">
     <div class="step-dot">2</div>
-    <div class="step-label">Nomor</div>
+    <div class="step-label">Operator</div>
   </div>
   <div class="step-line" id="line2"></div>
   <div class="step" id="step3">
@@ -239,7 +235,36 @@ body {
 
 <div class="container">
 
-  <!-- STEP 1: PROVIDER -->
+  <div id="sectionTarget" style="margin-bottom:20px;">
+    <div class="target-card">
+      <div class="target-card-top">
+        <div class="target-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div>
+          <div class="target-card-label">Detail Pembelian</div>
+          <div class="target-card-sub">Masukkan nomor / ID target terlebih dahulu</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Nomor / ID Target Tujuan</label>
+        <div class="input-relative">
+          <svg class="input-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <input type="text" id="inputTarget" placeholder="Contoh: 08123456789 atau ID Game" class="form-input">
+          <div id="detectedProviderBadge" class="detected-provider-badge hidden"></div>
+        </div>
+      </div>
+
+      <div class="form-group hidden" id="boxSubcategory">
+        <label class="form-label">Tipe / Sub Paket</label>
+        <select id="selectSubcategory" class="form-select">
+          <option value="">-- Semua Tipe --</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
   <div id="sectionProvider" class="provider-section" style="margin-bottom:20px;">
     <div class="sec-title">
       Operator / Provider <span class="sec-title-pill" id="brandCount">Loading...</span>
@@ -252,38 +277,7 @@ body {
     </div>
   </div>
 
-  <!-- STEP 2: TARGET + SUBCATEGORY -->
-  <div id="sectionTarget" class="hidden" style="margin-bottom:20px;">
-    <div class="target-card">
-      <div class="target-card-top">
-        <div class="target-card-icon">
-          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        </div>
-        <div>
-          <div class="target-card-label">Detail Pembelian</div>
-          <div class="target-card-sub">Isi nomor / ID tujuan dengan benar</div>
-        </div>
-      </div>
-
-      <div class="form-group hidden" id="boxSubcategory">
-        <label class="form-label">Tipe / Sub Paket</label>
-        <select id="selectSubcategory" class="form-select">
-          <option value="">-- Semua Tipe --</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Nomor / ID Target Tujuan</label>
-        <div class="input-relative">
-          <svg class="input-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <input type="text" id="inputTarget" placeholder="Contoh: 08123456789" class="form-input">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 3: PRODUCTS -->
-  <div id="sectionProducts" class="product-section hidden" style="margin-bottom:20px;">
+  <div id="sectionProducts" class="product-section" style="margin-bottom:20px;">
     <div class="product-header">
       <div class="product-header-title">Produk Tersedia</div>
       <span class="product-count-pill" id="productCount">0 item</span>
@@ -292,14 +286,13 @@ body {
       <div class="status-icon-badge">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       </div>
-      <p>Pilih operator terlebih dahulu.</p>
+      <p>Masukkan nomor atau pilih operator untuk melihat produk.</p>
     </div>
     <div id="productGrid" class="product-list"></div>
   </div>
 
 </div>
 
-<!-- ─── BOTTOM NAV ─── -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
     <a class="nav-item" href="dashboard.html">
@@ -336,110 +329,45 @@ document.getElementById('heroCatName').textContent = CAT;
 const PROVIDER_BASE = 'https://app.isdarprem.net/images/provider/';
 
 const PROVIDER_LOGOS = {
-
-  /* TELCO */
   'axis': PROVIDER_BASE+'axisnet.png',
   'axisnet': PROVIDER_BASE+'axisnet.png',
   'axis net': PROVIDER_BASE+'axisnet.png',
-
   'by.u': PROVIDER_BASE+'byu.jpg',
   'byu': PROVIDER_BASE+'byu.jpg',
-
   'indosat': PROVIDER_BASE+'indosat.jpg',
   'im3': PROVIDER_BASE+'indosat.jpg',
-  'im3 ooredoo': PROVIDER_BASE+'indosat.jpg',
-  'indosat ooredoo': PROVIDER_BASE+'indosat.jpg',
-
   'smartfren': PROVIDER_BASE+'smartfren.png',
   'smart': PROVIDER_BASE+'smartfren.png',
-
   'telkomsel': PROVIDER_BASE+'telkomsel.png',
   'simpati': PROVIDER_BASE+'telkomsel.png',
-  'kartu as': PROVIDER_BASE+'telkomsel.png',
-  'loop': PROVIDER_BASE+'telkomsel.png',
-  'byu telkomsel': PROVIDER_BASE+'byu.jpg',
-
   'tri': PROVIDER_BASE+'tri.jpg',
   '3': PROVIDER_BASE+'tri.jpg',
   'three': PROVIDER_BASE+'tri.jpg',
-
   'xl': PROVIDER_BASE+'xl.jpg',
   'xl axiata': PROVIDER_BASE+'xl.jpg',
-
-  /* E-WALLET */
   'dana': PROVIDER_BASE+'dana.jpeg',
-
   'gopay': PROVIDER_BASE+'gopay.jpeg',
-  'go pay': PROVIDER_BASE+'gopay.jpeg',
-  'go-pay': PROVIDER_BASE+'gopay.jpeg',
-  'go pay customer': PROVIDER_BASE+'gopay.jpeg',
   'gopay customer': PROVIDER_BASE+'gopay.jpeg',
-
   'ovo': PROVIDER_BASE+'ovo.jpg',
-
   'shopeepay': PROVIDER_BASE+'ShopeePay.png',
   'shopee pay': PROVIDER_BASE+'ShopeePay.png',
-  'shopee-pay': PROVIDER_BASE+'ShopeePay.png',
-  'shopee': PROVIDER_BASE+'ShopeePay.png',
-
   'linkaja': PROVIDER_BASE+'linkaja.png',
-  'link aja': PROVIDER_BASE+'linkaja.png',
-
-  'sakuku': PROVIDER_BASE+'sakuku.png',
-
-  'isaku': PROVIDER_BASE+'isaku.png',
-
-  'doku': PROVIDER_BASE+'doku.png',
-
-  'maxim': PROVIDER_BASE+'maxim.png',
-
-  /* GAME */
-  'free fire': PROVIDER_BASE+'FreeFire.png',
-  'freefire': PROVIDER_BASE+'FreeFire.png',
-  'ff': PROVIDER_BASE+'FreeFire.png',
-
-  'pubg': PROVIDER_BASE+'pubg.webp',
-  'pubg mobile': PROVIDER_BASE+'pubg.webp',
-
-  'mobile legends': PROVIDER_BASE+'mobillegend.jpeg',
-  'mobile legend': PROVIDER_BASE+'mobillegend.jpeg',
-  'mobilelegends': PROVIDER_BASE+'mobillegend.jpeg',
-  'ml': PROVIDER_BASE+'mobillegend.jpeg',
-  'mlbb': PROVIDER_BASE+'mobillegend.jpeg',
-
-  'genshin impact': PROVIDER_BASE+'genshin.png',
-  'genshin': PROVIDER_BASE+'genshin.png',
-
-  'valorant': PROVIDER_BASE+'valorant.png',
-  'valo': PROVIDER_BASE+'valorant.png',
-
-  'higgs domino': PROVIDER_BASE+'higgsdomino.png',
-  'domino': PROVIDER_BASE+'higgsdomino.png',
-
-  'codm': PROVIDER_BASE+'codm.png',
-  'call of duty': PROVIDER_BASE+'codm.png',
-
-  'arena of valor': PROVIDER_BASE+'aov.png',
-  'aov': PROVIDER_BASE+'aov.png',
-
-  /* PLN */
   'pln': PROVIDER_BASE+'pln.png',
-  'listrik': PROVIDER_BASE+'pln.png',
   'token pln': PROVIDER_BASE+'pln.png',
-
-  /* INTERNET */
-  'indihome': PROVIDER_BASE+'indihome.png',
-  'wifi id': PROVIDER_BASE+'wifiid.png',
-  'my republic': PROVIDER_BASE+'myrepublic.png',
-
-  /* STREAMING */
-  'netflix': PROVIDER_BASE+'netflix.png',
-  'spotify': PROVIDER_BASE+'spotify.png',
-  'youtube premium': PROVIDER_BASE+'youtube.png',
-  'viu': PROVIDER_BASE+'viu.png',
-
-  /* DEFAULT */
+  'mobile legends': PROVIDER_BASE+'mobillegend.jpeg',
+  'free fire': PROVIDER_BASE+'FreeFire.png',
+  'pubg': PROVIDER_BASE+'pubg.webp',
   'default': PROVIDER_BASE+'default.png'
+};
+
+/* ─── PREFIX AUTO DETECT DICTIONARY ─── */
+const PREFIX_MAP = {
+  '0811': 'telkomsel', '0812': 'telkomsel', '0813': 'telkomsel', '0821': 'telkomsel', '0822': 'telkomsel', '0823': 'telkomsel', '0851': 'telkomsel', '0852': 'telkomsel', '0853': 'telkomsel',
+  '0817': 'xl', '0818': 'xl', '0819': 'xl', '0859': 'xl', '0877': 'xl', '0878': 'xl',
+  '0831': 'axis', '0832': 'axis', '0833': 'axis', '0838': 'axis',
+  '0814': 'indosat', '0815': 'indosat', '0816': 'indosat', '0855': 'indosat', '0856': 'indosat', '0857': 'indosat', '0858': 'indosat',
+  '0895': 'tri', '0896': 'tri', '0897': 'tri', '0898': 'tri', '0899': 'tri',
+  '0881': 'smartfren', '0882': 'smartfren', '0883': 'smartfren', '0884': 'smartfren', '0885': 'smartfren', '0886': 'smartfren', '0887': 'smartfren', '0888': 'smartfren', '0889': 'smartfren'
 };
 
 function getProviderLogo(name) {
@@ -448,38 +376,41 @@ function getProviderLogo(name) {
   for (const [k,v] of Object.entries(PROVIDER_LOGOS)) {
     if (key.includes(k) || k.includes(key)) return v;
   }
-  return null;
+  return PROVIDER_LOGOS['default'];
 }
 
-/* ─── DOM ─── */
-const providerGrid     = document.getElementById('providerGrid');
-const brandCountPill   = document.getElementById('brandCount');
-const sectionTarget    = document.getElementById('sectionTarget');
-const sectionProducts  = document.getElementById('sectionProducts');
-const boxSubcategory   = document.getElementById('boxSubcategory');
-const selectSub        = document.getElementById('selectSubcategory');
-const inputTarget      = document.getElementById('inputTarget');
-const productStatus    = document.getElementById('productStatus');
-const productGrid      = document.getElementById('productGrid');
-const productCount     = document.getElementById('productCount');
+/* ─── DOM ELEMENTS ─── */
+const providerGrid        = document.getElementById('providerGrid');
+const brandCountPill      = document.getElementById('brandCount');
+const sectionProducts     = document.getElementById('sectionProducts');
+const boxSubcategory      = document.getElementById('boxSubcategory');
+const selectSub           = document.getElementById('selectSubcategory');
+const inputTarget         = document.getElementById('inputTarget');
+const detectedBadge       = document.getElementById('detectedProviderBadge');
+const productStatus       = document.getElementById('productStatus');
+const productGrid         = document.getElementById('productGrid');
+const productCount        = document.getElementById('productCount');
 
 let activeBrand = '';
+let allBrands = [];
 
-/* ─── STEPS ─── */
+/* ─── STEPS CONTROL ─── */
 function setStep(n) {
   [1,2,3].forEach(i => {
     const el = document.getElementById('step'+i);
-    el.classList.remove('active','done');
-    if (i < n) el.classList.add('done');
-    else if (i === n) el.classList.add('active');
+    if(el) {
+      el.classList.remove('active','done');
+      if (i < n) el.classList.add('done');
+      else if (i === n) el.classList.add('active');
+    }
   });
   [1,2].forEach(i => {
     const ln = document.getElementById('line'+i);
-    ln.classList.toggle('done', i < n);
+    if(ln) ln.classList.toggle('done', i < n);
   });
 }
 
-/* ─── BALANCE ─── */
+/* ─── FETCH BALANCE ─── */
 async function fetchBalance() {
   try {
     const res = await fetch(`/api/profile?email=${encodeURIComponent(localUser.email)}`, { headers:{ Authorization:'Bearer '+token } });
@@ -488,7 +419,7 @@ async function fetchBalance() {
   } catch(e){}
 }
 
-/* ─── LOAD PROVIDERS ─── */
+/* ─── LOAD PROVIDERS FROM API ─── */
 async function loadProviders() {
   try {
     const res = await fetch(`/api/ppob/brands?category=${encodeURIComponent(CAT)}`, { headers:getHeaders() });
@@ -496,40 +427,12 @@ async function loadProviders() {
     providerGrid.innerHTML = '';
 
     if (data.success && data.brands.length > 0) {
+      allBrands = data.brands;
       brandCountPill.textContent = data.brands.length + ' operator';
-      data.brands.forEach(b => {
-        const logoUrl  = getProviderLogo(b.brand);
-        const initials = b.brand.substring(0,2).toUpperCase();
-        const chip = document.createElement('div');
-        chip.className = 'provider-chip';
-        chip.dataset.brand = b.brand;
-
-        let logoEl;
-        if (logoUrl) {
-          logoEl = document.createElement('img');
-          logoEl.src = logoUrl; logoEl.alt = b.brand; logoEl.className = 'provider-logo';
-          logoEl.onerror = function() {
-            const fb = document.createElement('div');
-            fb.className = 'provider-logo-fallback'; fb.textContent = initials;
-            this.replaceWith(fb);
-          };
-        } else {
-          logoEl = document.createElement('div');
-          logoEl.className = 'provider-logo-fallback'; logoEl.textContent = initials;
-        }
-
-        const nameEl = document.createElement('div');
-        nameEl.className = 'provider-name'; nameEl.textContent = b.brand;
-        chip.appendChild(logoEl); chip.appendChild(nameEl);
-        chip.addEventListener('click', () => onBrandClick(chip, b.brand));
-        providerGrid.appendChild(chip);
-      });
+      renderProviderGrid(data.brands);
     } else {
       brandCountPill.textContent = '0';
       providerGrid.innerHTML = `<div style="grid-column:1/-1;padding:20px;text-align:center;font-size:12px;color:var(--text-light);font-weight:700;">Tidak ada operator untuk kategori ini.</div>`;
-      /* langsung tampil produk tanpa filter brand */
-      sectionTarget.classList.remove('hidden');
-      sectionProducts.classList.remove('hidden');
       setStep(2);
       loadProducts(CAT, '', '');
     }
@@ -539,23 +442,52 @@ async function loadProviders() {
   }
 }
 
-/* ─── BRAND CLICK ─── */
-async function onBrandClick(chipEl, brand) {
-  providerGrid.querySelectorAll('.provider-chip').forEach(c => c.classList.remove('active'));
-  chipEl.classList.add('active');
+/* ─── RENDER PROVIDER CHIPS ─── */
+function renderProviderGrid(brands) {
+  providerGrid.innerHTML = '';
+  brands.forEach(b => {
+    const logoUrl  = getProviderLogo(b.brand);
+    const chip = document.createElement('div');
+    chip.className = 'provider-chip';
+    chip.dataset.brand = b.brand.toLowerCase().trim();
+
+    const logoEl = document.createElement('img');
+    logoEl.src = logoUrl; logoEl.alt = b.brand; logoEl.className = 'provider-logo';
+    
+    const nameEl = document.createElement('div');
+    nameEl.className = 'provider-name'; nameEl.textContent = b.brand;
+    
+    chip.appendChild(logoEl); chip.appendChild(nameEl);
+    chip.addEventListener('click', () => handleBrandSelection(b.brand, true));
+    providerGrid.appendChild(chip);
+  });
+}
+
+/* ─── HANDLE SELECTION (MANUAL / AUTO) ─── */
+async function handleBrandSelection(brand, isManualClick = false) {
+  if (activeBrand === brand) return;
   activeBrand = brand;
 
-  sectionTarget.classList.remove('hidden');
-  sectionProducts.classList.remove('hidden');
+  // Visual Update di Grid
+  providerGrid.querySelectorAll('.provider-chip').forEach(c => {
+    if (c.dataset.brand === brand.toLowerCase().trim()) {
+      c.classList.add('active');
+    } else {
+      c.classList.remove('active');
+    }
+  });
+
+  // Tampilkan badge logo kecil di kanan input bar jika auto-detect aktif
+  const logoUrl = getProviderLogo(brand);
+  detectedBadge.innerHTML = `<img src="${logoUrl}" alt="${brand}">`;
+  detectedBadge.classList.remove('hidden');
+
   boxSubcategory.classList.add('hidden');
   selectSub.innerHTML = '<option value="">-- Semua Tipe --</option>';
-  inputTarget.value = '';
-  productGrid.innerHTML = '';
-  productCount.textContent = '0 item';
+  
   setStep(2);
 
-  sectionTarget.scrollIntoView({ behavior:'smooth', block:'nearest' });
-
+  // Ambil Sub-Kategori / Tipe Paket jika ada
   try {
     const res = await fetch(`/api/ppob/subcategories?category=${encodeURIComponent(CAT)}&brand=${encodeURIComponent(brand)}`, { headers:getHeaders() });
     const data = await res.json();
@@ -572,9 +504,44 @@ async function onBrandClick(chipEl, brand) {
   loadProducts(CAT, brand, '');
 }
 
+/* ─── AUTO DETECT FROM TYPING VIA PREFIX ─── */
+inputTarget.addEventListener('input', (e) => {
+  const val = e.target.value.trim();
+  
+  // Jika kategori membutuhkan pendeteksian nomor HP (Pulsa / Data)
+  if (CAT.toLowerCase().includes('pulsa') || CAT.toLowerCase().includes('data') || CAT.toLowerCase().includes('internet')) {
+    if (val.length >= 4) {
+      const prefix = val.substring(0, 4);
+      const detectedName = PREFIX_MAP[prefix];
+      
+      if (detectedName) {
+        // Cari kesesuaian nama brand di data API
+        const targetBrand = allBrands.find(b => b.brand.toLowerCase().includes(detectedName));
+        if (targetBrand) {
+          handleBrandSelection(targetBrand.brand);
+          return;
+        }
+      }
+    }
+    
+    // Reset deteksi jika nomor dihapus / tidak valid
+    if (val.length < 4) {
+      activeBrand = '';
+      providerGrid.querySelectorAll('.provider-chip').forEach(c => c.classList.remove('active'));
+      detectedBadge.classList.add('hidden');
+      productGrid.innerHTML = '';
+      productCount.textContent = '0 item';
+      productStatus.classList.remove('hidden');
+      productStatus.className = 'status-box';
+      productStatus.innerHTML = `<div class="status-icon-badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><p>Masukkan nomor atau pilih operator untuk melihat produk.</p>`;
+      setStep(1);
+    }
+  }
+});
+
 selectSub.addEventListener('change', () => loadProducts(CAT, activeBrand, selectSub.value));
 
-/* ─── LOAD PRODUCTS ─── */
+/* ─── LOAD PRODUCTS FROM SERVER ─── */
 async function loadProducts(cat, brand, sub) {
   productGrid.innerHTML = '';
   productCount.textContent = '0 item';
@@ -582,7 +549,7 @@ async function loadProducts(cat, brand, sub) {
   productStatus.className = 'status-box loading';
   productStatus.innerHTML = `
     <div class="status-icon-badge">
-      <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="6.34" y1="17.66" x2="9.17" y2="14.83"/><line x1="14.83" y1="9.17" x2="17.66" y2="6.34"/></svg>
+      <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
     </div>
     <p>Mengambil produk terbaru...</p>`;
 
@@ -596,6 +563,7 @@ async function loadProducts(cat, brand, sub) {
       productStatus.classList.add('hidden');
       productCount.textContent = data.products.length + ' item';
       setStep(3);
+      
       data.products.forEach(p => {
         const card = document.createElement('div');
         card.className = 'product-card';
@@ -603,7 +571,7 @@ async function loadProducts(cat, brand, sub) {
           <div class="prod-details">
             <div class="prod-brand">${p.brand}</div>
             <div class="prod-name">${p.name}</div>
-            <div class="prod-desc">${p.desc}</div>
+            <div class="prod-desc">${p.desc || 'Tanpa deskripsi tambahan.'}</div>
           </div>
           <div class="prod-action">
             <div class="prod-price">Rp ${p.price.toLocaleString('id-ID')}</div>
@@ -627,7 +595,7 @@ async function loadProducts(cat, brand, sub) {
   }
 }
 
-/* ─── BELI ─── */
+/* ─── PROSES BELI + SWEETALERT ACTION ─── */
 async function prosesBeli(sku, productName, price) {
   const target = inputTarget.value.trim();
   if (!target) {
@@ -658,7 +626,7 @@ async function prosesBeli(sku, productName, price) {
   });
 }
 
-/* ─── INIT ─── */
+/* ─── INITIALIZATION ─── */
 fetchBalance();
 loadProviders();
 </script>
