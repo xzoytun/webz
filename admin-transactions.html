@@ -24,12 +24,31 @@
   --blue-bg:      #E6F8FF;
   --pink:         #E8007A;
   --pink-bg:      #FFE6F2;
+  
+  /* Light theme variables */
   --white:        #FFFFFF;
-  --bg:           #F8F6FC;
+  --bg:           #F4F0FA;
   --gray-line:    #EEF0F6;
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
+  --card-bg:      #FFFFFF;
+  --nav-bg:       #FFFFFF;
+  --nav-border:   #EEF0F6;
+}
+
+[data-theme="dark"] {
+  --white:        #1E1130;
+  --bg:           #120B22;
+  --gray-line:    #2A1D42;
+  --text-dark:    #F0E8FF;
+  --text-mid:     #C4A0EE;
+  --text-light:   #7A5BAA;
+  --card-bg:      #1E1130;
+  --nav-bg:       #17102A;
+  --nav-border:   #2A1D42;
+  --purple-soft:  #2D1A50;
+  --purple-mid:   #3D2265;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -39,8 +58,9 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   color: var(--text-dark);
-  padding-bottom: 60px;
+  padding-bottom: 100px; /* Jarak agar tidak tertutup bottom nav */
   overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* ── ANIMATIONS ── */
@@ -104,13 +124,14 @@ body {
 
 /* ── TOOLBAR ── */
 .toolbar {
-  background:var(--white); border-radius:16px; padding:12px;
+  background:var(--card-bg); border-radius:16px; padding:12px;
   border:1px solid var(--gray-line);
   box-shadow:0 8px 24px rgba(90,26,154,0.03);
   margin-top:-28px; margin-bottom:12px;
   position:relative; z-index:5;
   display:flex; flex-direction:column; gap:8px;
   animation: fadeUp 0.4s 0.05s ease both;
+  transition: background 0.3s, border-color 0.3s;
 }
 .search-row {
   display:flex; align-items:center; gap:10px;
@@ -118,7 +139,7 @@ body {
   border:1px solid var(--gray-line); padding:9px 12px;
   transition:all 0.15s;
 }
-.search-row:focus-within { border-color:var(--purple); background:#fff; box-shadow:0 0 0 3px rgba(123,47,190,0.05); }
+.search-row:focus-within { border-color:var(--purple); background:var(--card-bg); box-shadow:0 0 0 3px rgba(123,47,190,0.05); }
 .search-row svg { color:var(--text-light); flex-shrink:0; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5; }
 .search-input {
   flex:1; border:none; outline:none;
@@ -154,11 +175,12 @@ body {
   animation: fadeUp 0.4s 0.10s ease both;
 }
 .stat-chip {
-  background:var(--white); border:1px solid var(--gray-line);
+  background:var(--card-bg); border:1px solid var(--gray-line);
   border-radius:10px; padding:6px 12px;
   font-size:11px; font-weight:700; color:var(--text-mid);
   display:flex; align-items:center; gap:4px;
   box-shadow:0 2px 8px rgba(90,26,154,0.01);
+  transition: background 0.3s, border-color 0.3s;
 }
 .stat-chip svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; }
 .stat-chip strong { color:var(--purple); font-weight:800; margin-left:2px; }
@@ -166,7 +188,7 @@ body {
 /* ── TRANSACTION CARDS ── */
 .tx-list { animation: fadeUp 0.4s 0.15s ease both; }
 .tx-card {
-  background:var(--white); border-radius:16px; margin-bottom:10px;
+  background:var(--card-bg); border-radius:16px; margin-bottom:10px;
   border:1px solid var(--gray-line);
   box-shadow:0 2px 10px rgba(90,26,154,0.01);
   overflow:hidden; transition:all 0.15s;
@@ -223,9 +245,10 @@ body {
 
 /* ── PAGINATION ── */
 .pagination {
-  background:var(--white); border-radius:14px; border:1px solid var(--gray-line);
+  background:var(--card-bg); border-radius:14px; border:1px solid var(--gray-line);
   padding:10px 14px; margin-top:4px; display:flex; align-items:center; justify-content:space-between;
   box-shadow:0 4px 12px rgba(90,26,154,0.01);
+  transition: background 0.3s, border-color 0.3s;
 }
 .page-info { font-size:12px; font-weight:700; color:var(--text-mid); }
 .page-btns { display:flex; gap:4px; align-items:center; }
@@ -246,13 +269,28 @@ body {
 .back-btn {
   width:100%; padding:12px; margin-top:12px;
   border:1px solid var(--gray-line); border-radius:14px;
-  background:var(--white); color:var(--text-mid);
+  background:var(--card-bg); color:var(--text-mid);
   font-family:'Nunito',sans-serif; font-weight:800; font-size:13px;
   cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
   transition:all 0.15s; box-shadow:0 4px 12px rgba(90,26,154,0.01);
 }
 .back-btn:hover { border-color:var(--purple); color:var(--purple); }
 .back-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--nav-bg); border-top: 1px solid var(--nav-border);
+  display: flex; padding: 10px 0 14px;
+  box-shadow: 0 -4px 20px rgba(90,26,154,0.05); z-index: 100;
+  transition: background 0.3s, border-color 0.3s;
+}
+.bottom-nav-inner { display: flex; width: 100%; max-width: 440px; margin: 0 auto; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; }
+.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--text-light); stroke-width: 2.2; transition: stroke 0.2s; }
+.nav-label { font-size: 9.5px; font-weight: 800; color: var(--text-light); transition: color 0.2s; }
+.nav-item.active .nav-label { color: var(--purple); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); }
 
 </style>
 </head>
@@ -333,7 +371,30 @@ body {
 
 </div>
 
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a class="nav-item" href="dashboard.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a class="nav-item active" href="#">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
+      <div class="nav-label">Riwayat</div>
+    </a>
+    <a class="nav-item" href="profile.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <div class="nav-label">Profile</div>
+    </a>
+  </div>
+</nav>
+
 <script>
+
+// ─── AUTO RUN THEME SYNCHRONIZER ───
+(function() {
+  const saved = localStorage.getItem('xt-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+})();
 
 const token = localStorage.getItem('token');
 const localUser = JSON.parse(localStorage.getItem('user'));
@@ -461,19 +522,16 @@ function renderList() {
     const p    = proto(tx.product_type);
     const conf = getProtoConf(p);
     const date = tx.created_at
-? new Date(tx.created_at).toLocaleString(
-    'id-ID',
-    {
-      timeZone: 'Asia/Jakarta',
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    }
-  )
-: '—';
+      ? new Date(tx.created_at).toLocaleString('id-ID', {
+          timeZone: 'Asia/Jakarta',
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        })
+      : '—';
 
     html += `
     <div class="tx-card" data-proto="${p}" style="animation:fadeUp 0.35s ${i*0.04}s ease both;">
