@@ -595,7 +595,35 @@ function alertBox(type, msg) {
     : `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
   return `<div class="alert-box ${isSuccess ? 'alert-success' : 'alert-error'}">${icon} ${msg}</div>`;
 }
+// ── COPY FUNCTION untuk result card dari backend ──
+function copyDirectLink(btnEl, encodedText) {
+  var rowEl = btnEl.closest('.link-row');
+  var text = decodeURIComponent(encodedText);
+  var originalHTML = btnEl.innerHTML;
 
+  function onSuccess() {
+    rowEl.classList.add('copied-active');
+    btnEl.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="20 6 9 17 4 12"></polyline></svg> Berhasil!';
+    setTimeout(function() {
+      rowEl.classList.remove('copied-active');
+      btnEl.innerHTML = originalHTML;
+    }, 2000);
+  }
+
+  function fallback() {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select(); ta.setSelectionRange(0, 99999);
+    try { if (document.execCommand('copy')) onSuccess(); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(onSuccess).catch(fallback);
+  } else { fallback(); }
+}
 function showAlert(type, msg) {
   document.getElementById('resultArea').innerHTML = alertBox(type, msg);
 }
