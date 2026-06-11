@@ -57,25 +57,21 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   color: var(--text-dark);
-  padding-bottom: 90px; /* Ditambah biar kontainer nggak tertutup Bottom Nav */
+  padding-bottom: 90px;
   overflow-x: hidden;
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* ── ANIMATIONS ── */
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(12px); }
   to   { opacity:1; transform:translateY(0); }
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ── HEADER ── */
 .header {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
   padding: 28px 20px 48px;
-  position: relative;
-  overflow: hidden;
-  z-index: 2;
+  position: relative; overflow: hidden; z-index: 2;
 }
 .header::before {
   content:''; position:absolute; top:-40px; right:-20px;
@@ -85,8 +81,7 @@ body {
 .hero-dots {
   position:absolute; inset:0;
   background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 20px 20px;
-  pointer-events:none;
+  background-size: 20px 20px; pointer-events:none;
 }
 .header-inner {
   display:flex; align-items:center; gap:12px;
@@ -94,33 +89,25 @@ body {
 }
 .back-btn-hdr {
   width:36px; height:36px; border-radius:11px;
-  background:rgba(255,255,255,0.12);
-  border:1px solid rgba(255,255,255,0.18);
-  cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; transition:background 0.15s;
-  backdrop-filter:blur(8px);
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:background 0.15s; backdrop-filter:blur(8px);
 }
 .back-btn-hdr:hover { background:rgba(255,255,255,0.2); }
 .back-btn-hdr svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.5; }
-
 .header-title { flex:1; }
 .header-title h1 {
-  font-size:18px; font-weight:900;
-  color:#fff; line-height:1.1; letter-spacing:-0.2px;
+  font-size:18px; font-weight:900; color:#fff; line-height:1.1; letter-spacing:-0.2px;
   display:flex; align-items:center; gap:6px;
 }
 .header-title h1 svg { width:20px; height:20px; fill:none; stroke:#fff; stroke-width:2.2; }
 .header-title p { font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; margin-top:3px; }
 
-/* ── THEME TOGGLE ── */
 .theme-toggle {
   width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  border: 1.5px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.2);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.2s;
-  backdrop-filter: blur(6px);
+  cursor: pointer; transition: all 0.2s; backdrop-filter: blur(6px);
 }
 .theme-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.08); }
 .theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; }
@@ -129,21 +116,14 @@ body {
 [data-theme="dark"] .icon-sun  { display: block; }
 [data-theme="dark"] .icon-moon { display: none; }
 
-/* ── CONTAINER ── */
 .container {
-  max-width:440px; margin:0 auto;
-  padding:0 16px;
+  max-width:440px; margin:0 auto; padding:0 16px;
   position:relative; z-index:2;
 }
 
-/* ── SERVER CARD ── */
 .server-card {
-  background:var(--card-bg);
-  border-radius:16px;
-  margin-top:-28px;
-  margin-bottom:14px;
-  overflow:hidden;
-  border:1px solid var(--gray-line);
+  background:var(--card-bg); border-radius:16px; margin-top:-28px; margin-bottom:14px;
+  overflow:hidden; border:1px solid var(--gray-line);
   box-shadow:0 8px 24px rgba(90,26,154,0.04);
   position:relative; z-index:3;
   animation: fadeUp 0.4s 0.05s ease both;
@@ -151,36 +131,27 @@ body {
 }
 .server-card-head {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%);
-  padding:14px 16px;
-  display:flex; align-items:center; gap:10px;
+  padding:14px 16px; display:flex; align-items:center; gap:10px;
 }
 .server-icon {
   width:36px; height:36px; border-radius:10px;
   background:rgba(255,255,255,0.15);
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
 .server-icon svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.2; }
 .server-name { font-size:15px; font-weight:900; color:#fff; line-height:1.2; }
 .server-sub { font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; }
-
-.server-info-grid {
-  padding:14px 16px;
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:12px;
-}
+.server-info-grid { padding:14px 16px; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .si-label {
   font-size:10px; font-weight:800; color:var(--text-light);
-  text-transform:uppercase; letter-spacing:0.5px;
-  margin-bottom:2px; display:flex; align-items:center; gap:4px;
+  text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;
+  display:flex; align-items:center; gap:4px;
 }
 .si-label svg { width:12px; height:12px; fill:none; stroke:var(--text-light); stroke-width:2; }
 .si-val { font-size:14px; font-weight:900; color:var(--text-dark); }
 .si-val.price-val { color:var(--purple); font-size:16px; }
-
 .server-loading {
-  padding:24px; text-align:center;
-  color:var(--text-mid); font-weight:700; font-size:13px;
+  padding:24px; text-align:center; color:var(--text-mid); font-weight:700; font-size:13px;
   display:flex; flex-direction:column; align-items:center; gap:8px;
 }
 .server-loading svg {
@@ -188,64 +159,45 @@ body {
   stroke-width:2.5; animation: spin 1s linear infinite;
 }
 
-/* ── FORM CARD ── */
 .form-card {
-  background:var(--card-bg);
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:14px;
-  border:1px solid var(--gray-line);
-  box-shadow:0 4px 14px rgba(90,26,154,0.02);
+  background:var(--card-bg); border-radius:16px; padding:16px; margin-bottom:14px;
+  border:1px solid var(--gray-line); box-shadow:0 4px 14px rgba(90,26,154,0.02);
   animation: fadeUp 0.4s 0.12s ease both;
   transition: background 0.3s, border-color 0.3s;
 }
 .form-section-title {
-  font-size:14px; font-weight:900;
-  color:var(--text-dark);
-  display:flex; align-items:center; gap:6px;
-  margin-bottom:14px;
+  font-size:14px; font-weight:900; color:var(--text-dark);
+  display:flex; align-items:center; gap:6px; margin-bottom:14px;
 }
 .form-section-title svg { width:16px; height:16px; fill:none; stroke:var(--purple); stroke-width:2.2; }
-
 .form-group { margin-bottom:14px; }
 .form-group:last-child { margin-bottom:0; }
-
 .field-label {
-  font-size:10px; font-weight:800;
-  color:var(--text-mid); text-transform:uppercase;
-  letter-spacing:0.5px; margin-bottom:6px;
-  display:flex; align-items:center; gap:4px;
+  font-size:10px; font-weight:800; color:var(--text-mid); text-transform:uppercase;
+  letter-spacing:0.5px; margin-bottom:6px; display:flex; align-items:center; gap:4px;
 }
 .field-label svg { width:12px; height:12px; fill:none; stroke:var(--text-mid); stroke-width:2; }
 .field-input {
-  width:100%; padding:11px 14px;
-  border:1px solid var(--gray-line); border-radius:12px;
+  width:100%; padding:11px 14px; border:1px solid var(--gray-line); border-radius:12px;
   font-family:'Nunito',sans-serif; font-size:13px; font-weight:700;
-  color:var(--text-dark); background:var(--input-bg);
-  outline:none; transition:all 0.15s;
+  color:var(--text-dark); background:var(--input-bg); outline:none; transition:all 0.15s;
 }
 .field-input:focus { border-color:var(--purple); background:var(--card-bg); box-shadow:0 0 0 3px rgba(123,47,190,0.06); }
 .field-input::placeholder { color:var(--text-light); font-weight:600; }
 
-/* ── DURATION GRID ── */
 .duration-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
 .duration-opt {
-  padding:10px 4px;
-  border:1px solid var(--gray-line); border-radius:11px;
+  padding:10px 4px; border:1px solid var(--gray-line); border-radius:11px;
   background:var(--input-bg); color:var(--text-mid);
   font-family:'Nunito',sans-serif; font-size:12px; font-weight:800;
   text-align:center; cursor:pointer; transition:all 0.15s;
 }
 .duration-opt:hover { border-color:var(--purple); color:var(--purple); background:var(--card-bg); }
-.duration-opt.selected {
-  border-color:var(--purple); background:var(--purple-soft); color:var(--purple);
-}
+.duration-opt.selected { border-color:var(--purple); background:var(--purple-soft); color:var(--purple); }
 
-/* ── PROTOCOL GRID ── */
 .protocol-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
 .proto-opt {
-  padding:10px 2px;
-  border:1px solid var(--gray-line); border-radius:11px;
+  padding:10px 2px; border:1px solid var(--gray-line); border-radius:11px;
   background:var(--input-bg); color:var(--text-mid);
   font-family:'Nunito',sans-serif; cursor:pointer;
   transition:all 0.15s; display:flex; flex-direction:column; align-items:center; gap:4px;
@@ -253,13 +205,11 @@ body {
 .proto-opt:hover { border-color:var(--purple); color:var(--purple); background:var(--card-bg); }
 .proto-opt .proto-icon svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2.2; }
 .proto-opt .proto-name { font-size:10px; font-weight:800; }
+.proto-opt[data-val="SSH"].selected    { border-color:var(--accent); background:var(--accent-light); color:var(--accent); }
+.proto-opt[data-val="VMESS"].selected  { border-color:#0077AA; background:rgba(0,119,170,0.1); color:#0077AA; }
+.proto-opt[data-val="VLESS"].selected  { border-color:var(--purple); background:var(--purple-soft); color:var(--purple); }
+.proto-opt[data-val="TROJAN"].selected { border-color:var(--red); background:var(--red-bg); color:var(--red); }
 
-.proto-opt[data-val="SSH"].selected       { border-color:var(--accent); background:var(--accent-light); color:var(--accent); }
-.proto-opt[data-val="VMESS"].selected     { border-color:#0077AA; background:rgba(0,119,170,0.1); color:#0077AA; }
-.proto-opt[data-val="VLESS"].selected     { border-color:var(--purple); background:var(--purple-soft); color:var(--purple); }
-.proto-opt[data-val="TROJAN"].selected    { border-color:var(--red); background:var(--red-bg); color:var(--red); }
-
-/* ── BUTTONS ── */
 .btn-checkout {
   width:100%; padding:14px; border:none; border-radius:14px;
   background:linear-gradient(135deg, var(--purple-dark), var(--purple));
@@ -273,7 +223,6 @@ body {
 .btn-checkout:hover { opacity: 0.95; transform:translateY(-1px); }
 .btn-checkout:disabled { opacity:0.55; cursor:not-allowed; transform:none; }
 
-/* ── BOTTOM NAV ── */
 .bottom-nav {
   position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 440px; background: var(--nav-bg);
@@ -292,10 +241,8 @@ body {
 .nav-item.active { color: var(--purple); }
 .nav-item.active .nav-icon svg { stroke: var(--purple); fill: var(--purple-soft); }
 
-/* ── RESULT ── */
 #result { margin-top:14px; animation: fadeUp 0.4s ease both; }
 
-/* ── TOAST ── */
 .toast {
   position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-80px);
   z-index:1000; padding:10px 18px; border-radius:12px; font-weight:700; font-size:12px;
@@ -326,19 +273,13 @@ body {
       <p>Konfigurasi &amp; buat akun VPN kamu</p>
     </div>
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
-      <svg class="icon-moon" viewBox="0 0 24 24">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="5"/>
-        <line x1="12" y1="1" x2="12" y2="3"/>
-        <line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="1" y1="12" x2="3" y2="12"/>
-        <line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
       </svg>
     </button>
   </div>
@@ -355,7 +296,7 @@ body {
 
   <div class="form-card">
     <div class="form-section-title">
-      <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8"  x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1"  y1="14" x2="7"  y2="14"/><line x1="9"  y1="8"  x2="15" y2="8"/><line x1="17"  y1="16" x2="23"  y2="16"/></svg>
+      <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
       Konfigurasi Akun
     </div>
 
@@ -377,7 +318,7 @@ body {
 
     <div class="form-group">
       <div class="field-label">
-        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8"  y1="2" x2="8"  y2="6"/><line x1="3"  y1="10" x2="21" y2="10"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         Masa Aktif
       </div>
       <div class="duration-grid">
@@ -389,32 +330,24 @@ body {
 
     <div class="form-group">
       <div class="field-label">
-        <svg viewBox="0 0 24 24"><line x1="6"  y1="3" x2="6"  y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6"  cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+        <svg viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
         Protocol
       </div>
       <div class="protocol-grid">
         <div class="proto-opt selected" data-val="SSH" onclick="selectProto(this)">
-          <span class="proto-icon">
-            <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-          </span>
+          <span class="proto-icon"><svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
           <span class="proto-name">SSH</span>
         </div>
         <div class="proto-opt" data-val="VMESS" onclick="selectProto(this)">
-          <span class="proto-icon">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          </span>
+          <span class="proto-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
           <span class="proto-name">VMESS</span>
         </div>
         <div class="proto-opt" data-val="VLESS" onclick="selectProto(this)">
-          <span class="proto-icon">
-            <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          </span>
+          <span class="proto-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
           <span class="proto-name">VLESS</span>
         </div>
         <div class="proto-opt" data-val="TROJAN" onclick="selectProto(this)">
-          <span class="proto-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </span>
+          <span class="proto-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
           <span class="proto-name">TROJAN</span>
         </div>
       </div>
@@ -470,7 +403,7 @@ function toggleTheme() {
   document.documentElement.setAttribute('data-theme', saved);
 })();
 
-const token = localStorage.getItem('token'); 
+const token = localStorage.getItem('token');
 
 loadServer();
 selectProto(document.querySelector('.proto-opt.selected'));
@@ -559,10 +492,10 @@ function updatePrice() {
 }
 
 async function createAccount() {
-  if (!token) { 
-    showToast('Silakan login terlebih dahulu', 'error'); 
+  if (!token) {
+    showToast('Silakan login terlebih dahulu', 'error');
     setTimeout(() => window.location.href = 'index.html', 1500);
-    return; 
+    return;
   }
 
   const username = document.getElementById('username').value.trim().toLowerCase();
@@ -580,14 +513,14 @@ async function createAccount() {
 
   try {
     const res  = await fetch('/api/create-account', {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         server_id: serverId,
-        username, 
+        username,
         password,
         protocol:  selectedProto,
         duration:  selectedDuration
@@ -603,7 +536,7 @@ async function createAccount() {
 
     showToast('Akun berhasil dibuat!', 'success');
     document.getElementById('result').innerHTML = data.html;
-    document.getElementById('result').scrollIntoView({ behavior:'smooth' });
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
     resetBtn();
 
   } catch (err) {
@@ -621,7 +554,7 @@ function resetBtn() {
     Buat Akun Sekarang`;
 }
 
-function showToast(msg, type='success') {
+function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
   const icon = type === 'success'
     ? `<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>`
@@ -629,6 +562,49 @@ function showToast(msg, type='success') {
   t.innerHTML = icon + msg;
   t.className = 'toast ' + type + ' show';
   setTimeout(() => t.className = 'toast ' + type, 2600);
+}
+
+// ─────────────────────────────────────────
+// COPY FUNCTION — untuk result card dari backend
+// Fungsi ini dipanggil oleh onclick="copyDirectLink(this, '...')" di tombol Copy
+// yang di-generate oleh createAccount.js
+// ─────────────────────────────────────────
+function copyDirectLink(btnEl, encodedText) {
+  var rowEl = btnEl.closest('.link-row');
+  var text = decodeURIComponent(encodedText);
+  var originalHTML = btnEl.innerHTML;
+
+  function onSuccess() {
+    rowEl.classList.add('copied-active');
+    btnEl.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="20 6 9 17 4 12"></polyline></svg> Berhasil!';
+    setTimeout(function() {
+      rowEl.classList.remove('copied-active');
+      btnEl.innerHTML = originalHTML;
+    }, 2000);
+  }
+
+  function fallback() {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    ta.setSelectionRange(0, 99999);
+    try {
+      var ok = document.execCommand('copy');
+      if (ok) onSuccess();
+    } catch(e) {
+      console.error('Copy gagal:', e);
+    }
+    document.body.removeChild(ta);
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(onSuccess).catch(fallback);
+  } else {
+    fallback();
+  }
 }
 
 </script>
