@@ -596,15 +596,10 @@ function alertBox(type, msg) {
   return `<div class="alert-box ${isSuccess ? 'alert-success' : 'alert-error'}">${icon} ${msg}</div>`;
 }
 // ── COPY FUNCTION untuk result card dari backend ──
-function copyDirectLink(event, encodedText) {
-  // Cegah form submit atau reload default jika ada
-  if (event.preventDefault) event.preventDefault();
-
-  // Ambil element button yang memicu event secara akurat
-  var btnEl = event.currentTarget || event.target;
-  if (btnEl.tagName !== 'BUTTON') {
-    btnEl = btnEl.closest('button');
-  }
+function copyDirectLink(btnEl, encodedText) {
+  // Jika dipanggil via event (trial lama), normalisasi ke button element
+  if (btnEl && btnEl.target) btnEl = btnEl.currentTarget || btnEl.target;
+  if (btnEl && btnEl.tagName !== 'BUTTON') btnEl = btnEl.closest('button');
 
   var rowEl = btnEl.closest('.link-row');
   var text = decodeURIComponent(encodedText);
@@ -624,27 +619,15 @@ function copyDirectLink(event, encodedText) {
     ta.value = text;
     ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px';
     document.body.appendChild(ta);
-    ta.focus(); 
-    ta.select(); 
-    ta.setSelectionRange(0, 99999);
-    try { 
-      if (document.execCommand('copy')) onSuccess(); 
-    } catch(e) {
-      console.error('Fallback copy gagal: ', e);
-    }
+    ta.focus(); ta.select(); ta.setSelectionRange(0, 99999);
+    try { if (document.execCommand('copy')) onSuccess(); } catch(e) {}
     document.body.removeChild(ta);
   }
 
-  // Eksekusi Clipboard API (Wajib HTTPS / Localhost)
   if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text)
-      .then(onSuccess)
-      .catch(function(err) {
-        console.warn('Clipboard API gagal, beralih ke fallback...', err);
-        fallback();
-      });
-  } else { 
-    fallback(); 
+    navigator.clipboard.writeText(text).then(onSuccess).catch(fallback);
+  } else {
+    fallback();
   }
 }
 
