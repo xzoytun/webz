@@ -1,377 +1,301 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Kelola PPOB - Xtrimer Tunnel</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary:       #7B2FBE;
-  --primary-dark:  #5A1A9A;
-  --primary-deep:  #3D0F72;
-  --primary-light: #9B4FDE;
-  --primary-soft:  #F3EAFD;
-  --primary-mid:   #EAD5FA;
+  --purple:       #7B2FBE;
+  --purple-dark:  #5A1A9A;
+  --purple-deep:  #3D0F72;
+  --purple-light: #9B4FDE;
+  --purple-soft:  #F3EAFD;
+  --purple-mid:   #EAD5FA;
   --accent:       #FF6B2B;
-  
-  --success:      #12C28A;
-  --success-bg:   #E6FAF4;
-  --danger:       #E84040;
-  --danger-bg:    #FFECEC;
-  --warning:      #FE9431;
-  --warning-bg:   #FFF3E5;
-
-  /* Light theme variables */
+  --accent-light: #FFEFEA;
+  --green:        #12C28A;
+  --green-bg:     #E6FAF4;
+  --green-dark:   #0A9E70;
+  --red:          #E84040;
+  --red-bg:       #FFECEC;
+  --red-dark:     #B91C1C;
   --white:        #FFFFFF;
-  --bg:           #F4F0FA;
-  --border:       #EEF0F6;
-  --text-main:    #1A0533;
-  --text-muted:   #A882CC;
-  --surface:      #FFFFFF;
+  --bg:           #F8F6FC;
+  --gray-line:    #EEF0F6;
+  --text-dark:    #1A0533;
+  --text-mid:     #6B3FA0;
+  --text-light:   #A882CC;
+  --card-bg:      #FFFFFF;
+  --input-bg:     #F8F6FC;
   --nav-bg:       #FFFFFF;
-  --nav-border:   #EEF0F6;
+  --nav-shadow:   rgba(90,26,154,0.06);
 }
 
-[data-theme="dark"] {
-  --white:        #1E1130;
-  --bg:           #120B22;
-  --border:       #2A1D42;
-  --text-main:    #F0E8FF;
-  --text-muted:   #7A5BAA;
-  --surface:      #1E1130;
-  --nav-bg:       #17102A;
-  --nav-border:   #2A1D42;
-  --primary-soft:  #2D1A50;
-  --primary-mid:   #3D2265;
+/* ── SINKRONISASI TOTAL DENGAN KELOLA USER & ADMIN PANEL ── */
+html[data-theme="dark"] {
+  --purple-soft:  #202124;
+  --purple-mid:   #2a2b2f;
+  --green-bg:     #0c2a21;
+  --red-bg:       #311111;
+  --white:        #17181c;
+  --bg:           #0a0b0d;
+  --card-bg:      #1c1d21;
+  --gray-line:    #303135;
+  --text-dark:    #e8eaed;
+  --text-mid:     #bdc1c6;
+  --text-light:   #9aa0a6;
+  --input-bg:     #202124;
+  --accent-light: #3A241F;
+  --nav-bg:       #17181c;
+  --nav-shadow:   rgba(0,0,0,0.4);
 }
 
-* { 
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box; 
-}
+/* Prevent flash sebelum JS jalan */
+html { background: var(--bg); }
+
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   background: var(--bg);
   min-height: 100vh;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  color: var(--text-main);
-  padding-bottom: 100px; /* Jarak aman agar tidak tertutup bottom nav */
-  transition: background 0.3s ease, color 0.3s ease;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text-dark);
+  padding-bottom: 90px;
+  overflow-x: hidden;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* ─── HEADER COMFORT ─── */
-.header-nav {
-  background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 100%);
-  padding: 20px 16px; 
-  color: #fff; 
-  display: flex; 
-  align-items: center; 
-  gap: 16px;
-  box-shadow: 0 4px 20px rgba(90, 26, 154, 0.15);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ─── HERO HEADER ─── */
+.hero {
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
+  padding: 28px 20px 75px;
+  position: relative; overflow: hidden; z-index: 2;
+}
+.hero::before {
+  content:''; position:absolute; top:-40px; right:-20px;
+  width:160px; height:160px;
+  border:32px solid rgba(255,255,255,0.05); border-radius:50%;
+}
+.hero-dots {
+  position:absolute; inset:0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 20px 20px; pointer-events:none;
 }
 
-.btn-back {
-  background: rgba(255,255,255,0.15); 
-  border: none; 
-  width: 38px; 
-  height: 38px;
-  border-radius: 12px; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
-  color: #fff; 
-  cursor: pointer; 
+.hero-top {
+  display:flex; align-items:center; gap:12px;
+  max-width: 440px; margin: 0 auto; position:relative; z-index:2;
+  animation: fadeUp 0.35s ease both;
+}
+
+.back-btn {
+  width:36px; height:36px; border-radius:11px;
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:background 0.15s; backdrop-filter:blur(8px);
   text-decoration: none;
-  transition: all 0.2s ease;
 }
+.back-btn:hover { background:rgba(255,255,255,0.2); }
+.back-btn svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.5; }
 
-.btn-back:hover {
-  background: rgba(255,255,255,0.25);
-  transform: translateX(-2px);
+.hero-title { flex:1; min-width:0; }
+.hero-title h1 {
+  font-size:18px; font-weight:900; color:#fff; line-height:1.1; letter-spacing:-0.2px;
+  display: flex; align-items: center; gap: 6px;
 }
-
-.btn-back svg { 
-  width: 20px; 
-  height: 20px; 
-  fill: none; 
-  stroke: currentColor; 
-  stroke-width: 2.5; 
-}
-
-.header-title { 
-  font-size: 18px; 
-  font-weight: 700; 
-  letter-spacing: -0.3px;
+.hero-title p {
+  font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; margin-top:3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
 /* ─── THEME TOGGLE ─── */
 .theme-toggle {
-  margin-left: auto;
   width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  border: 1.5px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.2);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.2s;
-  backdrop-filter: blur(6px);
+  cursor: pointer; transition: all 0.2s; backdrop-filter: blur(6px);
+  flex-shrink: 0;
 }
 .theme-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.08); }
 .theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; }
-.icon-sun { display: none; }
+.icon-sun  { display: none; }
 .icon-moon { display: block; }
-[data-theme="dark"] .icon-sun  { display: block; }
-[data-theme="dark"] .icon-moon { display: none; }
+html[data-theme="dark"] .icon-sun  { display: block; }
+html[data-theme="dark"] .icon-moon { display: none; }
+
+.admin-badge {
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
+  border-radius:20px; padding:5px 12px;
+  font-size:10px; font-weight:800; color:#fff;
+  letter-spacing:0.5px; white-space:nowrap; flex-shrink:0;
+  backdrop-filter:blur(8px);
+}
 
 /* ─── CONTAINER ─── */
-.container { 
-  padding: 16px; 
-  max-width: 440px; /* Samakan max-width dengan dashboard agar ukuran konsisten */
-  margin: 0 auto; 
+.container {
+  max-width: 440px; margin: 0 auto;
+  padding: 0 16px; position: relative; z-index: 2;
 }
 
 /* ─── SEARCH BAR ─── */
-.search-wrapper {
-  background: var(--surface);
-  border: 1px solid var(--border); 
-  border-radius: 14px;
-  padding: 12px 16px; 
-  display: flex; 
-  align-items: center; 
-  gap: 12px; 
-  margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-  transition: all 0.2s ease;
+.search-wrap {
+  max-width: 440px; margin: -50px auto 16px;
+  padding: 0 16px; position: relative; z-index: 20;
+  animation: fadeUp 0.38s 0.06s ease both;
 }
-
-.search-wrapper:focus-within {
-  border-color: var(--primary-light);
-  box-shadow: 0 0 0 3px rgba(155, 79, 222, 0.15);
+.search-box {
+  width: 100%; background: var(--card-bg);
+  border-radius: 16px; border: 1px solid var(--gray-line);
+  box-shadow: 0 8px 24px rgba(90,26,154,0.04);
+  display: flex; align-items: center; gap: 10px; padding: 14px;
+  transition: background 0.25s, border-color 0.25s;
 }
-
-.search-wrapper svg { 
-  width: 20px; 
-  height: 20px; 
-  stroke: var(--text-muted); 
-  fill: none; 
-  stroke-width: 2.2; 
-}
-
+html[data-theme="dark"] .search-box { box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.search-box svg { color: var(--text-light); flex-shrink: 0; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5; }
 .search-input {
-  border: none; 
-  outline: none; 
-  width: 100%; 
-  font-family: inherit; 
-  font-size: 14px;
-  font-weight: 500; 
-  color: var(--text-main);
-  background: transparent;
+  flex: 1; border: none; outline: none;
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--text-dark); background: transparent;
 }
-
-.search-input::placeholder {
-  color: var(--text-muted);
-  opacity: 0.7;
-}
+.search-input::placeholder { color: var(--text-light); font-weight: 600; }
 
 /* ─── FILTER TABS ─── */
 .filter-container {
-  display: flex; 
-  gap: 8px; 
-  margin-bottom: 20px; 
-  overflow-x: auto;
-  padding: 2px 2px 6px 2px; 
-  scrollbar-width: none;
+  display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto;
+  padding: 2px 2px 6px 2px; scrollbar-width: none;
 }
 .filter-container::-webkit-scrollbar { display: none; }
 
 .filter-btn {
-  background: var(--surface); 
-  border: 1px solid var(--border);
-  padding: 8px 16px; 
-  border-radius: 20px; 
-  font-size: 13px; 
-  font-weight: 600;
-  color: var(--text-muted); 
-  cursor: pointer; 
-  white-space: nowrap; 
-  transition: all 0.2s ease;
+  background: var(--card-bg); border: 1px solid var(--gray-line);
+  padding: 8px 16px; border-radius: 20px; font-size: 12.5px; font-weight: 700;
+  color: var(--text-light); cursor: pointer; white-space: nowrap; transition: all 0.2s ease;
+  font-family: 'Nunito', sans-serif;
 }
-
-.filter-btn:hover {
-  border-color: var(--primary-light);
-  color: var(--primary);
-}
-
+.filter-btn:hover { border-color: var(--purple-light); color: var(--purple); }
 .filter-btn.active {
-  background: var(--primary); 
-  color: #FFFFFF; 
-  border-color: var(--primary);
-  box-shadow: 0 4px 12px rgba(123, 47, 190, 0.25);
+  background: var(--purple); color: #FFFFFF; border-color: var(--purple);
+  box-shadow: 0 4px 12px rgba(123, 47, 190, 0.2);
 }
+html[data-theme="dark"] .filter-btn.active { background: var(--purple-light); border-color: var(--purple-light); }
 
-/* ─── CARD LOGS ─── */
-.logs-list { display: flex; flex-direction: column; gap: 14px; }
+/* ─── LOADING & STATUS STATE ─── */
+.status-box {
+  background: var(--card-bg); border-radius: 16px; padding: 40px 20px;
+  border: 1px solid var(--gray-line); text-align: center; color: var(--text-mid);
+  box-shadow: 0 8px 24px rgba(90,26,154,0.02); font-size: 13px; font-weight: 700;
+}
+.status-box svg { display: block; margin: 0 auto 10px; width: 24px; height: 24px; fill: none; stroke: var(--purple); stroke-width: 2.5; animation: spin 1s linear infinite; }
+html[data-theme="dark"] .status-box svg { stroke: var(--purple-light); }
+.hidden { display: none !important; }
+
+/* ─── TRANSACTION LOG CARD ─── */
+.logs-list { display: flex; flex-direction: column; gap: 12px; }
 .log-card {
-  background: var(--surface); 
-  border-radius: 16px; 
-  padding: 16px;
-  border: 1px solid var(--border); 
-  display: flex; 
-  flex-direction: column; 
-  gap: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s, border-color 0.3s;
+  background: var(--card-bg); border-radius: 16px; padding: 16px;
+  border: 1px solid var(--gray-line); display: flex; flex-direction: column; gap: 12px;
+  box-shadow: 0 8px 24px rgba(90,26,154,0.02); animation: fadeUp 0.38s ease both;
+  transition: transform 0.2s ease, background 0.25s, border-color 0.25s;
 }
+html[data-theme="dark"] .log-card { box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.log-card:hover { transform: translateY(-1px); }
 
-.log-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(90, 26, 154, 0.08);
-}
+.log-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--gray-line); padding-bottom: 10px; }
+.log-sku { font-size: 14px; font-weight: 850; color: var(--text-dark); letter-spacing: 0.2px; }
+.log-date { font-size: 11px; font-weight: 600; color: var(--text-light); }
 
-.log-header { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  border-bottom: 1px dashed var(--border);
-  padding-bottom: 10px;
-}
+.log-body { background: var(--input-bg); padding: 12px; border-radius: 12px; display: flex; flex-direction: column; gap: 8px; transition: background 0.25s; }
+.row-item { display: flex; justify-content: space-between; align-items: flex-start; font-size: 12.5px; }
+.row-lbl { color: var(--text-light); font-weight: 700; }
+.row-val { color: var(--text-dark); font-weight: 800; text-align: right; }
 
-.log-sku { 
-  font-size: 14px; 
-  font-weight: 800; 
-  color: var(--text-main); 
-  letter-spacing: 0.3px;
-}
-
-.log-date { 
-  font-size: 12px; 
-  font-weight: 500; 
-  color: var(--text-muted); 
-}
-
-.log-body { 
-  background: var(--bg); 
-  padding: 12.0px; 
-  border-radius: 12px; 
-  display: flex; 
-  flex-direction: column; 
-  gap: 8px; 
-  transition: background 0.3s;
-}
-
-.row-item { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: flex-start; 
-  font-size: 12.5px; 
-}
-
-.row-lbl { 
-  color: var(--text-muted); 
-  font-weight: 500; 
-}
-
-.row-val { 
-  color: var(--text-main); 
-  font-weight: 600; 
-  text-align: right; 
-}
-
-.log-footer { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  padding-top: 4px;
-}
-
-.log-price { 
-  font-size: 16px; 
-  font-weight: 800; 
-  color: var(--primary); 
-}
+.log-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 4px; }
+.log-price { font-size: 16px; font-weight: 900; color: var(--purple); }
+html[data-theme="dark"] .log-price { color: var(--purple-light); }
 
 /* Badges */
-.badge { 
-  font-size: 10px; 
-  font-weight: 700; 
-  padding: 4px 10px; 
-  border-radius: 8px; 
-  text-transform: uppercase; 
-  letter-spacing: 0.3px;
-}
-.badge.sukses { background: var(--success-bg); color: var(--success); }
-.badge.pending { background: var(--warning-bg); color: var(--warning); }
-.badge.gagal { background: var(--danger-bg); color: var(--danger); }
+.badge { font-size: 9.5px; font-weight: 900; padding: 4px 10px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.3px; }
+.badge.sukses { background: var(--green-bg); color: var(--green); }
+html[data-theme="dark"] .badge.sukses { color: #34D399; }
+.badge.pending { background: #FFF3E5; color: #FE9431; }
+.badge.gagal { background: var(--red-bg); color: var(--red); }
+html[data-theme="dark"] .badge.gagal { color: #FF6B6B; }
 
 /* Source Platform Badge */
-.platform-badge {
-  font-size: 10px; 
-  font-weight: 600; 
-  padding: 3px 8px; 
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-}
+.platform-badge { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 6px; display: inline-flex; align-items: center; letter-spacing: 0.2px; }
 .platform-badge.web { background: #EBF3FF; color: #1877F2; }
 [data-theme="dark"] .platform-badge.web { background: rgba(24, 119, 242, 0.15); color: #4EA4FF; }
 .platform-badge.telegram { background: #E1F5FE; color: #0288D1; }
 [data-theme="dark"] .platform-badge.telegram { background: rgba(2, 136, 209, 0.15); color: #4FC3F7; }
 
-/* Status State */
-.status-box {
-  background: var(--surface); 
-  border-radius: 16px; 
-  padding: 40px 20px;
-  border: 1px solid var(--border); 
-  text-align: center; 
-  color: var(--text-muted);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.01);
-}
-.status-box.loading svg { animation: spin 1s linear infinite; width:28px; height:28px; stroke: var(--primary); fill:none; stroke-width:2.5; }
-.hidden { display: none !important; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
 /* ─── BOTTOM NAV ─── */
 .bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--nav-bg); border-top: 1px solid var(--nav-border);
-  display: flex; padding: 10px 0 14px;
-  box-shadow: 0 -4px 20px rgba(90,26,154,0.05); z-index: 100;
-  transition: background 0.3s, border-color 0.3s;
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 440px; background: var(--nav-bg);
+  border-top: 1px solid var(--gray-line);
+  box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
-.bottom-nav-inner { display: flex; width: 100%; max-width: 440px; margin: 0 auto; }
-.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; }
-.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--text-muted); stroke-width: 2.2; transition: stroke 0.2s; }
-.nav-label { font-size: 9.5px; font-weight: 800; color: var(--text-muted); transition: color 0.2s; }
-.nav-item.active .nav-label { color: var(--primary); }
-.nav-item.active .nav-icon svg { stroke: var(--primary); }
+.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 10px 0 14px; }
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; color: var(--text-light); width: 70px; transition: all 0.2s; }
+.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
+.nav-label { font-size: 9.5px; font-weight: 800; }
+.nav-item:hover .nav-icon svg { transform: translateY(-2px); }
+.nav-item.active { color: var(--purple); }
+html[data-theme="dark"] .nav-item.active { color: var(--purple-light); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); }
+html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-light); }
 </style>
 </head>
 <body>
 
-<div class="header-nav">
-  <a href="admin.html" class="btn-back">
-    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-  </a>
-  <div class="header-title">Riwayat Transaksi PPOB</div>
+<div class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-top">
+    <a class="back-btn" href="admin.html" aria-label="Kembali ke Admin Panel">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </a>
+    <div class="hero-title">
+      <h1>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:18px;height:18px;display:inline-block;vertical-align:middle;margin-right:4px;margin-top:-2px;"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="2"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
+        Riwayat PPOB
+      </h1>
+      <p id="logCountLabel">Memuat riwayat...</p>
+    </div>
+    
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema" style="margin-right: 8px;">
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+    
+    <div class="admin-badge" id="logCountBadge">—</div>
+  </div>
+</div>
 
-  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
-    <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-  </button>
+<div class="search-wrap">
+  <div class="search-box">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <input class="search-input" id="search-bar" type="text" placeholder="Cari target, produk, atau email..." oninput="searchData()">
+  </div>
 </div>
 
 <div class="container">
 
-  <div class="search-wrapper">
-    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-    <input type="text" id="search-bar" class="search-input" placeholder="Cari target, produk, atau email..." oninput="searchData()">
-  </div>
-  
   <div class="filter-container">
     <button class="filter-btn active" onclick="filterStatus('ALL', this)">Semua</button>
     <button class="filter-btn" onclick="filterStatus('PENDING', this)">⏳ Pending</button>
@@ -381,8 +305,8 @@ body {
 
   <div id="content-area">
     <div id="status-loading" class="status-box">
-      <svg viewBox="0 0 24 24" class="loading"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
-      <p style="margin-top:12px; font-size:13px; font-weight:600;">Menarik data dari database server...</p>
+      <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg>
+      Menarik data dari database server...
     </div>
 
     <div id="logs-grid" class="logs-list"></div>
@@ -392,7 +316,7 @@ body {
 
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <a class="nav-item" href="dashboard.html">
+    <a class="nav-item" href="admin.html">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
       <div class="nav-label">Home</div>
     </a>
@@ -408,27 +332,34 @@ body {
 </nav>
 
 <script>
-  // ─── THEME MANAGER (SINKRON DENGAN DASHBOARD) ───
+  // ─── THEME MANAGER SYSTEM (SINKRON 100% DENGAN LOCALSTORAGE 'theme') ───
   function toggleTheme() {
     const html = document.documentElement;
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
-    localStorage.setItem('xt-theme', next);
+    localStorage.setItem('theme', next);
   }
   (function() {
-    const saved = localStorage.getItem('xt-theme') || 'light';
-    document.documentElement.setAttribute('data-theme', saved);
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || saved === 'light') {
+      document.documentElement.setAttribute('data-theme', saved);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
   })();
 
   // ─── DATA & LOGIC ───
   let rawData = [];
   let filterActive = 'ALL';
 
-  const token = localStorage.getItem('token') || '';
+  const localUser = JSON.parse(localStorage.getItem('user'));
+  const token = localStorage.getItem('token');
 
-  // Keamanan validasi admin token
-  if (!token) {
-    window.location.href = 'index.html';
+  // Proteksi Autentikasi Admin
+  if (!localUser || !token || localUser.role !== 'admin') {
+    window.location.replace('dashboard.html');
   }
 
   const getHeaders = () => ({
@@ -437,15 +368,14 @@ body {
   });
 
   async function fetchAllPPOBHistory() {
-    const grid = document.getElementById('logs-grid');
-    const loadingBox = document.getElementById('status-loading');
-
     try {
       const res = await fetch('/api/admin/ppob-history', { headers: getHeaders() });
       const resJson = await res.json();
 
       if (resJson.success) {
         rawData = resJson.transactions || [];
+        document.getElementById('logCountLabel').innerText = rawData.length + ' transaksi terdaftar';
+        document.getElementById('logCountBadge').innerText = rawData.length + ' Log';
         renderLogs();
       } else {
         showEmptyState(resJson.message || "Gagal memuat log.");
@@ -474,7 +404,7 @@ body {
 
       if (!matchStatus) return false;
 
-      // 2. Search Box Filter
+      // 2. Search Filter
       const target = (item.target || '').toLowerCase();
       const sku = (item.sku || '').toLowerCase();
       const email = (item.web_user_email || '').toLowerCase();
@@ -485,20 +415,22 @@ body {
     });
 
     if (filtered.length === 0) {
-      showEmptyState("Tidak ditemukan riwayat log transaksi yang cocok.");
+      showEmptyState("Tidak ditemukan riwayat log transaksi.");
       return;
     }
 
     loadingBox.classList.add('hidden');
 
-    filtered.forEach(item => {
+    filtered.forEach((item, index) => {
       const card = document.createElement('div');
       card.className = 'log-card';
+      card.style.animationDelay = `${index * 0.045}s`;
 
       const stat = (item.status || 'PENDING').toUpperCase();
       let statusClass = 'pending';
-      if (stat === 'SUKSES' || stat === 'SUCCESS') statusClass = 'sukses';
-      if (stat === 'GAGAL' || stat === 'FAILED' || stat === 'FAILURE') statusClass = 'gagal';
+      let displayStatus = 'PENDING';
+      if (stat === 'SUKSES' || stat === 'SUCCESS') { statusClass = 'sukses'; displayStatus = 'SUKSES'; }
+      if (stat === 'GAGAL' || stat === 'FAILED' || stat === 'FAILURE') { statusClass = 'gagal'; displayStatus = 'GAGAL'; }
 
       let buyerInfo = item.web_user_email ? `🌐 ${item.web_user_email}` : `🤖 TG ID: ${item.user_id || 'Unknown'}`;
       let sourceClass = item.source === 'web' ? 'web' : 'telegram';
@@ -517,7 +449,7 @@ body {
         <div class="log-body">
           <div class="row-item">
             <span class="row-lbl">Pembeli</span>
-            <span class="row-val" style="font-size:12px; color:var(--primary);">${buyerInfo}</span>
+            <span class="row-val" style="color:var(--purple);">${buyerInfo}</span>
           </div>
           <div class="row-item">
             <span class="row-lbl">Target / No</span>
@@ -529,7 +461,7 @@ body {
           </div>
           <div class="row-item">
             <span class="row-lbl">SN</span>
-            <span class="row-val" style="color:var(--text-main); max-width:240px; word-break:break-all;">${item.sn || '-'}</span>
+            <span class="row-val" style="color:var(--text-dark); max-width:220px; word-break:break-all;">${item.sn || '-'}</span>
           </div>
         </div>
         <div class="log-footer">
@@ -537,7 +469,7 @@ body {
             <span class="log-price">Rp ${(item.price || 0).toLocaleString('id-ID')}</span>
             <span class="platform-badge ${sourceClass}">${sourceLabel}</span>
           </div>
-          <span class="badge ${statusClass}">${stat}</span>
+          <span class="badge ${statusClass}">${displayStatus}</span>
         </div>
       `;
       grid.appendChild(card);
@@ -560,10 +492,13 @@ body {
     const loadingBox = document.getElementById('status-loading');
     grid.innerHTML = '';
     loadingBox.classList.remove('hidden');
-    loadingBox.innerHTML = `<p style="font-size:13px; font-weight:600;">${msg}</p>`;
+    loadingBox.innerHTML = `
+      <svg viewBox="0 0 24 24" style="animation:none; stroke:var(--text-light);"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      <p style="margin-top:8px;">${msg}</p>
+    `;
   }
 
-  // Jalankan load data
+  // Init fetch data
   fetchAllPPOBHistory();
 </script>
 </body>
