@@ -6,6 +6,7 @@
 <title>Produk VPN - Xtrimer Tunnel</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+    html { background: var(--bg); }
 
 :root {
   --purple:       #7B2FBE;
@@ -15,35 +16,51 @@
   --purple-soft:  #F3EAFD;
   --purple-mid:   #EAD5FA;
   --accent:       #FF6B2B;
+  --accent-light: #FFEFEA;
   --accent2:      #FFD600;
   --green:        #12C28A;
+  --green-bg:     #E6FAF4;
+  --green-dark:   #0A9E70;
+  --red:          #E84040;
+  --red-bg:       #FFECEC;
+  --red-dark:     #B91C1C;
+  --blue:         #1ABCFE;
+  --blue-bg:      #E6F8FF;
+  --pink:         #E8007A;
+  --pink-bg:      #FFE6F2;
+  --warning:      #FE9431;
+  --warning-bg:   #FFF3E5;
   --white:        #FFFFFF;
   --bg:           #F8F6FC;
+  --card:         #FFFFFF;
   --gray-line:    #EEF0F6;
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
-  --border:       #EAD5FA;
-  --card-bg:      #FFFFFF;
-  --nav-bg:       #FFFFFF;
-  --nav-border:   #EEF0F6;
+  --shadow-sm:    0 4px 12px rgba(90,26,154,0.02);
+  --shadow-md:    0 6px 18px rgba(90,26,154,0.04);
+  --r-card:       16px;
+  --r-btn:        12px;
+
   --search-bg:    #FFFFFF;
 }
 
-[data-theme="dark"] {
-  --white:        #1E1130;
-  --bg:           #120B22;
-  --gray-line:    #2A1D42;
-  --text-dark:    #F0E8FF;
-  --text-mid:     #C4A0EE;
-  --text-light:   #7A5BAA;
-  --card-bg:      #1E1130;
-  --nav-bg:       #17102A;
-  --nav-border:   #2A1D42;
-  --purple-soft:  #2D1A50;
-  --purple-mid:   #3D2265;
-  --search-bg:    #1E1130;
+html[data-theme="dark"] {
+  --purple-soft:  #202124;
+  --purple-mid:   #2a2b2f;
+  --green-bg:     #0c2a21;
+  --red-bg:       #311111;
+  --accent-light: #3A241F;
+  --white:        #17181c;
+  --bg:           #0a0b0d;
+  --card:         #1c1d21;
+  --gray-line:    #303135;
+  --text-dark:    #e8eaed;
+  --text-mid:     #bdc1c6;
+  --text-light:   #9aa0a6;
 }
+html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
+
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -84,7 +101,7 @@ body {
 }
 .header-inner {
   display:flex; align-items:center; gap:12px;
-  max-width: 480px; margin: 0 auto; position: relative;
+  max-width: 440px; margin: 0 auto; position: relative;
 }
 .back-btn-hdr {
   width:36px; height:36px; border-radius:12px;
@@ -127,7 +144,7 @@ body {
 
 /* ── SEARCH BOX MELAYANG AMAN ── */
 .search-wrap { 
-  max-width:480px; 
+  max-width:440px; 
   margin:-22px auto 20px; 
   padding:0 14px; 
   position:relative;
@@ -146,11 +163,11 @@ body {
 }
 
 /* ── CONTAINER ── */
-.container { max-width:480px; margin:0 auto; padding:0 14px; position: relative; z-index: 1; }
+.container { max-width:440px; margin:0 auto; padding:0 14px; position: relative; z-index: 1; }
 
 /* ── SLEEK COMPACT CARD DESIGN ── */
 .product-card {
-  background: var(--card-bg);
+  background: var(--card);
   border-radius: 16px;
   margin-bottom: 10px;
   padding: 12px 14px;
@@ -241,12 +258,12 @@ body {
 /* ── BOTTOM NAV ── */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--nav-bg); border-top: 1px solid var(--nav-border);
+  background: var(--card); border-top: 1px solid var(--gray-line);
   display: flex; padding: 10px 0 14px;
   box-shadow: 0 -4px 20px rgba(90,26,154,0.05); z-index: 100;
   transition: background 0.3s, border-color 0.3s;
 }
-.bottom-nav-inner { display: flex; width: 100%; max-width: 480px; margin: 0 auto; }
+.bottom-nav-inner { display: flex; width: 100%; max-width: 440px; margin: 0 auto; }
 .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; }
 .nav-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--text-light); stroke-width: 2.2; transition: stroke 0.2s; }
 .nav-label { font-size: 9.5px; font-weight: 800; color: var(--text-light); transition: color 0.2s; }
@@ -331,12 +348,16 @@ function toggleTheme() {
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('xt-theme', next);
+  localStorage.setItem('theme', next);
 }
 (function() {
-  const saved = localStorage.getItem('xt-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
+  (function(){
+  var s=localStorage.getItem('theme');
+  if(s==='dark'||s==='light'){document.documentElement.setAttribute('data-theme',s);}
+  else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');}
+  else{document.documentElement.setAttribute('data-theme','light');}
 })();
+
 
 loadProducts();
 
