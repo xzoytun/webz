@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,37 +15,45 @@
   --purple-soft:  #F3EAFD;
   --purple-mid:   #EAD5FA;
   --accent:       #FF6B2B;
-  --accent2:      #FFD600;
+  --accent-light: #FFEFEA;
   --green:        #12C28A;
   --green-bg:     #E6FAF4;
+  --green-dark:   #0A9E70;
   --red:          #E84040;
   --red-bg:       #FFECEC;
   --white:        #FFFFFF;
-  --bg:           #F7F0FD;
-  --gray-line:    #E8D8F8;
+  --bg:           #F8F6FC;
+  --gray-line:    #EEF0F6;
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
   --card-bg:      #FFFFFF;
+  --input-bg:     #F8F6FC;
   --nav-bg:       #FFFFFF;
   --nav-shadow:   rgba(90,26,154,0.06);
 }
 
-[data-theme="dark"] {
-  --white:        #1E1130;
-  --bg:           #120B22;
-  --gray-line:    #2A1D42;
-  --text-dark:    #F0E8FF;
-  --text-mid:     #C4A0EE;
-  --text-light:   #7A5BAA;
-  --card-bg:      #1E1130;
-  --purple-soft:  #2D1A50;
-  --purple-mid:   #3D2265;
-  --nav-bg:       #1E1130;
-  --nav-shadow:   rgba(0,0,0,0.3);
-  --red-bg:       #3A1F1F;
-  --green-bg:     #143A2E;
+/* ── SINKRONISASI TOTAL DENGAN CHECKOUT / PRODUCTS (GOPAY-INSPIRED DARK THEME) ── */
+html[data-theme="dark"] {
+  --purple-soft:  #202124;
+  --purple-mid:   #2a2b2f;
+  --green-bg:     #0c2a21;
+  --red-bg:     #311111;
+  --white:        #17181c;
+  --bg:           #0a0b0d;
+  --card-bg:      #1c1d21;
+  --gray-line:    #303135;
+  --text-dark:    #e8eaed;
+  --text-mid:     #bdc1c6;
+  --text-light:   #9aa0a6;
+  --input-bg:     #202124;
+  --accent-light: #3A241F;
+  --nav-bg:       #17181c;
+  --nav-shadow:   rgba(0,0,0,0.4);
 }
+
+/* prevent flash before JS runs */
+html { background: var(--bg); }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -56,316 +64,257 @@ body {
   color: var(--text-dark);
   padding-bottom: 90px;
   overflow-x: hidden;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* ── BLOBS ── */
-.blob1 {
-  position:fixed; top:-80px; left:-60px; width:300px; height:300px;
-  background:radial-gradient(circle,rgba(123,47,190,0.10) 0%,transparent 70%);
-  pointer-events:none; z-index:0;
-}
-.blob2 {
-  position:fixed; bottom:-60px; right:-60px; width:260px; height:260px;
-  background:radial-gradient(circle,rgba(155,79,222,0.08) 0%,transparent 70%);
-  pointer-events:none; z-index:0;
-}
-
-/* ── ANIMATIONS ── */
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(14px); }
+  from { opacity:0; transform:translateY(12px); }
   to   { opacity:1; transform:translateY(0); }
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ── HEADER ── */
+/* ── HEADER (SAMA DENGAN CHECKOUT) ── */
 .header {
-  background: linear-gradient(150deg, var(--purple-deep) 0%, var(--purple) 55%, var(--purple-light) 100%);
-  padding: 22px 20px 36px;
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
+  padding: 28px 20px 48px;
   position: relative; overflow: hidden; z-index: 2;
 }
 .header::before {
-  content:''; position:absolute; top:-50px; right:-30px;
-  width:200px; height:200px;
-  border:48px solid rgba(255,255,255,0.07); border-radius:50%;
-}
-.header::after {
-  content:''; position:absolute; bottom:-60px; left:-30px;
-  width:170px; height:170px;
-  border:36px solid rgba(255,214,0,0.12); border-radius:50%;
+  content:''; position:absolute; top:-40px; right:-20px;
+  width:160px; height:160px;
+  border:32px solid rgba(255,255,255,0.05); border-radius:50%;
 }
 .hero-dots {
   position:absolute; inset:0;
-  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size: 22px 22px; pointer-events:none;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 20px 20px; pointer-events:none;
 }
 .header-inner {
-  display:flex; align-items:center; gap:14px;
-  max-width: 480px; margin: 0 auto; position:relative; z-index:2;
+  display:flex; align-items:center; gap:12px;
+  max-width: 440px; margin: 0 auto; position:relative; z-index:2;
 }
 .back-btn-hdr {
-  width:40px; height:40px; border-radius:13px;
-  background:rgba(255,255,255,0.14);
-  border:1px solid rgba(255,255,255,0.2);
+  width:36px; height:36px; border-radius:11px;
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
   cursor:pointer; display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; transition:background 0.15s;
-  backdrop-filter:blur(8px); text-decoration:none;
+  flex-shrink:0; transition:background 0.15s; backdrop-filter:blur(8px);
 }
-.back-btn-hdr:hover { background:rgba(255,255,255,0.24); }
-.back-btn-hdr svg {
-  width:20px; height:20px; fill:none; stroke:#fff;
-  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
-}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.2); }
+.back-btn-hdr svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.5; }
 .header-title { flex:1; }
 .header-title h1 {
-  font-size:21px; font-weight:900; color:#fff;
-  line-height:1.1; letter-spacing:-0.3px;
-  display:flex; align-items:center; gap:8px;
+  font-size:18px; font-weight:900; color:#fff; line-height:1.1; letter-spacing:-0.2px;
+  display:flex; align-items:center; gap:6px;
 }
-.header-title h1 svg {
-  width:22px; height:22px; fill:none; stroke:#fff;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
-.header-title p { font-size:11px; color:rgba(255,255,255,0.6); font-weight:700; margin-top:3px; }
+.header-title h1 svg { width:20px; height:20px; fill:none; stroke:#fff; stroke-width:2.2; }
+.header-title p { font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; margin-top:3px; }
 
-/* ── THEME TOGGLE ── */
 .theme-toggle {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(255,255,255,0.14);
-  border: 1px solid rgba(255,255,255,0.2);
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.2);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.2s;
-  backdrop-filter: blur(6px);
+  cursor: pointer; transition: all 0.2s; backdrop-filter: blur(6px);
 }
-.theme-toggle:hover { background: rgba(255,255,255,0.24); transform: scale(1.08); }
-.theme-toggle svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; }
-.icon-sun { display: none; }
+.theme-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.08); }
+.theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; }
+.icon-sun  { display: none; }
 .icon-moon { display: block; }
-[data-theme="dark"] .icon-sun  { display: block; }
-[data-theme="dark"] .icon-moon { display: none; }
+html:not([data-theme="dark"]) .icon-sun  { display: block; }
+html:not([data-theme="dark"]) .icon-moon { display: none; }
 
-/* ── CONTAINER ── */
+/* ── CONTAINER (440px MATCH) ── */
 .container {
-  max-width:480px; margin:0 auto;
-  padding:16px 18px 0; position:relative; z-index:2;
+  max-width:440px; margin:0 auto; padding:0 16px;
+  position:relative; z-index:2;
 }
 
 /* ── FORM CARD ── */
 .form-card {
-  background:var(--card-bg);
-  border-radius:22px; padding:20px 18px;
-  border:1.5px solid var(--gray-line);
-  box-shadow:0 4px 16px rgba(90,26,154,0.09);
-  margin-bottom:14px;
-  animation: fadeUp 0.4s ease both;
-  transition: background 0.3s, border-color 0.3s;
+  background:var(--card-bg); border-radius:16px; padding:16px; margin-top:-28px; margin-bottom:14px;
+  border:1px solid var(--gray-line); box-shadow:0 8px 24px rgba(90,26,154,0.04);
+  position:relative; z-index:3;
+  animation: fadeUp 0.4s 0.05s ease both;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
+html[data-theme="dark"] .form-card {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+.form-section-title {
+  font-size:14px; font-weight:900; color:var(--text-dark);
+  display:flex; align-items:center; gap:6px; margin-bottom:14px;
+}
+.form-section-title svg { width:16px; height:16px; fill:none; stroke:var(--purple); stroke-width:2.2; }
+html[data-theme="dark"] .form-section-title svg { stroke: var(--purple-light); }
+
+.form-group { margin-bottom:14px; }
+.form-group:last-child { margin-bottom:0; }
 
 .field-label {
-  font-size:11px; font-weight:800; color:var(--text-mid);
-  text-transform:uppercase; letter-spacing:0.8px;
-  margin-bottom:8px; display:flex; align-items:center; gap:5px;
+  font-size:10px; font-weight:800; color:var(--text-mid); text-transform:uppercase;
+  letter-spacing:0.5px; margin-bottom:6px; display:flex; align-items:center; gap:4px;
 }
-.field-label svg {
-  width:13px; height:13px; fill:none; stroke:var(--text-mid);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
+.field-label svg { width:12px; height:12px; fill:none; stroke:var(--text-mid); stroke-width:2; }
 
 .field-select {
-  width:100%; padding:13px 16px;
-  border:2px solid var(--gray-line); border-radius:14px;
-  font-family:'Nunito',sans-serif;
-  font-size:14px; font-weight:700;
-  color:var(--text-dark); background:var(--purple-soft);
-  outline:none; transition:border-color 0.15s, background-color 0.15s;
+  width:100%; padding:11px 14px; border:1px solid var(--gray-line); border-radius:12px;
+  font-family:'Nunito',sans-serif; font-size:13px; font-weight:700;
+  color:var(--text-dark); background:var(--input-bg); outline:none; transition:all 0.15s;
   appearance:none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23A882CC' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
   background-repeat:no-repeat;
   background-position: right 14px center;
   padding-right:40px;
-  margin-bottom:18px;
 }
-.field-select:focus { border-color:var(--purple); background-color:var(--card-bg); }
+.field-select:focus { border-color:var(--purple); background:var(--card-bg); box-shadow:0 0 0 3px rgba(123,47,190,0.06); }
+html[data-theme="dark"] .field-select:focus { border-color: var(--purple-light); box-shadow: 0 0 0 3px rgba(155,79,222,0.15); }
 
-/* ── PROTOCOL GRID ── */
-.proto-section-label {
-  font-size:11px; font-weight:800; color:var(--text-mid);
-  text-transform:uppercase; letter-spacing:0.8px;
-  margin-bottom:10px; display:flex; align-items:center; gap:5px;
+/* ── PROTOCOL GRID (GRID 4 BARIS SAMA SPERTI CHECKOUT) ── */
+.protocol-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+.proto-opt {
+  padding:10px 2px; border:1px solid var(--gray-line); border-radius:11px;
+  background:var(--input-bg); color:var(--text-mid);
+  font-family:'Nunito',sans-serif; cursor:pointer;
+  transition:all 0.15s; display:flex; flex-direction:column; align-items:center; gap:4px;
 }
-.proto-section-label svg {
-  width:13px; height:13px; fill:none; stroke:var(--text-mid);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
+.proto-opt:hover { border-color:var(--purple); color:var(--purple); background:var(--card-bg); }
+html[data-theme="dark"] .proto-opt:hover { border-color: var(--purple-light); color: var(--purple-light); }
+.proto-opt .proto-icon svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2.2; }
+.proto-opt .proto-name { font-size:10px; font-weight:800; }
 
-.protocol-grid {
-  display:grid; grid-template-columns:1fr 1fr; gap:9px;
-  margin-bottom:20px;
-}
-.protocol-btn {
-  background:var(--purple-soft); border:2px solid var(--gray-line);
-  border-radius:16px; padding:14px 10px;
-  text-align:center; cursor:pointer; transition:all 0.15s;
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-}
-.protocol-btn:hover { border-color:var(--purple); background:var(--card-bg); }
-.protocol-btn.active {
-  border-color:var(--purple-dark);
+.proto-opt[data-val="SSH"].selected    { border-color:var(--accent); background:var(--accent-light); color:var(--accent); }
+.proto-opt[data-val="VMESS"].selected  { border-color:#0077AA; background:rgba(0,119,170,0.1); color:#0077AA; }
+html[data-theme="dark"] .proto-opt[data-val="VMESS"].selected { background:rgba(0,119,170,0.2); }
+.proto-opt[data-val="VLESS"].selected  { border-color:var(--purple); background:var(--purple-soft); color:var(--purple); }
+html[data-theme="dark"] .proto-opt[data-val="VLESS"].selected { border-color:var(--purple-light); color:var(--purple-light); }
+.proto-opt[data-val="TROJAN"].selected { border-color:var(--red); background:var(--red-bg); color:var(--red); }
+
+/* ── BUTTON STYLE MATCH ── */
+.btn-checkout {
+  width:100%; padding:14px; border:none; border-radius:14px;
   background:linear-gradient(135deg, var(--purple-dark), var(--purple));
-  box-shadow:0 4px 14px rgba(90,26,154,0.28);
+  color:#fff; font-family:'Nunito',sans-serif; font-weight:900; font-size:14px;
+  cursor:pointer; margin-bottom:10px;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  box-shadow:0 6px 18px rgba(90,26,154,0.2);
+  transition:all 0.15s; animation: fadeUp 0.4s 0.12s ease both;
 }
-.proto-icon svg {
-  width:24px; height:24px; fill:none;
-  stroke:var(--text-mid); stroke-width:2;
-  stroke-linecap:round; stroke-linejoin:round;
-  transition:stroke 0.15s;
-}
-.protocol-btn.active .proto-icon svg { stroke:#fff; }
-.proto-name {
-  font-size:13px; font-weight:900; color:var(--text-mid); transition:color 0.15s;
-}
-.protocol-btn.active .proto-name { color:#fff; }
-.proto-desc {
-  font-size:10px; font-weight:700; color:var(--text-light); transition:color 0.15s;
-}
-.protocol-btn.active .proto-desc { color:rgba(255,255,255,0.7); }
+html[data-theme="dark"] .btn-checkout { color: var(--bg); background: var(--text-dark); box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
+html[data-theme="dark"] .btn-checkout:hover { background: var(--purple); color: #fff; }
+.btn-checkout svg { width:16px; height:16px; fill:none; stroke:#fff; stroke-width:2.2; }
+html[data-theme="dark"] .btn-checkout svg { stroke: var(--bg); }
+html[data-theme="dark"] .btn-checkout:hover svg { stroke: #fff; }
+.btn-checkout:hover { opacity: 0.95; transform:translateY(-1px); }
+.btn-checkout:disabled { opacity:0.55; cursor:not-allowed; transform:none; }
 
-/* ── CREATE BUTTON ── */
-.create-btn {
-  width:100%; padding:15px;
-  border:none; border-radius:14px;
-  background:linear-gradient(135deg, var(--purple-dark), var(--purple));
-  color:#fff; font-family:'Nunito',sans-serif;
-  font-weight:900; font-size:15px; cursor:pointer;
-  display:flex; align-items:center; justify-content:center; gap:8px;
-  box-shadow:0 6px 20px rgba(90,26,154,0.35);
-  transition:transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-}
-.create-btn svg {
-  width:18px; height:18px; fill:none; stroke:#fff;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
-.create-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(90,26,154,0.45); }
-.create-btn:active { transform:translateY(0); }
-.create-btn:disabled { opacity:0.55; cursor:not-allowed; transform:none; }
-
-/* ── RESULT AREA ── */
-#resultArea { margin-top:14px; }
-
+/* ── LOADING & ALERTS ── */
 .loading-box {
-  background:var(--purple-soft); border:1.5px solid var(--gray-line);
-  border-radius:16px; padding:30px 20px;
-  display:flex; flex-direction:column; align-items:center; gap:12px;
-  color:var(--text-mid); font-weight:700; font-size:14px;
+  background:var(--input-bg); border:1px solid var(--gray-line);
+  border-radius:12px; padding:20px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color:var(--text-mid); font-weight:700; font-size:13px;
 }
 .loading-box svg {
-  width:36px; height:36px; fill:none; stroke:var(--purple);
-  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
-  animation:spin 1s linear infinite;
+  width:24px; height:24px; fill:none; stroke:var(--purple);
+  stroke-width:2.5; animation:spin 1s linear infinite;
 }
 
 .alert-box {
-  border-radius:14px; padding:14px 16px;
+  border-radius:12px; padding:12px 14px;
   font-size:13px; font-weight:800;
-  display:flex; align-items:center; gap:10px;
+  display:flex; align-items:center; gap:8px;
 }
-.alert-box svg {
-  width:18px; height:18px; fill:none;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0;
-}
-.alert-success { background:var(--green-bg); border:1.5px solid rgba(18,194,138,0.25); color:var(--green); }
+.alert-box svg { width:16px; height:16px; fill:none; stroke-width:2.5; flex-shrink:0; }
+.alert-success { background:var(--green-bg); border:1px solid rgba(18,194,138,0.2); color:var(--green-dark); }
+html[data-theme="dark"] .alert-success { color: var(--green); }
 .alert-success svg { stroke:var(--green); }
-.alert-error   { background:var(--red-bg);   border:1.5px solid rgba(232,64,64,0.25);   color:var(--red); }
-.alert-error   svg { stroke:var(--red); }
+.alert-error   { background:var(--red-bg); border:1px solid rgba(232,64,64,0.2); color:var(--red); }
+.alert-error svg { stroke:var(--red); }
 
-/* ── NOTE BOX ── */
+/* ── NOTE CARD ── */
 .note-card {
-  background:var(--card-bg); border:1.5px solid var(--gray-line);
-  border-radius:18px; padding:16px 18px; margin-bottom:14px;
-  box-shadow:0 2px 10px rgba(90,26,154,0.06);
-  animation: fadeUp 0.4s 0.1s ease both;
-  transition: background 0.3s, border-color 0.3s;
+  background:var(--card-bg); border:1px solid var(--gray-line);
+  border-radius:16px; padding:16px; margin-bottom:14px;
+  box-shadow:0 4px 14px rgba(90,26,154,0.02);
+  animation: fadeUp 0.4s 0.18s ease both;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
 .note-title {
   font-size:13px; font-weight:900; color:var(--text-dark);
-  display:flex; align-items:center; gap:7px; margin-bottom:12px;
+  display:flex; align-items:center; gap:6px; margin-bottom:12px;
 }
-.note-title svg {
-  width:16px; height:16px; fill:none; stroke:var(--purple);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
+.note-title svg { width:16px; height:16px; fill:none; stroke:var(--purple); stroke-width:2.2; }
+html[data-theme="dark"] .note-title svg { stroke: var(--purple-light); }
 .note-list { display:flex; flex-direction:column; gap:8px; }
 .note-item {
   display:flex; align-items:flex-start; gap:8px;
-  font-size:12px; font-weight:700; color:var(--text-mid); line-height:1.5;
+  font-size:12px; font-weight:700; color:var(--text-mid); line-height:1.4;
 }
 .note-dot {
   width:6px; height:6px; border-radius:50%;
   background:var(--purple); flex-shrink:0; margin-top:5px;
 }
+html[data-theme="dark"] .note-dot { background: var(--purple-light); }
 
-/* ── BOTTOM NAV ── */
+/* ── BOTTOM NAV (SAMA DENGAN CHECKOUT) ── */
 .bottom-nav {
   position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 100%; max-width: 480px; background: var(--nav-bg);
+  width: 100%; max-width: 440px; background: var(--nav-bg);
   border-top: 1px solid var(--gray-line);
   box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
-  transition: background 0.3s, border-color 0.3s;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
-.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 8px 0; }
+.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 10px 0 14px; }
 .nav-item {
   display: flex; flex-direction: column; align-items: center; gap: 4px;
   text-decoration: none; color: var(--text-light); width: 70px; transition: all 0.2s;
 }
 .nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
-.nav-label { font-size: 11px; font-weight: 800; }
+.nav-label { font-size: 9.5px; font-weight: 800; }
 .nav-item:hover .nav-icon svg { transform: translateY(-2px); }
 .nav-item.active { color: var(--purple); }
-.nav-item.active .nav-icon svg { stroke: var(--purple); fill: var(--purple-soft); }
+html[data-theme="dark"] .nav-item.active { color: var(--purple-light); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); }
+html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-light); }
+
+#resultArea { margin-top:14px; animation: fadeUp 0.4s ease both; }
+
+.toast {
+  position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-80px);
+  z-index:1000; padding:10px 18px; border-radius:12px; font-weight:700; font-size:12px;
+  display:flex; align-items:center; gap:6px; box-shadow:0 8px 24px rgba(0,0,0,0.12);
+  transition:all 0.3s cubic-bezier(0.34,1.2,0.64,1); opacity:0; white-space:nowrap;
+  color:#fff; background:var(--text-dark);
+}
+.toast svg { width:14px; height:14px; fill:none; stroke:#fff; stroke-width:2.5; flex-shrink:0; }
+.toast.show    { transform:translateX(-50%) translateY(0); opacity:1; }
+.toast.success { background:linear-gradient(135deg, var(--green), #00E676); }
+.toast.error   { background:linear-gradient(135deg, var(--red), #FF7A7A); }
 
 </style>
 </head>
 <body>
 
-<div class="blob1"></div>
-<div class="blob2"></div>
-
 <div class="header">
   <div class="hero-dots"></div>
   <div class="header-inner">
-    <a class="back-btn-hdr" href="dashboard.html">
-      <svg viewBox="0 0 24 24">
-        <line x1="19" y1="12" x2="5" y2="12"/>
-        <polyline points="12 19 5 12 12 5"/>
-      </svg>
-    </a>
+    <button class="back-btn-hdr" onclick="window.location.href='dashboard.html'">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </button>
     <div class="header-title">
       <h1>
-        <svg viewBox="0 0 24 24">
-          <path d="M20 12V22H4V12"/>
-          <path d="M22 7H2v5h20V7z"/>
-          <path d="M12 22V7"/>
-          <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-          <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
         Trial VPN
       </h1>
       <p>Coba akun gratis sebelum topup</p>
     </div>
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
-      <svg class="icon-moon" viewBox="0 0 24 24">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="5"/>
-        <line x1="12" y1="1" x2="12" y2="3"/>
-        <line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="1" y1="12" x2="3" y2="12"/>
-        <line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
       </svg>
     </button>
   </div>
@@ -374,82 +323,58 @@ body {
 <div class="container">
 
   <div class="form-card">
-
-    <div class="proto-section-label">
-      <svg viewBox="0 0 24 24">
-        <line x1="6"  y1="3" x2="6"  y2="15"/>
-        <circle cx="18" cy="6" r="3"/>
-        <circle cx="6"  cy="18" r="3"/>
-        <path d="M18 9a9 9 0 0 1-9 9"/>
-      </svg>
-      Pilih Protocol
+    <div class="form-section-title">
+      <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+      Konfigurasi Trial
     </div>
 
-    <div class="protocol-grid">
-      <div class="protocol-btn active" data-protocol="SSH">
-        <span class="proto-icon">
-          <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-        </span>
-        <span class="proto-name">SSH</span>
-        <span class="proto-desc">Cocok semua aplikasi</span>
+    <div class="form-group">
+      <div class="field-label">
+        <svg viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+        Protocol
       </div>
-      <div class="protocol-btn" data-protocol="VMESS">
-        <span class="proto-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        </span>
-        <span class="proto-name">VMESS</span>
-        <span class="proto-desc">Cepat &amp; stabil</span>
-      </div>
-      <div class="protocol-btn" data-protocol="VLESS">
-        <span class="proto-icon">
-          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        </span>
-        <span class="proto-name">VLESS</span>
-        <span class="proto-desc">Ringan &amp; irit</span>
-      </div>
-      <div class="protocol-btn" data-protocol="TROJAN">
-        <span class="proto-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </span>
-        <span class="proto-name">TROJAN</span>
-        <span class="proto-desc">Anti blokir</span>
+      <div class="protocol-grid">
+        <div class="proto-opt selected" data-val="SSH" onclick="selectProto(this)">
+          <span class="proto-icon"><svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
+          <span class="proto-name">SSH</span>
+        </div>
+        <div class="proto-opt" data-val="VMESS" onclick="selectProto(this)">
+          <span class="proto-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+          <span class="proto-name">VMESS</span>
+        </div>
+        <div class="proto-opt" data-val="VLESS" onclick="selectProto(this)">
+          <span class="proto-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+          <span class="proto-name">VLESS</span>
+        </div>
+        <div class="proto-opt" data-val="TROJAN" onclick="selectProto(this)">
+          <span class="proto-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          <span class="proto-name">TROJAN</span>
+        </div>
       </div>
     </div>
 
-    <div class="field-label">
-      <svg viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="2" y1="12" x2="22" y2="12"/>
-        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-      </svg>
-      Pilih Server
+    <div class="form-group">
+      <div class="field-label">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Pilih Server
+      </div>
+      <select id="server" class="field-select">
+        <option value="">Memuat server...</option>
+      </select>
     </div>
-    <select id="server" class="field-select">
-      <option value="">Memuat server...</option>
-    </select>
-
-    <button class="create-btn" id="createBtn" onclick="createTrial()">
-      <svg viewBox="0 0 24 24">
-        <path d="M20 12V22H4V12"/>
-        <path d="M22 7H2v5h20V7z"/>
-        <path d="M12 22V7"/>
-        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-      </svg>
-      Buat Trial Gratis
-    </button>
-
-    <div id="resultArea"></div>
 
   </div>
 
+  <button class="btn-checkout" id="createBtn" onclick="createTrial()">
+    <svg viewBox="0 0 24 24"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+    Buat Trial Gratis
+  </button>
+
+  <div id="resultArea"></div>
+
   <div class="note-card">
     <div class="note-title">
-      <svg viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="8" x2="12" y2="12"/>
-        <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/></svg>
       Ketentuan Trial
     </div>
     <div class="note-list">
@@ -464,7 +389,7 @@ body {
 
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <a class="nav-item" href="index.html">
+    <a class="nav-item" href="dashboard.html">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
       <div class="nav-label">Home</div>
     </a>
@@ -479,33 +404,50 @@ body {
   </div>
 </nav>
 
+<div class="toast" id="toast"></div>
+
 <script>
 
 let selectedProtocol = 'SSH';
-let allServers = []; // Menyimpan semua master data server dari API
+let allServers = [];
 
-// ─── THEME MANAGER ───
+// ─── THEME MANAGER (SINKRON VARIABEL LOCALSTORAGE) ───
 function toggleTheme() {
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('xt-theme', next);
+  localStorage.setItem('theme', next);
 }
 (function() {
-  const saved = localStorage.getItem('xt-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
 })();
 
-// ✅ Ambil token JWT dari localStorage
 const token = localStorage.getItem('token');
 
-// ─── FILTER & RENDER SERVER ───
+// Load awal data
+loadServers();
+
+function selectProto(el) {
+  document.querySelectorAll('.proto-opt').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedProtocol = el.dataset.val;
+  
+  // Update dropdown server otomatis sesuai protocol yang dipilih
+  filterAndRenderServers();
+}
+
 function filterAndRenderServers() {
   const select = document.getElementById('server');
   
-  // Filter server berdasarkan kecocokan protokol (mengakomodasi format string/array dari backend)
   const filtered = allServers.filter(s => {
-    if (!s.protocols && !s.kategori) return true; // Jika backend tidak melampirkan filter, tampilkan saja
+    if (!s.protocols && !s.kategori) return true;
     const protoKey = (s.protocols || s.kategori || '').toUpperCase();
     return protoKey.includes(selectedProtocol);
   });
@@ -520,19 +462,6 @@ function filterAndRenderServers() {
   ).join('');
 }
 
-// ─── EVENT HANDLER PROTOKOL ───
-document.querySelectorAll('.protocol-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.protocol-btn').forEach(x => x.classList.remove('active'));
-    btn.classList.add('active');
-    selectedProtocol = btn.dataset.protocol;
-    
-    // Setiap kali protokol diganti, filter server otomatis diperbarui
-    filterAndRenderServers();
-  });
-});
-
-// ─── LOAD DATA SERVER DARI API ───
 async function loadServers() {
   try {
     const res  = await fetch('/api/products');
@@ -544,7 +473,7 @@ async function loadServers() {
     }
 
     allServers = data.products;
-    filterAndRenderServers(); // Jalankan filter pertama kali data selesai dimuat
+    filterAndRenderServers();
 
   } catch (err) {
     console.error(err);
@@ -552,24 +481,21 @@ async function loadServers() {
   }
 }
 
-// ─── ACTION CREATE ACCOUNT TRIAL ───
 async function createTrial() {
   if (!token) { 
-    showAlert('error', 'Silakan login terlebih dahulu');
+    showToast('Silakan login terlebih dahulu', 'error');
     setTimeout(() => window.location.href = 'index.html', 1500); 
     return; 
   }
 
   const server_id = document.getElementById('server').value;
-  if (!server_id) { showAlert('error', 'Pilih server terlebih dahulu'); return; }
+  if (!server_id) { showToast('Pilih server terlebih dahulu', 'error'); return; }
 
   const btn = document.getElementById('createBtn');
   btn.disabled = true;
   btn.innerHTML = `
-    <svg viewBox="0 0 24 24" style="animation:spin 1s linear infinite; width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2;">
-      <path d="M12 2a10 10 0 0 1 10 10"/>
-    </svg>
-    Membuat Trial...`;
+    <svg viewBox="0 0 24 24" style="animation:spin 1s linear infinite;"><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+    Memproses...`;
 
   document.getElementById('resultArea').innerHTML = `
     <div class="loading-box">
@@ -598,11 +524,12 @@ async function createTrial() {
       return;
     }
 
+    showToast('Trial berhasil dibuat!', 'success');
     document.getElementById('resultArea').innerHTML =
       alertBox('success', 'Trial berhasil dibuat!') +
-      `<div style="margin-top:10px;">${data.html}</div>`;
+      `<div style="margin-top:14px;">${data.html}</div>`;
 
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
 
   } catch (err) {
     console.error(err);
@@ -619,7 +546,25 @@ function alertBox(type, msg) {
   return `<div class="alert-box ${isSuccess ? 'alert-success' : 'alert-error'}">${icon} ${msg}</div>`;
 }
 
-// ─── COPY CONFIG FUNCTION ───
+function resetBtn() {
+  const btn = document.getElementById('createBtn');
+  btn.disabled = false;
+  btn.innerHTML = `
+    <svg viewBox="0 0 24 24"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+    Buat Trial Gratis`;
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  const icon = type === 'success'
+    ? `<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>`
+    : `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
+  t.innerHTML = icon + msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.className = 'toast ' + type, 2600);
+}
+
+// ─── COPY CONFIG FUNCTION (SAMA DENGAN CHECKOUT) ───
 function copyDirectLink(btnEl, encodedText) {
   if (btnEl && btnEl.target) btnEl = btnEl.currentTarget || btnEl.target;
   if (btnEl && btnEl.tagName !== 'BUTTON') btnEl = btnEl.closest('button');
@@ -653,27 +598,6 @@ function copyDirectLink(btnEl, encodedText) {
     fallback();
   }
 }
-
-function showAlert(type, msg) {
-  document.getElementById('resultArea').innerHTML = alertBox(type, msg);
-}
-
-function resetBtn() {
-  const btn = document.getElementById('createBtn');
-  btn.disabled = false;
-  btn.innerHTML = `
-    <svg viewBox="0 0 24 24">
-      <path d="M20 12V22H4V12"/>
-      <path d="M22 7H2v5h20V7z"/>
-      <path d="M12 22V7"/>
-      <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-      <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-    </svg>
-    Buat Trial Gratis`;
-}
-
-// Inisialisasi awal saat halaman dibuka
-loadServers();
 
 </script>
 </body>
