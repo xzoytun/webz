@@ -60,6 +60,9 @@
   --c-text2:     #C3A2E7;
   --c-text3:     #785CA0;
   --c-primary-s: #2D144A;
+
+  --gray-line:   #2B1D46;
+
   --shadow-sm:   0 4px 12px rgba(0,0,0,0.3);
   --shadow-md:   0 8px 24px rgba(0,0,0,0.4);
   --shadow-lg:   0 20px 48px rgba(0,0,0,0.5);
@@ -410,21 +413,86 @@ img { display:block; }
   width:14px; height:14px; stroke:var(--c-text3); stroke-width:2.5; fill:none;
 }
 
-/* ── SEAMLESS BOTTOM NAV ── */
-.bottom-nav {
-  position:fixed; bottom:0; left:0; right:0; background:#fff;
-  border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px;
-  box-shadow:0 -4px 20px rgba(90,26,154,0.04); z-index:100; max-width:440px; margin:0 auto;
-}
-.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
-.nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
-.nav-label { font-size:10px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
-.nav-item.active .nav-label { color:var(--purple); }
-.nav-item.active .nav-icon svg { stroke: var(--purple); }
+/* ─── BOTTOM NAV ─── */
 
-/* Active State Styles */
-.nav-item.active .nav-label { color:var(--purple); }
-.nav-item.active .nav-icon svg { stroke: var(--purple); }
+.bottom-nav{
+  position:fixed;
+
+  bottom:0;
+  left:0;
+  right:0;
+
+  max-width:440px;
+  margin:0 auto;
+
+  background:var(--c-surface);
+
+  border-top:1px solid var(--gray-line);
+
+  display:flex;
+
+  padding:10px 0 14px;
+
+  box-shadow:0 -4px 20px rgba(90,26,154,0.04);
+
+  z-index:100;
+
+  transition:
+    background .3s,
+    border-color .3s;
+}
+
+.nav-item{
+  flex:1;
+
+  display:flex;
+  flex-direction:column;
+
+  align-items:center;
+
+  gap:3px;
+
+  text-decoration:none;
+
+  transition:.2s;
+}
+
+.nav-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.nav-icon svg{
+  width:20px;
+  height:20px;
+
+  fill:none;
+
+  stroke:var(--c-text3);
+
+  stroke-width:2.2;
+
+  transition:.2s;
+}
+
+.nav-label{
+  font-size:10px;
+
+  font-weight:800;
+
+  color:var(--c-text3);
+
+  transition:.2s;
+}
+
+.nav-item.active .nav-label{
+  color:var(--purple);
+}
+
+.nav-item.active .nav-icon svg{
+  stroke:var(--purple);
+}
 
 /* ── ONLINE INDICATOR ── */
 .online-dot {
