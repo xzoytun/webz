@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,35 +14,46 @@
   --purple-soft:  #F3EAFD;
   --purple-mid:   #EAD5FA;
   --accent:       #FF6B2B;
+  --accent-light: #FFEFEA;
   --green:        #12C28A;
   --green-bg:     #E6FAF4;
+  --green-dark:   #0A9E70;
   --red:          #E84040;
-
-  /* Light theme */
+  --red-bg:       #FFECEC;
+  --red-dark:     #B91C1C;
   --white:        #FFFFFF;
-  --bg:           #F4F0FA;
+  --bg:           #F8F6FC;
   --gray-line:    #EEF0F6;
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
   --card-bg:      #FFFFFF;
+  --input-bg:     #F8F6FC;
   --nav-bg:       #FFFFFF;
-  --nav-border:   #EEF0F6;
+  --nav-shadow:   rgba(90,26,154,0.06);
 }
 
-[data-theme="dark"] {
-  --white:        #1E1130;
-  --bg:           #120B22;
-  --gray-line:    #2A1D42;
-  --text-dark:    #F0E8FF;
-  --text-mid:     #C4A0EE;
-  --text-light:   #7A5BAA;
-  --card-bg:      #1E1130;
-  --nav-bg:       #17102A;
-  --nav-border:   #2A1D42;
-  --purple-soft:  #2D1A50;
-  --purple-mid:   #3D2265;
+/* ── SINKRONISASI TOTAL DENGAN ADMIN PANEL (GOPAY-INSPIRED DARK THEME) ── */
+html[data-theme="dark"] {
+  --purple-soft:  #202124;
+  --purple-mid:   #2a2b2f;
+  --green-bg:     #0c2a21;
+  --red-bg:       #311111;
+  --white:        #17181c;
+  --bg:           #0a0b0d;
+  --card-bg:      #1c1d21;
+  --gray-line:    #303135;
+  --text-dark:    #e8eaed;
+  --text-mid:     #bdc1c6;
+  --text-light:   #9aa0a6;
+  --input-bg:     #202124;
+  --accent-light: #3A241F;
+  --nav-bg:       #17181c;
+  --nav-shadow:   rgba(0,0,0,0.4);
 }
+
+/* Prevent flash sebelum JS jalan */
+html { background: var(--bg); }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -51,266 +62,241 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   color: var(--text-dark);
-  padding-bottom: 100px; /* Ditambah biar gak ketutupan bottom nav */
+  padding-bottom: 90px;
   overflow-x: hidden;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* ── ANIMATIONS ── */
+/* ─── ANIMATIONS ─── */
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(14px); }
+  from { opacity:0; transform:translateY(12px); }
   to   { opacity:1; transform:translateY(0); }
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ── HEADER ── */
-.header {
-  background: linear-gradient(150deg, var(--purple-deep) 0%, var(--purple) 55%, #B06FEC 100%);
-  padding: 22px 20px 60px;
+/* ─── HERO HEADER ─── */
+.hero {
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
+  padding: 28px 20px 75px;
   position: relative; overflow: hidden; z-index: 2;
 }
-.header::after {
-  content: '';
-  position: absolute;
-  bottom: -60px; right: -60px;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
-  pointer-events: none;
+.hero::before {
+  content:''; position:absolute; top:-40px; right:-20px;
+  width:160px; height:160px;
+  border:32px solid rgba(255,255,255,0.05); border-radius:50%;
 }
 .hero-dots {
   position:absolute; inset:0;
-  background-image: radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px);
-  background-size: 22px 22px;
-  pointer-events:none;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 20px 20px; pointer-events:none;
 }
-.header-inner {
-  display:flex; align-items:center; gap:12px; position:relative; z-index:2;
-  max-width: 440px; margin: 0 auto;
+
+.hero-top {
+  display:flex; align-items:center; gap:12px;
+  max-width: 440px; margin: 0 auto; position:relative; z-index:2;
+  animation: fadeUp 0.35s ease both;
 }
+
 .back-btn-hdr {
   width:36px; height:36px; border-radius:11px;
-  background:rgba(255,255,255,0.15);
-  border:1.5px solid rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
   cursor:pointer; display:flex; align-items:center; justify-content:center;
-  color:#fff; text-decoration:none; flex-shrink:0; transition:all 0.2s;
-  backdrop-filter:blur(6px);
+  flex-shrink:0; transition:background 0.15s; backdrop-filter:blur(8px);
+  text-decoration: none;
 }
-.back-btn-hdr:hover { background:rgba(255,255,255,0.25); transform: scale(1.05); }
+.back-btn-hdr:hover { background:rgba(255,255,255,0.2); }
 .back-btn-hdr svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.5; }
 
-.header-title { flex:1; }
-.header-title h1 {
-  font-size:18px; font-weight:900;
-  color:#fff; line-height:1.15; letter-spacing:-0.4px;
-  display:flex; align-items:center; gap:6px;
+.hero-title { flex:1; min-width:0; }
+.hero-title h1 {
+  font-size:18px; font-weight:900; color:#fff; line-height:1.1; letter-spacing:-0.2px;
+  display: flex; align-items: center; gap: 6px;
 }
-.header-title p { font-size:11px; color:rgba(255,255,255,0.55); font-weight:600; margin-top:3px; }
-
-.header-count {
-  background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.15);
-  border-radius:8px; padding:3px 10px;
-  font-size:9.5px; font-weight:900; color:#fff; white-space:nowrap;
-  text-transform: uppercase; letter-spacing: 0.5px;
+.hero-title p {
+  font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; margin-top:3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-/* ── CONTAINER ── */
+/* ─── THEME TOGGLE ─── */
+.theme-toggle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s; backdrop-filter: blur(6px);
+  flex-shrink: 0;
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.08); }
+.theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; }
+.icon-sun  { display: none; }
+.icon-moon { display: block; }
+html:not([data-theme="dark"]) .icon-sun  { display: block; }
+html:not([data-theme="dark"]) .icon-moon { display: none; }
+
+.admin-badge {
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
+  border-radius:20px; padding:5px 12px;
+  font-size:10px; font-weight:800; color:#fff;
+  letter-spacing:0.5px; white-space:nowrap; flex-shrink:0;
+  backdrop-filter:blur(8px);
+}
+
+/* ─── CONTAINER ─── */
 .container {
-  max-width:440px; margin:0 auto;
-  padding:0 16px; position:relative; z-index:2;
+  max-width: 440px; margin: 0 auto;
+  padding: 0 16px; position: relative; z-index: 2;
 }
 
-/* ── TOOLBAR / SEARCH ── */
-.toolbar {
-  background:var(--white); border-radius:18px; padding:12px;
-  border:1px solid var(--gray-line);
-  box-shadow: 0 10px 28px rgba(60,15,114,0.05);
-  margin-top:-32px; margin-bottom:16px;
-  position:relative; z-index:5;
-  animation: fadeUp 0.38s 0.05s ease both;
-  transition: background 0.3s, border-color 0.3s;
+/* ─── SEARCH BAR ─── */
+.search-wrap {
+  max-width: 440px; margin: -50px auto 20px;
+  padding: 0 16px; position: relative; z-index: 20;
+  animation: fadeUp 0.38s 0.06s ease both;
 }
-.search-row {
-  display:flex; align-items:center; gap:10px;
-  background:var(--bg); border-radius:12px;
-  border:1px solid var(--gray-line); padding:9px 12px;
-  transition:all 0.15s;
+.search-box {
+  width: 100%; background: var(--card-bg);
+  border-radius: 16px; border: 1px solid var(--gray-line);
+  box-shadow: 0 8px 24px rgba(90,26,154,0.04);
+  display: flex; align-items: center; gap: 10px; padding: 14px;
+  transition: background 0.25s, border-color 0.25s;
 }
-.search-row:focus-within { border-color:var(--purple); background:var(--white); box-shadow:0 0 0 3px rgba(123,47,190,0.05); }
-.search-row svg { color:var(--text-light); flex-shrink:0; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+html[data-theme="dark"] .search-box { box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.search-box svg { color: var(--text-light); flex-shrink: 0; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5; }
 .search-input {
-  flex:1; border:none; outline:none;
-  font-family:'Nunito',sans-serif; font-size:13px; font-weight:700;
-  color:var(--text-dark); background:transparent;
+  flex: 1; border: none; outline: none;
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--text-dark); background: transparent;
 }
-.search-input::placeholder { color:var(--text-light); font-weight:600; }
+.search-input::placeholder { color: var(--text-light); font-weight: 600; }
 
-/* ── LOGS CARDS ── */
-.logs-wrap {
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  animation: fadeUp 0.38s 0.10s ease both;
+/* ─── LOADING & STATES ─── */
+.loading-state, .empty-state {
+  text-align: center; padding: 40px 20px;
+  color: var(--text-mid); font-weight: 700; font-size: 13px;
 }
+.loading-icon, .empty-icon { display: flex; justify-content: center; margin-bottom: 10px; }
+.loading-icon svg { width: 24px; height: 24px; fill: none; stroke: var(--purple); stroke-width: 2.5; animation: spin 1s linear infinite; }
+html[data-theme="dark"] .loading-icon svg { stroke: var(--purple-light); }
+.empty-icon svg { width: 44px; height: 44px; fill: none; stroke: var(--text-light); stroke-width: 2; }
+.empty-title { font-size: 15px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; }
+.empty-sub { font-size: 12px; color: var(--text-mid); font-weight: 600; }
+
+/* ─── LOGS CARDS ─── */
+.logs-wrap { display: flex; flex-direction: column; gap: 12px; }
 
 .log-card {
-  background:var(--white);
-  border-radius:16px;
-  border:1px solid var(--gray-line);
-  padding:14px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.02);
-  transition: background 0.3s, border-color 0.3s, transform 0.18s;
+  background: var(--card-bg); border-radius: 16px;
+  border: 1px solid var(--gray-line); padding: 14px 16px;
+  box-shadow: 0 8px 24px rgba(90,26,154,0.02);
+  transition: background 0.25s, border-color 0.25s, transform 0.18s;
+  animation: fadeUp 0.38s ease both;
 }
-.log-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(90,26,154,0.04);
-}
+html[data-theme="dark"] .log-card { box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.log-card:hover { transform: translateY(-2px); }
 
-.top-row {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-  gap:10px;
-}
+.top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 10px; }
+.username { font-size: 14px; font-weight: 800; color: var(--text-dark); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.amount { font-size: 15px; font-weight: 900; color: var(--purple); white-space: nowrap; }
+html[data-theme="dark"] .amount { color: var(--purple-light); }
 
-.username {
-  font-size:15px;
-  font-weight:800;
-  color:var(--text-dark);
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.info-box {
+  display: flex; flex-direction: column; gap: 8px; background: var(--input-bg);
+  padding: 12px; border-radius: 12px; border: 1px solid var(--gray-line);
+  transition: background 0.25s, border-color 0.25s;
 }
+.info-item { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+.label { font-size: 10px; font-weight: 800; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.3px; }
+.value { font-size: 12px; font-weight: 800; color: var(--text-dark); text-align: right; word-break: break-all; }
 
-.amount {
-  font-size:15px;
-  font-weight:900;
-  color:var(--purple);
-  white-space: nowrap;
-}
-
-.info {
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  background:var(--bg);
-  padding:10px 12px;
-  border-radius:12px;
-  border:1px solid var(--gray-line);
-  transition: background 0.3s, border-color 0.3s;
-}
-
-.info-item {
-  display:flex;
-  justify-content:space-between;
-  gap:16px;
-}
-
-.label {
-  font-size:11px;
-  font-weight:700;
-  color:var(--text-light);
-}
-
-.value {
-  font-size:11px;
-  font-weight:800;
-  color:var(--text-dark);
-  text-align:right;
-  word-break:break-all;
-}
-
-/* ── EMPTY / LOADING STATES ── */
-.empty-state, .loading-state {
-  text-align:center; padding:40px 20px;
-  display:flex; flex-direction:column; align-items:center; gap:8px;
-}
-.empty-icon svg { width: 44px; height: 44px; fill: none; stroke: var(--text-light); stroke-width: 2; }
-.loading-icon svg { width: 24px; height: 24px; fill: none; stroke: var(--purple); stroke-width: 2.5; animation:spin 1s linear infinite; }
-.empty-title { font-size:15px; font-weight:800; color:var(--text-dark); }
-.empty-sub { font-size:12px; color:var(--text-mid); font-weight:600; }
-
-/* ── BACK BTN ── */
+/* ─── BACK BUTTON BOTTOM ─── */
 .back-btn {
-  width:100%; padding:12px; margin-top:16px;
+  width:100%; padding:12px; margin-top:16px; margin-bottom: 12px;
   border:1px solid var(--gray-line); border-radius:14px;
-  background:var(--white); color:var(--text-mid);
+  background:var(--card-bg); color:var(--text-mid);
   font-family:'Nunito',sans-serif; font-weight:800; font-size:13px;
   cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
   transition:all 0.15s; box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+  text-decoration: none;
 }
 .back-btn:hover { border-color:var(--purple); color:var(--purple); transform: translateY(-1px); }
+html[data-theme="dark"] .back-btn:hover { border-color:var(--purple-light); color:var(--purple-light); }
 .back-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.5; }
 
-/* ── BOTTOM NAV ── */
+/* ─── BOTTOM NAV ─── */
 .bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--nav-bg); border-top: 1px solid var(--nav-border);
-  display: flex; padding: 10px 0 14px;
-  box-shadow: 0 -4px 20px rgba(90,26,154,0.05); z-index: 100;
-  transition: background 0.3s, border-color 0.3s;
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 440px; background: var(--nav-bg);
+  border-top: 1px solid var(--gray-line);
+  box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
-.bottom-nav-inner { display: flex; width: 100%; max-width: 440px; margin: 0 auto; }
-.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; }
-.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--text-light); stroke-width: 2.2; transition: stroke 0.2s; }
-.nav-label { font-size: 9.5px; font-weight: 800; color: var(--text-light); transition: color 0.2s; }
-.nav-item.active .nav-label { color: var(--purple); }
+.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 10px 0 14px; }
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  text-decoration: none; color: var(--text-light); width: 70px; transition: all 0.2s;
+}
+.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
+.nav-label { font-size: 9.5px; font-weight: 800; }
+.nav-item:hover .nav-icon svg { transform: translateY(-2px); }
+.nav-item.active { color: var(--purple); }
+html[data-theme="dark"] .nav-item.active { color: var(--purple-light); }
 .nav-item.active .nav-icon svg { stroke: var(--purple); }
+html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-light); }
 </style>
 </head>
 <body>
 
-<script>
-(function() {
-  const saved = localStorage.getItem('xt-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
-})();
-</script>
-
-<div class="header">
+<div class="hero">
   <div class="hero-dots"></div>
-  <div class="header-inner">
-    <a class="back-btn-hdr" href="admin.html">
-      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+  <div class="hero-top">
+    <a class="back-btn-hdr" href="admin.html" aria-label="Kembali ke Admin Panel">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </a>
-    <div class="header-title">
+    <div class="hero-title">
       <h1>Topup Logs</h1>
       <p id="subtitle">Memuat data...</p>
     </div>
-    <div class="header-count" id="countBadge">—</div>
+    
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema" style="margin-right: 8px;">
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+    
+    <div class="admin-badge" id="countBadge">—</div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <input class="search-input" id="searchInput" type="text" placeholder="Cari nama user, metode, atau ref..." oninput="applyFilter()">
   </div>
 </div>
 
 <div class="container">
-
-  <div class="toolbar">
-    <div class="search-row">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input class="search-input" id="searchInput" type="text" placeholder="Cari nama user / email / ref..." oninput="applyFilter()">
-    </div>
-  </div>
-
   <div id="logs" class="logs-wrap">
     <div class="loading-state">
       <div class="loading-icon">
         <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
       </div>
-      <div class="empty-title">Memuat data...</div>
+      Memuat data logs...
     </div>
   </div>
 
-  <button class="back-btn" onclick="location.href='admin.html'">
+  <a class="back-btn" href="admin.html">
     <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
     Kembali ke Admin Panel
-  </button>
-
+  </a>
 </div>
 
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <a class="nav-item" href="dashboard.html">
+    <a class="nav-item active" href="admin.html">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
       <div class="nav-label">Home</div>
     </a>
@@ -326,21 +312,41 @@ body {
 </nav>
 
 <script>
+// ─── THEME MANAGER SYSTEM (SINKRON 100% SAMA) ───
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+
+// ─── AUTH & STATE CONFIG ───
 let allLogs = [];
 const token = localStorage.getItem('token');
 const localUser = JSON.parse(localStorage.getItem('user'));
 
 if (!localUser || !token) {
-  location.href = 'index.html';
+  window.location.replace('dashboard.html');
 } else if (localUser.role !== 'admin') {
-  alert('Akses ditolak!');
-  location.href = 'dashboard.html';
+  window.location.replace('dashboard.html');
 }
 
 const svgSearchTemplate = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`;
-const svgAlertTemplate  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.5c0 0-4 7.5-11 7.5a10.42 10.42 0 0 1-3.64-.67"></path><path d="M6.62 6.62A10.71 10.71 0 0 0 1 12.5c0 0 4 7.5 11 7.5a11.12 11.12 0 0 0 5-.12"></path><path d="M22 12.5a11.16 11.16 0 0 0-2.3-3.06"></path><path d="M10.59 10.59a3 3 0 1 0 4.24 4.24"></path></svg>`;
+const svgAlertTemplate  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`;
 
-loadLogs();
+document.addEventListener("DOMContentLoaded", () => {
+    loadLogs();
+});
 
 async function loadLogs() {
   try {
@@ -381,7 +387,7 @@ function applyFilter() {
   });
 
   document.getElementById('subtitle').textContent = `Menampilkan ${filtered.length} riwayat`;
-  document.getElementById('countBadge').textContent = allLogs.length + ' Total';
+  document.getElementById('countBadge').textContent = allLogs.length + ' Logs';
 
   renderList(filtered);
 }
@@ -417,12 +423,12 @@ function renderList(data) {
     const cleanAmount = Number(item.amount || 0).toLocaleString('id-ID');
 
     html += `
-    <div class="log-card" style="animation: fadeUp .35s ${i * 0.04}s ease both;">
+    <div class="log-card" style="animation-delay: ${i * 0.045}s">
       <div class="top-row">
         <div class="username">${item.username || 'Unknown User'}</div>
         <div class="amount">Rp ${cleanAmount}</div>
       </div>
-      <div class="info">
+      <div class="info-box">
         <div class="info-item">
           <div class="label">User</div>
           <div class="value">${item.username || '-'}</div>
