@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My VPN - Xtrimer Tunnel</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght=400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 
 :root {
@@ -15,39 +15,45 @@
   --purple-soft:  #F3EAFD;
   --purple-mid:   #EAD5FA;
   --accent:       #FF6B2B;
-  --accent2:      #FFD600;
+  --accent-light: #FFEFEA;
   --green:        #12C28A;
   --green-bg:     #E6FAF4;
+  --green-dark:   #0A9E70;
   --red:          #E84040;
   --red-bg:       #FFECEC;
-  --blue:         #0077AA;
-  --blue-bg:      #E0F7FF;
   --white:        #FFFFFF;
-  --bg:           #F7F0FD;
-  --gray-line:    #E8D8F8;
+  --bg:           #F8F6FC;
+  --gray-line:    #EEF0F6;
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
   --card-bg:      #FFFFFF;
+  --input-bg:     #F8F6FC;
   --nav-bg:       #FFFFFF;
   --nav-shadow:   rgba(90,26,154,0.06);
 }
 
-[data-theme="dark"] {
-  --white:        #1E1130;
-  --bg:           #120B22;
-  --gray-line:    #2A1D42;
-  --text-dark:    #F0E8FF;
-  --text-mid:     #C4A0EE;
-  --text-light:   #7A5BAA;
-  --card-bg:      #1E1130;
-  --purple-soft:  #2D1A50;
-  --purple-mid:   #3D2265;
-  --nav-bg:       #1E1130;
-  --nav-shadow:   rgba(0,0,0,0.3);
-  --red-bg:       #3A1F1F;
-  --green-bg:     #143A2E;
+/* ── SINKRONISASI TOTAL DENGAN TRIAL / CHECKOUT (GOPAY-INSPIRED DARK THEME) ── */
+html[data-theme="dark"] {
+  --purple-soft:  #202124;
+  --purple-mid:   #2a2b2f;
+  --green-bg:     #0c2a21;
+  --red-bg:       #311111;
+  --white:        #17181c;
+  --bg:           #0a0b0d;
+  --card-bg:      #1c1d21;
+  --gray-line:    #303135;
+  --text-dark:    #e8eaed;
+  --text-mid:     #bdc1c6;
+  --text-light:   #9aa0a6;
+  --input-bg:     #202124;
+  --accent-light: #3A241F;
+  --nav-bg:       #17181c;
+  --nav-shadow:   rgba(0,0,0,0.4);
 }
+
+/* prevent flash sebelum JS jalan */
+html { background: var(--bg); }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -56,293 +62,207 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   color: var(--text-dark);
-  padding-bottom: 90px; /* Jarak aman dari Bottom Nav */
+  padding-bottom: 90px;
   overflow-x: hidden;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* ── BLOBS ── */
-.blob1 {
-  position:fixed; top:-80px; left:-60px;
-  width:300px; height:300px;
-  background:radial-gradient(circle,rgba(123,47,190,0.10) 0%,transparent 70%);
-  pointer-events:none; z-index:0;
-}
-.blob2 {
-  position:fixed; bottom:-60px; right:-60px;
-  width:260px; height:260px;
-  background:radial-gradient(circle,rgba(155,79,222,0.08) 0%,transparent 70%);
-  pointer-events:none; z-index:0;
-}
-
-/* ── ANIMATIONS ── */
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(14px); }
+  from { opacity:0; transform:translateY(12px); }
   to   { opacity:1; transform:translateY(0); }
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ── HEADER ── */
+/* ── HEADER (SINKRON DENGAN TRIAL) ── */
 .header {
-  background: linear-gradient(150deg, var(--purple-deep) 0%, var(--purple) 55%, var(--purple-light) 100%);
-  padding: 22px 20px 36px;
-  position: relative;
-  overflow: hidden;
-  z-index: 2;
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
+  padding: 28px 20px 48px;
+  position: relative; overflow: hidden; z-index: 2;
 }
 .header::before {
-  content:''; position:absolute; top:-50px; right:-30px;
-  width:200px; height:200px;
-  border:48px solid rgba(255,255,255,0.07); border-radius:50%;
-}
-.header::after {
-  content:''; position:absolute; bottom:-60px; left:-30px;
-  width:170px; height:170px;
-  border:36px solid rgba(255,214,0,0.12); border-radius:50%;
+  content:''; position:absolute; top:-40px; right:-20px;
+  width:160px; height:160px;
+  border:32px solid rgba(255,255,255,0.05); border-radius:50%;
 }
 .hero-dots {
   position:absolute; inset:0;
-  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size: 22px 22px;
-  pointer-events:none;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 20px 20px; pointer-events:none;
 }
 .header-inner {
-  display:flex; align-items:center; gap:14px;
-  max-width: 480px; margin: 0 auto; position:relative; z-index:2;
+  display:flex; align-items:center; gap:12px;
+  max-width: 440px; margin: 0 auto; position:relative; z-index:2;
 }
 .back-btn-hdr {
-  width:40px; height:40px; border-radius:13px;
-  background:rgba(255,255,255,0.14);
-  border:1px solid rgba(255,255,255,0.2);
-  cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; transition:background 0.15s;
-  backdrop-filter:blur(8px);
-  text-decoration:none;
+  width:36px; height:36px; border-radius:11px;
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:background 0.15s; backdrop-filter:blur(8px);
 }
-.back-btn-hdr:hover { background:rgba(255,255,255,0.24); }
-.back-btn-hdr svg {
-  width:20px; height:20px;
-  fill:none; stroke:#fff;
-  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
-}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.2); }
+.back-btn-hdr svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.5; }
 .header-title { flex:1; }
 .header-title h1 {
-  font-size:21px; font-weight:900;
-  color:#fff; line-height:1.1; letter-spacing:-0.3px;
-  display:flex; align-items:center; gap:8px;
+  font-size:18px; font-weight:900; color:#fff; line-height:1.1; letter-spacing:-0.2px;
+  display:flex; align-items:center; gap:6px;
 }
-.header-title h1 svg {
-  width:22px; height:22px;
-  fill:none; stroke:#fff;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
-.header-title p { font-size:11px; color:rgba(255,255,255,0.6); font-weight:700; margin-top:3px; }
+.header-title h1 svg { width:20px; height:20px; fill:none; stroke:#fff; stroke-width:2.2; }
+.header-title p { font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; margin-top:3px; }
+
 .header-count {
-  background:rgba(255,255,255,0.14);
-  border:1px solid rgba(255,255,255,0.2);
-  border-radius:20px; padding:5px 14px;
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
+  border-radius:20px; padding:5px 12px;
   font-size:11px; font-weight:800; color:#fff; white-space:nowrap;
   backdrop-filter:blur(8px);
 }
 
-/* ── THEME TOGGLE ── */
 .theme-toggle {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(255,255,255,0.14);
-  border: 1px solid rgba(255,255,255,0.2);
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.2);
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.2s;
-  backdrop-filter: blur(6px);
+  cursor: pointer; transition: all 0.2s; backdrop-filter: blur(6px);
 }
-.theme-toggle:hover { background: rgba(255,255,255,0.24); transform: scale(1.08); }
-.theme-toggle svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; }
-.icon-sun { display: none; }
+.theme-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.08); }
+.theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; }
+.icon-sun  { display: none; }
 .icon-moon { display: block; }
-[data-theme="dark"] .icon-sun  { display: block; }
-[data-theme="dark"] .icon-moon { display: none; }
+html:not([data-theme="dark"]) .icon-sun  { display: block; }
+html:not([data-theme="dark"]) .icon-moon { display: none; }
 
-/* ── CONTAINER ── */
+/* ── CONTAINER (MATCH 440px) ── */
 .container {
-  max-width:480px; margin:0 auto;
-  padding:16px 18px 0;
+  max-width:440px; margin:0 auto; padding:0 16px;
   position:relative; z-index:2;
 }
 
-/* ── LOADING / EMPTY ── */
+/* ── LOADING / EMPTY STATE ── */
 .loading-state {
-  text-align:center; padding:50px 20px;
-  color:var(--text-mid); font-weight:700; font-size:14px;
-  display:flex; flex-direction:column; align-items:center; gap:12px;
+  background:var(--card-bg); border-radius:16px; padding:30px 16px; margin-top:-28px;
+  border:1px solid var(--gray-line); box-shadow:0 8px 24px rgba(90,26,154,0.04);
+  text-align:center; color:var(--text-mid); font-weight:700; font-size:13px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  animation: fadeUp 0.4s ease both;
 }
 .loading-state svg {
-  width:36px; height:36px;
-  fill:none; stroke:var(--purple);
-  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
-  animation: spin 1s linear infinite;
+  width:24px; height:24px; fill:none; stroke:var(--purple);
+  stroke-width:2.5; animation:spin 1s linear infinite;
 }
-.empty-state { text-align:center; padding:50px 20px; }
-.empty-state svg {
-  width:52px; height:52px;
-  fill:none; stroke:var(--text-light);
-  stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round;
+html[data-theme="dark"] .loading-state svg { stroke: var(--purple-light); }
+
+.empty-state { 
+  background:var(--card-bg); border-radius:16px; padding:40px 16px; margin-top:-28px;
+  border:1px solid var(--gray-line); box-shadow:0 8px 24px rgba(90,26,154,0.04);
+  text-align:center; animation: fadeUp 0.4s ease both;
 }
-.empty-title { font-size:18px; font-weight:900; color:var(--text-dark); margin:12px 0 6px; }
-.empty-sub   { font-size:13px; color:var(--text-mid); font-weight:600; }
+.empty-state svg { width:44px; height:44px; fill:none; stroke:var(--text-light); stroke-width:1.8; }
+.empty-title { font-size:16px; font-weight:900; color:var(--text-dark); margin:10px 0 4px; }
+.empty-sub   { font-size:12px; color:var(--text-mid); font-weight:600; }
 
 /* ── ACCOUNT CARD ── */
 .account-card {
-  background:var(--card-bg);
-  border-radius:22px;
-  margin-bottom:14px;
-  overflow:hidden;
-  border:1.5px solid var(--gray-line);
-  box-shadow:0 4px 16px rgba(90,26,154,0.09);
-  animation: fadeUp 0.35s ease both;
-  transition: background 0.3s, border-color 0.3s;
+  background:var(--card-bg); border-radius:16px; overflow:hidden;
+  border:1px solid var(--gray-line); box-shadow:0 8px 24px rgba(90,26,154,0.04);
+  margin-top:-28px; margin-bottom:14px;
+  animation: fadeUp 0.4s ease both;
+  transition: background 0.25s, border-color 0.25s;
 }
+.account-card ~ .account-card {
+  margin-top: 0px; /* Card kedua dst tidak perlu margin minus */
+}
+html[data-theme="dark"] .account-card { box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
 
-/* card banner */
 .card-banner {
-  background:linear-gradient(150deg, var(--purple-deep) 0%, var(--purple) 55%, var(--purple-light) 100%);
-  padding:14px 18px;
-  display:flex; align-items:center; gap:12px;
-  position:relative; overflow:hidden;
-}
-.card-banner::before {
-  content:''; position:absolute; top:-30px; right:-20px;
-  width:100px; height:100px;
-  border:24px solid rgba(255,255,255,0.07); border-radius:50%;
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
+  padding: 14px 16px; display: flex; align-items: center; gap: 10px; position: relative; overflow: hidden;
 }
 .card-avatar {
-  width:42px; height:42px; border-radius:13px;
-  background:rgba(255,255,255,0.18);
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0;
+  width:36px; height:36px; border-radius:11px; background:rgba(255,255,255,0.15);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
-.card-avatar svg {
-  width:22px; height:22px;
-  fill:none; stroke:#fff;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
+.card-avatar svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.2; }
 .card-banner-text { flex:1; min-width:0; }
 .card-username {
-  font-size:16px; font-weight:900; color:#fff;
-  letter-spacing:-0.2px; line-height:1.1;
+  font-size:15px; font-weight:900; color:#fff; line-height:1.1;
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 .card-server {
-  font-size:11px; color:rgba(255,255,255,0.65);
-  font-weight:700; margin-top:2px;
+  font-size:11px; color:rgba(255,255,255,0.6); font-weight:700; margin-top:3px;
   display:flex; align-items:center; gap:4px;
 }
-.card-server svg {
-  width:11px; height:11px;
-  fill:none; stroke:rgba(255,255,255,0.65);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
+.card-server svg { width:12px; height:12px; fill:none; stroke:rgba(255,255,255,0.6); stroke-width:2; }
 
-/* proto badge on banner */
-.proto-badge {
-  padding:5px 12px; border-radius:20px;
-  font-size:11px; font-weight:800; flex-shrink:0;
-  display:flex; align-items:center; gap:4px;
-}
-.proto-badge svg {
-  width:11px; height:11px; fill:none;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
-.pb-ssh        { background:rgba(255,107,43,0.25);  border:1px solid rgba(255,107,43,0.4);  color:#FF6B2B; }
-.pb-ssh svg    { stroke:#FF6B2B; }
-.pb-vmess      { background:rgba(0,119,170,0.25);   border:1px solid rgba(0,119,170,0.4);   color:#1ABCFE; }
-.pb-vmess svg  { stroke:#1ABCFE; }
-.pb-vless      { background:rgba(123,47,190,0.3);   border:1px solid rgba(123,47,190,0.45); color:#D4A8FF; }
-.pb-vless svg  { stroke:#D4A8FF; }
-.pb-trojan     { background:rgba(232,64,64,0.25);   border:1px solid rgba(232,64,64,0.4);   color:#FF7A7A; }
-.pb-trojan svg { stroke:#FF7A7A; }
-.pb-ss         { background:rgba(194,0,106,0.25);   border:1px solid rgba(194,0,106,0.4);   color:#FF79C6; }
-.pb-ss svg     { stroke:#FF79C6; }
+/* Protocol Badges */
+.proto-badge { padding:4px 10px; border-radius:20px; font-size:10px; font-weight:800; flex-shrink:0; display:flex; align-items:center; gap:4px; }
+.proto-badge svg { width:12px; height:12px; fill:none; stroke-width:2.2; }
 
-/* card meta row */
+.pb-ssh    { border-color:var(--accent); background:var(--accent-light); color:var(--accent); }
+.pb-ssh svg { stroke: var(--accent); }
+.pb-vmess  { border-color:#0077AA; background:rgba(0,119,170,0.1); color:#0077AA; }
+html[data-theme="dark"] .pb-vmess { background:rgba(0,119,170,0.2); }
+.pb-vmess svg { stroke: #0077AA; }
+.pb-vless  { border-color:var(--purple); background:var(--purple-soft); color:var(--purple); }
+html[data-theme="dark"] .pb-vless { border-color:var(--purple-light); color:var(--purple-light); }
+.pb-vless svg { stroke: currentColor; }
+.pb-trojan { border-color:var(--red); background:var(--red-bg); color:var(--red); }
+.pb-trojan svg { stroke: var(--red); }
+
+/* Card Meta Data */
 .card-meta {
-  padding:12px 18px;
-  display:flex; align-items:center; gap:10px;
-  border-bottom:1.5px dashed var(--gray-line);
-  flex-wrap:wrap;
+  padding:10px 16px; display:flex; align-items:center; gap:8px;
+  border-bottom:1px dashed var(--gray-line); flex-wrap:wrap;
 }
 .meta-chip {
-  display:flex; align-items:center; gap:5px;
-  background:var(--purple-soft);
-  border:1px solid var(--gray-line);
-  border-radius:10px; padding:5px 10px;
+  display:flex; align-items:center; gap:4px; background:var(--input-bg);
+  border:1px solid var(--gray-line); border-radius:10px; padding:4px 8px;
   font-size:11px; font-weight:800; color:var(--text-mid);
 }
-.meta-chip svg {
-  width:12px; height:12px;
-  fill:none; stroke:var(--text-mid);
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-}
+.meta-chip svg { width:12px; height:12px; fill:none; stroke:var(--text-mid); stroke-width:2; }
 
-/* result area */
-.card-result {
-  padding:14px 18px;
-}
+/* Details Area */
+.card-result { padding:12px 16px; }
 .result-toggle {
-  width:100%; padding:10px 14px;
-  border:1.5px solid var(--gray-line); border-radius:12px;
-  background:var(--purple-soft); color:var(--text-mid);
-  font-family:'Nunito',sans-serif; font-weight:800; font-size:13px;
-  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
+  width:100%; padding:9px 14px; border:1px solid var(--gray-line); border-radius:12px;
+  background:var(--input-bg); color:var(--text-mid); font-family:'Nunito',sans-serif;
+  font-weight:800; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
   transition:all 0.15s;
 }
 .result-toggle:hover { border-color:var(--purple); color:var(--purple); background:var(--card-bg); }
-.result-toggle svg {
-  width:16px; height:16px;
-  fill:none; stroke:currentColor;
-  stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
-  transition:transform 0.2s;
-}
+html[data-theme="dark"] .result-toggle:hover { border-color: var(--purple-light); color: var(--purple-light); }
+.result-toggle svg { width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2.5; transition:transform 0.2s; }
 .result-toggle.open svg { transform:rotate(180deg); }
-.result-body {
-  margin-top:12px;
-  display:none;
-}
+.result-body { margin-top:10px; display:none; }
 .result-body.open { display:block; }
 
-/* ── BOTTOM NAV ── */
+/* ── BOTTOM NAV (SAMA DENGAN TRIAL) ── */
 .bottom-nav {
   position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 100%; max-width: 480px; background: var(--nav-bg);
+  width: 100%; max-width: 440px; background: var(--nav-bg);
   border-top: 1px solid var(--gray-line);
   box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
-  transition: background 0.3s, border-color 0.3s;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
-.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 8px 0; }
+.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 10px 0 14px; }
 .nav-item {
   display: flex; flex-direction: column; align-items: center; gap: 4px;
   text-decoration: none; color: var(--text-light); width: 70px; transition: all 0.2s;
 }
 .nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
-.nav-label { font-size: 11px; font-weight: 800; }
+.nav-label { font-size: 9.5px; font-weight: 800; }
 .nav-item:hover .nav-icon svg { transform: translateY(-2px); }
 .nav-item.active { color: var(--purple); }
-.nav-item.active .nav-icon svg { stroke: var(--purple); fill: var(--purple-soft); }
+html[data-theme="dark"] .nav-item.active { color: var(--purple-light); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); }
+html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-light); }
 
 </style>
 </head>
 <body>
 
-<div class="blob1"></div>
-<div class="blob2"></div>
-
 <div class="header">
   <div class="hero-dots"></div>
   <div class="header-inner">
     <a class="back-btn-hdr" href="dashboard.html">
-      <svg viewBox="0 0 24 24">
-        <line x1="19" y1="12" x2="5" y2="12"/>
-        <polyline points="12 19 5 12 12 5"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </a>
     <div class="header-title">
       <h1>
@@ -359,19 +279,13 @@ body {
     <div class="header-count" id="countBadge">—</div>
     
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
-      <svg class="icon-moon" viewBox="0 0 24 24">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="5"/>
-        <line x1="12" y1="1" x2="12" y2="3"/>
-        <line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="1" y1="12" x2="3" y2="12"/>
-        <line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
       </svg>
     </button>
   </div>
@@ -380,9 +294,7 @@ body {
 <div class="container">
   <div id="accounts">
     <div class="loading-state">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 2a10 10 0 0 1 10 10"/>
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10"/></svg>
       Memuat akun VPN kamu...
     </div>
   </div>
@@ -390,7 +302,7 @@ body {
 
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <a class="nav-item active" href="index.html">
+    <a class="nav-item" href="dashboard.html">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
       <div class="nav-label">Home</div>
     </a>
@@ -406,19 +318,21 @@ body {
 </nav>
 
 <script>
-// ─────────────────────────────────────────
-// COPY FUNCTION — untuk result card dari backend
-// ─────────────────────────────────────────
+
+// ─── COPY CONFIG FUNCTION (SAMA DENGAN TRIAL) ───
 function copyDirectLink(btnEl, encodedText) {
+  if (btnEl && btnEl.target) btnEl = btnEl.currentTarget || btnEl.target;
+  if (btnEl && btnEl.tagName !== 'BUTTON') btnEl = btnEl.closest('button');
+
   var rowEl = btnEl.closest('.link-row');
   var text = decodeURIComponent(encodedText);
   var originalHTML = btnEl.innerHTML;
 
   function onSuccess() {
-    rowEl.classList.add('copied-active');
+    if (rowEl) rowEl.classList.add('copied-active');
     btnEl.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="20 6 9 17 4 12"></polyline></svg> Berhasil!';
     setTimeout(function() {
-      rowEl.classList.remove('copied-active');
+      if (rowEl) rowEl.classList.remove('copied-active');
       btnEl.innerHTML = originalHTML;
     }, 2000);
   }
@@ -428,13 +342,8 @@ function copyDirectLink(btnEl, encodedText) {
     ta.value = text;
     ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px';
     document.body.appendChild(ta);
-    ta.focus();
-    ta.select();
-    ta.setSelectionRange(0, 99999);
-    try {
-      var ok = document.execCommand('copy');
-      if (ok) onSuccess();
-    } catch(e) { console.error('Copy gagal:', e); }
+    ta.focus(); ta.select(); ta.setSelectionRange(0, 99999);
+    try { if (document.execCommand('copy')) onSuccess(); } catch(e) {}
     document.body.removeChild(ta);
   }
 
@@ -444,35 +353,38 @@ function copyDirectLink(btnEl, encodedText) {
     fallback();
   }
 }
-// ─── THEME MANAGER ───
+
+// ─── THEME MANAGER (SINKRON DENGAN LOCALSTORAGE TRIAL 'theme') ───
 function toggleTheme() {
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('xt-theme', next);
+  localStorage.setItem('theme', next);
 }
 (function() {
-  const saved = localStorage.getItem('xt-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
 })();
 
-// ✅ 1. Ambil token JWT dari localStorage
 const token = localStorage.getItem('token');
 
-// ✅ 2. Proteksi awal: Jika token tidak ada, tendang langsung ke halaman login
 if (!token) {
   location.href = 'index.html';
 } else {
   loadAccounts();
 }
 
-// proto config: badge class + SVG icon
 const protoConfig = {
-  ssh:         { cls: 'pb-ssh',    icon: `<svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>` },
-  vmess:       { cls: 'pb-vmess',  icon: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>` },
-  vless:       { cls: 'pb-vless',  icon: `<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>` },
-  trojan:      { cls: 'pb-trojan', icon: `<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>` },
-  shadowsocks: { cls: 'pb-ss',     icon: `<svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>` },
+  ssh:    { cls: 'pb-ssh',   icon: `<svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>` },
+  vmess:  { cls: 'pb-vmess', icon: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>` },
+  vless:  { cls: 'pb-vless', icon: `<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>` },
+  trojan: { cls: 'pb-trojan',icon: `<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>` },
 };
 
 function getProto(type) {
@@ -489,22 +401,16 @@ function toggleResult(btn) {
 
 async function loadAccounts() {
   try {
-    // ✅ 3. AMAN: Hapus parameter ?email=... dan kirim token lewat Header Authorization
     const res  = await fetch('/api/my-vpn', {
       method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      headers: { 'Authorization': `Bearer ${token}` }
     });
     const data = await res.json();
 
     if (!data.success) {
       document.getElementById('accounts').innerHTML = `
         <div class="empty-state">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/>
-            <line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/>
-          </svg>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/></svg>
           <div class="empty-title">Gagal Memuat</div>
           <div class="empty-sub">${data.message || 'Terjadi kesalahan'}</div>
         </div>`;
@@ -518,12 +424,7 @@ async function loadAccounts() {
     if (!accounts.length) {
       document.getElementById('accounts').innerHTML = `
         <div class="empty-state">
-          <svg viewBox="0 0 24 24">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-          </svg>
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           <div class="empty-title">Belum Ada Akun</div>
           <div class="empty-sub">Kamu belum punya akun VPN aktif</div>
         </div>`;
@@ -536,21 +437,15 @@ async function loadAccounts() {
       const label = (acc.product_type || 'VPN').toUpperCase();
 
       html += `
-      <div class="account-card" style="animation-delay:${i * 0.06}s">
+      <div class="account-card" style="animation-delay:${i * 0.05}s">
         <div class="card-banner">
           <div class="card-avatar">
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="8" r="4"/>
-              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
           </div>
           <div class="card-banner-text">
             <div class="card-username">${acc.username}</div>
             <div class="card-server">
-              <svg viewBox="0 0 24 24">
-                <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
-                <circle cx="12" cy="10" r="3"/>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               ${acc.product_name || '—'}
             </div>
           </div>
@@ -561,25 +456,18 @@ async function loadAccounts() {
 
         <div class="card-meta">
           <div class="meta-chip">
-            <svg viewBox="0 0 24 24">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/>
-              <line x1="8"  y1="2" x2="8"  y2="6"/>
-              <line x1="3"  y1="10" x2="21" y2="10"/>
-            </svg>
-            ${acc.created_at || '—'}
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8"  y1="2" x2="8"  y2="6"/><line x1="3"  y1="10" x2="21" y2="10"/></svg>
+            Exp: ${acc.expired_at || acc.created_at || '—'}
           </div>
         </div>
 
         <div class="card-result">
           <button class="result-toggle" onclick="toggleResult(this)">
-            <svg viewBox="0 0 24 24">
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
             <span class="toggle-label">Lihat Detail Akun</span>
           </button>
           <div class="result-body">
-            ${acc.result || '<div style="color:var(--text-light);font-size:13px;font-weight:700;padding:8px 0;">Tidak ada detail tersedia.</div>'}
+            ${acc.result || '<div style="color:var(--text-light);font-size:12px;font-weight:700;padding:8px 0;">Tidak ada detail tersedia.</div>'}
           </div>
         </div>
       </div>`;
@@ -591,13 +479,7 @@ async function loadAccounts() {
     console.error(err);
     document.getElementById('accounts').innerHTML = `
       <div class="empty-state">
-        <svg viewBox="0 0 24 24">
-          <line x1="1" y1="1" x2="23" y2="23"/>
-          <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
-          <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
-          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
-          <line x1="12" y1="20" x2="12.01" y2="20" stroke-width="3"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20" stroke-width="3"/></svg>
         <div class="empty-title">Koneksi Gagal</div>
         <div class="empty-sub">Periksa koneksi internet kamu</div>
       </div>`;
