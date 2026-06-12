@@ -262,7 +262,7 @@ html[data-theme="dark"] .btn-reduce-bal { color: #FF8E53; }
 .empty-title { font-size: 16px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; }
 .empty-sub { font-size: 12px; color: var(--text-mid); font-weight: 600; }
 
-/* ─── MODAL BOTTOM SHEET ─── */
+/* ─── MODAL BOTTOM SHEET (FIXED POSITION FOR KEYBOARD) ─── */
 .modal-overlay {
   position: fixed; inset: 0; background: rgba(26,5,51,0.5);
   backdrop-filter: blur(4px); z-index: 500;
@@ -274,11 +274,25 @@ html[data-theme="dark"] .modal-overlay { background: rgba(0,0,0,0.6); }
 
 .modal {
   background: var(--card-bg); border-radius: 20px 20px 0 0;
-  width: 100%; max-width: 440px; padding: 24px 20px 32px;
+  width: 100%; max-width: 440px; padding: 24px 20px 42px; /* Ditambah padding bawah biar aman dari nav-bar */
   transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), background 0.25s;
   border: 1px solid var(--gray-line);
 }
+/* Menaikkan posisi modal sedikit ketika keyboard aktif / fokus di HP */
 .modal-overlay.open .modal { transform: translateY(0); }
+
+@media (max-height: 600px), screen and (max-width: 480px) {
+  .modal-overlay.open {
+    align-items: center; /* Ubah jadi ke tengah dikit kalau layar sempit / ke-trigger keyboard */
+  }
+  .modal {
+    border-radius: 20px;
+    width: 92%;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+}
+
 .modal-handle { width: 36px; height: 4px; background: var(--purple-mid); border-radius: 4px; margin: 0 auto 18px; }
 html[data-theme="dark"] .modal-handle { background: var(--gray-line); }
 
@@ -314,7 +328,7 @@ html[data-theme="dark"] .field-input:focus { border-color: var(--purple-light); 
   position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 440px; background: var(--nav-bg);
   border-top: 1px solid var(--gray-line);
-  box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
+  box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 499; /* Diturunkan di bawah modal overlay */
   transition: background 0.25s ease, border-color 0.25s ease;
 }
 .bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 10px 0 14px; }
@@ -581,7 +595,13 @@ function openBalanceModal(userId, mode, name) {
   }
 
   document.getElementById('modalOverlay').classList.add('open');
-  setTimeout(() => document.getElementById('fAmount').focus(), 350);
+  
+  // Menggeser view otomatis agar input fokus tepat di tengah layar mobile saat keyboard muncul
+  setTimeout(() => {
+    const inputField = document.getElementById('fAmount');
+    inputField.focus();
+    inputField.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, 350);
 }
 
 function closeModal() {
