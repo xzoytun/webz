@@ -140,14 +140,6 @@ img { display:block; }
 
   border-radius:50%;
 
-  background:
-    linear-gradient(
-      135deg,
-      #9B4FDE,
-      #7B2FBE,
-      #5A1A9A
-    );
-
   border:2px solid rgba(255,255,255,.25);
 
   display:flex;
@@ -160,7 +152,7 @@ img { display:block; }
   color:#fff;
 
   box-shadow:
-    0 4px 14px rgba(123,47,190,.35);
+    0 4px 14px rgba(0,0,0,.18);
 
   flex-shrink:0;
 
@@ -758,9 +750,46 @@ function toggleTheme() {
 }
 
 /* ── AVATAR ── */
-function setAvatar(name) {
+function getAvatarColor(name) {
+
+  const colors = [
+    '#7B2FBE',
+    '#5B5EFF',
+    '#10B981',
+    '#F59E0B',
+    '#EF4444',
+    '#EC4899',
+    '#06B6D4',
+    '#8B5CF6'
+  ];
+
+  let hash = 0;
+
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  return colors[Math.abs(hash) % colors.length];
+}
+
+function setAvatar(name){
+
   const el = document.getElementById('avatarInitial');
-  if (el && name) el.textContent = name.charAt(0).toUpperCase();
+
+  if(!el || !name) return;
+
+  el.textContent = name.charAt(0).toUpperCase();
+
+  const color = getAvatarColor(name);
+
+  el.style.background = `
+    linear-gradient(
+      135deg,
+      ${color},
+      ${color}DD,
+      ${color}AA
+    )
+  `;
 }
 
 /* ── AUTH ── */
