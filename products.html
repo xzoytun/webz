@@ -6,6 +6,7 @@
 <title>Produk VPN - Xtrimer Tunnel</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+
 :root {
   --purple:       #7B2FBE;
   --purple-dark:  #5A1A9A;
@@ -28,38 +29,22 @@
   --text-light:   #A882CC;
 }
 
-/* ── DARK THEME TOKENS (Sinkron 100% dengan profile.html) ── */
+/* ── GOPAY-INSPIRED DARK THEME TOKENS (sync dengan dashboard.html) ── */
 html[data-theme="dark"] {
-  --purple-soft:  #2A1B40;
-  --purple-mid:   #3A2654;
-  --green-bg:     #103A30;
-  --red-bg:       #3A1A1A;
-  --white:        #1E1530;
-  --bg:           #120A1F;
-  --card:         #1E1530;
-  --gray-line:    #2E2244;
-  --text-dark:    #F3EAFD;
-  --text-mid:     #C9A8EC;
-  --text-light:   #8A6FB0;
+  --purple-soft:  #202124;
+  --purple-mid:   #2a2b2f;
+  --green-bg:     #0c2a21;
+  --red-bg:       #311111;
+  --white:        #17181c;
+  --bg:           #0a0b0d;
+  --card:         #1c1d21;
+  --gray-line:    #303135;
+  --text-dark:    #e8eaed;
+  --text-mid:     #bdc1c6;
+  --text-light:   #9aa0a6;
 }
 
-/* Global Dark Theme Overrides */
-html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
-html[data-theme="dark"] .card,
-html[data-theme="dark"] .product-card,
-html[data-theme="dark"] .search-box { background: var(--card); border-color: var(--gray-line); }
-html[data-theme="dark"] .bottom-nav { background: var(--card); border-top-color: var(--gray-line); box-shadow: 0 -4px 20px rgba(0,0,0,0.3); }
-html[data-theme="dark"] .slot-text:not(.is-full) { background: var(--green-bg); color: var(--green); }
-html[data-theme="dark"] .buy-btn-sleek { background: var(--purple-light); color: #fff; }
-html[data-theme="dark"] .buy-btn-sleek:hover { background: var(--purple); }
-
-/* Theme Toggle Visibility Logic */
-html[data-theme="dark"] .icon-sun { display: flex; }
-html[data-theme="dark"] .icon-moon { display: none; }
-html:not([data-theme="dark"]) .icon-sun { display: none; }
-html:not([data-theme="dark"]) .icon-moon { display: flex; }
-
-/* Prevent Screen Flash */
+/* prevent flash before JS runs */
 html { background: var(--bg); }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -68,80 +53,96 @@ body {
   background: var(--bg);
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
-  overflow-x: hidden;
+  color: var(--text-dark);
   padding-bottom: 100px;
-  transition: background .25s ease, color .25s ease;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
-/* ─── ANIMATIONS ─── */
+/* ── MULTI-THEME GRADIENT GLOW TRICK ── */
+.theme-purple { --theme-color: #7B2FBE; --theme-bg: var(--purple-soft); }
+.theme-blue   { --theme-color: #0066FF; --theme-bg: #E6F0FF; }
+.theme-cyan   { --theme-color: #00A896; --theme-bg: #E6F6F5; }
+.theme-orange { --theme-color: #FF6B2B; --theme-bg: #FFF0E6; }
+
+/* Penyesuaian background badge saat Dark Mode */
+html[data-theme="dark"] .theme-purple { --theme-bg: var(--purple-soft); }
+html[data-theme="dark"] .theme-blue   { --theme-bg: #14224A; }
+html[data-theme="dark"] .theme-cyan   { --theme-bg: #0F333A; }
+html[data-theme="dark"] .theme-orange { --theme-bg: #3A241F; }
+
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(12px); }
   to   { opacity:1; transform:translateY(0); }
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ─── MULTI-THEME CARD ACCENT TRICK ─── */
-.theme-purple { --theme-color: #7B2FBE; --theme-bg: var(--purple-soft); }
-.theme-blue   { --theme-color: #0066FF; --theme-bg: rgba(0, 102, 255, 0.1); }
-.theme-cyan   { --theme-color: #00A896; --theme-bg: rgba(0, 168, 150, 0.1); }
-.theme-orange { --theme-color: #FF6B2B; --theme-bg: rgba(255, 107, 43, 0.1); }
-
-[data-theme="dark"] .theme-blue   { --theme-bg: rgba(0, 102, 255, 0.15); }
-[data-theme="dark"] .theme-cyan   { --theme-bg: rgba(0, 168, 150, 0.15); }
-[data-theme="dark"] .theme-orange { --theme-bg: rgba(255, 107, 43, 0.15); }
-
-/* ─── HERO HEADER (Match Profile Style) ─── */
-.hero {
-  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
-  padding: 32px 20px 54px;
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 100%);
+  padding: 22px 16px 42px;
   position: relative;
-  overflow: hidden;
-  animation: fadeUp 0.4s ease both;
+  border-radius: 0 0 24px 24px;
+  z-index: 10;
 }
-.hero::before {
-  content:''; position:absolute; top:-40px; right:-20px;
-  width:160px; height:160px;
-  border:32px solid rgba(255,255,255,0.05); border-radius:50%;
+.header-inner {
+  display:flex; align-items:center; gap:12px;
+  max-width: 480px; margin: 0 auto; position: relative;
 }
-.hero-dots {
-  position:absolute; inset:0;
-  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 20px 20px; pointer-events:none;
+.back-btn-hdr {
+  width:36px; height:36px; border-radius:12px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.15);
+  display:flex; align-items:center; justify-content:center;
+  text-decoration:none; transition: all 0.2s;
+}
+.back-btn-hdr:hover { background:rgba(255,255,255,0.18); }
+.back-btn-hdr svg { width:18px; height:18px; fill:none; stroke:#fff; stroke-width:2.5; }
+.header-title h1 {
+  font-size:18px; font-weight:900; color:#fff;
+  display:flex; align-items:center; gap:6px;
+}
+.header-title p { font-size:11px; color:rgba(255,255,255,0.6); font-weight:700; }
+
+.header-right-wrap {
+  display: flex; align-items: center; gap: 10px; margin-left: auto;
+}
+.header-count {
+  background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:12px;
+  font-size:11px; font-weight:800; color:#fff;
 }
 
-.hero-topbar {
-  position: relative; z-index: 2;
-  display: flex; align-items:center; justify-content: space-between;
-  max-width: 440px; margin: 0 auto 12px;
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+  backdrop-filter: blur(6px);
 }
-.hdr-actions { display:flex; gap:8px; align-items:center; }
-.hdr-btn {
-  width:34px; height:34px; border-radius:50%;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.2);
-  display: flex; align-items:center; justify-content:center;
-  transition: all .2s; backdrop-filter:blur(10px);
-  cursor: pointer;
+.theme-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.08); }
+.theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+html[data-theme="dark"] .icon-sun  { display: block; }
+html[data-theme="dark"] .icon-moon { display: none; }
+
+/* ── SEARCH BOX ── */
+.search-wrap {
+  max-width:480px;
+  margin:-22px auto 20px;
+  padding:0 14px;
+  position:relative;
+  z-index: 20;
 }
-.hdr-btn:hover { background:rgba(255,255,255,.2); transform:translateY(-2px); }
-.hdr-btn svg { width:16px; height:16px; stroke:#fff; stroke-width:2.2; fill:none; }
-
-.hdr-btn.theme-toggle { position: relative; }
-.hdr-btn.theme-toggle span { display: none; align-items: center; justify-content: center; }
-
-.header-title h1 { font-size: 19px; font-weight: 900; color: #fff; letter-spacing: -0.2px; }
-.header-title p { font-size: 12px; color: rgba(255,255,255,0.55); font-weight: 600; margin-top: 1px; }
-.header-count { background: rgba(255,255,255,0.15); padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; color: #fff; }
-
-/* ─── CONTENT WRAPPER ─── */
-.content-wrap { max-width: 440px; margin: -24px auto 0; padding: 0 16px; position: relative; z-index: 10; }
-
-/* ─── SEARCH BOX STYLE ─── */
 .search-box {
-  background: var(--white); border-radius:14px; border:1px solid var(--gray-line);
-  box-shadow: 0 6px 18px rgba(90,26,154,0.04);
-  display:flex; align-items:center; gap:10px; padding:12px 14px; margin-bottom: 16px;
-  transition: background .25s ease, border-color .25s ease;
+  background: var(--card); border-radius:14px; border:1px solid var(--gray-line);
+  box-shadow:0 8px 24px rgba(90,26,154,0.08);
+  display:flex; align-items:center; gap:10px; padding:12px 14px;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+html[data-theme="dark"] .search-box {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
 .search-box svg { width:16px; height:16px; fill:none; stroke:var(--text-light); stroke-width:2.5; }
 .search-input {
@@ -149,120 +150,165 @@ body {
   font-size:13px; font-weight:700; color:var(--text-dark); background:transparent;
 }
 
-/* ─── PRODUCT CARD FINTECH STYLE ─── */
+/* ── CONTAINER ── */
+.container { max-width:480px; margin:0 auto; padding:0 14px; position: relative; z-index: 1; }
+
+/* ── PRODUCT CARD ── */
 .product-card {
-  background: var(--card); border-radius: 16px; padding: 14px; margin-bottom: 12px;
-  box-shadow: 0 4px 16px rgba(90,26,154,0.04); border: 1px solid var(--gray-line);
-  display: flex; align-items: center; gap: 12px; position: relative;
-  animation: fadeUp 0.4s ease both;
-  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
+  background: var(--card);
+  border-radius: 16px;
+  margin-bottom: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--gray-line);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+html[data-theme="dark"] .product-card {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
 .product-card:hover {
   border-color: var(--theme-color);
-  box-shadow: 0 6px 20px rgba(90, 26, 154, 0.08);
+  box-shadow: 0 6px 18px rgba(90, 26, 154, 0.05);
 }
+
+/* Indicator warna tipis di sisi kiri card */
 .card-indicator {
-  position: absolute; left: 0; top: 14px; bottom: 14px;
-  width: 4px; border-radius: 0 4px 4px 0; background: var(--theme-color);
+  position: absolute; left: 0; top: 12px; bottom: 12px;
+  width: 4px; border-radius: 0 4px 4px 0;
+  background: var(--theme-color);
 }
+
+/* Server visual badge */
 .server-badge {
-  width: 38px; height: 38px; border-radius: 10px; background: var(--theme-bg);
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--theme-bg);
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  transition: background .25s ease;
+  transition: background 0.25s ease;
 }
 .server-badge svg { width: 18px; height: 18px; fill: none; stroke: var(--theme-color); stroke-width: 2.5; }
 
+/* Mid area content */
 .server-info { flex: 1; min-width: 0; }
 .server-meta-top { display: flex; align-items: center; gap: 8px; }
-.server-name { font-size: 14px; font-weight: 800; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
+.server-name {
+  font-size: 14px; font-weight: 800; color: var(--text-dark);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 .slot-text {
   font-size: 10px; font-weight: 800; color: var(--green);
   background: var(--green-bg); padding: 1px 6px; border-radius: 6px;
 }
-.slot-text.is-full { color: var(--red); background: var(--red-bg); }
+.slot-text.is-full { color: var(--accent); background: var(--red-bg); }
 
-.server-sub { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+/* Minimalist tiny subtext */
+.server-sub {
+  display: flex; align-items: center; gap: 8px; margin-top: 2px;
+}
 .loc-text { font-size: 11px; color: var(--text-light); font-weight: 600; }
 
+/* Dot protocol list inline */
 .mini-protos { display: flex; gap: 5px; font-size: 9px; font-weight: 800; color: var(--text-mid); }
+.mini-protos span { position: relative; }
 .mini-protos span:not(:last-child)::after { content: '•'; margin-left: 5px; color: var(--text-light); opacity: 0.5; }
 
-.action-side { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+/* Action Right Side */
+.action-side {
+  text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+}
+.price-tag { display: flex; flex-direction: column; line-height: 1.1; }
 .price-val { font-size: 15px; font-weight: 900; color: var(--text-dark); letter-spacing: -0.2px; }
 
+/* Buy Button */
 .buy-btn-sleek {
   padding: 6px 14px; border: none; border-radius: 10px;
   background: var(--text-dark); color: var(--white);
   font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 11px;
-  cursor: pointer; transition: all 0.15s ease;
+  cursor: pointer; transition: all 0.15s;
 }
+html[data-theme="dark"] .buy-btn-sleek { color: var(--bg); }
 .buy-btn-sleek:hover { background: var(--theme-color); transform: translateY(-1px); color: #fff; }
-.buy-btn-sleek:disabled { background: var(--gray-line) !important; color: var(--text-light) !important; cursor: not-allowed; transform: none; }
+.buy-btn-sleek:disabled { background: #D5D3DA; cursor: not-allowed; transform: none; color: #8A8896; }
+html[data-theme="dark"] .buy-btn-sleek:disabled { background: var(--gray-line); color: var(--text-light); }
 
-/* Grayscale Full State */
+/* Elegant Grayscale Full State */
 .product-card.is-full { opacity: 0.65; }
 html[data-theme="dark"] .product-card.is-full { opacity: 0.45; }
-.product-card.is-full .card-indicator { background: var(--text-light); }
-.product-card.is-full .server-badge { background: var(--gray-line); }
-.product-card.is-full .server-badge svg { stroke: var(--text-light); }
+.product-card.is-full .card-indicator { background: #A09EB0; }
+.product-card.is-full .server-badge { background: rgba(128,128,128,0.1); }
+.product-card.is-full .server-badge svg { stroke: #8A8896; }
+.product-card.is-full .buy-btn-sleek { background: #B5B3BC; }
 
-/* STATES */
+/* ── LOADING / EMPTY ── */
 .loading-state { text-align:center; padding:40px 0; color:var(--text-mid); font-weight:700; font-size:13px; }
-.loading-state svg { width:24px; height:24px; fill:none; stroke:var(--purple); stroke-width:2.5; animation: spin 1s linear infinite; margin-bottom: 8px;}
+.loading-state svg { width:28px; height:28px; fill:none; stroke:var(--purple); stroke-width:2.5; animation: spin 1s linear infinite; margin-bottom: 8px;}
 .empty-state { text-align:center; padding:40px 0; color:var(--text-light); font-weight:700; font-size:13px; }
 
-/* ─── BOTTOM NAV (Match Profile Style) ─── */
+/* ── BOTTOM NAV ── */
 .bottom-nav {
-  position:fixed; bottom:0; left:0; right:0; background:#fff;
-  border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px;
-  box-shadow: 0 -4px 20px rgba(90,26,154,0.04); z-index:100; max-width:440px; margin:0 auto;
-  transition: background .25s ease, border-color .25s ease;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--card); border-top: 1px solid var(--gray-line);
+  display: flex; padding: 10px 0 14px;
+  box-shadow: 0 -4px 20px rgba(90,26,154,0.05); z-index: 100;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
-.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
-.nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
-.nav-label { font-size:10px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
-.nav-item.active .nav-label { color:var(--purple); }
+html[data-theme="dark"] .bottom-nav {
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+}
+.bottom-nav-inner { display: flex; width: 100%; max-width: 480px; margin: 0 auto; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; }
+.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--text-light); stroke-width: 2.2; transition: stroke 0.2s; }
+.nav-label { font-size: 9.5px; font-weight: 800; color: var(--text-light); transition: color 0.2s; }
+.nav-item.active .nav-label { color: var(--purple); }
 .nav-item.active .nav-icon svg { stroke: var(--purple); }
+
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-dots"></div>
-  <div class="hero-topbar">
-    <a class="hdr-btn" href="dashboard.html" aria-label="Kembali ke dashboard">
+<div class="header">
+  <div class="header-inner">
+    <a class="back-btn-hdr" href="dashboard.html">
       <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </a>
-    <div class="header-title" style="text-align: center; flex: 1; margin-right: 8px;">
+    <div class="header-title">
       <h1>Produk VPN</h1>
       <p id="subtitle">Memuat server...</p>
     </div>
-    <div class="hdr-actions">
+    <div class="header-right-wrap">
       <div class="header-count" id="countBadge">—</div>
-      <button class="hdr-btn theme-toggle" id="themeToggle" aria-label="Ganti tema">
-        <span class="icon-sun">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-          </svg>
-        </span>
-        <span class="icon-moon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-          </svg>
-        </span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
+        <svg class="icon-moon" viewBox="0 0 24 24">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
       </button>
     </div>
   </div>
 </div>
 
-<div class="content-wrap">
+<div class="search-wrap">
   <div class="search-box">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <input class="search-input" id="searchInput" type="text" placeholder="Cari nama server atau lokasi..." oninput="filterProducts()">
   </div>
+</div>
 
+<div class="container">
   <div id="products">
     <div class="loading-state">
       <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10"/></svg>
@@ -272,28 +318,34 @@ html[data-theme="dark"] .product-card.is-full { opacity: 0.45; }
 </div>
 
 <nav class="bottom-nav">
-  <a class="nav-item active" href="dashboard.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
-    </div>
-    <div class="nav-label">Home</div>
-  </a>
-  <a class="nav-item" href="transactions.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
-    </div>
-    <div class="nav-label">Riwayat</div>
-  </a>
-  <a class="nav-item" href="profile.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    </div>
-    <div class="nav-label">Profile</div>
-  </a>
+  <div class="bottom-nav-inner">
+    <a class="nav-item active" href="dashboard.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
+      <div class="nav-label">Home</div>
+    </a>
+    <a class="nav-item" href="transactions.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
+      <div class="nav-label">Riwayat</div>
+    </a>
+    <a class="nav-item" href="profile.html">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+      <div class="nav-label">Profile</div>
+    </a>
+  </div>
 </nav>
 
 <script>
-/* ── THEME TOGGLE (Disinkronkan penuh dengan profile.html memakai localStorage 'theme') ── */
+
+let allProducts = [];
+const cardThemes = ['theme-purple', 'theme-blue', 'theme-cyan', 'theme-orange'];
+
+/* ── THEME MANAGER (sync key 'theme' dengan dashboard.html) ── */
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
 (function initTheme(){
   const saved = localStorage.getItem('theme');
   if (saved === 'dark' || saved === 'light') {
@@ -304,16 +356,6 @@ html[data-theme="dark"] .product-card.is-full { opacity: 0.45; }
     document.documentElement.setAttribute('data-theme', 'light');
   }
 })();
-
-document.getElementById('themeToggle').addEventListener('click', () => {
-  const current = document.documentElement.getAttribute('data-theme');
-  const next = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-});
-
-let allProducts = [];
-const cardThemes = ['theme-purple', 'theme-blue', 'theme-cyan', 'theme-orange'];
 
 loadProducts();
 
@@ -366,7 +408,7 @@ function renderProducts(products) {
     html += `
     <div class="product-card ${assignedTheme} ${isFull ? 'is-full' : ''}" style="animation-delay:${i * 0.04}s">
       <div class="card-indicator"></div>
-      
+
       <div class="server-badge">
         <svg viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="10"/>
@@ -411,6 +453,7 @@ function renderProducts(products) {
 function buyServer(id) {
   window.location.href = 'checkout.html?id=' + id;
 }
+
 </script>
 </body>
 </html>
