@@ -419,6 +419,8 @@ img { display:block; }
 .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
 .nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
 .nav-label { font-size:10px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
+.nav-item.active .nav-label { color:var(--purple); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); }
 
 /* Active State Styles */
 .nav-item.active .nav-label { color:var(--purple); }
