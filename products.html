@@ -28,7 +28,7 @@
   --text-light:   #A882CC;
 }
 
-/* ── DARK THEME TOKENS (Disamakan 100% dengan profile.html) ── */
+/* ── DARK THEME TOKENS (Sinkron 100% dengan profile.html) ── */
 html[data-theme="dark"] {
   --purple-soft:  #2A1B40;
   --purple-mid:   #3A2654;
@@ -43,22 +43,23 @@ html[data-theme="dark"] {
   --text-light:   #8A6FB0;
 }
 
+/* Global Dark Theme Overrides */
 html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
 html[data-theme="dark"] .card,
 html[data-theme="dark"] .product-card,
-html[data-theme="dark"] .search-box,
-html[data-theme="dark"] .bottom-nav { background: var(--card); border-color: var(--gray-line); }
-html[data-theme="dark"] .bottom-nav { box-shadow: 0 -4px 20px rgba(0,0,0,0.3); }
-html[data-theme="dark"] .slot-text { background: var(--purple-soft); }
+html[data-theme="dark"] .search-box { background: var(--card); border-color: var(--gray-line); }
+html[data-theme="dark"] .bottom-nav { background: var(--card); border-top-color: var(--gray-line); box-shadow: 0 -4px 20px rgba(0,0,0,0.3); }
+html[data-theme="dark"] .slot-text:not(.is-full) { background: var(--green-bg); color: var(--green); }
 html[data-theme="dark"] .buy-btn-sleek { background: var(--purple-light); color: #fff; }
 html[data-theme="dark"] .buy-btn-sleek:hover { background: var(--purple); }
 
-html[data-theme="dark"] .hdr-btn.theme-toggle .icon-sun { display: none; }
-html[data-theme="dark"] .hdr-btn.theme-toggle .icon-moon { display: flex; }
-html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-sun { display: flex; }
-html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-moon { display: none; }
+/* Theme Toggle Visibility Logic */
+html[data-theme="dark"] .icon-sun { display: flex; }
+html[data-theme="dark"] .icon-moon { display: none; }
+html:not([data-theme="dark"]) .icon-sun { display: none; }
+html:not([data-theme="dark"]) .icon-moon { display: flex; }
 
-/* Prevent flash screen */
+/* Prevent Screen Flash */
 html { background: var(--bg); }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -89,7 +90,7 @@ body {
 [data-theme="dark"] .theme-cyan   { --theme-bg: rgba(0, 168, 150, 0.15); }
 [data-theme="dark"] .theme-orange { --theme-bg: rgba(255, 107, 43, 0.15); }
 
-/* ─── HERO HEADER REFINED (Match Profile Style) ─── */
+/* ─── HERO HEADER (Match Profile Style) ─── */
 .hero {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
   padding: 32px 20px 54px;
@@ -126,10 +127,7 @@ body {
 .hdr-btn svg { width:16px; height:16px; stroke:#fff; stroke-width:2.2; fill:none; }
 
 .hdr-btn.theme-toggle { position: relative; }
-.hdr-btn.theme-toggle .icon-sun,
-.hdr-btn.theme-toggle .icon-moon {
-  position: absolute; align-items:center; justify-content:center;
-}
+.hdr-btn.theme-toggle span { display: none; align-items: center; justify-content: center; }
 
 .header-title h1 { font-size: 19px; font-weight: 900; color: #fff; letter-spacing: -0.2px; }
 .header-title p { font-size: 12px; color: rgba(255,255,255,0.55); font-weight: 600; margin-top: 1px; }
