@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="light">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,6 +44,10 @@
   --input-bg:     #17102A;
   --purple-soft:  #2D1A50;
   --purple-mid:   #3D2265;
+  --purple-soft:  #202124;
+  --purple-mid:   #2a2b2f;
+  --green-bg:     #0c2a21;
+  --card:         #1c1d21; 
   --accent-light: #3A241F;
   --red-bg:       #3A1F1F;
   --nav-bg:       #1E1130;
@@ -111,10 +115,10 @@ body {
 }
 .theme-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.08); }
 .theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; }
-.icon-sun { display: none; }
+.icon-sun  { display: none; }
 .icon-moon { display: block; }
-[data-theme="dark"] .icon-sun  { display: block; }
-[data-theme="dark"] .icon-moon { display: none; }
+html:not([data-theme="dark"]) .icon-sun  { display: block; }
+html:not([data-theme="dark"]) .icon-moon { display: none; }
 
 .container {
   max-width:440px; margin:0 auto; padding:0 16px;
@@ -396,11 +400,17 @@ function toggleTheme() {
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('xt-theme', next);
+  localStorage.setItem('theme', next);  // <-- ganti 'xt-theme' jadi 'theme'
 }
 (function() {
-  const saved = localStorage.getItem('xt-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
+  const saved = localStorage.getItem('theme');  // <-- sama
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
 })();
 
 const token = localStorage.getItem('token');
