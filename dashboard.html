@@ -78,7 +78,7 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   padding-bottom: 100px;
-  transition: background .3s, color .3s;
+  transition: background .3s ease, color .3s ease;
   -webkit-tap-highlight-color: transparent;
 }
 a { text-decoration:none; color:inherit; }
@@ -139,7 +139,7 @@ img { display:block; }
 }
 .header-left { display:flex; align-items:center; gap:11px; }
 
-/* ── NEW AVATAR COMPONENT ── */
+/* ── AVATAR COMPONENT ── */
 .avatar-wrap {
   position: relative;
   width: 44px;
@@ -326,17 +326,18 @@ img { display:block; }
 .vm-item:hover  { background:var(--purple-soft); }
 .vm-item:active { transform:scale(.93); }
 
+/* FIXED: Mengecilkan ukuran icon kontainer menu layanan */
 .vm-icon {
-  width:42px; height:42px; border-radius:12px;
+  width: 34px; height: 34px; border-radius: 10px;
   overflow:hidden; background:var(--c-bg);
   border: 1px solid var(--gray-line);
   display:flex; align-items:center; justify-content:center;
-  transition:transform .2s, box-shadow .2s;
+  transition: transform .2s, box-shadow .2s, background .3s, border-color .3s;
   position:relative; flex-shrink:0;
 }
 .vm-icon img { width:100%; height:100%; object-fit:cover; }
 .vm-item:hover .vm-icon {
-  transform:translateY(-3px);
+  transform:translateY(-2px);
   box-shadow:0 5px 12px rgba(123,47,190,.15);
 }
 .vm-label {
@@ -452,32 +453,34 @@ img { display:block; }
   width:14px; height:14px; stroke:var(--c-text3); stroke-width:2.5; fill:none;
 }
 
-/* ─── BOTTOM NAV ─── */
-.bottom-nav{
-  position:fixed;
-  bottom:0; left:0; right:0;
-  max-width:440px; margin:0 auto;
-  background:var(--c-surface);
-  border-top:1px solid var(--gray-line);
-  display:flex;
-  padding:10px 0 14px;
-  box-shadow:0 -4px 20px rgba(90,26,154,0.04);
-  z-index:100;
-  transition: background .3s, border-color .3s;
+/* ─── FIXED & SYNCHRONIZED BOTTOM NAV ─── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--c-surface);
+  border-top: 1px solid var(--gray-line);
+  display: flex; padding: 10px 0 14px;
+  box-shadow: 0 -4px 20px rgba(90,26,154,0.04);
+  z-index: 100; max-width: 440px; margin: 0 auto;
+  transition: background .3s ease, border-color .3s ease;
 }
-.nav-item{
-  flex:1; display:flex; flex-direction:column; align-items:center; gap:3px;
-  text-decoration:none; transition:.2s;
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  text-decoration: none;
 }
-.nav-icon{ display:flex; align-items:center; justify-content:center; }
-.nav-icon svg{
-  width:20px; height:20px; fill:none; stroke:var(--c-text3); stroke-width:2.2; transition:.2s;
+.nav-icon svg {
+  width: 20px; height: 20px; fill: none;
+  stroke: var(--c-text3); stroke-width: 2.2;
+  transition: stroke 0.2s ease;
 }
-.nav-label{ font-size:10px; font-weight:800; color:var(--c-text3); transition:.2s; }
-.nav-item.active .nav-label{ color:var(--purple); }
-.nav-item.active .nav-icon svg{ stroke:var(--purple); }
+.nav-label {
+  font-size: 10px; font-weight: 800;
+  color: var(--c-text3);
+  transition: color 0.2s ease;
+}
+.nav-item.active .nav-label { color: var(--purple); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); }
 
-/* ── ONLINE INDICATOR (BANTUAN) ── */
+/* ONLINE INDICATOR (BANTUAN) */
 .online-dot {
   width:8px; height:8px; border-radius:50%; background:var(--green);
   display:inline-block; margin-right:5px; animation:pulse 2s infinite;
@@ -665,6 +668,7 @@ img { display:block; }
 
 </div>
 
+<!-- FIXED: Struktur bottom-nav & token warna sinkron dengan profile.html -->
 <nav class="bottom-nav">
   <a class="nav-item active" href="#">
     <div class="nav-icon">
@@ -720,7 +724,6 @@ function getAvatarColor(name){
   return palettes[Math.abs(hash) % palettes.length];
 }
 
-// FIXED: Fungsi render avatar dimodifikasi untuk mendukung tag img custom atau inisial
 function renderUserAvatar(userObj) {
   const container = document.getElementById('avatarContainer');
   if (!container) return;
@@ -728,11 +731,9 @@ function renderUserAvatar(userObj) {
   const name = userObj.username || 'Xtrimer User';
 
   if (userObj.avatar && userObj.avatar !== '' && !userObj.avatar.includes('via.placeholder.com')) {
-    // Jika ada link avatar valid dari database, buat tag img
     container.innerHTML = `<img src="${userObj.avatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" alt="Profile">`;
     container.style.background = 'none';
   } else {
-    // Jika tidak ada foto, render inisial text bergradien (fallback)
     container.textContent = name.charAt(0).toUpperCase();
     const colors = getAvatarColor(name);
     container.style.background = `linear-gradient(135deg, ${colors[0]}, ${colors[1]})`;
@@ -773,21 +774,16 @@ async function loadProfile() {
     }
 
     const u = d.user;
-
-    /* ── SIMPAN ULANG USER TERBARU ── */
     localStorage.setItem('user', JSON.stringify(u));
 
-    /* ── USERNAME & AVATAR ── */
     const username = u.username || 'Xtrimer User';
     document.getElementById('headerName').textContent = username;
     renderUserAvatar(u);
 
-    /* ── BALANCE ── */
     document.getElementById('balanceAmt').textContent = rupiah(u.balance);
     document.getElementById('totalIn').textContent = rupiah(u.total_in || 0);
     document.getElementById('totalOut').textContent = rupiah(u.total_out || 0);
 
-    /* ── ADMIN PANEL ── */
     if (u.role === 'admin') {
       document.getElementById('adminSlot').innerHTML = `
         <a class="util-card" href="admin.html">
