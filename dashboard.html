@@ -21,7 +21,7 @@
   --red:          #E84040;
   --red-bg:       #FFECEC;
   --white:        #FFFFFF;
-  --bg:           #F8F6FC;
+  --bg: #F3EEFA;
   --card:         #FFFFFF;
   --gray-line:    #EEF0F6;
   --text-dark:    #1A0533;
@@ -128,6 +128,25 @@ img { display:block; }
     );
 
   padding:38px 20px 92px;
+}
+.header::before{
+  content:'';
+
+  position:absolute;
+
+  width:220px;
+  height:220px;
+
+  background:rgba(255,255,255,.10);
+
+  filter:blur(60px);
+
+  border-radius:50%;
+
+  top:-80px;
+  right:-60px;
+
+  z-index:0;
 }
 .mesh { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
 .mesh span {
@@ -241,7 +260,8 @@ img { display:block; }
   animation: fadeUp .4s .08s ease both;
 }
 .balance-card {
-  background: var(--c-surface);
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(14px);
   border-radius: var(--r-card);
   padding: 18px;
   border: 1px solid var(--c-border);
@@ -327,21 +347,37 @@ img { display:block; }
 [data-theme="dark"] .sec-badge.blue   { background:#0D1A3A; color:#60A5FA; }
 
 /* ── VPN MENU GRID ── */
-.vpn-grid {
-  display: grid; grid-template-columns: repeat(4,1fr); gap:8px;
-  background: var(--c-surface);
-  border-radius: var(--r-card);
-  padding: 12px 8px;
-  border: 1px solid var(--c-border);
-  box-shadow: var(--shadow-sm);
-  animation: fadeUp .4s .12s ease both;
-  transition: background .3s, border-color .3s;
+.vpn-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+
+  gap:10px;
+
+  background:var(--c-surface);
+
+  border-radius:22px;
+
+  padding:14px 10px;
+
+  border:1px solid var(--c-border);
+
+  box-shadow:
+    0 10px 24px rgba(123,47,190,.05);
 }
-.vm-item {
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  padding:8px 4px; border-radius:12px; transition:background .2s;
+.vm-item{
+  padding:10px 4px;
+
+  border-radius:16px;
+
+  gap:8px;
+
+  transition:.22s;
 }
-.vm-item:hover  { background:var(--purple-soft); }
+.vm-item:hover{
+  background:rgba(123,47,190,.07);
+
+  transform:translateY(-2px);
+}
 .vm-item:active { transform:scale(.93); }
 
 .vm-icon {
