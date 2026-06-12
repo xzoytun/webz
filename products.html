@@ -52,7 +52,7 @@ body {
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   color: var(--text-dark);
-  padding-bottom: 100px; 
+  padding-bottom: 100px; /* Ditambah padding biar konten gak ketutup bottom nav */
   transition: background 0.3s ease, color 0.3s ease;
 }
 
@@ -62,6 +62,7 @@ body {
 .theme-cyan   { --theme-color: #00A896; --theme-bg: #E6F6F5; }
 .theme-orange { --theme-color: #FF6B2B; --theme-bg: #FFF0E6; }
 
+/* Penyesuaian background badge saat Dark Mode */
 [data-theme="dark"] .theme-purple { --theme-bg: #2D1A50; }
 [data-theme="dark"] .theme-blue   { --theme-bg: #14224A; }
 [data-theme="dark"] .theme-cyan   { --theme-bg: #0F333A; }
@@ -73,7 +74,7 @@ body {
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ── HEADER MINI REFINED ── */
+/* ── HEADER MINI REFINED (FIXED BUG KETUTUP) ── */
 .header {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 100%);
   padding: 22px 16px 42px;
@@ -124,7 +125,7 @@ body {
 [data-theme="dark"] .icon-sun  { display: block; }
 [data-theme="dark"] .icon-moon { display: none; }
 
-/* ── SEARCH BOX ── */
+/* ── SEARCH BOX MELAYANG AMAN ── */
 .search-wrap { 
   max-width:480px; 
   margin:-22px auto 20px; 
@@ -167,12 +168,14 @@ body {
   box-shadow: 0 6px 18px rgba(90, 26, 154, 0.05);
 }
 
+/* Indicator warna tipis di sisi kiri card */
 .card-indicator {
   position: absolute; left: 0; top: 12px; bottom: 12px;
   width: 4px; border-radius: 0 4px 4px 0;
   background: var(--theme-color);
 }
 
+/* Server visual badge */
 .server-badge {
   width: 38px; height: 38px; border-radius: 10px;
   background: var(--theme-bg);
@@ -181,6 +184,7 @@ body {
 }
 .server-badge svg { width: 18px; height: 18px; fill: none; stroke: var(--theme-color); stroke-width: 2.5; }
 
+/* Mid area content */
 .server-info { flex: 1; min-width: 0; }
 .server-meta-top { display: flex; align-items: center; gap: 8px; }
 .server-name {
@@ -193,21 +197,25 @@ body {
 }
 .slot-text.is-full { color: var(--accent); background: rgba(255,107,43,0.1); }
 
+/* Minimalist tiny subtext */
 .server-sub {
   display: flex; align-items: center; gap: 8px; margin-top: 2px;
 }
 .loc-text { font-size: 11px; color: var(--text-light); font-weight: 600; }
 
-.mini-protos { display: flex; gap: 5px; font-size: 9px; font-weight: 800; color: var(--text-mid); flex-wrap: wrap; }
+/* Dot protocol list inline ultra sleek */
+.mini-protos { display: flex; gap: 5px; font-size: 9px; font-weight: 800; color: var(--text-mid); }
 .mini-protos span { position: relative; }
 .mini-protos span:not(:last-child)::after { content: '•'; margin-left: 5px; color: var(--text-light); opacity: 0.5; }
 
+/* Action Right Side (Fokus Harga + Tombol) */
 .action-side {
   text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
 }
 .price-tag { display: flex; flex-direction: column; line-height: 1.1; }
 .price-val { font-size: 15px; font-weight: 900; color: var(--text-dark); letter-spacing: -0.2px; }
 
+/* Ramping Buy Button */
 .buy-btn-sleek {
   padding: 6px 14px; border: none; border-radius: 10px;
   background: var(--text-dark); color: var(--white);
@@ -298,13 +306,9 @@ body {
 
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <a class="nav-item" href="dashboard.html">
+    <a class="nav-item active" href="dashboard.html">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
       <div class="nav-label">Home</div>
-    </a>
-    <a class="nav-item active" href="products.html">
-      <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-      <div class="nav-label">Produk</div>
     </a>
     <a class="nav-item" href="transactions.html">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
@@ -374,7 +378,6 @@ function renderProducts(products) {
 
   let html = '';
   products.forEach((server, i) => {
-    // Menghitung harga dasar
     const hargaMulai = Number(server.harga || 0) * 7;
     const slotUsed   = server.total_create_akun || 0;
     const slotMax    = server.batas_create_akun  || 0;
@@ -382,10 +385,6 @@ function renderProducts(products) {
 
     const assignedTheme = cardThemes[i % cardThemes.length];
     const hargaFormatted = hargaMulai.toLocaleString('id-ID');
-
-    // Mengambil protocol secara dinamis jika ada dari backend, jika tidak fallback ke default
-    const protocols = server.protocols || ['SSH', 'VMESS', 'VLESS', 'TROJAN', 'HYSTERIA2'];
-    const protocolHtml = protocols.map(p => `<span>${p.toUpperCase()}</span>`).join('');
 
     html += `
     <div class="product-card ${assignedTheme} ${isFull ? 'is-full' : ''}" style="animation-delay:${i * 0.04}s">
@@ -409,7 +408,10 @@ function renderProducts(products) {
         <div class="server-sub">
           <div class="loc-text">${server.lokasi || 'Global'}</div>
           <div class="mini-protos">
-            ${protocolHtml}
+            <span>SSH</span>
+            <span>VMESS</span>
+            <span>VLESS</span>
+            <span>TROJAN</span>
           </div>
         </div>
       </div>
