@@ -167,7 +167,7 @@ html[data-theme="dark"] .loading-state svg { stroke: var(--purple-light); }
   transition: background 0.25s, border-color 0.25s;
 }
 .account-card ~ .account-card {
-  margin-top: 0px; /* Card kedua dst tidak perlu margin minus */
+  margin-top: 0px;
 }
 html[data-theme="dark"] .account-card { box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
 
@@ -306,7 +306,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
       <div class="nav-label">Home</div>
     </a>
-    <a class="nav-item" href="transactions.html">
+    <a class="nav-item active" href="transactions.html">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
       <div class="nav-label">Riwayat</div>
     </a>
@@ -399,6 +399,20 @@ function toggleResult(btn) {
     btn.classList.contains('open') ? 'Sembunyikan Detail' : 'Lihat Detail Akun';
 }
 
+// ─── HELPER FORMAT TANGGAL UTC KE WAKTU LOKAL (DD-MM-YYYY HH:mm) ───
+function formatLocalDate(isoString) {
+  if (!isoString) return '—';
+  try {
+    const d = new Date(isoString);
+    // Menggunakan locale 'id-ID' agar mudah di-custom formatnya
+    const tgl = d.toLocaleDateString('id-ID', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+    const jam = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
+    return `${tgl} ${jam}`;
+  } catch (e) {
+    return isoString;
+  }
+}
+
 async function loadAccounts() {
   try {
     const res  = await fetch('/api/my-vpn', {
@@ -435,6 +449,10 @@ async function loadAccounts() {
     accounts.forEach((acc, i) => {
       const proto = getProto(acc.product_type);
       const label = (acc.product_type || 'VPN').toUpperCase();
+      
+      // Format tanggal mentah ke zona waktu lokal client (WIB)
+      const dateRaw = acc.expired_at || acc.created_at;
+      const dateDisplay = formatLocalDate(dateRaw);
 
       html += `
       <div class="account-card" style="animation-delay:${i * 0.05}s">
@@ -457,7 +475,7 @@ async function loadAccounts() {
         <div class="card-meta">
           <div class="meta-chip">
             <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8"  y1="2" x2="8"  y2="6"/><line x1="3"  y1="10" x2="21" y2="10"/></svg>
-            Exp: ${acc.expired_at || acc.created_at || '—'}
+            Exp: ${dateDisplay}
           </div>
         </div>
 
