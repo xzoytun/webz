@@ -33,26 +33,27 @@
   --nav-shadow:   rgba(90,26,154,0.06);
 }
 
-[data-theme="dark"] {
-  --white:        #1E1130;
-  --bg:           #120B22;
-  --gray-line:    #2A1D42;
-  --text-dark:    #F0E8FF;
-  --text-mid:     #C4A0EE;
-  --text-light:   #7A5BAA;
-  --card-bg:      #1E1130;
-  --input-bg:     #17102A;
-  --purple-soft:  #2D1A50;
-  --purple-mid:   #3D2265;
+/* ── SINKRONISASI TOTAL DENGAN PRODUCTS.HTML (GOPAY-INSPIRED DARK THEME) ── */
+html[data-theme="dark"] {
   --purple-soft:  #202124;
   --purple-mid:   #2a2b2f;
   --green-bg:     #0c2a21;
-  --card:         #1c1d21; 
+  --red-bg:       #311111;
+  --white:        #17181c;
+  --bg:           #0a0b0d;
+  --card-bg:      #1c1d21; /* Menggunakan basis warna card yang sama */
+  --gray-line:    #303135;
+  --text-dark:    #e8eaed;
+  --text-mid:     #bdc1c6;
+  --text-light:   #9aa0a6;
+  --input-bg:     #202124;
   --accent-light: #3A241F;
-  --red-bg:       #3A1F1F;
-  --nav-bg:       #1E1130;
-  --nav-shadow:   rgba(0,0,0,0.3);
+  --nav-bg:       #17181c;
+  --nav-shadow:   rgba(0,0,0,0.4);
 }
+
+/* prevent flash before JS runs */
+html { background: var(--bg); }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
@@ -63,7 +64,7 @@ body {
   color: var(--text-dark);
   padding-bottom: 90px;
   overflow-x: hidden;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 @keyframes fadeUp {
@@ -131,7 +132,10 @@ html:not([data-theme="dark"]) .icon-moon { display: none; }
   box-shadow:0 8px 24px rgba(90,26,154,0.04);
   position:relative; z-index:3;
   animation: fadeUp 0.4s 0.05s ease both;
-  transition: background 0.3s, border-color 0.3s;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+html[data-theme="dark"] .server-card {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
 .server-card-head {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%);
@@ -154,6 +158,8 @@ html:not([data-theme="dark"]) .icon-moon { display: none; }
 .si-label svg { width:12px; height:12px; fill:none; stroke:var(--text-light); stroke-width:2; }
 .si-val { font-size:14px; font-weight:900; color:var(--text-dark); }
 .si-val.price-val { color:var(--purple); font-size:16px; }
+html[data-theme="dark"] .si-val.price-val { color: var(--purple-light); }
+
 .server-loading {
   padding:24px; text-align:center; color:var(--text-mid); font-weight:700; font-size:13px;
   display:flex; flex-direction:column; align-items:center; gap:8px;
@@ -167,13 +173,18 @@ html:not([data-theme="dark"]) .icon-moon { display: none; }
   background:var(--card-bg); border-radius:16px; padding:16px; margin-bottom:14px;
   border:1px solid var(--gray-line); box-shadow:0 4px 14px rgba(90,26,154,0.02);
   animation: fadeUp 0.4s 0.12s ease both;
-  transition: background 0.3s, border-color 0.3s;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+html[data-theme="dark"] .form-card {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
 .form-section-title {
   font-size:14px; font-weight:900; color:var(--text-dark);
   display:flex; align-items:center; gap:6px; margin-bottom:14px;
 }
 .form-section-title svg { width:16px; height:16px; fill:none; stroke:var(--purple); stroke-width:2.2; }
+html[data-theme="dark"] .form-section-title svg { stroke: var(--purple-light); }
+
 .form-group { margin-bottom:14px; }
 .form-group:last-child { margin-bottom:0; }
 .field-label {
@@ -187,6 +198,7 @@ html:not([data-theme="dark"]) .icon-moon { display: none; }
   color:var(--text-dark); background:var(--input-bg); outline:none; transition:all 0.15s;
 }
 .field-input:focus { border-color:var(--purple); background:var(--card-bg); box-shadow:0 0 0 3px rgba(123,47,190,0.06); }
+html[data-theme="dark"] .field-input:focus { border-color: var(--purple-light); box-shadow: 0 0 0 3px rgba(155,79,222,0.15); }
 .field-input::placeholder { color:var(--text-light); font-weight:600; }
 
 .duration-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
@@ -197,7 +209,9 @@ html:not([data-theme="dark"]) .icon-moon { display: none; }
   text-align:center; cursor:pointer; transition:all 0.15s;
 }
 .duration-opt:hover { border-color:var(--purple); color:var(--purple); background:var(--card-bg); }
+html[data-theme="dark"] .duration-opt:hover { border-color: var(--purple-light); color: var(--purple-light); }
 .duration-opt.selected { border-color:var(--purple); background:var(--purple-soft); color:var(--purple); }
+html[data-theme="dark"] .duration-opt.selected { border-color: var(--purple-light); background: var(--purple-soft); color: var(--purple-light); }
 
 .protocol-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
 .proto-opt {
@@ -207,11 +221,15 @@ html:not([data-theme="dark"]) .icon-moon { display: none; }
   transition:all 0.15s; display:flex; flex-direction:column; align-items:center; gap:4px;
 }
 .proto-opt:hover { border-color:var(--purple); color:var(--purple); background:var(--card-bg); }
+html[data-theme="dark"] .proto-opt:hover { border-color: var(--purple-light); color: var(--purple-light); }
 .proto-opt .proto-icon svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2.2; }
 .proto-opt .proto-name { font-size:10px; font-weight:800; }
+
 .proto-opt[data-val="SSH"].selected    { border-color:var(--accent); background:var(--accent-light); color:var(--accent); }
 .proto-opt[data-val="VMESS"].selected  { border-color:#0077AA; background:rgba(0,119,170,0.1); color:#0077AA; }
+html[data-theme="dark"] .proto-opt[data-val="VMESS"].selected { background:rgba(0,119,170,0.2); }
 .proto-opt[data-val="VLESS"].selected  { border-color:var(--purple); background:var(--purple-soft); color:var(--purple); }
+html[data-theme="dark"] .proto-opt[data-val="VLESS"].selected { border-color:var(--purple-light); color:var(--purple-light); }
 .proto-opt[data-val="TROJAN"].selected { border-color:var(--red); background:var(--red-bg); color:var(--red); }
 
 .btn-checkout {
@@ -223,7 +241,11 @@ html:not([data-theme="dark"]) .icon-moon { display: none; }
   box-shadow:0 6px 18px rgba(90,26,154,0.2);
   transition:all 0.15s; animation: fadeUp 0.4s 0.2s ease both;
 }
+html[data-theme="dark"] .btn-checkout { color: var(--bg); background: var(--text-dark); box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
+html[data-theme="dark"] .btn-checkout:hover { background: var(--purple); color: #fff; }
 .btn-checkout svg { width:16px; height:16px; fill:none; stroke:#fff; stroke-width:2.2; }
+html[data-theme="dark"] .btn-checkout svg { stroke: var(--bg); }
+html[data-theme="dark"] .btn-checkout:hover svg { stroke: #fff; }
 .btn-checkout:hover { opacity: 0.95; transform:translateY(-1px); }
 .btn-checkout:disabled { opacity:0.55; cursor:not-allowed; transform:none; }
 
@@ -232,18 +254,20 @@ html:not([data-theme="dark"]) .icon-moon { display: none; }
   width: 100%; max-width: 440px; background: var(--nav-bg);
   border-top: 1px solid var(--gray-line);
   box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
-  transition: background 0.3s, border-color 0.3s;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
-.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 8px 0; }
+.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 10px 0 14px; }
 .nav-item {
   display: flex; flex-direction: column; align-items: center; gap: 4px;
   text-decoration: none; color: var(--text-light); width: 70px; transition: all 0.2s;
 }
 .nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
-.nav-label { font-size: 11px; font-weight: 800; }
+.nav-label { font-size: 9.5px; font-weight: 800; }
 .nav-item:hover .nav-icon svg { transform: translateY(-2px); }
 .nav-item.active { color: var(--purple); }
-.nav-item.active .nav-icon svg { stroke: var(--purple); fill: var(--purple-soft); }
+html[data-theme="dark"] .nav-item.active { color: var(--purple-light); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); }
+html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-light); }
 
 #result { margin-top:14px; animation: fadeUp 0.4s ease both; }
 
@@ -370,7 +394,7 @@ html:not([data-theme="dark"]) .icon-moon { display: none; }
 
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <a class="nav-item active" href="index.html">
+    <a class="nav-item active" href="dashboard.html">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
       <div class="nav-label">Home</div>
     </a>
@@ -400,10 +424,10 @@ function toggleTheme() {
   const html = document.documentElement;
   const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);  // <-- ganti 'xt-theme' jadi 'theme'
+  localStorage.setItem('theme', next);
 }
 (function() {
-  const saved = localStorage.getItem('theme');  // <-- sama
+  const saved = localStorage.getItem('theme');
   if (saved === 'dark' || saved === 'light') {
     document.documentElement.setAttribute('data-theme', saved);
   } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -574,11 +598,6 @@ function showToast(msg, type = 'success') {
   setTimeout(() => t.className = 'toast ' + type, 2600);
 }
 
-// ─────────────────────────────────────────
-// COPY FUNCTION — untuk result card dari backend
-// Fungsi ini dipanggil oleh onclick="copyDirectLink(this, '...')" di tombol Copy
-// yang di-generate oleh createAccount.js
-// ─────────────────────────────────────────
 function copyDirectLink(btnEl, encodedText) {
   var rowEl = btnEl.closest('.link-row');
   var text = decodeURIComponent(encodedText);
