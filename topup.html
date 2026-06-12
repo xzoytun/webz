@@ -8,7 +8,7 @@
 <style>  
   
 :root {  
-  /* ── KONSISTEN DENGAN DASHBOARD ── */  
+  /* ── KONSISTEN DENGAN DASHBOARD LIGHT MODE ── */  
   --purple:       #7B2FBE;  
   --purple-dark:  #5A1A9A;  
   --purple-deep:  #3D0F72;  
@@ -20,7 +20,7 @@
   --green:        #12C28A;  
   --green-bg:     #E6FAF4;  
   --green-border: rgba(18,194,138,0.3);  
-  --amber:        #FF6B2B;      /* Diselaraskan dengan --accent */  
+  --amber:        #FF6B2B;  
   --amber-bg:     #FFF5F0;  
   --amber-border: rgba(255,107,43,0.3);  
   --red:          #E84040;  
@@ -28,8 +28,10 @@
   --red-border:   rgba(232,64,64,0.25);  
   --white:        #FFFFFF;  
   --bg:           #F7F0FD;  
+  --card:         #FFFFFF;
   --border:       #EAD5FA;  
   --border-soft:  #E8D8F8;  
+  --gray-line:    #EEF0F6;
   
   /* ── Text ── */  
   --text-dark:    #1A0533;  
@@ -37,6 +39,43 @@
   --text-light:   #A882CC;  
 }  
   
+/* ── GOPAY-INSPIRED DARK THEME TOKENS (synced with dashboard & profile) ── */
+html[data-theme="dark"] {
+  --purple-soft:  #202124; /* GoPay Dark Grey */
+  --purple-mid:   #2a2b2f; 
+  --green-bg:     #0c2a21; /* Dark Green */
+  --green-border: rgba(18,194,138,0.15);
+  --red-bg:       #311111; /* Dark Red */
+  --red-border:   rgba(232,64,64,0.15);
+  --amber-bg:     #2c1a10; /* Dark Amber */
+  --amber-border: rgba(255,107,43,0.15);
+  --white:        #17181c; 
+  --bg:           #0a0b0d; /* Deep Background */
+  --card:         #1c1d21; /* Card Grey */
+  --border:       #303135;
+  --border-soft:  #2a2b2f;
+  --gray-line:    #303135; 
+  --text-dark:    #e8eaed; /* Light Text */
+  --text-mid:     #bdc1c6; 
+  --text-light:   #9aa0a6; 
+}
+
+html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
+html[data-theme="dark"] .input-card,
+html[data-theme="dark"] .qris-card,
+html[data-theme="dark"] .back-btn { background: var(--card); border-color: var(--gray-line); }
+html[data-theme="dark"] .amount-wrap { background: var(--purple-mid); border-color: var(--gray-line); }
+html[data-theme="dark"] .nominal-btn { background: var(--purple-soft); border-color: var(--gray-line); color: var(--text-mid); }
+html[data-theme="dark"] .nominal-btn:hover { background: var(--purple-mid); color: var(--text-dark); }
+html[data-theme="dark"] .nominal-btn.selected { background: linear-gradient(135deg, var(--purple-dark), var(--purple)); color: #fff; border-color: var(--purple); }
+html[data-theme="dark"] .promo-chip { background: var(--purple-soft); border-color: var(--gray-line); color: var(--text-mid); }
+html[data-theme="dark"] .fee-item { background: var(--purple-soft); border-color: var(--gray-line); }
+html[data-theme="dark"] .qr-img-box { background: var(--purple-soft); border-color: var(--gray-line); }
+html[data-theme="dark"] .qr-img-box img { background: #fff; border-color: #fff; } /* Tetap putih agar QR gampang di-scan */
+
+/* prevent flash before JS runs */
+html { background: var(--bg); }
+
 * { margin:0; padding:0; box-sizing:border-box; }  
   
 body {  
@@ -46,6 +85,7 @@ body {
   color: var(--text-dark);  
   padding-bottom: 40px;  
   overflow-x: hidden;  
+  transition: background .25s ease, color .25s ease;
 }  
   
 .blob1 {  
@@ -166,13 +206,14 @@ body {
   
 /* ── INPUT CARD ── */  
 .input-card {  
-  background:var(--white);  
+  background:var(--card);  
   border-radius:22px; padding:20px 18px;  
   border:1.5px solid var(--border-soft);  
-  box-shadow: 0 10px 36px rgba(90,26,154,0.15);  
+  box-shadow: 0 10px 36px rgba(0,0,0,0.04);  
   margin-top:-26px; margin-bottom:14px;  
   position:relative; z-index:3;  
   animation: fadeUp 0.45s ease both;  
+  transition: background .25s ease, border-color .25s ease;
 }  
   
 .amount-wrap {  
@@ -180,7 +221,7 @@ body {
   background:var(--purple-soft);  
   border:2px solid var(--border-soft);  
   border-radius:14px; padding:12px 16px; gap:10px;  
-  transition:border-color 0.2s, box-shadow 0.2s;  
+  transition:border-color 0.2s, box-shadow 0.2s, background .25s ease;  
 }  
 .amount-wrap:focus-within {  
   border-color:var(--purple-light);  
@@ -243,6 +284,7 @@ body {
   border-radius:20px; padding:5px 12px;  
   font-size:11px; font-weight:800; color:var(--text-mid);  
   display:flex; align-items:center; gap:5px;  
+  transition: background .25s ease, border-color .25s ease;
 }  
 .promo-chip svg {  
   width:12px; height:12px; fill:none;  
@@ -280,12 +322,13 @@ body {
   
 /* ── QRIS CARD ── */  
 .qris-card {  
-  background:var(--white);  
+  background:var(--card);  
   border-radius:22px; overflow:hidden;  
   border:1.5px solid var(--border-soft);  
-  box-shadow:0 4px 20px rgba(90,26,154,0.1);  
+  box-shadow:0 4px 20px rgba(0,0,0,0.04);  
   margin-bottom:14px;  
   animation: fadeUp 0.45s ease both;  
+  transition: background .25s ease, border-color .25s ease;
 }  
   
 .qris-card-head {  
@@ -338,6 +381,7 @@ body {
   background:var(--purple-soft);  
   border:1.5px solid var(--border-soft);  
   border-radius:12px; padding:12px; text-align:center;  
+  transition: background .25s ease, border-color .25s ease;
 }  
 .fee-label {  
   font-size:10px; font-weight:800; color:var(--text-light);  
@@ -362,6 +406,7 @@ body {
   border-radius:24px;  
   padding:18px;  
   border:2px dashed var(--border);  
+  transition: background .25s ease, border-color .25s ease;
 }  
 .qr-img-box img {  
   width:100%;  
@@ -373,7 +418,7 @@ body {
   padding:12px;  
   background:#fff;  
   border:2px solid var(--border);  
-  box-shadow:0 4px 16px rgba(90,26,154,0.08);  
+  box-shadow:0 4px 16px rgba(0,0,0,0.08);  
 }  
   
 /* ── NOTICE SCREENSHOT CHIP ── */  
@@ -385,6 +430,7 @@ body {
   font-size:13px; font-weight:800; color:var(--amber);  
   text-align:center; justify-content:center;  
   width:100%;  
+  transition: background .25s ease, border-color .25s ease;
 }  
 .ss-notice-chip svg {  
   width:16px; height:16px; fill:none;  
@@ -400,6 +446,7 @@ body {
   border:1px solid var(--amber-border);  
   border-radius:12px; padding:10px 14px; margin-bottom:14px;  
   font-size:13px; font-weight:800; color:var(--amber);  
+  transition: background .25s ease, border-color .25s ease;
 }  
 .timer-row svg {  
   width:16px; height:16px;  
@@ -432,6 +479,7 @@ body {
   border-radius:14px; padding:16px 18px;  
   text-align:center;  
   animation: bounce-in 0.5s ease both;  
+  transition: background .25s ease, border-color .25s ease;
 }  
 .status-paid-title {  
   font-size:20px; font-weight:900; color:var(--green);  
@@ -453,6 +501,7 @@ body {
   border-radius:14px; padding:12px 16px;  
   color:var(--red); font-weight:800;  
   display:flex; align-items:center; gap:8px; justify-content:center;  
+  transition: background .25s ease, border-color .25s ease;
 }  
 .status-expired svg {  
   width:18px; height:18px;  
@@ -468,7 +517,7 @@ body {
   cursor:pointer;  
   display:flex; align-items:center; justify-content:center; gap:6px;  
   transition:border-color 0.15s, color 0.15s, background 0.15s;  
-  box-shadow: 0 4px 12px rgba(90,26,154,0.05);  
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);  
 }  
 .back-btn svg {  
   width:18px; height:18px; fill:none;  
@@ -507,7 +556,6 @@ body {
 .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }  
 .toast.error { background:linear-gradient(135deg, var(--red), #F87171); box-shadow:0 8px 24px rgba(232,64,64,0.25); }  
 .toast.warn  { background:linear-gradient(135deg, var(--accent), #FF9E74); color:#fff; box-shadow:0 8px 24px rgba(255,107,43,0.25); }  
-.toast.success { background:linear-gradient(135deg, var(--green), #34D399); box-shadow:0 8px 24px rgba(18,194,138,0.25); }  
   
 </style>  
 </head>  
@@ -636,10 +684,20 @@ body {
 let depositCode = null;  
 let timerInterval = null; 
 
-// ✅ 1. Ambil token JWT dari localStorage
+/* ── THEME DETECTOR (synced with dashboard.html & profile.html) ── */
+(function initTheme(){
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+
 const token = localStorage.getItem('token');
 
-// Proteksi Awal: Jika token tidak ada, tendang user kembali ke halaman login
 if (!token) {
   location.href = 'index.html';
 }
@@ -671,14 +729,13 @@ async function createDeposit() {
   try {  
     if (timerInterval) clearInterval(timerInterval);
 
-    // ✅ 2. AMAN: Kirim token lewat Header, hapus parameter 'email' dari body
     const res  = await fetch('/api/deposit', {  
       method: 'POST',  
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` // Kirim JWT token ke backend
+        'Authorization': `Bearer ${token}`
       },  
-      body: JSON.stringify({ amount }) // Hanya kirim amount
+      body: JSON.stringify({ amount })
     });  
     const data = await res.json();  
   
@@ -837,7 +894,6 @@ function startChecker() {
   const interval = setInterval(async () => {  
     if (!depositCode) { clearInterval(interval); return; }  
     try {  
-      // ✅ 3. AMAN: Kirim header token untuk verifikasi status kepemilikan invoice deposit
       const res  = await fetch('/api/deposit-status/' + depositCode, {
         method: 'GET',
         headers: {
