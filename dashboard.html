@@ -678,15 +678,21 @@ async function loadProfile() {
     const r = await fetch('/api/profile', hdrs);
     if (!r.ok) throw new Error('not ok');
     const d = await r.json();
+    
     if (!d.success) {
       localStorage.clear();
       window.location.href = 'index.html';
       return;
     }
+    
     const u = d.user;
-    const name = u.name || 'Xtrimer User';
+    
+    // PERBAIKAN 1: Menggunakan u.username karena backend mengirimkan properti 'username'
+    const name = u.username || 'Xtrimer User'; 
+    
     document.getElementById('headerName').textContent = name;
     setAvatar(name);
+    
     document.getElementById('balanceAmt').textContent = rupiah(u.balance);
     if (u.total_in)  document.getElementById('totalIn').textContent  = rupiah(u.total_in);
     if (u.total_out) document.getElementById('totalOut').textContent = rupiah(u.total_out);
@@ -710,12 +716,19 @@ async function loadProfile() {
         </a>`;
     }
   } catch (e) {
-    console.warn('Profile API unavailable — demo mode');
+    console.warn('Profile API unavailable — demo mode', e);
+    
+    // PERBAIKAN 2: Mengisi data fallback nama dan avatar saat API offline/gagal dimuat
+    const fallbackName = 'Xtrimer User';
+    document.getElementById('headerName').textContent = fallbackName;
+    setAvatar(fallbackName);
+    
     document.getElementById('balanceAmt').textContent = 'Rp 250.000';
     document.getElementById('totalIn').textContent    = 'Rp 1.200.000';
     document.getElementById('totalOut').textContent   = 'Rp 950.000';
   }
 }
+
 
 /* ── CATEGORIES ── */
 const HIDDEN = ['gas','tv','tv kabel','gas pln','gas elpiji','tagihan gas'];
