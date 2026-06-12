@@ -28,32 +28,36 @@
   --text-light:   #A882CC;
 }
 
-/* ── DARK THEME TOKENS (synced with dashboard.html) ── */
+/* ── GOPAY-INSPIRED DARK THEME TOKENS (synced with dashboard.html) ── */
 html[data-theme="dark"] {
-  --purple-soft:  #2A1B40;
-  --purple-mid:   #3A2654;
-  --green-bg:     #103A30;
-  --red-bg:       #3A1A1A;
-  --white:        #1E1530;
-  --bg:           #120A1F;
-  --card:         #1E1530;
-  --gray-line:    #2E2244;
-  --text-dark:    #F3EAFD;
-  --text-mid:     #C9A8EC;
-  --text-light:   #8A6FB0;
+  --purple-soft:  #202124; /* GoPay Dark Grey */
+  --purple-mid:   #2a2b2f; /* Darker Grey */
+  --green-bg:     #0c2a21; /* Dark Green (GoPay) */
+  --red-bg:       #311111; /* Dark Red */
+  --white:        #17181c; /* Background Grey */
+  --bg:           #0a0b0d; /* Deep Background */
+  --card:         #1c1d21; /* Card Grey */
+  --gray-line:    #303135; /* Subtler Line Color */
+  --text-dark:    #e8eaed; /* Light Text */
+  --text-mid:     #bdc1c6; /* Mid Text */
+  --text-light:   #9aa0a6; /* Subtler Text */
 }
 html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
 html[data-theme="dark"] .stat-chip,
 html[data-theme="dark"] .card,
 html[data-theme="dark"] .bottom-nav,
 html[data-theme="dark"] .logout-btn { background: var(--card); border-color: var(--gray-line); }
-html[data-theme="dark"] .stat-chip { border-color: rgba(123,47,190,0.25); }
+html[data-theme="dark"] .stat-chip { border-color: rgba(255, 255, 255, 0.05); }
 html[data-theme="dark"] .logout-btn { color: var(--text-mid); }
-html[data-theme="dark"] .bottom-nav { background: var(--card); box-shadow: 0 -4px 20px rgba(0,0,0,0.3); }
+html[data-theme="dark"] .bottom-nav { background: var(--card); box-shadow: 0 -4px 20px rgba(0,0,0,0.4); }
 html[data-theme="dark"] .info-item { border-color: var(--gray-line); }
-html[data-theme="dark"] .role-badge { background: var(--purple-soft); }
-html[data-theme="dark"] .role-badge.admin { background: var(--red-bg); }
+html[data-theme="dark"] .role-badge { background: var(--purple-soft); color: var(--text-mid); border-color: var(--gray-line); }
+html[data-theme="dark"] .role-badge.admin { background: var(--red-bg); color: var(--red); border-color: rgba(232,64,64,0.15); }
 html[data-theme="dark"] .edit-avatar-btn { background: var(--card); }
+html[data-theme="dark"] .edit-avatar-btn svg { stroke: var(--text-dark); }
+html[data-theme="dark"] .card-title svg { stroke: var(--text-dark); }
+html[data-theme="dark"] .card-title-pill,
+html[data-theme="dark"] .sec-title-pill { background: var(--purple-soft); color: var(--text-mid); }
 html[data-theme="dark"] .hdr-btn.theme-toggle .icon-sun { display: none; }
 html[data-theme="dark"] .hdr-btn.theme-toggle .icon-moon { display: flex; }
 html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-sun { display: flex; }
@@ -151,8 +155,9 @@ body {
   width: 24px; height: 24px; border-radius: 50%;
   background: #fff; display: flex; align-items: center; justify-content: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; border: none;
-  transition: background .25s ease;
+  transition: background .25s ease, transform .2s;
 }
+.edit-avatar-btn:active { transform: scale(0.9); }
 .edit-avatar-btn svg { width: 12px; height: 12px; fill: none; stroke: var(--purple); stroke-width: 2.5; }
 
 .profile-name { font-size: 19px; font-weight: 900; color: #fff; letter-spacing: -0.2px; text-align: center; }
@@ -166,7 +171,7 @@ body {
 .stat-chip {
   flex: 1; border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 10px;
   background: var(--white); border: 1px solid rgba(234, 213, 250, 0.6);
-  box-shadow: 0 6px 18px rgba(90,26,154,0.04);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
   transition: background .25s ease, border-color .25s ease;
 }
 .chip-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -180,7 +185,7 @@ body {
 /* ─── PREMIUM CARD ─── */
 .card {
   background: var(--card); border-radius: 16px; padding: 16px 18px; margin-bottom: 16px;
-  box-shadow: 0 4px 16px rgba(90,26,154,0.04); border: 1px solid var(--gray-line);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04); border: 1px solid var(--gray-line);
   animation: fadeUp 0.4s 0.12s ease both;
   transition: background .25s ease, border-color .25s ease;
 }
@@ -192,7 +197,7 @@ body {
 .card-title-pill { font-size: 9px; font-weight: 800; background: var(--purple-soft); color: var(--purple); border-radius: 6px; padding: 1px 6px; }
 
 /* ─── INFO LAYOUT SEAMLESS ─── */
-.info-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F6F4FA; transition: border-color .25s ease; }
+.info-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--gray-line); transition: border-color .25s ease; }
 .info-item:last-child { border-bottom: none; padding-bottom: 0; }
 .info-item:first-child { padding-top: 0; }
 
@@ -204,7 +209,7 @@ body {
   display: inline-block; padding: 2px 8px; border-radius: 6px;
   font-size: 10px; font-weight: 800; background: var(--purple-soft); color: var(--purple);
   text-transform: uppercase; border: 1px solid rgba(123,47,190,0.1);
-  transition: background .25s ease;
+  transition: background .25s ease, border-color .25s ease;
 }
 .role-badge.admin { background: var(--red-bg); color: var(--red); border-color: rgba(232,64,64,0.1); }
 
@@ -224,7 +229,7 @@ body {
 .bottom-nav {
   position:fixed; bottom:0; left:0; right:0; background:#fff;
   border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px;
-  box-shadow:0 -4px 20px rgba(90,26,154,0.04); z-index:100; max-width:440px; margin:0 auto;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.04); z-index:100; max-width:440px; margin:0 auto;
   transition: background .25s ease, border-color .25s ease;
 }
 .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
@@ -374,11 +379,9 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   localStorage.setItem('theme', next);
 });
 
-// 1. Ambil data user & token dari localStorage
 const localUser = JSON.parse(localStorage.getItem('user'));
-const token     = localStorage.getItem('token'); // Sesuaikan jika kamu menyimpannya di localStorage.getItem('token') atau localUser.token
+const token     = localStorage.getItem('token');
 
-// Jika tidak ada user atau token, tendang kembali ke halaman login
 if (!localUser || !token) {
   localStorage.clear();
   window.location.href = 'index.html';
@@ -388,7 +391,6 @@ loadProfile();
 
 async function loadProfile() {
   try {
-    // 2. Lakukan fetch tanpa embel-embel ?email= di URL, tapi kirim via Header Authorization
     const response = await fetch('/api/profile', {
       method: 'GET',
       headers: {
@@ -399,7 +401,6 @@ async function loadProfile() {
     
     const result = await response.json();
 
-    // Jika token kedaluwarsa / ditolak oleh middleware checkAuth backend
     if (!result.success) {
       alert(result.message || 'Sesi telah berakhir, silakan login kembali.');
       localStorage.clear();
@@ -409,7 +410,6 @@ async function loadProfile() {
 
     const user = result.user;
 
-    // 3. Render data ke elemen HTML
     document.getElementById('username').innerText  = user.username || '—';
     document.getElementById('username2').innerText = user.username || '—';
     document.getElementById('email').innerText     = user.email    || '—';
@@ -436,7 +436,7 @@ async function loadProfile() {
 
 function logout() {
   if (confirm('Yakin mau keluar?')) {
-    localStorage.clear(); // Bersihkan semua data auth termasuk token
+    localStorage.clear();
     window.location.href = 'index.html';
   }
 }
