@@ -31,12 +31,60 @@
   /* Shadow & Radius Alignment */
   --shadow-sm:  0 4px 12px rgba(90,26,154,0.02);
   --shadow-md:  0 6px 18px rgba(90,26,154,0.04);
-  --shadow-lg:  0 6px 18px rgba(90,26,154,0.04); /* Aligned with profile chip shadow */
+  --shadow-lg:  0 6px 18px rgba(90,26,154,0.04);
   --shadow-purple: 0 4px 12px rgba(123,47,190,0.15);
 
   --r-card: 16px;
   --r-btn:  12px;
 }
+
+/* ── DARK THEME TOKENS ── */
+html[data-theme="dark"] {
+  --purple-soft:  #2A1B40;
+  --purple-mid:   #3A2654;
+  --green-bg:     #103A30;
+  --red-bg:       #3A1A1A;
+  --white:        #1E1530;
+  --bg:           #120A1F;
+  --card:         #1E1530;
+  --gray-line:    #2E2244;
+  --text-dark:    #F3EAFD;
+  --text-mid:     #C9A8EC;
+  --text-light:   #8A6FB0;
+}
+html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
+html[data-theme="dark"] .balance-card,
+html[data-theme="dark"] .vpn-grid,
+html[data-theme="dark"] .cat-card,
+html[data-theme="dark"] .util-card,
+html[data-theme="dark"] .bottom-nav,
+html[data-theme="dark"] .bstat,
+html[data-theme="dark"] .topup-btn { background: var(--card); border-color: var(--gray-line); }
+html[data-theme="dark"] .balance-card { border-color: rgba(123,47,190,0.25); }
+html[data-theme="dark"] .topup-btn { color: var(--text-mid); }
+html[data-theme="dark"] .vm-icon,
+html[data-theme="dark"] .cat-img,
+html[data-theme="dark"] .balance-icon-wrap { background: var(--bg); border-color: var(--gray-line); }
+html[data-theme="dark"] .bottom-nav { background: var(--card); box-shadow: 0 -4px 20px rgba(0,0,0,0.3); }
+html[data-theme="dark"] .skel,
+html[data-theme="dark"] .skel-lbl {
+  background: linear-gradient(90deg, var(--gray-line) 25%, var(--purple-soft) 50%, var(--gray-line) 75%);
+  background-size: 200% 100%;
+}
+html[data-theme="dark"] .sec-badge.orange { background:#3A2A14; color:#FFB870; border-color: rgba(255,184,112,0.15); }
+html[data-theme="dark"] .sec-badge.blue   { background:#15233F; color:#7FA8FF; border-color: rgba(127,168,255,0.15); }
+html[data-theme="dark"] .balance-divider,
+html[data-theme="dark"] .util-card,
+html[data-theme="dark"] .bstat { border-color: var(--gray-line); }
+html[data-theme="dark"] .info-item,
+html[data-theme="dark"] .bstat { border-color: #2E2244; }
+html[data-theme="dark"] .hdr-btn.theme-toggle .icon-sun { display: none; }
+html[data-theme="dark"] .hdr-btn.theme-toggle .icon-moon { display: flex; }
+html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-sun { display: flex; }
+html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-moon { display: none; }
+
+/* prevent flash before JS runs */
+html { background: var(--bg); }
 
 /* ── RESET & BASE ── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -48,6 +96,7 @@ body {
   overflow-x: hidden;
   padding-bottom: 100px;
   -webkit-tap-highlight-color: transparent;
+  transition: background .25s ease, color .25s ease;
 }
 a { text-decoration:none; color:inherit; }
 button { font-family:inherit; cursor:pointer; border:none; background:none; }
@@ -153,6 +202,11 @@ img { display:block; }
   width:16px; height:16px;
   stroke:#fff; stroke-width:2.2; fill:none;
 }
+.hdr-btn.theme-toggle { position: relative; }
+.hdr-btn.theme-toggle .icon-sun,
+.hdr-btn.theme-toggle .icon-moon {
+  position: absolute; align-items:center; justify-content:center;
+}
 
 /* ── BALANCE CARD FINTECH ── */
 .balance-wrap {
@@ -167,6 +221,7 @@ img { display:block; }
   padding: 16px 18px;
   border: 1px solid rgba(234, 213, 250, 0.6);
   box-shadow: 0 6px 18px rgba(90,26,154,0.04);
+  transition: background .25s ease, border-color .25s ease;
 }
 .balance-top {
   display: flex; align-items:center; justify-content:space-between;
@@ -178,6 +233,7 @@ img { display:block; }
   background: var(--purple-soft);
   display: flex; align-items:center; justify-content:center;
   flex-shrink:0;
+  transition: background .25s ease;
 }
 .balance-icon-wrap svg {
   width:20px; height:20px;
@@ -212,7 +268,7 @@ img { display:block; }
 }
 .topup-btn svg { width:12px; height:12px; stroke:currentColor; stroke-width:2.5; fill:none; }
 
-.balance-divider { height:1px; background:var(--gray-line); margin-bottom:12px; }
+.balance-divider { height:1px; background:var(--gray-line); margin-bottom:12px; transition: background .25s ease; }
 
 .balance-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .bstat {
@@ -220,6 +276,7 @@ img { display:block; }
   border-radius:12px; padding:10px 12px;
   border: 1px solid #F6F4FA;
   display: flex; align-items:center; gap:8px;
+  transition: background .25s ease, border-color .25s ease;
 }
 .bstat-icon {
   width:26px; height:26px; border-radius:8px;
@@ -260,6 +317,7 @@ img { display:block; }
   border: 1px solid var(--gray-line);
   box-shadow: 0 4px 16px rgba(90,26,154,0.04);
   animation: fadeUp .4s .12s ease both;
+  transition: background .25s ease, border-color .25s ease;
 }
 .vm-item {
   display:flex; flex-direction:column; align-items:center; gap:6px;
@@ -292,6 +350,7 @@ img { display:block; }
   padding:14px 12px; border:1px solid var(--gray-line);
   box-shadow:0 4px 16px rgba(90,26,154,0.04);
   animation:fadeUp .4s .16s ease both;
+  transition: background .25s ease, border-color .25s ease;
 }
 .cat-scroll {
   display:flex; gap:12px; overflow-x:auto; padding-bottom:2px;
@@ -349,7 +408,7 @@ img { display:block; }
   border:1px solid var(--gray-line);
   background-color:var(--card);
   box-shadow:0 4px 16px rgba(90,26,154,0.04);
-  transition:transform .2s;
+  transition:transform .2s, background-color .25s ease, border-color .25s ease;
   position:relative;
 }
 .banner-card:hover { transform:scale(1.015); }
@@ -381,6 +440,7 @@ img { display:block; }
   width:38px; height:38px; border-radius:12px;
   overflow:hidden; flex-shrink:0; background:var(--bg);
   border:1px solid var(--gray-line);
+  transition: background .25s ease, border-color .25s ease;
 }
 .util-img img { width:100%; height:100%; object-fit:cover; }
 
@@ -399,6 +459,7 @@ img { display:block; }
   position:fixed; bottom:0; left:0; right:0; background:#fff;
   border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px;
   box-shadow:0 -4px 20px rgba(90,26,154,0.04); z-index:100; max-width:440px; margin:0 auto;
+  transition: background .25s ease, border-color .25s ease;
 }
 .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
 .nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
@@ -429,6 +490,19 @@ img { display:block; }
       </div>
     </div>
     <div class="hdr-actions">
+      <button class="hdr-btn theme-toggle" id="themeToggle" aria-label="Ganti tema">
+        <span class="icon-sun">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        </span>
+        <span class="icon-moon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </span>
+      </button>
       <a class="hdr-btn" href="help.html" aria-label="Bantuan">
         <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
           <circle cx="12" cy="12" r="10"/>
@@ -598,6 +672,25 @@ img { display:block; }
 </nav>
 
 <script>
+/* ── THEME TOGGLE (auto + manual, synced with profile.html) ── */
+(function initTheme(){
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+})();
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+});
+
 function getAvatarColor(name){
   const palettes = [
     ['#4285F4','#1A73E8'],
