@@ -109,11 +109,25 @@ img { display:block; }
 }
 
 /* ── HEADER ── */
-.header {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
-  padding: 42px 20px 76px;
+.header{
+  position:relative;
+
+  overflow:hidden;
+
+  background:
+    radial-gradient(circle at top right,
+      rgba(255,255,255,.12),
+      transparent 35%
+    ),
+
+    linear-gradient(
+      135deg,
+      #4C1D95 0%,
+      #6D28D9 45%,
+      #9333EA 100%
+    );
+
+  padding:38px 20px 92px;
 }
 .mesh { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
 .mesh span {
@@ -140,11 +154,13 @@ img { display:block; }
 .header-left { display:flex; align-items:center; gap:11px; }
 
 /* ── NEW AVATAR COMPONENT ── */
-.avatar-wrap {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
+.avatar-wrap{
+  width:54px;
+  height:54px;
+
+  position:relative;
+
+  flex-shrink:0;
 }
 .avatar-dashboard {
   width: 100%;
@@ -190,9 +206,11 @@ img { display:block; }
   color: rgba(255,255,255,.65);
   letter-spacing: .3px;
 }
-.header-name {
-  font-size: 18px; font-weight:900;
-  color: #fff; letter-spacing:-.2px; line-height:1;
+.header-name{
+  font-size:20px;
+  font-weight:900;
+
+  letter-spacing:-0.4px;
 }
 
 .hdr-actions { display:flex; gap:8px; align-items:center; }
@@ -723,31 +741,23 @@ function toggleTheme() {
 }
 
 function getAvatarColor(name){
-
   const palettes = [
-
-    ['#C2410C','#EA580C'],
-    ['#7C2D12','#DC2626'],
-    ['#5B21B6','#7C3AED'],
-    ['#1E3A8A','#2563EB'],
-    ['#115E59','#0F766E'],
-    ['#166534','#15803D'],
-    ['#9F1239','#BE185D'],
-    ['#92400E','#D97706']
+    ['#4285F4','#1A73E8'],
+    ['#EA4335','#C5221F'],
+    ['#34A853','#188038'],
+    ['#FBBC05','#F9AB00'],
+    ['#7B2FBE','#5A1A9A'],
+    ['#EC4899','#BE185D'],
+    ['#06B6D4','#0E7490'],
+    ['#F97316','#C2410C'],
+    ['#10B981','#047857'],
+    ['#6366F1','#4338CA']
   ];
-
   let hash = 0;
-
   for(let i = 0; i < name.length; i++){
-
-    hash =
-      name.charCodeAt(i)
-      + ((hash << 5) - hash);
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
   }
-
-  return palettes[
-    Math.abs(hash) % palettes.length
-  ];
+  return palettes[Math.abs(hash) % palettes.length];
 }
 
 // FIXED: Fungsi render avatar dimodifikasi untuk mendukung tag img custom atau inisial
