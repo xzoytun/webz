@@ -237,6 +237,47 @@ body {
 .nav-label { font-size:10px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
 .nav-item.active .nav-label { color:var(--purple); }
 .nav-item.active .nav-icon svg { stroke: var(--purple); }
+/* DEVICE LOGIN */
+.device-card{
+  animation: fadeUp 0.4s 0.14s ease both;
+}
+
+.device-box{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.device-icon{
+  width:52px;
+  height:52px;
+  border-radius:14px;
+  background:var(--purple-soft);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  flex-shrink:0;
+}
+
+.device-info{
+  flex:1;
+  min-width:0;
+}
+
+.device-name{
+  font-size:14px;
+  font-weight:900;
+  color:var(--text-dark);
+  margin-bottom:3px;
+}
+
+.device-meta{
+  font-size:11px;
+  font-weight:700;
+  color:var(--text-light);
+  margin-top:2px;
+}
 </style>
 </head>
 <body>
@@ -322,6 +363,41 @@ body {
       <div class="info-value" id="created_at">—</div>
     </div>
   </div>
+  
+  <div class="card device-card">
+
+  <div class="card-title">
+    <svg viewBox="0 0 24 24">
+      <rect x="5" y="2" width="14" height="20" rx="2"/>
+      <line x1="12" y1="18" x2="12.01" y2="18"/>
+    </svg>
+    Device Login
+    <span class="card-title-pill">Aktif</span>
+  </div>
+
+  <div class="device-box">
+
+    <div class="device-icon">
+      📱
+    </div>
+
+    <div class="device-info">
+      <div class="device-name" id="deviceName">
+        Android Device
+      </div>
+
+      <div class="device-meta">
+        IP: <span id="deviceIp">Loading...</span>
+      </div>
+
+      <div class="device-meta">
+        Terakhir aktif: Baru saja
+      </div>
+    </div>
+
+  </div>
+
+</div>
 
   <div class="sec-title" style="font-size:13px; font-weight:900; color:var(--text-dark); margin: 4px 0 10px 4px; display:flex; align-items:center; gap:6px;">
     Aksi <span class="sec-title-pill" style="font-size: 9px; background:var(--purple-soft); color:var(--purple); padding:1px 6px; border-radius:6px;">Akun</span>
@@ -433,6 +509,38 @@ async function loadProfile() {
     console.error('Gagal memuat profil:', err);
   }
 }
+/* DETECT DEVICE */
+function detectDevice() {
+  const ua = navigator.userAgent;
+
+  let device = 'Unknown Device';
+
+  if (/android/i.test(ua)) {
+    device = 'Android Device';
+  } else if (/iPhone|iPad|iPod/i.test(ua)) {
+    device = 'iPhone Device';
+  } else if (/Windows/i.test(ua)) {
+    device = 'Windows Device';
+  } else if (/Mac/i.test(ua)) {
+    device = 'Mac Device';
+  }
+
+  document.getElementById('deviceName').innerText = device;
+}
+
+async function loadIp() {
+  try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+
+    document.getElementById('deviceIp').innerText = data.ip;
+  } catch {
+    document.getElementById('deviceIp').innerText = 'Tidak diketahui';
+  }
+}
+
+detectDevice();
+loadIp();
 
 function logout() {
   if (confirm('Yakin mau keluar?')) {
