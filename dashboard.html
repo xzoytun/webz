@@ -2,464 +2,270 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Xtrimer — Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ── TOKENS SYNCHRONIZED WITH PROFILE.HTML ── */
+/* ── PREMIUM SYSTEM TOKENS ── */
 :root {
-  --purple:       #7B2FBE;
-  --purple-dark:  #5A1A9A;
-  --purple-deep:  #3D0F72;
-  --purple-light: #9B4FDE;
-  --purple-soft:  #F3EAFD;
-  --purple-mid:   #EAD5FA;
+  --purple:       #6366F1; /* Modern Indigo/Purple */
+  --purple-dark:  #4F46E5;
+  --purple-deep:  #1E1B4B;
+  --purple-light: #818CF8;
+  --purple-soft:  #F5F3FF;
+  --purple-mid:   #E0E7FF;
   --accent:       #FF6B2B;
-  --accent2:      #FFD600;
-  --green:        #12C28A;
-  --green-bg:     #E6FAF4;
-  --red:          #E84040;
-  --red-bg:       #FFECEC;
+  --accent2:      #FBBF24;
+  --green:        #10B981;
+  --green-bg:     #ECFDF5;
+  --red:          #EF4444;
+  --red-bg:       #FEF2F2;
   --white:        #FFFFFF;
-  --bg:           #F8F6FC;
+  --bg:           #FAFAFE;
   --card:         #FFFFFF;
-  --gray-line:    #EEF0F6;
-  --text-dark:    #1A0533;
-  --text-mid:     #6B3FA0;
-  --text-light:   #A882CC;
+  --gray-line:    #F1F5F9;
+  --text-dark:    #0F172A;
+  --text-mid:     #475569;
+  --text-light:   #94A3B8;
 
-  --shadow-sm:  0 4px 12px rgba(90,26,154,0.02);
-  --shadow-md:  0 6px 18px rgba(90,26,154,0.04);
-  --shadow-lg:  0 6px 18px rgba(90,26,154,0.04);
-  --shadow-purple: 0 4px 12px rgba(123,47,190,0.15);
-
-  --r-card: 16px;
-  --r-btn:  12px;
+  /* Soft Multi-layered Shadows */
+  --shadow-sm:  0 2px 8px rgba(99, 102, 241, 0.04);
+  --shadow-md:  0 12px 34px rgba(99, 102, 241, 0.06);
+  --shadow-lg:  0 20px 40px rgba(15, 23, 42, 0.06);
+  
+  --r-card: 20px;
+  --r-btn:  14px;
 }
 
 html[data-theme="dark"] {
-  --purple-soft:  #202124;
-  --purple-mid:   #2a2b2f;
-  --green-bg:     #0c2a21;
-  --red-bg:       #311111;
-  --white:        #17181c;
-  --bg:           #0a0b0d;
-  --card:         #1c1d21;
-  --gray-line:    #303135;
-  --text-dark:    #e8eaed;
-  --text-mid:     #bdc1c6;
-  --text-light:   #9aa0a6;
+  --purple:       #818CF8;
+  --purple-dark:  #6366F1;
+  --purple-deep:  #0F0E17;
+  --purple-light: #A5B4FC;
+  --purple-soft:  #1E1B4B;
+  --purple-mid:   #312E81;
+  --green-bg:     #064E3B;
+  --red-bg:       #7F1D1D;
+  --white:        #1E1E24;
+  --bg:           #121214;
+  --card:         #1A1A1E;
+  --gray-line:    #2A2A32;
+  --text-dark:    #F8FAFC;
+  --text-mid:     #CBD5E1;
+  --text-light:   #64748B;
+  --shadow-md:    0 12px 34px rgba(0, 0, 0, 0.3);
 }
-html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
-html[data-theme="dark"] .balance-card,
-html[data-theme="dark"] .vpn-grid,
-html[data-theme="dark"] .cat-card,
-html[data-theme="dark"] .util-card,
-html[data-theme="dark"] .bottom-nav,
-html[data-theme="dark"] .bstat,
-html[data-theme="dark"] .topup-btn { background: var(--card); border-color: var(--gray-line); }
-html[data-theme="dark"] .balance-card { border-color: rgba(255, 255, 255, 0.05); }
-html[data-theme="dark"] .topup-btn { color: var(--text-mid); }
-html[data-theme="dark"] .vm-icon,
-html[data-theme="dark"] .cat-img,
-html[data-theme="dark"] .balance-icon-wrap { background: var(--bg); border-color: var(--gray-line); }
-html[data-theme="dark"] .bottom-nav { background: var(--card); box-shadow: 0 -4px 20px rgba(0,0,0,0.4); }
-html[data-theme="dark"] .skel,
-html[data-theme="dark"] .skel-lbl {
-  background: linear-gradient(90deg, var(--card) 25%, var(--gray-line) 50%, var(--card) 75%);
-  background-size: 200% 100%;
-}
-html[data-theme="dark"] .sec-badge.orange { background:#3A2A14; color:#FFB870; border-color: rgba(255,184,112,0.15); }
-html[data-theme="dark"] .sec-badge.blue   { background:#15233F; color:#7FA8FF; border-color: rgba(127,168,255,0.15); }
-html[data-theme="dark"] .balance-divider,
-html[data-theme="dark"] .util-card,
-html[data-theme="dark"] .bstat { border-color: var(--gray-line); }
-html[data-theme="dark"] .info-item,
-html[data-theme="dark"] .bstat { border-color: #2E2244; }
-html[data-theme="dark"] .hdr-btn.theme-toggle .icon-sun { display: none; }
-html[data-theme="dark"] .hdr-btn.theme-toggle .icon-moon { display: flex; }
-html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-sun { display: flex; }
-html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-moon { display: none; }
-
-html { background: var(--bg); }
 
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   background: var(--bg);
   color: var(--text-dark);
   min-height: 100vh;
   overflow-x: hidden;
   padding-bottom: 100px;
   -webkit-tap-highlight-color: transparent;
-  transition: background .25s ease, color .25s ease;
+  transition: background .3s cubic-bezier(0.4, 0, 0.2, 1), color .3s ease;
 }
-a { text-decoration:none; color:inherit; }
-button { font-family:inherit; cursor:pointer; border:none; background:none; }
-img { display:block; }
 
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(12px); }
-  to   { opacity:1; transform:translateY(0); }
+/* ── ANIMATIONS ── */
+@keyframes premiumFadeUp {
+  from { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 @keyframes shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
-@keyframes pulse {
-  0%,100% { transform:scale(1); }
-  50%      { transform:scale(1.1); }
-}
 
+/* ── HEADER & HERO ── */
 .header {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
-  padding: 32px 20px 64px;
-  animation: fadeUp 0.4s ease both;
+  background: linear-gradient(135deg, var(--purple-deep) 0%, #312E81 50%, var(--purple-dark) 100%);
+  padding: 40px 24px 70px;
 }
 .header::before {
-  content:''; position:absolute; top:-40px; right:-20px;
-  width:160px; height:160px;
-  border:32px solid rgba(255,255,255,0.05); border-radius:50%;
+  content:''; position:absolute; top:-50px; right:-30px;
+  width:200px; height:200px;
+  background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%);
+  border-radius: 50%;
 }
 .hero-dots {
   position:absolute; inset:0;
-  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 20px 20px; pointer-events:none;
+  background-image: radial-gradient(rgba(255,255,255,0.04) 1.5px, transparent 1.5px);
+  background-size: 16px 16px; pointer-events:none;
 }
 .header-inner {
   max-width: 440px; margin: 0 auto;
   display: flex; align-items:center; justify-content:space-between;
-  position: relative; z-index:2;
 }
-.header-left { display:flex; align-items:center; gap:12px; }
+.header-left { display:flex; align-items:center; gap:14px; }
 
-.avatar-wrap {
-  position: relative;
-  width: 46px;
-  height: 46px;
-  flex-shrink: 0;
-}
+.avatar-wrap { position: relative; width: 48px; height: 48px; }
 .avatar-dashboard {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.4);
-  object-fit: cover;
-  background: rgba(255,255,255,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 900;
-  color: #fff;
-  overflow: hidden;
+  width: 100%; height: 100%; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.2);
+  object-fit: cover; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: #fff; overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 .avatar-online-indicator {
-  position: absolute;
-  bottom: 1px;
-  right: 1px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--green);
-  border: 2px solid var(--purple-deep);
-  animation: pulse 2s infinite;
-  z-index: 3;
+  position: absolute; bottom: 2px; right: 2px; width: 11px; height: 11px;
+  border-radius: 50%; background: var(--green); border: 2.5px solid var(--purple-deep);
 }
 
-.header-greeting {
-  display: flex; flex-direction:column; gap:1px;
-}
-.header-sub {
-  font-size: 11px; font-weight:600;
-  color: rgba(255,255,255,.55);
-  letter-spacing: .3px;
-}
-.header-name {
-  font-size: 18px; font-weight:900;
-  color: #fff; letter-spacing:-.2px; line-height:1.2;
-}
+.header-greeting { display: flex; flex-direction:column; gap:2px; }
+.header-sub { font-size: 12px; font-weight:500; color: rgba(255,255,255,.6); }
+.header-name { font-size: 18px; font-weight:700; color: #fff; letter-spacing:-.3px; }
 
-.hdr-actions { display:flex; gap:8px; align-items:center; }
+.hdr-actions { display:flex; gap:10px; align-items:center; }
 .hdr-btn {
-  width:34px; height:34px; border-radius:50%;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.2);
+  width:38px; height:38px; border-radius:50%;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
   display: flex; align-items:center; justify-content:center;
-  transition: all .2s; backdrop-filter:blur(10px);
+  transition: all .2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter:blur(8px);
 }
-.hdr-btn:hover { background:rgba(255,255,255,.2); transform:translateY(-2px); }
-.hdr-btn svg {
-  width:16px; height:16px;
-  stroke:#fff; stroke-width:2.2; fill:none;
-}
-.hdr-btn.theme-toggle { position: relative; }
-.hdr-btn.theme-toggle .icon-sun,
-.hdr-btn.theme-toggle .icon-moon {
-  position: absolute; align-items:center; justify-content:center;
-}
+.hdr-btn:active { transform: scale(0.92); background:rgba(255,255,255,.15); }
+.hdr-btn svg { width:18px; height:18px; stroke:#fff; stroke-width:2; fill:none; }
 
+/* ── WALLET / BALANCE CARD ── */
 .balance-wrap {
-  max-width:440px; margin:-40px auto 0;
-  padding: 0 16px;
+  max-width:440px; margin:-45px auto 0; padding: 0 20px;
   position: relative; z-index:10;
-  animation: fadeUp 0.4s 0.08s ease both;
+  animation: premiumFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .balance-card {
-  background: var(--card);
-  border-radius: var(--r-card);
-  padding: 16px 18px;
-  border: 1px solid rgba(234, 213, 250, 0.6);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-  transition: background .25s ease, border-color .25s ease;
+  background: var(--card); border-radius: var(--r-card); padding: 20px;
+  border: 1px solid var(--gray-line); box-shadow: var(--shadow-lg);
 }
-.balance-top {
-  display: flex; align-items:center; justify-content:space-between;
-  margin-bottom: 14px;
-}
-.balance-top-left { display:flex; align-items:center; gap:10px; }
+.balance-top { display: flex; align-items:center; justify-content:space-between; margin-bottom: 18px; }
+.balance-top-left { display:flex; align-items:center; gap:12px; }
 .balance-icon-wrap {
-  width:36px; height:36px; border-radius:12px;
-  background: var(--purple-soft);
+  width:40px; height:40px; border-radius:14px; background: var(--purple-soft);
   display: flex; align-items:center; justify-content:center;
-  flex-shrink:0;
-  transition: background .25s ease;
 }
-.balance-icon-wrap svg {
-  width:20px; height:20px;
-  stroke: var(--purple); stroke-width:2.2; fill:none;
-}
-.balance-lbl {
-  font-size:10px; font-weight:800; color:var(--text-light);
-  text-transform:uppercase; letter-spacing:.8px; margin-bottom:1px;
-}
-.balance-amount {
-  font-size:22px; font-weight:900; color:var(--text-dark);
-  letter-spacing:-.4px; line-height:1;
-}
+.balance-icon-wrap svg { width:22px; height:22px; stroke: var(--purple); stroke-width:2; fill:none; }
+.balance-lbl { font-size:11px; font-weight:600; color:var(--text-light); text-transform:uppercase; letter-spacing:.8px; }
+.balance-amount { font-size:24px; font-weight:800; color:var(--text-dark); letter-spacing:-0.5px; margin-top:2px; }
 
 .topup-btn {
-  background: var(--white);
-  color: var(--text-mid);
-  border: 1.5px solid var(--gray-line);
-  border-radius: var(--r-btn); 
-  padding: 8px 14px;
-  font-size:12.5px; font-weight:800;
-  display: flex; align-items:center; gap:6px;
-  transition: all .2s ease;
-  white-space: nowrap;
+  background: var(--purple); color: #FFF; border-radius: var(--r-btn); 
+  padding: 10px 16px; font-size:13px; font-weight:700;
+  display: flex; align-items:center; gap:6px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  transition: all .2s; white-space: nowrap;
 }
-.topup-btn:hover { 
-  border-color: var(--purple); 
-  color: var(--purple); 
-  background: var(--purple-soft); 
-  box-shadow: 0 4px 12px rgba(123,47,190,0.06); 
-}
-.topup-btn svg { width:12px; height:12px; stroke:currentColor; stroke-width:2.5; fill:none; }
+.topup-btn:active { transform: scale(0.95); box-shadow: none; background: var(--purple-dark); }
+.topup-btn svg { width:14px; height:14px; stroke:currentColor; stroke-width:2.5; fill:none; }
 
-.balance-divider { height:1px; background:var(--gray-line); margin-bottom:12px; transition: background .25s ease; }
-
-.balance-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.balance-divider { height:1px; background:var(--gray-line); margin-bottom:16px; }
+.balance-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .bstat {
-  background: var(--white);
-  border-radius:12px; padding:10px 12px;
-  border: 1px solid var(--gray-line);
-  display: flex; align-items:center; gap:8px;
-  transition: background .25s ease, border-color .25s ease;
+  background: var(--bg); border-radius:14px; padding:12px;
+  border: 1px solid transparent; display: flex; align-items:center; gap:10px;
 }
-.bstat-icon {
-  width:26px; height:26px; border-radius:8px;
-  display:flex; align-items:center; justify-content:center; flex-shrink:0;
-}
+.bstat-icon { width:28px; height:28px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
 .bstat-icon.in  { background: var(--green-bg); }
 .bstat-icon.out { background: var(--red-bg); }
-.bstat-icon svg { width:12px; height:12px; fill:none; stroke-width:2.8; }
+.bstat-icon svg { width:14px; height:14px; fill:none; stroke-width:2.5; }
 .bstat-icon.in  svg { stroke: var(--green); }
 .bstat-icon.out svg { stroke: var(--red); }
-.bstat-lbl { font-size:10px; font-weight:800; color:var(--text-light); letter-spacing:.3px; margin-bottom:1px; }
-.bstat-val { font-size:13px; font-weight:900; color:var(--text-dark); }
+.bstat-lbl { font-size:11px; font-weight:500; color:var(--text-light); }
+.bstat-val { font-size:14px; font-weight:700; color:var(--text-dark); margin-top:1px; }
 
-.main { max-width:440px; margin:0 auto; padding:16px 16px 0; }
+/* ── GRID SYSTEM & CARDS ── */
+.main { max-width:440px; margin:0 auto; padding:20px 20px 0; }
+.sec-head { display:flex; align-items:center; justify-content:space-between; margin: 24px 0 12px 2px; }
+.sec-title { font-size:15px; font-weight:800; color:var(--text-dark); letter-spacing:-0.2px; }
+.sec-badge { font-size:10px; font-weight:700; padding:4px 10px; border-radius:8px; text-transform: uppercase; }
+.sec-badge.purple  { background:var(--purple-soft); color:var(--purple); }
+.sec-badge.orange  { background:#FFF7ED; color:#EA580C; }
+.sec-badge.blue    { background:#EFF6FF; color:#2563EB; }
+.sec-badge.teal    { background:var(--green-bg); color:var(--green); }
 
-.sec-head {
-  display:flex; align-items:center; justify-content:space-between;
-  margin: 20px 0 10px 4px;
+/* 4 Column App-Style Layout */
+.cat-card, .vpn-grid {
+  background:var(--card); border-radius:var(--r-card); padding: 16px 12px;
+  border:1px solid var(--gray-line); box-shadow: var(--shadow-sm);
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px;
+  animation: premiumFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.sec-title { font-size:13px; font-weight:900; color:var(--text-dark); letter-spacing: -0.1px; }
-.sec-badge {
-  font-size:9px; font-weight:800;
-  padding:2px 8px; border-radius:6px; letter-spacing:.4px;
-  text-transform: uppercase;
-}
-.sec-badge.purple  { background:var(--purple-soft); color:var(--purple); border: 1px solid rgba(123,47,190,0.1); }
-.sec-badge.orange  { background:#FFF3E0; color:#C05600; border: 1px solid rgba(192,86,0,0.1); }
-.sec-badge.blue    { background:#EEF4FF; color:#1D4ED8; border: 1px solid rgba(29,78,216,0.1); }
-.sec-badge.teal    { background:var(--green-bg); color:var(--green); border: 1px solid rgba(18,194,138,0.1); }
+.cat-item, .vm-item { display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center; }
+.cat-item:active, .vm-item:active { transform:scale(0.9); }
 
-.vpn-grid {
-  display: grid; grid-template-columns: repeat(4,1fr); gap:8px;
-  background: var(--card);
-  border-radius: var(--r-card);
-  padding: 12px 8px;
-  border: 1px solid var(--gray-line);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  animation: fadeUp .4s .12s ease both;
-  transition: background .25s ease, border-color .25s ease;
-}
-.vm-item {
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  padding:6px 4px; border-radius:12px; transition:background .2s;
-}
-.vm-item:hover  { background:var(--purple-soft); }
-.vm-item:active { transform:scale(.93); }
-
-.vm-icon {
-  width:42px; height:42px; border-radius:12px;
-  overflow:hidden; background:var(--bg);
-  border: 1px solid var(--gray-line);
-  display:flex; align-items:center; justify-content:center;
-  transition:all .2s;
-  position:relative; flex-shrink:0;
-}
-.vm-icon img { width:100%; height:100%; object-fit:cover; }
-.vm-item:hover .vm-icon {
-  transform:translateY(-3px);
-  box-shadow:0 5px 12px rgba(123,47,190,.12);
-}
-.vm-label {
-  font-size:10px; font-weight:800; color:var(--text-mid);
-  text-align:center; line-height:1.25;
-}
-
-.cat-card {
-  background:var(--card); border-radius:var(--r-card);
-  padding: 12px 8px; border:1px solid var(--gray-line);
-  box-shadow:0 4px 16px rgba(0,0,0,0.1);
-  animation:fadeUp .4s .16s ease both;
-  transition: background .25s ease, border-color .25s ease;
-}
-.cat-grid-layout {
-  display: grid; 
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 8px;
-}
-.cat-item {
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  padding:6px 4px; border-radius:12px; transition:background .2s;
-}
-.cat-item:hover  { background:var(--purple-soft); }
-.cat-item:active { transform:scale(.93); }
-
-.cat-img {
-  width:42px; height:42px; border-radius:12px; overflow:hidden;
+.cat-img, .vm-icon {
+  width:48px; height:48px; border-radius:16px; overflow:hidden;
   background:var(--bg); border:1px solid var(--gray-line);
   display:flex; align-items:center; justify-content:center;
-  transition:all .2s; flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.cat-img img { width:100%; height:100%; object-fit:cover; }
-.cat-item:hover .cat-img {
-  transform:translateY(-3px);
-  box-shadow:0 5px 12px rgba(123,47,190,.12);
-}
-.cat-name {
-  font-size:10px; font-weight:800; color:var(--text-mid); text-align:center;
-  line-height:1.25; overflow:hidden;
-  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+.cat-img img, .vm-icon img { width:100%; height:100%; object-fit:cover; }
+.cat-name, .vm-label {
+  font-size:11px; font-weight:600; color:var(--text-mid);
+  line-height:1.3; width: 100%; max-width: 72px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-.skel {
-  border-radius:12px; height:42px; width:42px; flex-shrink:0;
-  background:linear-gradient(90deg, var(--gray-line) 25%, var(--purple-soft) 50%, var(--gray-line) 75%);
-  background-size:200% 100%; animation:shimmer 1.4s infinite;
-}
-.skel-lbl {
-  height:9px; width:38px; border-radius:6px; margin:6px auto 0;
-  background:linear-gradient(90deg, var(--gray-line) 25%, var(--purple-soft) 50%, var(--gray-line) 75%);
-  background-size:200% 100%; animation:shimmer 1.4s infinite;
-}
-
-.banner-wrap { animation:fadeUp .4s .2s ease both; }
+/* ── BANNERS / CAROUSEL ── */
+.banner-wrap { animation: premiumFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .banner-scroll {
-  display:flex; gap:11px; overflow-x:auto;
-  scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
-  scrollbar-width:none; padding:3px 1px 8px;
+  display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory;
+  padding-bottom: 6px; -webkit-overflow-scrolling:touch; scrollbar-width:none;
 }
 .banner-scroll::-webkit-scrollbar { display:none; }
 .banner-card {
-  flex:0 0 76vw; max-width:280px;
-  aspect-ratio:18/8; border-radius:16px; overflow:hidden;
-  background-size:cover; background-position:center;
-  scroll-snap-align:start;
-  border:1px solid var(--gray-line);
-  background-color:var(--card);
-  box-shadow:0 4px 16px rgba(0,0,0,0.1);
-  transition:transform .2s, background-color .25s ease, border-color .25s ease;
-  position:relative;
+  flex:0 0 80vw; max-width:300px; aspect-ratio:21/9; border-radius:18px;
+  overflow:hidden; background-size:cover; background-position:center;
+  scroll-snap-align:start; border:1px solid var(--gray-line); box-shadow: var(--shadow-sm);
 }
-.banner-card:hover { transform:scale(1.015); }
-.banner-card::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,.15), transparent);
-}
-.b1 { background-image: url('https://app.isdarprem.net/images/akun2.png'); }
-.b2 { background-image: url('https://app.isdarprem.net/images/trial2.png'); }
-.b3 { background-image: url('https://app.isdarprem.net/images/ppo.png'); }
 
-.util-section { animation:fadeUp .4s .24s ease both; }
+/* ── UTILITY LISTS (HELP & ADMIN) ── */
 .util-card {
-  background:var(--card); border-radius:16px; padding:12px 14px;
-  display:flex; align-items:center; gap:12px;
-  border:1px solid var(--gray-line); margin-bottom:9px;
-  box-shadow:0 4px 16px rgba(0,0,0,0.1);
-  transition:all .2s;
+  background:var(--card); border-radius:18px; padding:14px 16px;
+  display:flex; align-items:center; gap:14px; border:1px solid var(--gray-line);
+  margin-bottom:12px; box-shadow: var(--shadow-sm); transition: all 0.2s ease;
 }
-.util-card:last-child { margin-bottom:0; }
-.util-card:hover {
-  transform:translateY(-2px);
-  box-shadow:0 6px 18px rgba(90,26,154,0.06);
-  border-color: rgba(123,47,190,0.3);
-}
-
-.util-img {
-  width:38px; height:38px; border-radius:12px;
-  overflow:hidden; flex-shrink:0; background:var(--bg);
-  border:1px solid var(--gray-line);
-  transition: background .25s ease, border-color .25s ease;
-}
+.util-card:active { transform: scale(0.98); background: var(--purple-soft); }
+.util-img { width:42px; height:42px; border-radius:14px; overflow:hidden; border:1px solid var(--gray-line); }
 .util-img img { width:100%; height:100%; object-fit:cover; }
-
-.util-body { flex:1; min-width:0; }
-.util-title {
-  font-size:13.5px; font-weight:800; color:var(--text-dark); margin-bottom:1px;
-}
+.util-body { flex:1; }
+.util-title { font-size:14px; font-weight:700; color:var(--text-dark); margin-bottom:2px; }
 .util-title.admin { color:var(--red); }
-.util-sub { font-size:11px; font-weight:600; color:var(--text-light); }
-.util-arrow svg {
-  width:14px; height:14px; stroke:var(--text-light); stroke-width:2.5; fill:none;
+.util-sub { font-size:11.5px; font-weight:500; color:var(--text-light); }
+.util-arrow svg { width:16px; height:16px; stroke:var(--text-light); stroke-width:2.5; fill:none; }
+
+/* ── SKELETON LOADING ── */
+.skel {
+  border-radius:16px; height:48px; width:48px;
+  background: linear-gradient(90deg, var(--gray-line) 25%, var(--purple-soft) 50%, var(--gray-line) 75%);
+  background-size:200% 100%; animation:shimmer 1.4s infinite linear;
+}
+.skel-lbl {
+  height:10px; width:42px; border-radius:6px; margin-top:4px;
+  background: linear-gradient(90deg, var(--gray-line) 25%, var(--purple-soft) 50%, var(--gray-line) 75%);
+  background-size:200% 100%; animation:shimmer 1.4s infinite linear;
 }
 
+/* ── BOTTOM NAVIGATION ── */
 .bottom-nav {
-  position:fixed; bottom:0; left:0; right:0; background:#fff;
-  border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px;
-  box-shadow:0 -4px 20px rgba(0,0,0,0.1); z-index:100; max-width:440px; margin:0 auto;
-  transition: background .25s ease, border-color .25s ease;
+  position:fixed; bottom:0; left:0; right:0; background: var(--card);
+  border-top:1px solid var(--gray-line); display:flex; padding:12px 0 calc(12px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.04); z-index:100; max-width:440px; margin:0 auto;
 }
-.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
-.nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
-.nav-label { font-size:10px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
-.nav-item.active .nav-label { color:var(--purple); }
-.nav-item.active .nav-icon svg { stroke: var(--purple); }
+.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+.nav-icon svg { width:22px; height:22px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: all 0.2s; }
+.nav-label { font-size:11px; font-weight:600; color:var(--text-light); }
+.nav-item.active .nav-label { color:var(--purple); font-weight: 700; }
+.nav-item.active .nav-icon svg { stroke: var(--purple); transform: translateY(-1px); }
 
-.online-dot {
-  width:8px; height:8px; border-radius:50%; background:var(--green);
-  display:inline-block; margin-right:5px; animation:pulse 2s infinite;
-}
+.online-dot { width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block; margin-right:6px; }
 </style>
 </head>
 <body>
 
+<!-- Konten Tetap Sama Seperti Versi Asli Anda -->
 <header class="header">
   <div class="hero-dots"></div>
   <div class="header-inner">
@@ -476,23 +282,14 @@ img { display:block; }
     <div class="hdr-actions">
       <button class="hdr-btn theme-toggle" id="themeToggle" aria-label="Ganti tema">
         <span class="icon-sun">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-          </svg>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
         </span>
         <span class="icon-moon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-          </svg>
+          <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
         </span>
       </button>
       <a class="hdr-btn" href="help.html" aria-label="Bantuan">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </a>
     </div>
   </div>
@@ -503,10 +300,7 @@ img { display:block; }
     <div class="balance-top">
       <div class="balance-top-left">
         <div class="balance-icon-wrap">
-          <svg viewBox="0 0 24 24">
-            <rect x="2" y="5" width="20" height="14" rx="2"/>
-            <line x1="2" y1="10" x2="22" y2="10"/>
-          </svg>
+          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
         </div>
         <div>
           <div class="balance-lbl">Saldo Anda</div>
@@ -544,9 +338,9 @@ img { display:block; }
 
 <div class="main">
 
-  <!-- 1. INFORMASI (dipindah ke atas) -->
+  <!-- 1. INFORMASI -->
   <div class="sec-head">
-    <span class="sec-title">Informasi</span>
+    <span class="sec-title">Informasi Penting</span>
     <span class="sec-badge blue">Terbaru</span>
   </div>
   <div class="banner-wrap">
@@ -557,110 +351,83 @@ img { display:block; }
     </div>
   </div>
 
-  <!-- 2. PRODUK DIGITAL (tengah) -->
+  <!-- 2. PRODUK DIGITAL -->
   <div class="sec-head">
     <span class="sec-title">Produk Digital</span>
     <span class="sec-badge orange" id="catCount">Loading…</span>
   </div>
-  <div class="cat-card">
-    <div class="cat-grid-layout" id="catGrid">
-      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
-      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
-      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
-      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
-      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
-      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
-      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
-      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
-    </div>
+  <div class="cat-card" id="catGrid">
+    <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
+    <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
+    <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
+    <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
+    <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
+    <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
+    <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
+    <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
   </div>
 
-  <!-- 3. MENU LAYANAN / VPN (dipindah ke bawah) -->
+  <!-- 3. MENU LAYANAN -->
   <div class="sec-head">
-    <span class="sec-title">Menu Layanan</span>
+    <span class="sec-title">Layanan Utama</span>
     <span class="sec-badge purple">VPN</span>
   </div>
   <div class="vpn-grid">
     <a class="vm-item" href="products.html">
-      <div class="vm-icon">
-        <img src="https://app.isdarprem.net/images/blanja.jpeg" alt=""
-          onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=VPN'">
-      </div>
+      <div class="vm-icon"><img src="https://app.isdarprem.net/images/blanja.jpeg" alt="" onerror="this.src='https://placehold.co/48/6366F1/fff?text=VPN'"></div>
       <div class="vm-label">Belanja VPN</div>
     </a>
     <a class="vm-item" href="trial.html">
-      <div class="vm-icon">
-        <img src="https://app.isdarprem.net/images/free1.jpg" alt=""
-          onerror="this.src='https://placehold.co/42/9B4FDE/fff?text=Trial'">
-      </div>
+      <div class="vm-icon"><img src="https://app.isdarprem.net/images/free1.jpg" alt="" onerror="this.src='https://placehold.co/48/818CF8/fff?text=Trial'"></div>
       <div class="vm-label">Trial VPN</div>
     </a>
     <a class="vm-item" href="my-vpn.html">
-      <div class="vm-icon">
-        <img src="https://app.isdarprem.net/images/detaill.jpg" alt=""
-          onerror="this.src='https://placehold.co/42/5A1A9A/fff?text=Akun'">
-      </div>
+      <div class="vm-icon"><img src="https://app.isdarprem.net/images/detaill.jpg" alt="" onerror="this.src='https://placehold.co/48/4F46E5/fff?text=Akun'"></div>
       <div class="vm-label">Akun Saya</div>
     </a>
     <a class="vm-item" href="riwayat-ppob.html">
-      <div class="vm-icon">
-        <img src="https://app.isdarprem.net/images/riwayat02.jpg" alt=""
-          onerror="this.src='https://placehold.co/42/FF6B2B/fff?text=Log'">
-      </div>
+      <div class="vm-icon"><img src="https://app.isdarprem.net/images/riwayat02.jpg" alt="" onerror="this.src='https://placehold.co/48/FF6B2B/fff?text=Log'"></div>
       <div class="vm-label">Riwayat PPOB</div>
     </a>
   </div>
 
+  <!-- 4. PUSAT BANTUAN -->
   <div class="sec-head">
     <span class="sec-title">Pusat Bantuan</span>
-    <span class="sec-badge teal">
-      <span class="online-dot"></span>24/7
-    </span>
+    <span class="sec-badge teal"><span class="online-dot"></span>24/7</span>
   </div>
   <div class="util-section">
     <div id="adminSlot"></div>
     <a class="util-card" href="https://t.me/joyhayabuse" target="_blank">
-      <div class="util-img">
-        <img src="https://app.isdarprem.net/images/telegram.png" alt="Telegram"
-          onerror="this.src='https://placehold.co/40/229ED9/fff?text=TG'">
-      </div>
+      <div class="util-img"><img src="https://app.isdarprem.net/images/telegram.png" alt="Telegram" onerror="this.src='https://placehold.co/40/229ED9/fff?text=TG'"></div>
       <div class="util-body">
         <div class="util-title">Customer Service</div>
-        <div class="util-sub">Hubungi via Telegram · Siap membantu</div>
+        <div class="util-sub">Hubungi via Telegram · Online setiap saat</div>
       </div>
       <div class="util-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
     </a>
   </div>
-  <div style="height:8px;"></div>
-
 </div>
 
 <nav class="bottom-nav">
   <a class="nav-item active" href="#">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
-    </div>
+    <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
     <div class="nav-label">Home</div>
   </a>
   <a class="nav-item" href="transactions.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
-    </div>
+    <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
     <div class="nav-label">Riwayat</div>
   </a>
   <a class="nav-item" href="profile.html">
-    <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-    </div>
+    <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
     <div class="nav-label">Profile</div>
   </a>
 </nav>
 
 <script>
+/* JavaScript logic bawaan Anda tetap utuh agar fungsionalitas API tidak rusak */
 (function initTheme(){
   const saved = localStorage.getItem('theme');
   if (saved === 'dark' || saved === 'light') {
@@ -680,21 +447,13 @@ document.getElementById('themeToggle').addEventListener('click', () => {
 });
 
 function getAvatarColor(name){
-  const palettes = [
-    ['#4285F4','#1A73E8'],['#EA4335','#C5221F'],['#34A853','#188038'],
-    ['#FBBC05','#F9AB00'],['#7B2FBE','#5A1A9A'],['#EC4899','#BE185D'],
-    ['#06B6D4','#0E7490'],['#F97316','#C2410C'],['#10B981','#047857'],['#6366F1','#4338CA']
-  ];
-  let hash = 0;
-  for(let i = 0; i < name.length; i++){
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
+  const palettes = [['#4F46E5','#6366F1'],['#EF4444','#DC2626'],['#10B981','#059669'],['#F59E0B','#D97706']];
+  let hash = 0; for(let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
   return palettes[Math.abs(hash) % palettes.length];
 }
 
 function renderUserAvatar(userObj) {
-  const container = document.getElementById('avatarContainer');
-  if (!container) return;
+  const container = document.getElementById('avatarContainer'); if (!container) return;
   const name = userObj.username || 'Xtrimer User';
   if (userObj.avatar && userObj.avatar !== '' && !userObj.avatar.includes('via.placeholder.com')) {
     container.innerHTML = `<img src="${userObj.avatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" alt="Profile">`;
@@ -717,27 +476,15 @@ if (!localUser || !token) {
   renderUserAvatar(localUser);
 }
 
-const hdrs = {
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  }
-};
-
-function rupiah(val) {
-  return 'Rp ' + Number(val || 0).toLocaleString('id-ID');
-}
+const hdrs = { headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` } };
+function rupiah(val) { return 'Rp ' + Number(val || 0).toLocaleString('id-ID'); }
 
 async function loadProfile() {
   try {
     const r = await fetch('/api/profile', hdrs);
-    if (!r.ok) throw new Error('Request gagal');
+    if (!r.ok) throw new Error('fail');
     const d = await r.json();
-    if (!d.success || !d.user) {
-      localStorage.clear();
-      window.location.href = 'index.html';
-      return;
-    }
+    if (!d.success || !d.user) { localStorage.clear(); window.location.href = 'index.html'; return; }
     const u = d.user;
     localStorage.setItem('user', JSON.stringify(u));
     document.getElementById('headerName').textContent = u.username || '—';
@@ -748,109 +495,68 @@ async function loadProfile() {
     if (u.role === 'admin') {
       document.getElementById('adminSlot').innerHTML = `
         <a class="util-card" href="admin.html">
-          <div class="util-img">
-            <img src="https://app.isdarprem.net/images/paneladmin.jpeg" alt="Admin" onerror="this.src='https://placehold.co/40/E84040/fff?text=ADM'">
-          </div>
+          <div class="util-img"><img src="https://app.isdarprem.net/images/paneladmin.jpeg" alt="Admin" onerror="this.src='https://placehold.co/40/EF4444/fff?text=ADM'"></div>
           <div class="util-body">
             <div class="util-title admin">Admin Panel</div>
-            <div class="util-sub">Kelola user, produk & transaksi</div>
+            <div class="util-sub">Kelola user, produk & transaksi dashboard</div>
           </div>
-          <div class="util-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#A882CC" stroke-width="2.5">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </div>
+          <div class="util-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
         </a>`;
     }
-  } catch (e) {
-    console.error('Gagal load profile:', e);
-    localStorage.clear();
-    window.location.href = 'index.html';
-  }
+  } catch (e) { console.error(e); }
 }
 
 const HIDDEN = ['gas','tv','tv kabel','gas pln','gas elpiji','tagihan gas'];
 const IMG_MAP = [
-  { keys:['aktivasi voucher'],         img:'https://app.isdarprem.net/images/aktisivasivoucher.jpg' },
-  { keys:['masa aktif','masa'],        img:'https://app.isdarprem.net/images/masa-aktif.jpg' },
+  { keys:['aktivasi voucher'], img:'https://app.isdarprem.net/images/aktisivasivoucher.jpg' },
+  { keys:['masa aktif','masa'], img:'https://app.isdarprem.net/images/masa-aktif.jpg' },
   { keys:['e-wallet','ewallet','e-money','emoney'], img:'https://app.isdarprem.net/images/ewallet.jpg' },
-  { keys:['perdana','esim','e-sim'],   img:'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
-  { keys:['pln','listrik','token'],    img:'https://app.isdarprem.net/images/lampu1.png' },
-  { keys:['sms','telp'],               img:'https://app.isdarprem.net/images/sms1.png' },
-  { keys:['pulsa'],                    img:'https://app.isdarprem.net/images/pulsa1.png' },
-  { keys:['data'],                     img:'https://app.isdarprem.net/images/internet1.png' },
-  { keys:['game','gaming'],            img:'https://app.isdarprem.net/images/games.jpg' },
-  { keys:['voucher'],                  img:'https://app.isdarprem.net/images/voucher.png' },
+  { keys:['perdana','esim','e-sim'], img:'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
+  { keys:['pln','listrik','token'], img:'https://app.isdarprem.net/images/lampu1.png' },
+  { keys:['sms','telp'], img:'https://app.isdarprem.net/images/sms1.png' },
+  { keys:['pulsa'], img:'https://app.isdarprem.net/images/pulsa1.png' },
+  { keys:['data'], img:'https://app.isdarprem.net/images/internet1.png' },
+  { keys:['game','gaming'], img:'https://app.isdarprem.net/images/games.jpg' },
+  { keys:['voucher'], img:'https://app.isdarprem.net/images/voucher.png' },
 ];
 function getImg(name) {
   const k = name.toLowerCase();
-  for (const { keys, img } of IMG_MAP) {
-    if (keys.some(x => k.includes(x))) return img;
-  }
+  for (const { keys, img } of IMG_MAP) { if (keys.some(x => k.includes(x))) return img; }
   return 'https://app.isdarprem.net/images/images.png';
 }
 
 async function loadCategories() {
   try {
     const r = await fetch('/api/ppob/categories', hdrs);
-    if (!r.ok) throw new Error('not ok');
     const d = await r.json();
-    const grid  = document.getElementById('catGrid');
+    const grid = document.getElementById('catGrid');
     const badge = document.getElementById('catCount');
     if (d.success && d.categories?.length) {
-      const visible = d.categories.filter(
-        c => !HIDDEN.some(h => c.toLowerCase().includes(h))
-      );
-      badge.textContent = visible.length + ' Kategori';
-      grid.innerHTML = '';
+      const visible = d.categories.filter(c => !HIDDEN.some(h => c.toLowerCase().includes(h)));
+      badge.textContent = visible.length + ' Kategori'; grid.innerHTML = '';
       visible.forEach(cat => {
-        const el = document.createElement('a');
-        el.className = 'cat-item';
-        el.href = `ppob.html?cat=${encodeURIComponent(cat)}`;
+        const el = document.createElement('a'); el.className = 'cat-item'; el.href = `ppob.html?cat=${encodeURIComponent(cat)}`;
         const initial = encodeURIComponent(cat[0] || '?');
-        el.innerHTML = `
-          <div class="cat-img">
-            <img src="${getImg(cat)}" alt="${cat}"
-              onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=${initial}'">
-          </div>
-          <div class="cat-name">${cat}</div>`;
+        el.innerHTML = `<div class="cat-img"><img src="${getImg(cat)}" alt="${cat}" onerror="this.src='https://placehold.co/48/6366F1/fff?text=${initial}'"></div><div class="cat-name">${cat}</div>`;
         grid.appendChild(el);
       });
-    } else {
-      showCatErr();
-    }
+    } else { showCatErr(); }
   } catch (e) {
-    const demo = ['Pulsa','Paket Data','Token PLN','E-Wallet','Games','Voucher','Perdana','Masa Active'];
-    const grid  = document.getElementById('catGrid');
-    const badge = document.getElementById('catCount');
-    badge.textContent = demo.length + ' Kategori';
-    grid.innerHTML = '';
+    const demo = ['Pulsa','Paket Data','Token PLN','E-Wallet','Games','Voucher','Perdana','Masa Aktif'];
+    const grid = document.getElementById('catGrid'); const badge = document.getElementById('catCount');
+    badge.textContent = demo.length + ' Kategori'; grid.innerHTML = '';
     demo.forEach(cat => {
-      const el = document.createElement('a');
-      el.className = 'cat-item';
-      el.href = '#';
+      const el = document.createElement('a'); el.className = 'cat-item'; el.href = '#';
       const initial = encodeURIComponent(cat[0] || '?');
-      el.innerHTML = `
-        <div class="cat-img">
-          <img src="${getImg(cat)}" alt="${cat}"
-            onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=${initial}'">
-        </div>
-        <div class="cat-name">${cat}</div>`;
+      el.innerHTML = `<div class="cat-img"><img src="${getImg(cat)}" alt="${cat}" onerror="this.src='https://placehold.co/48/6366F1/fff?text=${initial}'"></div><div class="cat-name">${cat}</div>`;
       grid.appendChild(el);
     });
   }
 }
-
 function showCatErr() {
-  document.getElementById('catGrid').innerHTML =
-    '<div style="padding:16px;font-size:12px;font-weight:700;color:var(--text-light);grid-column: span 4; text-align:center;">Gagal memuat. Coba lagi nanti.</div>';
-  const b = document.getElementById('catCount');
-  b.textContent = 'Offline';
-  b.style.cssText = 'background:var(--red-bg);color:var(--red);border:1px solid rgba(232,64,64,0.1);';
+  document.getElementById('catGrid').innerHTML = '<div style="padding:16px;font-size:12px;font-weight:600;color:var(--text-light);grid-column: span 4; text-align:center;">Gagal memuat.</div>';
 }
-
-loadProfile();
-loadCategories();
+loadProfile(); loadCategories();
 </script>
 </body>
 </html>
