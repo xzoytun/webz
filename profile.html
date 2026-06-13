@@ -411,7 +411,6 @@ if (!localUser || !token) {
 loadProfile();
 detectDevice();
 loadIPAddress();
-setLastOnlineTime(); // Jalankan fungsi waktu online terbaru
 
 async function loadProfile() {
   try {
@@ -453,6 +452,9 @@ async function loadProfile() {
       roleBadge.classList.remove('admin');
     }
 
+    // TAMPILKAN WAKTU LOGIN BERDASARKAN HASIL BACKEND/LOCALSTORAGE
+    displayLastOnline(user.last_login);
+
   } catch (err) {
     console.error('Gagal memuat profil:', err);
   }
@@ -464,7 +466,6 @@ async function detectDevice() {
   let device = 'Unknown Device';
   let isMobile = /Android|iPhone|iPad/i.test(ua);
 
-  // Kamus mapping kode model HP ke nama produk komersial/pasaran
   const deviceMap = {
     'M2103K19PG': 'POCO M3 Pro 5G',
     'M2103K19G' : 'Redmi Note 10 5G',
@@ -477,7 +478,6 @@ async function detectDevice() {
     'SM-G998B'  : 'Samsung Galaxy S21 Ultra'
   };
 
-  // 1. Coba High Entropy Client Hints (Sangat akurat untuk Chromium modern / Android Baru)
   if (navigator.userAgentData && typeof navigator.userAgentData.getHighEntropyValues === 'function') {
     try {
       const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platform']);
@@ -494,7 +494,6 @@ async function detectDevice() {
     }
   }
 
-  // 2. Fallback Cara Lama (Regex User Agent) jika di Safari/iOS atau browser jadul
   if (/Android/i.test(ua)) {
     const match = ua.match(/Android\s+[^;]+;\s+([^;\)]+)/i);
     if (match && match[1] && !match[1].includes('Linux')) {
@@ -523,7 +522,6 @@ async function detectDevice() {
   updateDeviceUI(device, isMobile);
 }
 
-// Fungsi bantu update text & icon device di HTML
 function updateDeviceUI(deviceName, isMobile) {
   document.getElementById('deviceIcon').innerText = isMobile ? '📱' : '💻';
   document.getElementById('deviceName').innerText = deviceName;
@@ -540,26 +538,32 @@ async function loadIPAddress() {
   }
 }
 
-/* CETAK DINAMIS WAKTU LOGIN SEKARANG */
-function setLastOnlineTime() {
-  const sekarang = new Date();
-  
-  // Ambil Hari, Tanggal, Bulan, dan Tahun
-  const formatTanggal = sekarang.toLocaleDateString('id-ID', {
+/* FUNGSI MERENDER FORMAT WAKTU LOGIN */
+function displayLastOnline(backendTimestamp) {
+  let targetDate;
+
+  // Jika backend mengirimkan data waktu login (Opsi 2)
+  if (backendTimestamp) {
+    targetDate = new Date(backendTimestamp);
+  } else {
+    // Jika tidak ada, pakai data localstorage dari Opsi 1
+    const localTimestamp = localStorage.getItem('last_login_timestamp');
+    targetDate = localTimestamp ? new Date(localTimestamp) : new Date();
+  }
+
+  const formatTanggal = targetDate.toLocaleDateString('id-ID', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
     year: 'numeric'
   });
 
-  // Ambil Jam dan Menit (format 24 jam)
-  const formatJam = sekarang.toLocaleTimeString('id-ID', {
+  const formatJam = targetDate.toLocaleTimeString('id-ID', {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false
   });
 
-  // Gabungkan ke elemen HTML target
   document.getElementById('lastOnlineTime').innerText = `${formatTanggal} - ${formatJam} WIB`;
 }
 
