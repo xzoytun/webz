@@ -344,50 +344,53 @@ img { display:block; }
   text-align:center; line-height:1.25;
 }
 
-/* ── CATEGORY SCROLL ── */
+/* ── CATEGORY GRID (UPDATED TO 4 COLUMNS, HARMONIZED WITH VPN-GRID) ── */
 .cat-card {
   background:var(--card); border-radius:var(--r-card);
-  padding:14px 12px; border:1px solid var(--gray-line);
+  padding: 12px 8px; border:1px solid var(--gray-line);
   box-shadow:0 4px 16px rgba(0,0,0,0.1); /* Darker shadow */
   animation:fadeUp .4s .16s ease both;
   transition: background .25s ease, border-color .25s ease;
 }
-.cat-scroll {
-  display:flex; gap:12px; overflow-x:auto; padding-bottom:2px;
-  scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
+/* Diubah dari flex scrollbar menjadi grid 4 kolom */
+.cat-grid-layout {
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 8px;
 }
-.cat-scroll::-webkit-scrollbar { display:none; }
 .cat-item {
-  display:flex; flex-direction:column; align-items:center; gap:7px;
-  flex-shrink:0; scroll-snap-align:start; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  padding:6px 4px; border-radius:12px; transition:background .2s;
 }
+.cat-item:hover  { background:var(--purple-soft); }
+.cat-item:active { transform:scale(.93); }
+
+/* Ukuran disamakan persis dengan .vm-icon (42px) */
 .cat-img {
-  width:52px; height:52px; border-radius:14px; overflow:hidden;
+  width:42px; height:42px; border-radius:12px; overflow:hidden;
   background:var(--bg); border:1px solid var(--gray-line);
   display:flex; align-items:center; justify-content:center;
-  transition:all .2s;
+  transition:all .2s; flex-shrink: 0;
 }
 .cat-img img { width:100%; height:100%; object-fit:cover; }
 .cat-item:hover .cat-img {
   transform:translateY(-3px);
-  box-shadow:0 6px 14px rgba(123,47,190,.12);
+  box-shadow:0 5px 12px rgba(123,47,190,.12);
 }
-.cat-item:active .cat-img { transform:scale(.92); }
 .cat-name {
   font-size:10px; font-weight:800; color:var(--text-mid); text-align:center;
-  width:60px; line-height:1.3; overflow:hidden;
+  line-height:1.25; overflow:hidden;
   display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
 }
 
 /* SKEL SHIMMER (Updated for Dark Theme) */
 .skel {
-  border-radius:14px; height:52px; width:52px; flex-shrink:0;
+  border-radius:12px; height:42px; width:42px; flex-shrink:0;
   background:linear-gradient(90deg, var(--gray-line) 25%, var(--purple-soft) 50%, var(--gray-line) 75%);
   background-size:200% 100%; animation:shimmer 1.4s infinite;
 }
 .skel-lbl {
-  height:9px; width:44px; border-radius:6px; margin:6px auto 0;
+  height:9px; width:38px; border-radius:6px; margin:6px auto 0;
   background:linear-gradient(90deg, var(--gray-line) 25%, var(--purple-soft) 50%, var(--gray-line) 75%);
   background-size:200% 100%; animation:shimmer 1.4s infinite;
 }
@@ -600,7 +603,10 @@ img { display:block; }
     <span class="sec-badge orange" id="catCount">Loading…</span>
   </div>
   <div class="cat-card">
-    <div class="cat-scroll" id="catGrid">
+    <!-- ID Diubah ke catGrid layout baru -->
+    <div class="cat-grid-layout" id="catGrid">
+      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
+      <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
       <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
       <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
       <div class="cat-item"><div class="skel"></div><div class="skel-lbl"></div></div>
@@ -801,12 +807,13 @@ async function loadProfile() {
 const HIDDEN = ['gas','tv','tv kabel','gas pln','gas elpiji','tagihan gas'];
 const IMG_MAP = [
   { keys:['sms','telp'],       img:'https://app.isdarprem.net/images/sms1.png' },
-  { keys:['pulsa'],       img:'https://app.isdarprem.net/images/pulsa.jpeg' },
+  { keys:['pulsa'],       img:'https://app.isdarprem.net/images/pulsa.png' },
   { keys:['data'],                     img:'https://app.isdarprem.net/images/data.png' },
   { keys:['pln','listrik','token'],    img:'https://app.isdarprem.net/images/pln.png' },
   { keys:['e-wallet','ewallet','e-money','emoney'], img:'https://app.isdarprem.net/images/ewallet.jpg' },
   { keys:['game','gaming'],            img:'https://app.isdarprem.net/images/games.jpg' },
   { keys:['voucher'],                  img:'https://app.isdarprem.net/images/voucher.png' },
+  { keys:['aktivasi voucher'],                  img:'https://app.isdarprem.net/images/aktisivasivoucher.jpg' },
   { keys:['perdana','esim','e-sim'],   img:'https://app.isdarprem.net/images/aktivasiperdana.jpg' },
   { keys:['masa aktif','masa'],        img:'https://app.isdarprem.net/images/masaaktif.jpg' },
 ];
@@ -839,7 +846,7 @@ async function loadCategories() {
         el.innerHTML = `
           <div class="cat-img">
             <img src="${getImg(cat)}" alt="${cat}"
-              onerror="this.src='https://placehold.co/54/7B2FBE/fff?text=${initial}'">
+              onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=${initial}'">
           </div>
           <div class="cat-name">${cat}</div>`;
         grid.appendChild(el);
@@ -861,7 +868,7 @@ async function loadCategories() {
       el.innerHTML = `
         <div class="cat-img">
           <img src="${getImg(cat)}" alt="${cat}"
-            onerror="this.src='https://placehold.co/54/7B2FBE/fff?text=${initial}'">
+            onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=${initial}'">
         </div>
         <div class="cat-name">${cat}</div>`;
       grid.appendChild(el);
@@ -871,7 +878,7 @@ async function loadCategories() {
 
 function showCatErr() {
   document.getElementById('catGrid').innerHTML =
-    '<div style="padding:16px;font-size:12px;font-weight:700;color:var(--text-light);">Gagal memuat. Coba lagi nanti.</div>';
+    '<div style="padding:16px;font-size:12px;font-weight:700;color:var(--text-light);grid-column: span 4; text-align:center;">Gagal memuat. Coba lagi nanti.</div>';
   const b = document.getElementById('catCount');
   b.textContent = 'Offline';
   b.style.cssText = 'background:var(--red-bg);color:var(--red);border:1px solid rgba(232,64,64,0.1);';
