@@ -457,11 +457,25 @@ async function loadProfile() {
   }
 }
 
-/* DETECT DEVICE (DENGAN HIGH ENTROPY HINTS API) */
+/* DETECT DEVICE (DENGAN MAPPING NAMA PRODUK PASARAN) */
 async function detectDevice() {
   const ua = navigator.userAgent;
   let device = 'Unknown Device';
   let isMobile = /Android|iPhone|iPad/i.test(ua);
+
+  // Kamus mapping kode model HP ke nama produk komersial/pasaran
+  const deviceMap = {
+    'M2103K19PG': 'POCO M3 Pro 5G',
+    'M2103K19G' : 'Redmi Note 10 5G',
+    'M2012K11AG': 'POCO F3',
+    '2201116SG' : 'Redmi Note 11 Pro 5G',
+    '21061119DG': 'Redmi Note 10S',
+    'CPH2239'   : 'Oppo A16',
+    'CPH2387'   : 'Oppo A57',
+    'RMX3511'   : 'Realme C35',
+    'SM-G998B'  : 'Samsung Galaxy S21 Ultra'
+    // Kamu bisa tambah daftar kode model HP lain di sini seiring jalannya waktu
+  };
 
   // 1. Coba High Entropy Client Hints (Sangat akurat untuk Chromium modern / Android Baru)
   if (navigator.userAgentData && typeof navigator.userAgentData.getHighEntropyValues === 'function') {
@@ -469,6 +483,10 @@ async function detectDevice() {
       const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platform']);
       if (hints.model) {
         device = hints.model;
+        // Cek apakah kode model ada di kamus mapping
+        if (deviceMap[device]) {
+          device = deviceMap[device];
+        }
         updateDeviceUI(device, isMobile);
         return; 
       }
@@ -499,8 +517,14 @@ async function detectDevice() {
     device = 'MacBook';
   }
 
+  // Cek sekali lagi di fallback regex jika modelnya berupa kode
+  if (deviceMap[device]) {
+    device = deviceMap[device];
+  }
+
   updateDeviceUI(device, isMobile);
 }
+
 
 // Fungsi bantu update text & icon device di HTML
 function updateDeviceUI(deviceName, isMobile) {
