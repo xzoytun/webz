@@ -356,7 +356,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     loadHistory();
   }
 
-  async function loadHistory() {
+    async function loadHistory() {
     const statusBox = document.getElementById('history-status');
     try {
       const res = await fetch('/api/topup-history', {
@@ -395,16 +395,33 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       document.getElementById('secTitle').style.display = 'flex';
 
       area.innerHTML = items.map((item, i) => {
-        const date = item.created_at
-          ? new Date(item.created_at).toLocaleString('id-ID', {
-              timeZone: 'Asia/Jakarta',
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })
-          : '—';
+        
+        // --- FIX TIMEZONE UTC KE WIB (ASIA/JAKARTA) ---
+        let date = '—';
+        if (item.created_at) {
+          let d = new Date(item.created_at);
+          
+          // Jika string tanggal dari SQLite polos tanpa penanda 'Z' atau zona waktu (+), paksa anggap UTC
+          if (typeof item.created_at === 'string' && !item.created_at.includes('Z') && !item.created_at.includes('+')) {
+            d = new Date(item.created_at.replace(' ', 'T') + 'Z'); 
+          }
+          
+          // Fallback jika parsing gagal
+          if (isNaN(d.getTime())) {
+            d = new Date(item.created_at);
+          }
+
+          date = d.toLocaleString('id-ID', {
+            timeZone: 'Asia/Jakarta',
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+          });
+        }
+        // ----------------------------------------------
 
         return `
         <div class="topup-card" style="animation-delay:${i * 0.05}s;">
@@ -445,6 +462,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
         </div>`;
     }
   }
+
 </script>
 </body>
 </html>
