@@ -338,7 +338,7 @@ body {
       <div class="device-info">
         <div class="device-name" id="deviceName">Loading Device...</div>
         <div class="device-meta">IP: <span id="deviceIp">Loading...</span></div>
-        <div class="device-meta">Terakhir aktif: Baru saja</div>
+        <div class="device-meta">Terakhir aktif: <span id="lastOnlineTime">Loading...</span></div>
       </div>
     </div>
   </div>
@@ -411,6 +411,7 @@ if (!localUser || !token) {
 loadProfile();
 detectDevice();
 loadIPAddress();
+setLastOnlineTime(); // Jalankan fungsi waktu online terbaru
 
 async function loadProfile() {
   try {
@@ -474,7 +475,6 @@ async function detectDevice() {
     'CPH2387'   : 'Oppo A57',
     'RMX3511'   : 'Realme C35',
     'SM-G998B'  : 'Samsung Galaxy S21 Ultra'
-    // Kamu bisa tambah daftar kode model HP lain di sini seiring jalannya waktu
   };
 
   // 1. Coba High Entropy Client Hints (Sangat akurat untuk Chromium modern / Android Baru)
@@ -483,7 +483,6 @@ async function detectDevice() {
       const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platform']);
       if (hints.model) {
         device = hints.model;
-        // Cek apakah kode model ada di kamus mapping
         if (deviceMap[device]) {
           device = deviceMap[device];
         }
@@ -517,14 +516,12 @@ async function detectDevice() {
     device = 'MacBook';
   }
 
-  // Cek sekali lagi di fallback regex jika modelnya berupa kode
   if (deviceMap[device]) {
     device = deviceMap[device];
   }
 
   updateDeviceUI(device, isMobile);
 }
-
 
 // Fungsi bantu update text & icon device di HTML
 function updateDeviceUI(deviceName, isMobile) {
@@ -541,6 +538,29 @@ async function loadIPAddress() {
   } catch (error) {
     document.getElementById('deviceIp').innerText = 'Gagal memuat IP';
   }
+}
+
+/* CETAK DINAMIS WAKTU LOGIN SEKARANG */
+function setLastOnlineTime() {
+  const sekarang = new Date();
+  
+  // Ambil Hari, Tanggal, Bulan, dan Tahun
+  const formatTanggal = sekarang.toLocaleDateString('id-ID', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  // Ambil Jam dan Menit (format 24 jam)
+  const formatJam = sekarang.toLocaleTimeString('id-ID', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
+
+  // Gabungkan ke elemen HTML target
+  document.getElementById('lastOnlineTime').innerText = `${formatTanggal} - ${formatJam} WIB`;
 }
 
 function logout() {
