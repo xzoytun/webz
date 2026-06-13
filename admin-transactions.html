@@ -46,7 +46,7 @@ html[data-theme="dark"] {
   --pink-bg:      #321122;
   --white:        #17181c;
   --bg:           #0a0b0d;
-  --card-bg: #1c1d21;
+  --card-bg:      #1c1d21;
   --gray-line:    #303135;
   --text-dark:    #e8eaed;
   --text-mid:     #bdc1c6;
@@ -76,6 +76,7 @@ body {
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
+/* ── HEADER (konsisten dengan kelola-user.html) ── */
 .header {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
   padding: 28px 20px 75px;
@@ -109,13 +110,33 @@ body {
 
 .header-title { flex:1; min-width:0; }
 .header-title h1 {
-  font-size:18px; font-weight:900; color:#fff; line-height:1.1; letter-spacing:-0.2px;
-  display: flex; align-items: center; gap: 6px;
+  font-size:18px; font-weight:900; color:#fff;
+  line-height:1.1; letter-spacing:-0.2px;
+  display:flex; align-items:center; gap:6px;
+}
+/* Kunci ukuran SVG di dalam h1 agar tidak melar */
+.header-title h1 svg {
+  width:18px; height:18px; flex-shrink:0;
+  fill:none; stroke:#fff; stroke-width:2.2;
 }
 .header-title p {
   font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; margin-top:3px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
+
+/* Theme toggle — sama persis dengan kelola-user */
+.theme-toggle {
+  width:36px; height:36px; border-radius:50%;
+  background:rgba(255,255,255,0.15); border:1.5px solid rgba(255,255,255,0.2);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:all 0.2s; backdrop-filter:blur(6px); flex-shrink:0;
+}
+.theme-toggle:hover { background:rgba(255,255,255,0.25); transform:scale(1.08); }
+.theme-toggle svg { width:16px; height:16px; fill:none; stroke:#fff; stroke-width:2.2; }
+.icon-sun  { display:none; }
+.icon-moon { display:block; }
+html:not([data-theme="dark"]) .icon-sun  { display:block; }
+html:not([data-theme="dark"]) .icon-moon { display:none; }
 
 .header-count {
   background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
@@ -125,179 +146,183 @@ body {
   backdrop-filter:blur(8px);
 }
 
-.container { max-width: 440px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 2; }
+/* ── CONTAINER ── */
+.container { max-width:440px; margin:0 auto; padding:0 16px; position:relative; z-index:2; }
 
+/* ── TOOLBAR ── */
 .toolbar {
-  background: var(--card-bg); border-radius: 16px; padding: 14px;
-  border: 1px solid var(--gray-line);
-  box-shadow: 0 8px 24px rgba(90,26,154,0.04);
-  margin-top: -50px; margin-bottom: 16px;
-  position: relative; z-index: 20;
-  display: flex; flex-direction: column; gap: 10px;
-  animation: fadeUp 0.38s 0.06s ease both;
-  transition: background 0.25s, border-color 0.25s;
+  background:var(--card-bg); border-radius:16px; padding:14px;
+  border:1px solid var(--gray-line);
+  box-shadow:0 8px 24px rgba(90,26,154,0.04);
+  margin-top:-50px; margin-bottom:16px;
+  position:relative; z-index:20;
+  display:flex; flex-direction:column; gap:10px;
+  animation:fadeUp 0.38s 0.06s ease both;
+  transition:background 0.25s, border-color 0.25s;
 }
-html[data-theme="dark"] .toolbar { box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+html[data-theme="dark"] .toolbar { box-shadow:0 8px 24px rgba(0,0,0,0.2); }
 
 .search-row {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--input-bg); border-radius: 12px;
-  border: 1px solid var(--gray-line); padding: 10px 12px;
-  transition: all 0.15s;
+  display:flex; align-items:center; gap:10px;
+  background:var(--input-bg); border-radius:12px;
+  border:1px solid var(--gray-line); padding:10px 12px;
+  transition:all 0.15s;
 }
-.search-row svg { color: var(--text-light); flex-shrink: 0; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+.search-row svg { color:var(--text-light); flex-shrink:0; width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2.5; }
 .search-input {
-  flex: 1; border: none; outline: none;
-  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
-  color: var(--text-dark); background: transparent;
+  flex:1; border:none; outline:none;
+  font-family:'Nunito',sans-serif; font-size:13px; font-weight:700;
+  color:var(--text-dark); background:transparent;
 }
-.search-input::placeholder { color: var(--text-light); font-weight: 600; }
+.search-input::placeholder { color:var(--text-light); font-weight:600; }
 
-.filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-row { display:flex; gap:6px; flex-wrap:wrap; }
 .filter-chip {
-  padding: 6px 12px; border-radius: 10px;
-  font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800;
-  cursor: pointer; border: 1px solid var(--gray-line);
-  background: var(--input-bg); color: var(--text-mid);
-  transition: all 0.15s; white-space: nowrap;
-  display: flex; align-items: center; gap: 4px;
+  padding:6px 12px; border-radius:10px;
+  font-family:'Nunito',sans-serif; font-size:11px; font-weight:800;
+  cursor:pointer; border:1px solid var(--gray-line);
+  background:var(--input-bg); color:var(--text-mid);
+  transition:all 0.15s; white-space:nowrap;
+  display:flex; align-items:center; gap:4px;
 }
-.filter-chip svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; }
-.filter-chip:hover { border-color: var(--purple); color: var(--purple); }
-.filter-chip.active {
-  background: var(--purple); border-color: transparent; color: #fff;
-  box-shadow: 0 4px 12px rgba(123,47,190,0.18);
-}
-.filter-chip[data-val="SSH"].active       { background: var(--accent); }
-.filter-chip[data-val="VMESS"].active     { background: #0098DB; }
-.filter-chip[data-val="VLESS"].active     { background: var(--purple-dark); }
-.filter-chip[data-val="TROJAN"].active    { background: var(--red); }
-.filter-chip[data-val="SHADOWSOCKS"].active { background: var(--pink); }
+.filter-chip svg { width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:2.2; }
+.filter-chip:hover { border-color:var(--purple); color:var(--purple); }
+.filter-chip.active { background:var(--purple); border-color:transparent; color:#fff; box-shadow:0 4px 12px rgba(123,47,190,0.18); }
+.filter-chip[data-val="SSH"].active       { background:var(--accent); }
+.filter-chip[data-val="VMESS"].active     { background:#0098DB; }
+.filter-chip[data-val="VLESS"].active     { background:var(--purple-dark); }
+.filter-chip[data-val="TROJAN"].active    { background:var(--red); }
+.filter-chip[data-val="SHADOWSOCKS"].active { background:var(--pink); }
 
-.stats-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; animation: fadeUp 0.4s 0.10s ease both; }
+/* ── STATS ── */
+.stats-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; animation:fadeUp 0.4s 0.10s ease both; }
 .stat-chip {
-  background: var(--card-bg); border: 1px solid var(--gray-line);
-  border-radius: 10px; padding: 6px 12px;
-  font-size: 11px; font-weight: 700; color: var(--text-mid);
-  display: flex; align-items: center; gap: 4px;
-  box-shadow: 0 2px 8px rgba(90,26,154,0.01);
-  transition: background 0.25s, border-color 0.25s;
+  background:var(--card-bg); border:1px solid var(--gray-line);
+  border-radius:10px; padding:6px 12px;
+  font-size:11px; font-weight:700; color:var(--text-mid);
+  display:flex; align-items:center; gap:4px;
+  box-shadow:0 2px 8px rgba(90,26,154,0.01);
+  transition:background 0.25s, border-color 0.25s;
 }
-.stat-chip svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; }
-.stat-chip strong { color: var(--purple); font-weight: 800; margin-left: 2px; }
-html[data-theme="dark"] .stat-chip strong { color: var(--purple-light); }
+.stat-chip svg { width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:2.2; }
+.stat-chip strong { color:var(--purple); font-weight:800; margin-left:2px; }
+html[data-theme="dark"] .stat-chip strong { color:var(--purple-light); }
 
+/* ── TX CARD ── */
 .tx-card {
-  background: var(--card-bg); border-radius: 16px; margin-bottom: 10px;
-  border: 1px solid var(--gray-line);
-  box-shadow: 0 8px 24px rgba(90,26,154,0.02);
-  overflow: hidden; transition: all 0.15s;
+  background:var(--card-bg); border-radius:16px; margin-bottom:10px;
+  border:1px solid var(--gray-line);
+  box-shadow:0 8px 24px rgba(90,26,154,0.02);
+  overflow:hidden; transition:all 0.15s;
 }
-html[data-theme="dark"] .tx-card { box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
-.tx-card:hover { transform: translateY(-1px); }
-.tx-card-inner { padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+html[data-theme="dark"] .tx-card { box-shadow:0 8px 24px rgba(0,0,0,0.1); }
+.tx-card:hover { transform:translateY(-1px); }
+.tx-card-inner { padding:14px 16px; display:flex; align-items:center; gap:12px; }
 
-.tx-card[data-proto="SSH"]         { border-left: 4px solid var(--accent); }
-.tx-card[data-proto="VMESS"]       { border-left: 4px solid var(--blue); }
-.tx-card[data-proto="VLESS"]       { border-left: 4px solid var(--purple); }
-.tx-card[data-proto="TROJAN"]      { border-left: 4px solid var(--red); }
-.tx-card[data-proto="SHADOWSOCKS"] { border-left: 4px solid var(--pink); }
-.tx-card[data-proto=""]            { border-left: 4px solid var(--text-light); }
+.tx-card[data-proto="SSH"]         { border-left:4px solid var(--accent); }
+.tx-card[data-proto="VMESS"]       { border-left:4px solid var(--blue); }
+.tx-card[data-proto="VLESS"]       { border-left:4px solid var(--purple); }
+.tx-card[data-proto="TROJAN"]      { border-left:4px solid var(--red); }
+.tx-card[data-proto="SHADOWSOCKS"] { border-left:4px solid var(--pink); }
+.tx-card[data-proto=""]            { border-left:4px solid var(--text-light); }
 
 .tx-proto-icon {
-  width: 38px; height: 38px; border-radius: 11px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; font-size: 16px; color: #fff;
+  width:38px; height:38px; border-radius:11px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-size:16px; color:#fff;
 }
-.tx-proto-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; }
-.pi-ssh    { background: linear-gradient(135deg, var(--accent), #FF8A50); }
-.pi-vmess  { background: linear-gradient(135deg, var(--blue), #0098DB); }
-.pi-vless  { background: linear-gradient(135deg, var(--purple), var(--purple-light)); }
-.pi-trojan { background: linear-gradient(135deg, var(--red), #FF7A7A); }
-.pi-ss     { background: linear-gradient(135deg, var(--pink), #FF5CA8); }
-.pi-other  { background: linear-gradient(135deg, #9CA3AF, #6B7280); }
+.tx-proto-icon svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.2; }
+.pi-ssh    { background:linear-gradient(135deg,var(--accent),#FF8A50); }
+.pi-vmess  { background:linear-gradient(135deg,var(--blue),#0098DB); }
+.pi-vless  { background:linear-gradient(135deg,var(--purple),var(--purple-light)); }
+.pi-trojan { background:linear-gradient(135deg,var(--red),#FF7A7A); }
+.pi-ss     { background:linear-gradient(135deg,var(--pink),#FF5CA8); }
+.pi-other  { background:linear-gradient(135deg,#9CA3AF,#6B7280); }
 
-.tx-main { flex: 1; min-width: 0; }
-.tx-user { font-size: 14px; font-weight: 800; color: var(--text-dark); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tx-email { font-size: 11px; color: var(--text-light); font-weight: 600; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tx-product { font-size: 12px; font-weight: 700; color: var(--text-mid); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 4px; }
-.tx-product svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; }
+.tx-main { flex:1; min-width:0; }
+.tx-user { font-size:14px; font-weight:800; color:var(--text-dark); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tx-email { font-size:11px; color:var(--text-light); font-weight:600; margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tx-product { font-size:12px; font-weight:700; color:var(--text-mid); margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:flex; align-items:center; gap:4px; }
+.tx-product svg { width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:2; }
 
-.tx-right { text-align: right; flex-shrink: 0; }
-.proto-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 8px; font-size: 9px; font-weight: 900; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; }
-.proto-badge svg { width: 10px; height: 10px; fill: none; stroke: currentColor; stroke-width: 2.2; }
-.pb-ssh    { background: var(--accent-light); color: var(--accent); }
-.pb-vmess  { background: var(--blue-bg); color: #0077AA; }
-html[data-theme="dark"] .pb-vmess { color: #38BDF8; }
-.pb-vless  { background: var(--purple-soft); color: var(--purple); }
-html[data-theme="dark"] .pb-vless { color: var(--purple-light); }
-.pb-trojan { background: var(--red-bg); color: var(--red); }
-html[data-theme="dark"] .pb-trojan { color: #FF6B6B; }
-.pb-ss     { background: var(--pink-bg); color: var(--pink); }
-html[data-theme="dark"] .pb-ss { color: #F472B6; }
-.pb-other  { background: var(--input-bg); color: #6B7280; }
+.tx-right { text-align:right; flex-shrink:0; }
+.proto-badge { display:inline-flex; align-items:center; gap:4px; padding:4px 10px; border-radius:8px; font-size:9px; font-weight:900; text-transform:uppercase; margin-bottom:4px; letter-spacing:0.5px; }
+.proto-badge svg { width:10px; height:10px; fill:none; stroke:currentColor; stroke-width:2.2; }
+.pb-ssh    { background:var(--accent-light); color:var(--accent); }
+.pb-vmess  { background:var(--blue-bg); color:#0077AA; }
+html[data-theme="dark"] .pb-vmess { color:#38BDF8; }
+.pb-vless  { background:var(--purple-soft); color:var(--purple); }
+html[data-theme="dark"] .pb-vless { color:var(--purple-light); }
+.pb-trojan { background:var(--red-bg); color:var(--red); }
+html[data-theme="dark"] .pb-trojan { color:#FF6B6B; }
+.pb-ss     { background:var(--pink-bg); color:var(--pink); }
+html[data-theme="dark"] .pb-ss { color:#F472B6; }
+.pb-other  { background:var(--input-bg); color:#6B7280; }
 
-.tx-date { font-size: 10px; font-weight: 700; color: var(--text-light); display: flex; align-items: center; gap: 3px; justify-content: flex-end; }
-.tx-date svg { width: 10px; height: 10px; fill: none; stroke: currentColor; stroke-width: 2; }
+.tx-date { font-size:10px; font-weight:700; color:var(--text-light); display:flex; align-items:center; gap:3px; justify-content:flex-end; }
+.tx-date svg { width:10px; height:10px; fill:none; stroke:currentColor; stroke-width:2; }
 
-.empty-state, .loading-state { text-align: center; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.empty-icon svg { width: 44px; height: 44px; fill: none; stroke: var(--text-light); stroke-width: 2; }
-.loading-icon svg { width: 24px; height: 24px; fill: none; stroke: var(--purple); stroke-width: 2.5; animation: spin 1s linear infinite; }
-html[data-theme="dark"] .loading-icon svg { stroke: var(--purple-light); }
-.empty-title { font-size: 15px; font-weight: 800; color: var(--text-dark); }
-.empty-sub { font-size: 12px; color: var(--text-mid); font-weight: 600; }
+/* ── STATES ── */
+.empty-state, .loading-state { text-align:center; padding:40px 20px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.empty-icon svg { width:44px; height:44px; fill:none; stroke:var(--text-light); stroke-width:2; }
+.loading-icon svg { width:24px; height:24px; fill:none; stroke:var(--purple); stroke-width:2.5; animation:spin 1s linear infinite; }
+html[data-theme="dark"] .loading-icon svg { stroke:var(--purple-light); }
+.empty-title { font-size:15px; font-weight:800; color:var(--text-dark); }
+.empty-sub { font-size:12px; color:var(--text-mid); font-weight:600; }
 
+/* ── PAGINATION ── */
 .pagination {
-  background: var(--card-bg); border-radius: 14px; border: 1px solid var(--gray-line);
-  padding: 10px 14px; margin-top: 4px; display: flex; align-items: center; justify-content: space-between;
-  box-shadow: 0 4px 12px rgba(90,26,154,0.01);
-  transition: background 0.3s, border-color 0.3s;
+  background:var(--card-bg); border-radius:14px; border:1px solid var(--gray-line);
+  padding:10px 14px; margin-top:4px; display:flex; align-items:center; justify-content:space-between;
+  box-shadow:0 4px 12px rgba(90,26,154,0.01);
+  transition:background 0.3s, border-color 0.3s;
 }
-.page-info { font-size: 12px; font-weight: 700; color: var(--text-mid); }
-.page-btns { display: flex; gap: 4px; align-items: center; }
+.page-info { font-size:12px; font-weight:700; color:var(--text-mid); }
+.page-btns { display:flex; gap:4px; align-items:center; }
 .page-btn {
-  width: 30px; height: 30px; border: none; border-radius: 8px;
-  background: var(--input-bg); color: var(--text-mid);
-  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 12px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s; border: 1px solid var(--gray-line);
+  width:30px; height:30px; border:1px solid var(--gray-line); border-radius:8px;
+  background:var(--input-bg); color:var(--text-mid);
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:12px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:all 0.15s;
 }
-.page-btn:hover:not(:disabled) { border-color: var(--purple); color: var(--purple); }
-.page-btn:disabled { opacity: 0.3; cursor: default; }
-.page-btn.active { background: var(--purple); border-color: transparent; color: #fff; box-shadow: 0 3px 10px rgba(123,47,190,0.15); }
-.page-btn svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.5; }
-.page-dots { color: var(--text-light); font-weight: 700; padding: 0 2px; font-size: 12px; }
+.page-btn:hover:not(:disabled) { border-color:var(--purple); color:var(--purple); }
+.page-btn:disabled { opacity:0.3; cursor:default; }
+.page-btn.active { background:var(--purple); border-color:transparent; color:#fff; box-shadow:0 3px 10px rgba(123,47,190,0.15); }
+.page-btn svg { width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:2.5; }
+.page-dots { color:var(--text-light); font-weight:700; padding:0 2px; font-size:12px; }
 
 .back-btn {
-  width: 100%; padding: 12px; margin-top: 12px;
-  border: 1px solid var(--gray-line); border-radius: 14px;
-  background: var(--card-bg); color: var(--text-mid);
-  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
-  transition: all 0.15s; box-shadow: 0 4px 12px rgba(90,26,154,0.01);
+  width:100%; padding:12px; margin-top:12px;
+  border:1px solid var(--gray-line); border-radius:14px;
+  background:var(--card-bg); color:var(--text-mid);
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:13px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
+  transition:all 0.15s; box-shadow:0 4px 12px rgba(90,26,154,0.01);
 }
-.back-btn:hover { border-color: var(--purple); color: var(--purple); }
-.back-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+.back-btn:hover { border-color:var(--purple); color:var(--purple); }
+.back-btn svg { width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2.5; }
 
+/* ── BOTTOM NAV ── */
 .bottom-nav {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 100%; max-width: 440px; background: var(--nav-bg);
-  border-top: 1px solid var(--gray-line);
-  box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
-  transition: background 0.25s ease, border-color 0.25s ease;
+  position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:440px; background:var(--nav-bg);
+  border-top:1px solid var(--gray-line);
+  box-shadow:0 -4px 20px var(--nav-shadow); z-index:999;
+  transition:background 0.25s ease, border-color 0.25s ease;
 }
-.bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 10px 0 14px; }
+.bottom-nav-inner { display:flex; align-items:center; justify-content:space-around; padding:10px 0 14px; }
 .nav-item {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  text-decoration: none; color: var(--text-light); width: 70px; transition: all 0.2s;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  text-decoration:none; color:var(--text-light); width:70px; transition:all 0.2s;
 }
-.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
-.nav-label { font-size: 9.5px; font-weight: 800; }
-.nav-item:hover .nav-icon svg { transform: translateY(-2px); }
-.nav-item.active { color: var(--purple); }
-html[data-theme="dark"] .nav-item.active { color: var(--purple-light); }
-.nav-item.active .nav-icon svg { stroke: var(--purple); }
-html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-light); }
+.nav-icon svg { width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2; transition:transform 0.2s; }
+.nav-label { font-size:9.5px; font-weight:800; }
+.nav-item:hover .nav-icon svg { transform:translateY(-2px); }
+.nav-item.active { color:var(--purple); }
+html[data-theme="dark"] .nav-item.active { color:var(--purple-light); }
+.nav-item.active .nav-icon svg { stroke:var(--purple); }
+html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke:var(--purple-light); }
 </style>
 </head>
 <body>
@@ -306,49 +331,58 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
   <div class="hero-dots"></div>
   <div class="header-inner">
     <a class="back-btn-hdr" href="admin.html">
-      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </a>
     <div class="header-title">
       <h1>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         Riwayat Transaksi
       </h1>
       <p id="subtitle">Memuat data...</p>
     </div>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema" style="margin-right:8px;">
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
     <div class="header-count" id="countBadge">—</div>
   </div>
 </div>
 
 <div class="container">
-
   <div class="toolbar">
     <div class="search-row">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input class="search-input" id="searchInput" type="text" placeholder="Cari username / email / produk..." oninput="applyFilter()">
     </div>
     <div class="filter-row" id="filterRow">
       <div class="filter-chip active" data-val="" onclick="setProtocolFilter(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+        <svg viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
         Semua
       </div>
       <div class="filter-chip" data-val="SSH" onclick="setProtocolFilter(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+        <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
         SSH
       </div>
       <div class="filter-chip" data-val="VMESS" onclick="setProtocolFilter(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         VMESS
       </div>
       <div class="filter-chip" data-val="VLESS" onclick="setProtocolFilter(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         VLESS
       </div>
       <div class="filter-chip" data-val="TROJAN" onclick="setProtocolFilter(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         TROJAN
       </div>
       <div class="filter-chip" data-val="SHADOWSOCKS" onclick="setProtocolFilter(this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+        <svg viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
         SS
       </div>
     </div>
@@ -359,7 +393,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
   <div id="txList">
     <div class="loading-state">
       <div class="loading-icon">
-        <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+        <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
       </div>
       <div class="empty-title">Memuat transaksi...</div>
     </div>
@@ -371,10 +405,9 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
   </div>
 
   <button class="back-btn" onclick="location.href='admin.html'">
-    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     Kembali ke Admin Panel
   </button>
-
 </div>
 
 <nav class="bottom-nav">
@@ -395,6 +428,12 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
 </nav>
 
 <script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
 (function() {
   const saved = localStorage.getItem('theme');
   if (saved === 'dark' || saved === 'light') {
@@ -421,36 +460,38 @@ let filtered   = [];
 let currentPage = 1;
 let activeProto = '';
 
-const svgListTemplate     = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>`;
-const svgSearchTemplate   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`;
-const svgPackageTemplate  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`;
-const svgClockTemplate    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
-const svgAlertTemplate    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.5c0 0-4 7.5-11 7.5a10.42 10.42 0 0 1-3.64-.67"></path><path d="M6.62 6.62A10.71 10.71 0 0 0 1 12.5c0 0 4 7.5 11 7.5a11.12 11.12 0 0 0 5-.12"></path><path d="M22 12.5a11.16 11.16 0 0 0-2.3-3.06"></path><path d="M10.59 10.59a3 3 0 1 0 4.24 4.24"></path></svg>`;
+const svgListTemplate    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`;
+const svgSearchTemplate  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;
+const svgPackageTemplate = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`;
+const svgClockTemplate   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+const svgAlertTemplate   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.5c0 0-4 7.5-11 7.5a10.42 10.42 0 0 1-3.64-.67"/><path d="M6.62 6.62A10.71 10.71 0 0 0 1 12.5c0 0 4 7.5 11 7.5a11.12 11.12 0 0 0 5-.12"/><path d="M22 12.5a11.16 11.16 0 0 0-2.3-3.06"/><path d="M10.59 10.59a3 3 0 1 0 4.24 4.24"/></svg>`;
 
 const PROTO_CONFIG = {
-  SSH:         { cls:'pi-ssh',    badge:'pb-ssh',    label:'SSH',          icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>` },
-  VMESS:       { cls:'pi-vmess',  badge:'pb-vmess',  label:'VMESS',        icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>` },
-  VLESS:       { cls:'pi-vless',  badge:'pb-vless',  label:'VLESS',        icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>` },
-  TROJAN:      { cls:'pi-trojan', badge:'pb-trojan', label:'TROJAN',       icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>` },
-  SHADOWSOCKS: { cls:'pi-ss',     badge:'pb-ss',     label:'SS',           icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>` },
+  SSH:         { cls:'pi-ssh',    badge:'pb-ssh',    label:'SSH',
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>` },
+  VMESS:       { cls:'pi-vmess',  badge:'pb-vmess',  label:'VMESS',
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>` },
+  VLESS:       { cls:'pi-vless',  badge:'pb-vless',  label:'VLESS',
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>` },
+  TROJAN:      { cls:'pi-trojan', badge:'pb-trojan', label:'TROJAN',
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>` },
+  SHADOWSOCKS: { cls:'pi-ss',     badge:'pb-ss',     label:'SS',
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>` },
 };
 
 function getProtoConf(p) {
-  return PROTO_CONFIG[(p||'').toUpperCase()] || { cls:'pi-other', badge:'pb-other', label: p || '—', icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>` };
+  return PROTO_CONFIG[(p||'').toUpperCase()] || {
+    cls:'pi-other', badge:'pb-other', label: p || '—',
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`
+  };
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadTransactions();
-});
+document.addEventListener("DOMContentLoaded", () => { loadTransactions(); });
 
 async function loadTransactions() {
   try {
     const res  = await fetch('/api/admin/transactions?email=' + encodeURIComponent(localUser.email), {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
     });
     const data = await res.json();
     if (!data.success) { document.getElementById('txList').innerHTML = errorState(data.message); return; }
@@ -473,11 +514,10 @@ function applyFilter() {
   const kw = document.getElementById('searchInput').value.toLowerCase();
   filtered = allData.filter(tx => {
     const matchSearch =
-      (tx.username    || '').toLowerCase().includes(kw) ||
-      (tx.email       || '').toLowerCase().includes(kw) ||
-      (tx.product_name|| '').toLowerCase().includes(kw);
-    const matchProto = !activeProto ||
-      (tx.product_type || '').toUpperCase() === activeProto;
+      (tx.username    ||'').toLowerCase().includes(kw) ||
+      (tx.email       ||'').toLowerCase().includes(kw) ||
+      (tx.product_name||'').toLowerCase().includes(kw);
+    const matchProto = !activeProto || (tx.product_type||'').toUpperCase() === activeProto;
     return matchSearch && matchProto;
   });
   currentPage = 1;
@@ -492,22 +532,13 @@ function renderStats() {
     const p = (tx.product_type || 'Unknown').toUpperCase();
     counts[p] = (counts[p] || 0) + 1;
   });
-  
   document.getElementById('subtitle').textContent = `${filtered.length} dari ${allData.length} transaksi`;
   document.getElementById('countBadge').textContent = allData.length + ' Total';
 
-  let html = `
-    <div class="stat-chip">
-      ${svgListTemplate}
-      Total <strong>${allData.length}</strong>
-    </div>`;
+  let html = `<div class="stat-chip">${svgListTemplate} Total <strong>${allData.length}</strong></div>`;
   Object.entries(counts).forEach(([p, c]) => {
     const conf = getProtoConf(p);
-    html += `
-      <div class="stat-chip">
-        ${conf.icon}
-        ${conf.label} <strong>${c}</strong>
-      </div>`;
+    html += `<div class="stat-chip">${conf.icon} ${conf.label} <strong>${c}</strong></div>`;
   });
   document.getElementById('statsBar').innerHTML = html;
 }
@@ -522,66 +553,36 @@ function renderList() {
       </div>`;
     return;
   }
-
   const start = (currentPage - 1) * PER_PAGE;
   const slice = filtered.slice(start, start + PER_PAGE);
-  const proto = (p) => (p || '').toUpperCase();
-
   let html = '<div class="tx-list">';
   slice.forEach((tx, i) => {
-    const p    = proto(tx.product_type);
+    const p    = (tx.product_type || '').toUpperCase();
     const conf = getProtoConf(p);
-    
-    // --- FIX TIMEZONE UTC KE WIB (ASIA/JAKARTA) ---
     let date = '—';
     if (tx.created_at) {
       let d = new Date(tx.created_at);
-      
-      // Jika string tanggal dari SQLite polos tanpa penanda 'Z' atau zona waktu, paksa anggap UTC
       if (typeof tx.created_at === 'string' && !tx.created_at.includes('Z') && !tx.created_at.includes('+')) {
-        d = new Date(tx.created_at.replace(' ', 'T') + 'Z'); 
+        d = new Date(tx.created_at.replace(' ', 'T') + 'Z');
       }
-      
-      // Jika parsing di atas gagal, fallback ke Date orisinil
-      if (isNaN(d.getTime())) {
-        d = new Date(tx.created_at);
-      }
-
+      if (isNaN(d.getTime())) d = new Date(tx.created_at);
       date = d.toLocaleString('id-ID', {
-        timeZone: 'Asia/Jakarta',
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
+        timeZone:'Asia/Jakarta', day:'2-digit', month:'2-digit', year:'numeric',
+        hour:'2-digit', minute:'2-digit', hour12:false
       });
     }
-    // ----------------------------------------------
-
     html += `
     <div class="tx-card" data-proto="${p}" style="animation:fadeUp 0.35s ${i*0.04}s ease both;">
       <div class="tx-card-inner">
-        <div class="tx-proto-icon ${conf.cls}">
-          ${conf.icon}
-        </div>
+        <div class="tx-proto-icon ${conf.cls}">${conf.icon}</div>
         <div class="tx-main">
           <div class="tx-user">${tx.username || '—'}</div>
           <div class="tx-email">${tx.email || '—'}</div>
-          <div class="tx-product">
-            ${svgPackageTemplate}
-            ${tx.product_name || '—'}
-          </div>
+          <div class="tx-product">${svgPackageTemplate} ${tx.product_name || '—'}</div>
         </div>
         <div class="tx-right">
-          <div class="proto-badge ${conf.badge}">
-            ${conf.icon}
-            ${conf.label}
-          </div>
-          <div class="tx-date">
-            ${svgClockTemplate}
-            ${date}
-          </div>
+          <div class="proto-badge ${conf.badge}">${conf.icon} ${conf.label}</div>
+          <div class="tx-date">${svgClockTemplate} ${date}</div>
         </div>
       </div>
     </div>`;
@@ -590,34 +591,26 @@ function renderList() {
   document.getElementById('txList').innerHTML = html;
 }
 
-
 function renderPagination() {
   const total = Math.ceil(filtered.length / PER_PAGE);
   const pag   = document.getElementById('pagination');
   if (total <= 1) { pag.style.display = 'none'; return; }
   pag.style.display = 'flex';
   document.getElementById('pageInfo').textContent = `Hal ${currentPage} / ${total}`;
-
   let btns = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-  </button>`;
-
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>`;
   let lastDotted = false;
   for (let i = 1; i <= total; i++) {
-    if (i === 1 || i === total || (i >= currentPage - 1 && i <= currentPage + 1)) {
+    if (i===1 || i===total || (i>=currentPage-1 && i<=currentPage+1)) {
       btns += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
       lastDotted = false;
-    } else {
-      if (!lastDotted) {
-        btns += `<span class="page-dots">…</span>`;
-        lastDotted = true;
-      }
+    } else if (!lastDotted) {
+      btns += `<span class="page-dots">…</span>`;
+      lastDotted = true;
     }
   }
-
   btns += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total?'disabled':''}>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-  </button>`;
+    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>`;
   document.getElementById('pageBtns').innerHTML = btns;
 }
 
@@ -631,11 +624,8 @@ function goPage(p) {
 }
 
 function errorState(msg) {
-  return `<div class="empty-state">
-    <div class="empty-icon">${svgAlertTemplate}</div>
-    <div class="empty-title">Gagal Memuat</div>
-    <div class="empty-sub">${msg}</div>
-  </div>`;
+  return `<div class="empty-state"><div class="empty-icon">${svgAlertTemplate}</div>
+    <div class="empty-title">Gagal Memuat</div><div class="empty-sub">${msg}</div></div>`;
 }
 </script>
 </body>
