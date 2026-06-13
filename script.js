@@ -1,9 +1,14 @@
-// Cek sesi aktif sebelum merender halaman login
+// 🔥 FIX AUTO-LOGIN: Cek sesi aktif dengan deteksi path URL yang lebih akurat
 (function checkActiveSession() {
   const savedUser = localStorage.getItem('user');
   const savedToken = localStorage.getItem('token');
-  if (savedUser && savedToken && window.location.pathname.includes('index.html')) {
-    window.location.href = 'dashboard.html';
+  
+  if (savedUser && savedToken) {
+    const path = window.location.pathname;
+    // Cek jika rute saat ini merujuk ke halaman utama login
+    if (path === '/' || path === '' || path.endsWith('index.html')) {
+      window.location.href = 'dashboard.html';
+    }
   }
 })();
 
