@@ -515,32 +515,43 @@ function detectDevice() {
 
   let device = 'Unknown Device';
 
-  if (/android/i.test(ua)) {
-    device = 'Android Device';
-  } else if (/iPhone|iPad|iPod/i.test(ua)) {
-    device = 'iPhone Device';
-  } else if (/Windows/i.test(ua)) {
-    device = 'Windows Device';
-  } else if (/Mac/i.test(ua)) {
-    device = 'Mac Device';
+  // ANDROID
+  if (/Android/i.test(ua)) {
+
+    const match = ua.match(/Android.*;\s(.*?)\sBuild/i);
+
+    if (match && match[1]) {
+      device = match[1];
+    } else {
+      device = 'Android Device';
+    }
+
   }
 
-  document.getElementById('deviceName').innerText = device;
-}
-
-async function loadIp() {
-  try {
-    const res = await fetch('https://api.ipify.org?format=json');
-    const data = await res.json();
-
-    document.getElementById('deviceIp').innerText = data.ip;
-  } catch {
-    document.getElementById('deviceIp').innerText = 'Tidak diketahui';
+  // IPHONE
+  else if (/iPhone/i.test(ua)) {
+    device = 'iPhone';
   }
-}
 
-detectDevice();
-loadIp();
+  // IPAD
+  else if (/iPad/i.test(ua)) {
+    device = 'iPad';
+  }
+
+  // WINDOWS
+  else if (/Windows/i.test(ua)) {
+    device = 'Windows PC';
+  }
+
+  // MAC
+  else if (/Macintosh/i.test(ua)) {
+    device = 'MacBook';
+  }
+
+  // INI TAMBAHANNYA
+  document.getElementById('deviceName').innerText =
+  '📱 ' + device;
+}
 
 function logout() {
   if (confirm('Yakin mau keluar?')) {
