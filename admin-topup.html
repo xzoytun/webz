@@ -334,8 +334,19 @@ function toggleTheme() {
 function formatLocalDate(isoString) {
   if (!isoString) return '-';
   try {
-    const d = new Date(isoString);
-    // Memaksa format lokal Asia/Jakarta (WIB) atau sesuai divais user dengan format bersih
+    let d = new Date(isoString);
+    
+    // Jika string tanggal dari SQLite polos tanpa penanda 'Z' atau zona waktu (+), paksa anggap UTC
+    if (typeof isoString === 'string' && !isoString.includes('Z') && !isoString.includes('+')) {
+      d = new Date(isoString.replace(' ', 'T') + 'Z'); 
+    }
+    
+    // Jika parsing di atas gagal karena format aneh, gunakan fallback Date orisinil
+    if (isNaN(d.getTime())) {
+      d = new Date(isoString);
+    }
+    
+    // Memaksa format lokal Asia/Jakarta (WIB) dengan format bersih DD-MM-YYYY HH:mm
     const tgl = d.toLocaleDateString('id-ID', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
     const jam = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
     return `${tgl} ${jam}`;
@@ -343,6 +354,7 @@ function formatLocalDate(isoString) {
     return isoString;
   }
 }
+
 
 // ─── AUTH & STATE CONFIG ───
 let allLogs = [];
