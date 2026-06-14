@@ -7,284 +7,354 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* ── PALET WARNA MODERN (ALA DANA/FINTECH) ── */
-  --purple-gradient-start: #5A1A9A;
-  --purple-gradient-end:   #7B2FBE;
-  --purple-soft:           #F4ECFB;
-  --purple-accent:         #7B2FBE;
-  
-  --blue-icon:    #0080FF; /* Warna ikon menu utama */
-  --green:        #00B67A;
-  --green-bg:     #E6F8F2;
-  --red:          #EE4D2D;
-  --red-bg:       #FFF0ED;
+  --purple:       #7B2FBE;
+  --purple-dark:  #5A1A9A;
+  --purple-deep:  #3D0F72;
+  --purple-light: #9B4FDE;
+  --purple-soft:  #F3EAFD;
+  --purple-mid:   #EAD5FA;
+  --accent:       #FF6B2B;
+  --accent2:      #FFD600;
+  --green:        #12C28A;
+  --green-bg:     #E6FAF4;
+  --red:          #E84040;
+  --red-bg:       #FFECEC;
   --white:        #FFFFFF;
-  --bg:           #F5F6FA; /* Background abu-abu terang netral */
+  --bg:           #F8F6FC;
   --card:         #FFFFFF;
-  --gray-line:    #EFEFEF;
-  
-  /* Teks Netral & Bersih */
-  --text-dark:    #2A2A2A; /* Untuk nama & teks menu utama */
-  --text-mid:     #555555; /* Untuk email & sub-informasi */
-  --text-light:   #999999; /* Untuk chevron / tanda panah & label kecil */
+  --gray-line:    #EEF0F6;
+  --text-dark:    #1A0533;
+  --text-mid:     #6B3FA0;
+  --text-light:   #A882CC;
 }
 
-/* ── DARK THEME ── */
+/* ── GOPAY-INSPIRED DARK THEME TOKENS ── */
 html[data-theme="dark"] {
-  --purple-gradient-start: #1F1625;
-  --purple-gradient-end:   #2D1B3A;
-  --purple-soft:           #2A1E35;
-  --purple-accent:         #A855F7;
-  
-  --blue-icon:    #3B82F6;
-  --green-bg:     #0C251C;
-  --red-bg:       #2C1410;
-  --white:        #1A1B1F;
-  --bg:           #0F1013;
-  --card:         #1A1B1F;
-  --gray-line:    #2A2B30;
-  
-  --text-dark:    #E5E7EB;
-  --text-mid:     #9CA3AF;
-  --text-light:   #6B7280;
+  --purple-soft:  #202124;
+  --purple-mid:   #2a2b2f;
+  --green-bg:     #0c2a21;
+  --red-bg:       #311111;
+  --white:        #17181c;
+  --bg:           #0a0b0d;
+  --card:         #1c1d21;
+  --gray-line:    #303135;
+  --text-dark:    #e8eaed;
+  --text-mid:     #bdc1c6;
+  --text-light:   #9aa0a6;
 }
+html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
+html[data-theme="dark"] .stat-chip,
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .bottom-nav,
+html[data-theme="dark"] .logout-btn { background: var(--card); border-color: var(--gray-line); }
+html[data-theme="dark"] .stat-chip { border-color: rgba(255, 255, 255, 0.05); }
+html[data-theme="dark"] .logout-btn { color: var(--text-mid); }
+html[data-theme="dark"] .bottom-nav { background: var(--card); box-shadow: 0 -4px 20px rgba(0,0,0,0.4); }
+html[data-theme="dark"] .info-item { border-color: var(--gray-line); }
+html[data-theme="dark"] .role-badge { background: var(--purple-soft); color: var(--text-mid); border-color: var(--gray-line); }
+html[data-theme="dark"] .role-badge.admin { background: var(--red-bg); color: var(--red); border-color: rgba(232,64,64,0.15); }
+html[data-theme="dark"] .edit-avatar-btn { background: var(--card); }
+html[data-theme="dark"] .edit-avatar-btn svg { stroke: var(--text-dark); }
+html[data-theme="dark"] .card-title svg { stroke: var(--text-dark); }
+html[data-theme="dark"] .card-title-pill,
+html[data-theme="dark"] .sec-title-pill { background: var(--purple-soft); color: var(--text-mid); }
+html[data-theme="dark"] .hdr-btn.theme-toggle .icon-sun { display: none; }
+html[data-theme="dark"] .hdr-btn.theme-toggle .icon-moon { display: flex; }
+html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-sun { display: flex; }
+html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-moon { display: none; }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+html { background: var(--bg); }
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   background: var(--bg);
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
-  color: var(--text-dark);
-  padding-bottom: 110px;
+  overflow-x: hidden;
+  padding-bottom: 100px;
   transition: background .25s ease, color .25s ease;
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pulse {
+  0%,100% { transform:scale(1); }
+  50%      { transform:scale(1.1); }
 }
 
-/* ── HERO HEADER ── */
 .hero {
-  background: linear-gradient(135deg, var(--purple-gradient-start) 0%, var(--purple-gradient-end) 100%);
-  padding: 20px 20px 50px;
+  background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
+  padding: 32px 20px 64px;
   position: relative;
   overflow: hidden;
   animation: fadeUp 0.4s ease both;
 }
-.hero-topbar {
-  display: flex; align-items: center; justify-content: flex-end;
-  max-width: 440px; margin: 0 auto 10px;
+.hero::before {
+  content:''; position:absolute; top:-40px; right:-20px;
+  width:160px; height:160px;
+  border:32px solid rgba(255,255,255,0.05); border-radius:50%;
 }
-.hdr-btn {
-  width: 34px; height: 34px; border-radius: 50%;
-  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
-  display: flex; align-items: center; justify-content: center;
-  backdrop-filter: blur(8px); cursor: pointer;
+.hero-dots {
+  position:absolute; inset:0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 20px 20px; pointer-events:none;
 }
-.hdr-btn svg { width: 16px; height: 16px; stroke: #fff; stroke-width: 2.2; fill: none; }
 
-html[data-theme="dark"] .hdr-btn .icon-sun { display: none; }
-html[data-theme="dark"] .hdr-btn .icon-moon { display: flex; }
-html:not([data-theme="dark"]) .hdr-btn .icon-sun { display: flex; }
-html:not([data-theme="dark"]) .hdr-btn .icon-moon { display: none; }
+.hero-topbar {
+  position: relative; z-index: 2;
+  display: flex; align-items:center; justify-content:flex-end;
+  max-width: 440px; margin: 0 auto 8px;
+}
+.hdr-actions { display:flex; gap:8px; align-items:center; }
+.hdr-btn {
+  width:34px; height:34px; border-radius:50%;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  display: flex; align-items:center; justify-content:center;
+  transition: all .2s; backdrop-filter:blur(10px);
+  cursor: pointer;
+}
+.hdr-btn:hover { background:rgba(255,255,255,.2); transform:translateY(-2px); }
+.hdr-btn svg {
+  width:16px; height:16px;
+  stroke:#fff; stroke-width:2.2; fill:none;
+}
+.hdr-btn.theme-toggle { position: relative; }
+.hdr-btn.theme-toggle .icon-sun,
+.hdr-btn.theme-toggle .icon-moon {
+  position: absolute; align-items:center; justify-content:center;
+}
 
 .hero-profile {
-  display: flex; align-items: center; gap: 14px;
-  max-width: 440px; margin: 0 auto;
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
 }
+
 .avatar-wrap { position: relative; }
 .avatar {
-  width: 64px; height: 64px; border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.4); object-fit: cover;
+  width: 76px; height: 76px; border-radius: 50%;
+  border: 2.5px solid rgba(255,255,255,0.4);
+  object-fit: cover; background: rgba(255,255,255,0.1);
+  display: block;
 }
-.profile-info { display: flex; flex-direction: column; gap: 2px; }
-.profile-name { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.2px; }
-.profile-email { font-size: 13px; color: rgba(255,255,255,0.75); font-weight: 600; }
-
-/* ── MAIN CONTENT ── */
-.content-wrap { max-width: 440px; margin: -25px auto 0; padding: 0 16px; position: relative; z-index: 10; }
-
-/* SALDO STRIP */
-.saldo-card {
-  background: var(--white); border-radius: 14px; padding: 12px 16px;
-  display: flex; align-items: center; justify-content: space-between;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid var(--gray-line);
-  margin-bottom: 16px; animation: fadeUp 0.4s 0.06s ease both;
+.online-dot {
+  position: absolute; bottom: 3px; right: 3px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--green); border: 2px solid var(--purple-deep);
+  animation: pulse 2s infinite;
 }
-.saldo-left { display: flex; align-items: center; gap: 10px; }
-.saldo-icon { width: 32px; height: 32px; background: var(--purple-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.saldo-icon svg { width: 18px; height: 18px; stroke: var(--purple-accent); fill: none; stroke-width: 2.2; }
-.saldo-label { font-size: 12px; color: var(--text-light); font-weight: 700; }
-.saldo-val { font-size: 16px; font-weight: 800; color: var(--text-dark); }
-.status-badge { font-size: 11px; font-weight: 800; background: var(--green-bg); color: var(--green); padding: 3px 10px; border-radius: 20px; }
-
-/* ── LIST GROUP (ALA DANA) ── */
-.menu-group {
-  background: var(--white); border-radius: 14px; overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.02); border: 1px solid var(--gray-line);
-  margin-bottom: 14px; animation: fadeUp 0.4s 0.1s ease both;
+.edit-avatar-btn {
+  position: absolute; bottom: -2px; right: -2px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: #fff; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; border: none;
+  transition: background .25s ease, transform .2s;
 }
-.menu-item {
-  display: flex; align-items: center; gap: 14px; padding: 14px 16px;
-  text-decoration: none; border-bottom: 1px solid var(--gray-line);
-  cursor: pointer; transition: background 0.15s;
+.edit-avatar-btn:active { transform: scale(0.9); }
+.edit-avatar-btn svg { width: 12px; height: 12px; fill: none; stroke: var(--purple); stroke-width: 2.5; }
+
+.profile-name { font-size: 19px; font-weight: 900; color: #fff; letter-spacing: -0.2px; text-align: center; }
+.profile-email { font-size: 12px; color: rgba(255,255,255,0.55); text-align: center; font-weight: 600; }
+
+.content-wrap { max-width: 440px; margin: -40px auto 0; padding: 0 16px; position: relative; z-index: 10; }
+
+.stat-row { display: flex; gap: 10px; margin-bottom: 16px; animation: fadeUp 0.4s 0.08s ease both; }
+.stat-chip {
+  flex: 1; border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 10px;
+  background: var(--white); border: 1px solid rgba(234, 213, 250, 0.6);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+  transition: background .25s ease, border-color .25s ease;
 }
-.menu-item:last-child { border-bottom: none; }
-.menu-item:active { background: rgba(0,0,0,0.02); }
+.chip-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.chip-icon svg { width: 20px; height: 20px; fill: none; stroke-width: 2.2; }
+.balance-chip .chip-icon svg { stroke: var(--purple); }
+.status-chip .chip-icon svg { stroke: var(--green); }
 
-.menu-icon {
-  width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+.chip-text-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin-bottom: 1px; }
+.chip-text-val { font-size: 14px; font-weight: 900; color: var(--text-dark); }
+
+.card {
+  background: var(--card); border-radius: 16px; padding: 16px 18px; margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04); border: 1px solid var(--gray-line);
+  animation: fadeUp 0.4s 0.12s ease both;
+  transition: background .25s ease, border-color .25s ease;
 }
-.menu-icon svg { width: 22px; height: 22px; fill: none; stroke: var(--blue-icon); stroke-width: 2.2; }
-.menu-title { font-size: 14px; font-weight: 700; color: var(--text-dark); flex: 1; }
-.menu-value { font-size: 12px; color: var(--text-light); margin-right: 2px; font-weight: 600; }
-.menu-chevron { display: flex; align-items: center; color: var(--text-light); }
-.menu-chevron svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+.card-title {
+  font-size: 13px; font-weight: 900; color: var(--text-dark); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 6px; letter-spacing: -0.1px;
+}
+.card-title svg { width: 16px; height: 16px; fill: none; stroke: var(--purple); stroke-width: 2.2; flex-shrink: 0; }
+.card-title-pill { font-size: 9px; font-weight: 800; background: var(--purple-soft); color: var(--purple); border-radius: 6px; padding: 1px 6px; }
 
-/* APP VERSION */
-.app-version { text-align: center; font-size: 12px; color: var(--text-light); font-weight: 700; margin: 20px 0 12px; }
+.info-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--gray-line); transition: border-color .25s ease; }
+.info-item:last-child { border-bottom: none; padding-bottom: 0; }
+.info-item:first-child { padding-top: 0; }
 
-/* LOGOUT BUTTON (BORDER OUTLINE DANA STYLE) */
+.info-label { font-size: 11px; font-weight: 800; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+.info-value { font-size: 13px; font-weight: 800; color: var(--text-dark); text-align: right; }
+
+.role-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 6px;
+  font-size: 10px; font-weight: 800; background: var(--purple-soft); color: var(--purple);
+  text-transform: uppercase; border: 1px solid rgba(123,47,190,0.1);
+  transition: background .25s ease, border-color .25s ease;
+}
+.role-badge.admin { background: var(--red-bg); color: var(--red); border-color: rgba(232,64,64,0.1); }
+
 .logout-btn {
-  width: 100%; padding: 12px; border: 1.5px solid var(--blue-icon); border-radius: 12px;
-  background: transparent; color: var(--blue-icon); font-family: 'Nunito', sans-serif;
-  font-weight: 800; font-size: 14px; cursor: pointer; text-transform: uppercase;
-  letter-spacing: 0.5px; transition: all 0.2s;
-  animation: fadeUp 0.4s 0.14s ease both;
+  width: 100%; padding: 12px; border: 1.5px solid var(--gray-line); border-radius: 12px;
+  background: var(--white); color: var(--text-mid); font-family: 'Nunito', sans-serif;
+  font-weight: 800; font-size: 13px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.2s ease;
+  animation: fadeUp 0.4s 0.16s ease both;
 }
-.logout-btn:hover { background: rgba(0, 128, 255, 0.05); }
+.logout-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-bg); box-shadow: 0 4px 12px rgba(232,64,64,0.06); }
+.logout-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; }
 
-/* ── BOTTOM NAV ── */
 .bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0; background: var(--white);
-  border-top: 1px solid var(--gray-line); display: flex; padding: 10px 0 14px;
-  box-shadow: 0 -4px 16px rgba(0,0,0,0.03); z-index: 100; max-width: 440px; margin: 0 auto;
+  position:fixed; bottom:0; left:0; right:0; background:#fff;
+  border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.04); z-index:100; max-width:440px; margin:0 auto;
+  transition: background .25s ease, border-color .25s ease;
 }
-.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; }
-.nav-icon svg { width: 22px; height: 22px; fill: none; stroke: var(--text-light); stroke-width: 2.2; }
-.nav-label { font-size: 11px; font-weight: 700; color: var(--text-light); }
-.nav-item.active .nav-label { color: var(--purple-accent); font-weight: 800; }
-.nav-item.active .nav-icon svg { stroke: var(--purple-accent); }
+.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
+.nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
+.nav-label { font-size:10px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
+.nav-item.active .nav-label { color:var(--purple); }
+.nav-item.active .nav-icon svg { stroke: var(--purple); }
+
+.device-card{ animation: fadeUp 0.4s 0.14s ease both; }
+.device-box{ display:flex; align-items:center; gap:14px; }
+.device-icon{
+  width:52px; height:52px; border-radius:14px;
+  background:var(--purple-soft); display:flex;
+  align-items:center; justify-content:center;
+  font-size:24px; flex-shrink:0;
+}
+.device-info{ flex:1; min-width:0; }
+.device-name{ font-size:14px; font-weight:900; color:var(--text-dark); margin-bottom:3px; }
+.device-meta{ font-size:11px; font-weight:700; color:var(--text-light); margin-top:2px; }
 </style>
 </head>
 <body>
 
 <div class="hero">
+  <div class="hero-dots"></div>
   <div class="hero-topbar">
-    <button class="hdr-btn theme-toggle" id="themeToggle" aria-label="Ganti tema">
-      <span class="icon-sun">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-      </span>
-      <span class="icon-moon">
-        <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-      </span>
-    </button>
+    <div class="hdr-actions">
+      <button class="hdr-btn theme-toggle" id="themeToggle" aria-label="Ganti tema">
+        <span class="icon-sun">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        </span>
+        <span class="icon-moon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+          </svg>
+        </span>
+      </button>
+    </div>
   </div>
   <div class="hero-profile">
     <div class="avatar-wrap">
-      <img class="avatar" id="avatar" src="https://via.placeholder.com/64" alt="Avatar">
+      <img class="avatar" id="avatar" src="https://via.placeholder.com/76" alt="Avatar">
+      <div class="online-dot"></div>
+      <button class="edit-avatar-btn" aria-label="Edit avatar">
+        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
     </div>
-    <div class="profile-info">
-      <div class="profile-name" id="username">—</div>
-      <div class="profile-email" id="email">—</div>
-    </div>
+    <div class="profile-name" id="username">—</div>
+    <div class="profile-email" id="email">—</div>
   </div>
 </div>
 
 <div class="content-wrap">
 
-  <div class="saldo-card">
-    <div class="saldo-left">
-      <div class="saldo-icon">
+  <div class="stat-row">
+    <div class="stat-chip balance-chip">
+      <div class="chip-icon">
         <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
       </div>
       <div>
-        <div class="saldo-label">Saldo Akun</div>
-        <div class="saldo-val" id="balance">Rp 0</div>
+        <div class="chip-text-label">Saldo</div>
+        <div class="chip-text-val" id="balance">Rp 0</div>
       </div>
     </div>
-    <div class="status-badge">Aktif</div>
-  </div>
-
-  <div class="menu-group">
-    <div class="menu-item" onclick="openSecurity()">
-      <div class="menu-icon">
-        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <div class="stat-chip status-chip">
+      <div class="chip-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l2.5 2.5L16 9"/></svg>
       </div>
-      <div class="menu-title">Pengaturan Keamanan</div>
-      <div class="menu-chevron">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </div>
-
-    <div class="menu-item" onclick="openNotification()">
-      <div class="menu-icon">
-        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-      </div>
-      <div class="menu-title">Pengaturan Notifikasi</div>
-      <div class="menu-chevron">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </div>
-
-    <div class="menu-item" onclick="openDevice()">
-      <div class="menu-icon">
-        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-      </div>
-      <div class="menu-title">Device & IP Terhubung</div>
-      <div class="menu-value" id="deviceName">Loading...</div>
-      <div class="menu-chevron">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </div>
-
-    <div class="menu-item" onclick="openRole()">
-      <div class="menu-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <div class="menu-title">Informasi Role</div>
-      <div class="menu-value" id="role" style="font-weight: 800; color: var(--purple-accent);">User</div>
-      <div class="menu-chevron">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </div>
-
-    <div class="menu-item">
-      <div class="menu-icon">
-        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="4"/><line x1="8" y1="2" x2="8" y2="4"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      </div>
-      <div class="menu-title">Terdaftar Sejak</div>
-      <div class="menu-value" id="created_at">—</div>
-    </div>
-  </div>
-
-  <div class="menu-group">
-    <div class="menu-item" onclick="openHelp()">
-      <div class="menu-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      </div>
-      <div class="menu-title">Pusat Bantuan</div>
-      <div class="menu-chevron">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </div>
-
-    <div class="menu-item" onclick="openTerms()">
-      <div class="menu-icon">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-      </div>
-      <div class="menu-title">Syarat & Ketentuan</div>
-      <div class="menu-chevron">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      <div>
+        <div class="chip-text-label">Status</div>
+        <div class="chip-text-val">Aktif</div>
       </div>
     </div>
   </div>
 
-  <div class="app-version">Version 2.85.1</div>
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      Informasi Akun
+      <span class="card-title-pill">Detail</span>
+    </div>
 
-  <button class="logout-btn" onclick="logout()">Keluar</button>
+    <div class="info-item">
+      <div class="info-label">Username</div>
+      <div class="info-value" id="username2">—</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Email</div>
+      <div class="info-value" id="email2">—</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Role</div>
+      <div class="info-value">
+        <span class="role-badge" id="role">User</span>
+      </div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Terdaftar Sejak</div>
+      <div class="info-value" id="created_at">—</div>
+    </div>
+  </div>
+  
+  <div class="card device-card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24">
+        <rect x="5" y="2" width="14" height="20" rx="2"/>
+        <line x1="12" y1="18" x2="12.01" y2="18"/>
+      </svg>
+      Device Login
+      <span class="card-title-pill">Aktif</span>
+    </div>
+
+    <div class="device-box">
+      <div class="device-icon" id="deviceIcon">📱</div>
+      <div class="device-info">
+        <div class="device-name" id="deviceName">Loading Device...</div>
+        <div class="device-meta">IP: <span id="deviceIp">Loading...</span></div>
+        <div class="device-meta">Terakhir aktif: <span id="lastOnlineTime">Loading...</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-title" style="font-size:13px; font-weight:900; color:var(--text-dark); margin: 4px 0 10px 4px; display:flex; align-items:center; gap:6px;">
+    Aksi <span class="sec-title-pill" style="font-size: 9px; background:var(--purple-soft); color:var(--purple); padding:1px 6px; border-radius:6px;">Akun</span>
+  </div>
+
+  <button class="logout-btn" onclick="logout()">
+    <svg viewBox="0 0 24 24">
+      <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+      <polyline points="16 17 21 12 16 7"/>
+      <line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+    Keluar dari Akun
+  </button>
 
 </div>
 
@@ -293,24 +363,24 @@ html:not([data-theme="dark"]) .hdr-btn .icon-moon { display: none; }
     <div class="nav-icon">
       <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
     </div>
-    <div class="nav-label">Beranda</div>
+    <div class="nav-label">Home</div>
   </a>
   <a class="nav-item" href="transactions.html">
     <div class="nav-icon">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
     </div>
-    <div class="nav-label">Aktivitas</div>
+    <div class="nav-label">Riwayat</div>
   </a>
   <a class="nav-item active" href="#">
     <div class="nav-icon">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
     </div>
-    <div class="nav-label">Saya</div>
+    <div class="nav-label">Profile</div>
   </a>
 </nav>
 
 <script>
-/* JS Tetap Sinkron dengan Sistem Backend Kamu */
+/* ── THEME TOGGLE ── */
 (function initTheme(){
   const saved = localStorage.getItem('theme');
   if (saved === 'dark' || saved === 'light') {
@@ -337,8 +407,10 @@ if (!localUser || !token) {
   window.location.href = 'index.html';
 }
 
+// Jalankan fungsi utama
 loadProfile();
 detectDevice();
+loadIPAddress();
 
 async function loadProfile() {
   try {
@@ -362,117 +434,139 @@ async function loadProfile() {
     const user = result.user;
 
     document.getElementById('username').innerText  = user.username || '—';
+    document.getElementById('username2').innerText = user.username || '—';
     document.getElementById('email').innerText     = user.email    || '—';
+    document.getElementById('email2').innerText    = user.email    || '—';
     document.getElementById('balance').innerText   = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
-    document.getElementById('avatar').src          = user.avatar   || 'https://via.placeholder.com/64';
+    document.getElementById('avatar').src          = user.avatar   || 'https://via.placeholder.com/76';
     document.getElementById('created_at').innerText = user.created_at
-      ? new Date(user.created_at).toLocaleDateString('id-ID', { day:'numeric', month:'short', year:'numeric' })
+      ? new Date(user.created_at).toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
       : '—';
 
     const roleBadge = document.getElementById('role');
     if (user.role === 'admin') {
       roleBadge.innerText = 'Admin';
-      roleBadge.style.color = 'var(--red)';
+      roleBadge.classList.add('admin');
     } else {
       roleBadge.innerText = 'User';
-      roleBadge.style.color = 'var(--purple-accent)';
+      roleBadge.classList.remove('admin');
     }
+
+    // TAMPILKAN WAKTU LOGIN BERDASARKAN HASIL BACKEND/LOCALSTORAGE
+    displayLastOnline(user.last_login);
 
   } catch (err) {
     console.error('Gagal memuat profil:', err);
   }
 }
 
+/* DETECT DEVICE (DENGAN MAPPING NAMA PRODUK PASARAN) */
 async function detectDevice() {
   const ua = navigator.userAgent;
-  let device = 'Mobile';
+  let device = 'Unknown Device';
+  let isMobile = /Android|iPhone|iPad/i.test(ua);
+
   const deviceMap = {
-    'M2103K19PG': 'POCO M3 Pro',
-    'M2103K19G' : 'Redmi Note 10',
+    'M2103K19PG': 'POCO M3 Pro 5G',
+    'M2103K19G' : 'Redmi Note 10 5G',
     'M2012K11AG': 'POCO F3',
-    '2201116SG' : 'Redmi Note 11'
+    '2201116SG' : 'Redmi Note 11 Pro 5G',
+    '21061119DG': 'Redmi Note 10S',
+    'CPH2239'   : 'Oppo A16',
+    'CPH2387'   : 'Oppo A57',
+    'RMX3511'   : 'Realme C35',
+    'SM-G998B'  : 'Samsung Galaxy S21 Ultra'
   };
 
   if (navigator.userAgentData && typeof navigator.userAgentData.getHighEntropyValues === 'function') {
     try {
-      const hints = await navigator.userAgentData.getHighEntropyValues(['model']);
+      const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platform']);
       if (hints.model) {
         device = hints.model;
-        if (deviceMap[device]) device = deviceMap[device];
-        document.getElementById('deviceName').innerText = device;
+        if (deviceMap[device]) {
+          device = deviceMap[device];
+        }
+        updateDeviceUI(device, isMobile);
         return; 
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log("Client hints ditolak/tidak disupport, beralih ke regex UA.");
+    }
   }
 
   if (/Android/i.test(ua)) {
     const match = ua.match(/Android\s+[^;]+;\s+([^;\)]+)/i);
-    if (match && match[1] && !match[1].includes('Linux')) device = match[1].split(' ')[0];
-  } else if (/iPhone/i.test(ua)) {
+    if (match && match[1] && !match[1].includes('Linux')) {
+      device = match[1].trim();
+    } else {
+      device = 'Android Device';
+    }
+  }
+  else if (/iPhone/i.test(ua)) {
     device = 'iPhone';
-  } else if (/Windows/i.test(ua)) {
+  }
+  else if (/iPad/i.test(ua)) {
+    device = 'iPad';
+  }
+  else if (/Windows/i.test(ua)) {
     device = 'Windows PC';
   }
-  
-  if (deviceMap[device]) device = deviceMap[device];
-  document.getElementById('deviceName').innerText = device;
-}
-function openSecurity() {
-  alert(
-`🔐 Pengaturan Keamanan
+  else if (/Macintosh/i.test(ua)) {
+    device = 'MacBook';
+  }
 
-• Ganti Password
-• Logout Semua Device
-• Aktivitas Login`
-  );
+  if (deviceMap[device]) {
+    device = deviceMap[device];
+  }
+
+  updateDeviceUI(device, isMobile);
 }
 
-function openNotification() {
-  alert(
-`🔔 Pengaturan Notifikasi
-
-• Notifikasi Transaksi
-• Notifikasi Login
-• Promo & Info`
-  );
+function updateDeviceUI(deviceName, isMobile) {
+  document.getElementById('deviceIcon').innerText = isMobile ? '📱' : '💻';
+  document.getElementById('deviceName').innerText = deviceName;
 }
 
-function openDevice() {
-  alert(
-`📱 Device Aktif
-
-Device:
-${document.getElementById('deviceName').innerText}
-
-IP:
-Sedang digunakan`
-  );
+/* AMBIL IP PUBLIC USER */
+async function loadIPAddress() {
+  try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    document.getElementById('deviceIp').innerText = data.ip;
+  } catch (error) {
+    document.getElementById('deviceIp').innerText = 'Gagal memuat IP';
+  }
 }
 
-function openRole() {
-  alert(
-`👑 Informasi Role
+/* FUNGSI MERENDER FORMAT WAKTU LOGIN */
+function displayLastOnline(backendTimestamp) {
+  let targetDate;
 
-Role akun kamu:
-${document.getElementById('role').innerText}`
-  );
+  // Jika backend mengirimkan data waktu login (Opsi 2)
+  if (backendTimestamp) {
+    targetDate = new Date(backendTimestamp);
+  } else {
+    // Jika tidak ada, pakai data localstorage dari Opsi 1
+    const localTimestamp = localStorage.getItem('last_login_timestamp');
+    targetDate = localTimestamp ? new Date(localTimestamp) : new Date();
+  }
+
+  const formatTanggal = targetDate.toLocaleDateString('id-ID', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+  const formatJam = targetDate.toLocaleTimeString('id-ID', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
+
+  document.getElementById('lastOnlineTime').innerText = `${formatTanggal} - ${formatJam} WIB`;
 }
 
-function openHelp() {
-  window.open(
-    'https://t.me/xtrimertunnel',
-    '_blank'
-  );
-}
-
-function openTerms() {
-  alert(
-`📄 Syarat & Ketentuan
-
-Dilarang menyalahgunakan layanan.
-Semua aktivitas tercatat di sistem.`
-  );
-}
 function logout() {
   if (confirm('Yakin mau keluar?')) {
     localStorage.clear();
@@ -481,4 +575,4 @@ function logout() {
 }
 </script>
 </body>
-</html>
+        </html>
