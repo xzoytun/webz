@@ -22,25 +22,25 @@
   --red:          #E84040;
   --red-bg:       #FEE2E2;
   
-  --white:        #EAF0F6; /* Diubah dari #FFFFFF menjadi abu-abu lembut premium */
+  --white:        #FFFFFF;
   --bg:           #F1F5F9; 
-  --card:         #EAF0F6; /* Diubah dari #F8FAFC menjadi abu-abu lembut premium */
-  --gray-line:    #DCE4EC; /* Disesuaikan agar border sedikit lebih tegas di atas warna abu baru */
+  --card:         #F8FAFC; 
+  --gray-line:    #E2E8F0; 
   
   --text-dark:    #0F172A; 
   --text-mid:     #334155; 
   --text-light:   #64748B; 
 
-  --shadow-sm:  0 4px 12px rgba(15, 23, 42, 0.02);
-  --shadow-md:  0 6px 18px rgba(15, 23, 42, 0.04);
-  --shadow-lg:  0 10px 25px rgba(15, 23, 42, 0.04);
-  --shadow-purple: 0 4px 14px rgba(123, 47, 190, 0.08);
+  --shadow-sm:  0 4px 12px rgba(15, 23, 42, 0.03);
+  --shadow-md:  0 6px 18px rgba(15, 23, 42, 0.05);
+  --shadow-lg:  0 10px 25px rgba(15, 23, 42, 0.05);
+  --shadow-purple: 0 4px 14px rgba(123, 47, 190, 0.12);
 
   --r-card: 14px;
   --r-btn:  10px;
   
-  --nav-bg:       #EAF0F6; /* Disamakan menjadi abu lembut */
-  --nav-shadow:   rgba(15, 23, 42, 0.06);
+  --nav-bg:       #F8FAFC;
+  --nav-shadow:   rgba(15, 23, 42, 0.08);
 
   /* New Gradient for Top Up Button */
   --btn-topup-grad: linear-gradient(135deg, #FF6B2B 0%, #FF8E53 100%);
@@ -224,7 +224,7 @@ img { display:block; }
   border-radius: 16px;
   padding: 14px 16px;
   border: 1px solid var(--gray-line);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
   transition: all .25s ease;
 }
 .balance-top {
@@ -233,7 +233,7 @@ img { display:block; }
 .balance-top-left { display:flex; align-items:center; gap:12px; }
 .balance-icon-wrap {
   width:36px; height:36px; border-radius:10px;
-  background: rgba(123, 47, 190, 0.06);
+  background: rgba(123, 47, 190, 0.08);
   display: flex; align-items:center; justify-content:center;
   flex-shrink:0;
   transition: background .25s ease;
@@ -289,7 +289,7 @@ html[data-theme="dark"] .balance-icon-wrap {
   padding:2px 6px; border-radius:5px; letter-spacing:.3px;
   text-transform: uppercase;
 }
-.sec-badge.purple  { background: rgba(123, 47, 190, 0.1); color:var(--purple); border: 1px solid rgba(123,47,190,0.1); }
+.sec-badge.purple  { background:var(--purple-soft); color:var(--purple); border: 1px solid rgba(123,47,190,0.1); }
 .sec-badge.orange  { background:#FFF3E0; color:#C05600; border: 1px solid rgba(192,86,0,0.1); }
 .sec-badge.blue    { background:#EEF4FF; color:#1D4ED8; border: 1px solid rgba(29,78,216,0.1); }
 .sec-badge.teal    { background:var(--green-bg); color:var(--green); border: 1px solid rgba(18,194,138,0.1); }
@@ -383,7 +383,7 @@ html[data-theme="dark"] .balance-icon-wrap {
   display:flex; flex-direction:column; align-items:center; gap:5px;
   padding:4px 2px; border-radius:10px; transition:background .2s;
 }
-.cat-item:hover  { background: rgba(15, 23, 42, 0.05); }
+.cat-item:hover  { background:var(--purple-soft); }
 .cat-item:active { transform:scale(.95); }
 
 .cat-img {
@@ -403,7 +403,7 @@ html[data-theme="dark"] .balance-icon-wrap {
 }
 
 .vpn-grid {
-  display: grid; grid-template-columns: repeat(3,1fr); gap:6px; /* Disesuaikan ke 3 kolom mengikuti jumlah menu */
+  display: grid; grid-template-columns: repeat(4,1fr); gap:6px;
   background: var(--card);
   border-radius: var(--r-card);
   padding: 10px 6px;
@@ -416,7 +416,7 @@ html[data-theme="dark"] .balance-icon-wrap {
   display:flex; flex-direction:column; align-items:center; gap:5px;
   padding:4px 2px; border-radius:10px; transition:background .2s;
 }
-.vm-item:hover  { background: rgba(15, 23, 42, 0.05); }
+.vm-item:hover  { background:var(--purple-soft); }
 .vm-item:active { transform:scale(.95); }
 
 .vm-icon {
@@ -578,7 +578,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
 
 <div class="main">
 
-  <!-- POSISI 1: BANNER PROMO -->
+  <!-- POSISI 1: BANNER PROMO (NAIK KE ATAS) -->
   <div class="sec-head">
     <span class="sec-title">Informasi Promo</span>
     <span class="sec-badge blue">Terbaru</span>
@@ -612,7 +612,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
   </div>
 
-  <!-- POSISI 2: PRODUK DIGITAL -->
+  <!-- POSISI 2: PRODUK DIGITAL (UTAMA) -->
   <div class="sec-head">
     <span class="sec-title">Produk Digital</span>
     <span class="sec-badge orange" id="catCount">Loading…</span>
@@ -630,7 +630,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
   </div>
 
-  <!-- POSISI 3: MENU LAYANAN / VPN -->
+    <!-- POSISI 3: MENU LAYANAN / VPN -->
   <div class="sec-head">
     <span class="sec-title">Menu Layanan</span>
     <span class="sec-badge purple">VPN</span>
@@ -656,7 +656,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </a>
   </div>
 
-  <!-- POSISI 4: JADWAL MAINTENANCE -->
+  <!-- POSISI 4: JADWAL MAINTENANCE (DITURUNKAN KE BAWAH & COMPACT GRID) -->
   <div class="sec-head">
     <span class="sec-title">Jadwal Maintenance</span>
     <span class="sec-badge red">Sistem</span>
