@@ -36,8 +36,8 @@
   --shadow-lg:  0 10px 25px rgba(15, 23, 42, 0.05);
   --shadow-purple: 0 4px 14px rgba(123, 47, 190, 0.12);
 
-  --r-card: 16px;
-  --r-btn:  12px;
+  --r-card: 14px;
+  --r-btn:  10px;
   
   --nav-bg:       #F8FAFC;
   --nav-shadow:   rgba(15, 23, 42, 0.08);
@@ -120,13 +120,13 @@ img { display:block; }
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
-  padding: 28px 20px 54px;
+  padding: 24px 20px 48px;
   animation: fadeUp 0.4s ease both;
 }
 .header::before {
   content:''; position:absolute; top:-40px; right:-20px;
-  width:160px; height:160px;
-  border:32px solid rgba(255,255,255,0.05); border-radius:50%;
+  width:140px; height:140px;
+  border:28px solid rgba(255,255,255,0.05); border-radius:50%;
 }
 .hero-dots {
   position:absolute; inset:0;
@@ -138,12 +138,12 @@ img { display:block; }
   display: flex; align-items:center; justify-content:space-between;
   position: relative; z-index:2;
 }
-.header-left { display:flex; align-items:center; gap:12px; }
+.header-left { display:flex; align-items:center; gap:10px; }
 
 .avatar-wrap {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
 }
 .avatar-dashboard {
@@ -156,17 +156,17 @@ img { display:block; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 900;
   color: #fff;
   overflow: hidden;
 }
 .avatar-online-indicator {
   position: absolute;
-  bottom: 1px;
-  right: 1px;
-  width: 10px;
-  height: 10px;
+  bottom: 0px;
+  right: 0px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--green);
   border: 2px solid var(--purple-deep);
@@ -175,29 +175,29 @@ img { display:block; }
 }
 
 .header-greeting {
-  display: flex; flex-direction:column; gap:1px;
+  display: flex; flex-direction:column; gap:0px;
 }
 .header-sub {
-  font-size: 11px; font-weight:600;
+  font-size: 10.5px; font-weight:600;
   color: rgba(255,255,255,.75);
   letter-spacing: .3px;
 }
 .header-name {
-  font-size: 17px; font-weight:900;
+  font-size: 16px; font-weight:900;
   color: #fff; letter-spacing:-.2px; line-height:1.2;
 }
 
 .hdr-actions { display:flex; gap:8px; align-items:center; }
 .hdr-btn {
-  width:34px; height:34px; border-radius:50%;
+  width:32px; height:32px; border-radius:50%;
   background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.15);
   display: flex; align-items:center; justify-content:center;
   transition: all .2s; backdrop-filter:blur(10px);
 }
 .hdr-btn:hover { background:rgba(255,255,255,.2); transform:translateY(-2px); }
 .hdr-btn svg {
-  width:16px; height:16px;
+  width:15px; height:15px;
   stroke:#fff; stroke-width:2.2; fill:none;
 }
 .hdr-btn.theme-toggle { position: relative; }
@@ -206,17 +206,17 @@ img { display:block; }
   position: absolute; align-items:center; justify-content:center;
 }
 
-/* ── MODIFIKASI UKURAN CARD TOP UP & SALDO (LEBIH RINGKAS & PREMIUM) ── */
+/* ── CARD SALDO & TOP UP ULTRA SLIM ── */
 .balance-wrap {
-  max-width:440px; margin:-34px auto 0;
+  max-width:440px; margin:-28px auto 0;
   padding: 0 16px;
   position: relative; z-index:10;
   animation: fadeUp 0.4s 0.08s ease both;
 }
 .balance-card {
   background: var(--card);
-  border-radius: 14px;
-  padding: 12px 14px;
+  border-radius: 12px;
+  padding: 10px 12px;
   border: 1px solid var(--gray-line);
   box-shadow: var(--shadow-md);
   transition: background .25s ease, border-color .25s ease;
@@ -226,31 +226,31 @@ img { display:block; }
 }
 .balance-top-left { display:flex; align-items:center; gap:8px; }
 .balance-icon-wrap {
-  width:32px; height:32px; border-radius:10px;
+  width:28px; height:28px; border-radius:8px;
   background: var(--purple-soft);
   display: flex; align-items:center; justify-content:center;
   flex-shrink:0;
   transition: background .25s ease;
 }
 .balance-icon-wrap svg {
-  width:16px; height:16px;
+  width:14px; height:14px;
   stroke: var(--purple); stroke-width:2.2; fill:none;
 }
 .balance-lbl {
-  font-size: 9px; font-weight:800; color:var(--text-light);
-  text-transform:uppercase; letter-spacing:.6px; margin-bottom: 0px;
+  font-size: 8.5px; font-weight:800; color:var(--text-light);
+  text-transform:uppercase; letter-spacing:.5px; line-height:1; margin-bottom: 1px;
 }
 .balance-amount {
-  font-size:19px; font-weight:900; color:var(--text-dark);
-  letter-spacing:-.4px; line-height:1.1;
+  font-size:17px; font-weight:900; color:var(--text-dark);
+  letter-spacing:-.3px; line-height:1;
 }
 .topup-btn {
   background: var(--purple-soft);
   color: var(--purple);
   border: 1.5px solid transparent;
-  border-radius: 10px; 
-  padding: 6px 12px;
-  font-size:11.5px; font-weight:800;
+  border-radius: 8px; 
+  padding: 5px 10px;
+  font-size:11px; font-weight:800;
   display: flex; align-items:center; gap:4px;
   transition: all .2s ease;
   white-space: nowrap;
@@ -258,20 +258,19 @@ img { display:block; }
 .topup-btn:hover { 
   border-color: var(--purple); 
   background: var(--white); 
-  box-shadow: 0 4px 10px rgba(123,47,190,0.06); 
 }
-.topup-btn svg { width:11px; height:11px; stroke:currentColor; stroke-width:2.5; fill:none; }
+.topup-btn svg { width:10px; height:10px; stroke:currentColor; stroke-width:2.5; fill:none; }
 
-.main { max-width:440px; margin:0 auto; padding:12px 16px 0; }
+.main { max-width:440px; margin:0 auto; padding:8px 16px 0; }
 
 .sec-head {
   display:flex; align-items:center; justify-content:space-between;
-  margin: 16px 0 8px 4px;
+  margin: 12px 0 6px 4px;
 }
-.sec-title { font-size:13px; font-weight:900; color:var(--text-dark); letter-spacing: -0.1px; }
+.sec-title { font-size:12.5px; font-weight:900; color:var(--text-dark); letter-spacing: -0.1px; }
 .sec-badge {
-  font-size:9px; font-weight:800;
-  padding:2px 8px; border-radius:6px; letter-spacing:.4px;
+  font-size:8.5px; font-weight:800;
+  padding:2px 6px; border-radius:5px; letter-spacing:.3px;
   text-transform: uppercase;
 }
 .sec-badge.purple  { background:var(--purple-soft); color:var(--purple); border: 1px solid rgba(123,47,190,0.1); }
@@ -280,7 +279,7 @@ img { display:block; }
 .sec-badge.teal    { background:var(--green-bg); color:var(--green); border: 1px solid rgba(18,194,138,0.1); }
 .sec-badge.red     { background:var(--red-bg); color:var(--red); border: 1px solid rgba(232,64,64,0.1); }
 
-/* ── BANNER PROMO ── */
+/* ── BANNER PROMO COMPACT ── */
 .banner-wrap { 
   animation: fadeUp .5s .15s ease both; 
   width: 100%;
@@ -291,7 +290,7 @@ img { display:block; }
   scroll-snap-type: x mandatory; 
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; 
-  padding: 2px 0 10px;
+  padding: 0px 0 4px;
   scroll-behavior: smooth;
   width: 100%;
 }
@@ -299,8 +298,8 @@ img { display:block; }
 .banner-card {
   flex: 0 0 100%; 
   width: 100%;
-  aspect-ratio: 16/7.2; 
-  border-radius: 18px; 
+  aspect-ratio: 16/6.8; 
+  border-radius: 14px; 
   overflow: hidden; 
   scroll-snap-align: start; 
   border: 1px solid var(--gray-line); 
@@ -308,7 +307,7 @@ img { display:block; }
   position: relative;
   display: flex;
   align-items: center;
-  padding: 18px;
+  padding: 14px;
   color: #ffffff;
 }
 .banner-card.p1 { background: linear-gradient(135deg, #7B2FBE 0%, #3D0F72 100%); }
@@ -317,99 +316,95 @@ img { display:block; }
 
 .promo-badge {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 10px;
+  right: 10px;
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(4px);
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 12px;
+  font-size: 8px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 .promo-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   max-width: 85%;
 }
 .promo-tagline {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   color: var(--accent2);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 .promo-title {
-  font-size: 16px;
+  font-size: 14.5px;
   font-weight: 900;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 .promo-desc {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 500;
   opacity: 0.85;
-  line-height: 1.35;
+  line-height: 1.3;
 }
 
-/* ── MAINTENANCE BOX ── */
-.maint-box {
-  background: var(--card);
-  border: 1px solid var(--gray-line);
-  border-radius: var(--r-card);
-  padding: 12px 14px;
-  margin-bottom: 4px;
+/* ── KATEGORI & VPN GRID COMPACT ── */
+.cat-card {
+  background:var(--card); border-radius:var(--r-card);
+  padding: 10px 6px; border:1px solid var(--gray-line);
   box-shadow: var(--shadow-sm);
-  animation: fadeUp 0.4s 0.1s ease both;
+  animation:fadeUp .4s .16s ease both;
+  transition: background .25s ease, border-color .25s ease;
 }
-.maint-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px dashed var(--gray-line);
+.cat-grid-layout {
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 6px;
 }
-.maint-item:last-child {
-  padding-bottom: 0;
-  margin-bottom: 0;
-  border-bottom: none;
+.cat-item {
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  padding:4px 2px; border-radius:10px; transition:background .2s;
 }
-.maint-icon {
-  width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;
-}
-.maint-icon svg { width: 100%; height: 100%; }
-.maint-content { flex: 1; }
-.maint-title-row {
-  display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;
-}
-.maint-name { font-size: 12px; font-weight: 800; color: var(--text-dark); }
-.maint-status { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px; }
-.maint-status.active { color: var(--red); animation: blink 1.5s infinite; }
-.maint-status.normal { color: var(--green); }
-.maint-desc { font-size: 11px; font-weight: 600; color: var(--text-light); line-height: 1.3; }
+.cat-item:hover  { background:var(--purple-soft); }
+.cat-item:active { transform:scale(.95); }
 
-/* ── KATEGORI & VPN GRID ── */
+.cat-img {
+  width:40px; height:40px; border-radius:10px; overflow:hidden;
+  background:var(--bg); border:1px solid var(--gray-line);
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s; flex-shrink: 0;
+}
+.cat-img img { width:100%; height:100%; object-fit:cover; }
+.cat-item:hover .cat-img {
+  transform:translateY(-2px);
+}
+.cat-name {
+  font-size:10px; font-weight:800; color:var(--text-mid); text-align:center;
+  line-height:1.2; overflow:hidden;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+}
+
 .vpn-grid {
-  display: grid; grid-template-columns: repeat(4,1fr); gap:8px;
+  display: grid; grid-template-columns: repeat(4,1fr); gap:6px;
   background: var(--card);
   border-radius: var(--r-card);
-  padding: 12px 8px;
+  padding: 10px 6px;
   border: 1px solid var(--gray-line);
   box-shadow: var(--shadow-sm);
   animation: fadeUp .4s .12s ease both;
   transition: background .25s ease, border-color .25s ease;
 }
 .vm-item {
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  padding:6px 4px; border-radius:12px; transition:background .2s;
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  padding:4px 2px; border-radius:10px; transition:background .2s;
 }
 .vm-item:hover  { background:var(--purple-soft); }
-.vm-item:active { transform:scale(.93); }
+.vm-item:active { transform:scale(.95); }
 
 .vm-icon {
-  width:42px; height:42px; border-radius:12px;
+  width:40px; height:40px; border-radius:10px;
   overflow:hidden; background:var(--bg);
   border: 1px solid var(--gray-line);
   display:flex; align-items:center; justify-content:center;
@@ -418,57 +413,63 @@ img { display:block; }
 }
 .vm-icon img { width:100%; height:100%; object-fit:cover; }
 .vm-item:hover .vm-icon {
-  transform:translateY(-3px);
-  box-shadow: 0 5px 12px rgba(123,47,190,.12);
+  transform:translateY(-2px);
 }
 .vm-label {
-  font-size:10.5px; font-weight:800; color:var(--text-mid);
-  text-align:center; line-height:1.25;
+  font-size:10px; font-weight:800; color:var(--text-mid);
+  text-align:center; line-height:1.2;
 }
 
-.cat-card {
-  background:var(--card); border-radius:var(--r-card);
-  padding: 12px 8px; border:1px solid var(--gray-line);
+/* ── RE-DESIGN JADWAL MAINTENANCE GRID (ULTRA COMPACT) ── */
+.maint-box {
+  background: var(--card);
+  border: 1px solid var(--gray-line);
+  border-radius: var(--r-card);
+  padding: 10px;
+  margin-bottom: 12px;
   box-shadow: var(--shadow-sm);
-  animation:fadeUp .4s .16s ease both;
-  transition: background .25s ease, border-color .25s ease;
-}
-.cat-grid-layout {
-  display: grid; 
-  grid-template-columns: repeat(4, 1fr); 
+  animation: fadeUp 0.4s 0.1s ease both;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 }
-.cat-item {
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  padding:6px 4px; border-radius:12px; transition:background .2s;
+.maint-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: var(--bg);
+  border-radius: 10px;
+  border: 1px solid var(--gray-line);
 }
-.cat-item:hover  { background:var(--purple-soft); }
-.cat-item:active { transform:scale(.93); }
-
-.cat-img {
-  width:42px; height:42px; border-radius:12px; overflow:hidden;
-  background:var(--bg); border:1px solid var(--gray-line);
-  display:flex; align-items:center; justify-content:center;
-  transition:all .2s; flex-shrink: 0;
+.maint-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
-.cat-img img { width:100%; height:100%; object-fit:cover; }
-.cat-item:hover .cat-img {
-  transform:translateY(-3px);
-  box-shadow: 0 5px 12px rgba(123,47,190,.12);
+.maint-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
-.cat-name {
-  font-size:10.5px; font-weight:800; color:var(--text-mid); text-align:center;
-  line-height:1.25; overflow:hidden;
-  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+.maint-icon {
+  width: 13px; height: 13px; flex-shrink: 0;
 }
+.maint-icon svg { width: 100%; height: 100%; }
+.maint-name { font-size: 10.5px; font-weight: 800; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
+.maint-status { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2px; }
+.maint-status.active { color: var(--red); animation: blink 1.5s infinite; }
+.maint-status.normal { color: var(--green); }
+.maint-desc { font-size: 9.5px; font-weight: 600; color: var(--text-light); line-height: 1.25; }
 
 .skel {
-  border-radius:12px; height:42px; width:42px; flex-shrink:0;
+  border-radius:10px; height:40px; width:40px; flex-shrink:0;
   background:linear-gradient(90deg, var(--gray-line) 25%, var(--purple-soft) 50%, var(--gray-line) 75%);
   background-size:200% 100%; animation:shimmer 1.4s infinite;
 }
 .skel-lbl {
-  height:9px; width:38px; border-radius:6px; margin:6px auto 0;
+  height:8px; width:34px; border-radius:5px; margin:5px auto 0;
   background:linear-gradient(90deg, var(--gray-line) 25%, var(--purple-soft) 50%, var(--gray-line) 75%);
   background-size:200% 100%; animation:shimmer 1.4s infinite;
 }
@@ -486,8 +487,8 @@ img { display:block; }
   display: flex; flex-direction: column; align-items: center; gap: 4px;
   text-decoration: none; color: var(--text-light); width: 70px; transition: all 0.2s;
 }
-.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
-.nav-label { font-size: 9.5px; font-weight: 800; }
+.nav-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.2s; }
+.nav-label { font-size: 9px; font-weight: 800; }
 .nav-item:hover .nav-icon svg { transform: translateY(-2px); }
 .nav-item.active { color: var(--purple); }
 html[data-theme="dark"] .nav-item.active { color: var(--purple-light); }
@@ -560,90 +561,41 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
 
 <div class="main">
 
-  <!-- 1. INFORMASI PROMO PPOB (BARU) -->
+  <!-- POSISI 1: BANNER PROMO (NAIK KE ATAS) -->
   <div class="sec-head">
     <span class="sec-title">Informasi Promo</span>
     <span class="sec-badge blue">Terbaru</span>
   </div>
   <div class="banner-wrap">
     <div class="banner-scroll" id="autoBannerScroll">
-      
-      <!-- Promo 1 -->
       <div class="banner-card p1">
         <span class="promo-badge">HOT PROMO</span>
         <div class="promo-content">
           <span class="promo-tagline">⚡ Pulsa Murah</span>
           <h3 class="promo-title">Isi Pulsa & Data Anti Telat</h3>
-          <p class="promo-desc">Nikmati harga agen super murah untuk semua provider nasional. Transaksi hitungan detik langsung masuk!</p>
+          <p class="promo-desc">Harga agen super murah untuk seluruh provider nasional.</p>
         </div>
       </div>
-
-      <!-- Promo 2 -->
       <div class="banner-card p2">
         <span class="promo-badge">TOKEN PLN</span>
         <div class="promo-content">
           <span class="promo-tagline">💡 Bebas Denda</span>
           <h3 class="promo-title">Listrik Rumah Mulai Redup?</h3>
-          <p class="promo-desc">Top up Token PLN kapan saja 24 jam non-stop dengan biaya admin paling miring se-Indonesia.</p>
+          <p class="promo-desc">Top up Token PLN 24 jam non-stop, biaya admin miring.</p>
         </div>
       </div>
-
-      <!-- Promo 3 -->
       <div class="banner-card p3">
         <span class="promo-badge">E-WALLET</span>
         <div class="promo-content">
           <span class="promo-tagline">💰 Top Up Murah</span>
-          <h3 class="promo-title">Dana, OVO, GoPay & ShopeePay</h3>
-          <p class="promo-desc">Transfer saldo e-wallet makin praktis, murah, dan aman tanpa antre di minimarket.</p>
+          <h3 class="promo-title">Dana, OVO, GoPay & Shopee</h3>
+          <p class="promo-desc">Transfer saldo e-wallet praktis, murah, tanpa antre.</p>
         </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- JADWAL MAINTENANCE BOX -->
-  <div class="sec-head">
-    <span class="sec-title">Jadwal Maintenance</span>
-    <span class="sec-badge red">Sistem</span>
-  </div>
-  <div class="maint-box">
-    <!-- Maintenance PPOB -->
-    <div class="maint-item">
-      <div class="maint-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5">
-          <rect x="3" y="4" width="18" height="16" rx="2" ry="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/>
-          <line x1="8" y1="2" x2="8" y2="6"/>
-          <line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>
-      </div>
-      <div class="maint-content">
-        <div class="maint-title-row">
-          <span class="maint-name">Produk PPOB (Pulsa, Data, dll)</span>
-          <span class="maint-status" id="statusPpob">Mengecek…</span>
-        </div>
-        <div class="maint-desc">Pukul 23:30 - 00:30 WIB harian. Transaksi dibekukan sementara oleh sistem pusat selama proses kliring bursa.</div>
-      </div>
-    </div>
-    <!-- Maintenance Top Up -->
-    <div class="maint-item">
-      <div class="maint-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5">
-          <line x1="12" y1="1" x2="12" y2="23"/>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-        </svg>
-      </div>
-      <div class="maint-content">
-        <div class="maint-title-row">
-          <span class="maint-name">Fitur Top Up Saldo</span>
-          <span class="maint-status" id="statusTopup">Mengecek…</span>
-        </div>
-        <div class="maint-desc">Pukul 00:00 - 00:10 WIB harian. Sinkronisasi mutasi mutlak bank, disarankan melakukan top up di luar jam ini.</div>
       </div>
     </div>
   </div>
 
-  <!-- 2. PRODUK DIGITAL -->
+  <!-- POSISI 2: PRODUK DIGITAL (UTAMA) -->
   <div class="sec-head">
     <span class="sec-title">Produk Digital</span>
     <span class="sec-badge orange" id="catCount">Loading…</span>
@@ -661,7 +613,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
   </div>
 
-  <!-- 3. MENU LAYANAN / VPN -->
+  <!-- POSISI 3: MENU LAYANAN / VPN -->
   <div class="sec-head">
     <span class="sec-title">Menu Layanan</span>
     <span class="sec-badge purple">VPN</span>
@@ -669,35 +621,70 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
   <div class="vpn-grid">
     <a class="vm-item" href="products.html">
       <div class="vm-icon">
-        <img src="https://app.isdarprem.net/images/blanja.jpeg" alt=""
-          onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=VPN'">
+        <img src="https://app.isdarprem.net/images/blanja.jpeg" alt="" onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=VPN'">
       </div>
       <div class="vm-label">Belanja VPN</div>
     </a>
     <a class="vm-item" href="trial.html">
       <div class="vm-icon">
-        <img src="https://app.isdarprem.net/images/free1.jpg" alt=""
-          onerror="this.src='https://placehold.co/42/9B4FDE/fff?text=Trial'">
+        <img src="https://app.isdarprem.net/images/free1.jpg" alt="" onerror="this.src='https://placehold.co/42/9B4FDE/fff?text=Trial'">
       </div>
       <div class="vm-label">Trial VPN</div>
     </a>
     <a class="vm-item" href="my-vpn.html">
       <div class="vm-icon">
-        <img src="https://app.isdarprem.net/images/detaill.jpg" alt=""
-          onerror="this.src='https://placehold.co/42/5A1A9A/fff?text=Akun'">
+        <img src="https://app.isdarprem.net/images/detaill.jpg" alt="" onerror="this.src='https://placehold.co/42/5A1A9A/fff?text=Akun'">
       </div>
       <div class="vm-label">Akun Saya</div>
     </a>
     <a class="vm-item" href="riwayat-ppob.html">
       <div class="vm-icon">
-        <img src="https://app.isdarprem.net/images/riwayat02.jpg" alt=""
-          onerror="this.src='https://placehold.co/42/FF6B2B/fff?text=Log'">
+        <img src="https://app.isdarprem.net/images/riwayat02.jpg" alt="" onerror="this.src='https://placehold.co/42/FF6B2B/fff?text=Log'">
       </div>
       <div class="vm-label">Riwayat PPOB</div>
     </a>
   </div>
-  <div style="height:8px;"></div>
 
+  <!-- POSISI 4: JADWAL MAINTENANCE (DITURUNKAN KE BAWAH & COMPACT GRID) -->
+  <div class="sec-head">
+    <span class="sec-title">Jadwal Maintenance</span>
+    <span class="sec-badge red">Sistem</span>
+  </div>
+  <div class="maint-box">
+    <!-- PPOB -->
+    <div class="maint-item">
+      <div class="maint-header-row">
+        <div class="maint-title-wrap">
+          <div class="maint-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5">
+              <rect x="3" y="4" width="18" height="16" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <span class="maint-name">PPOB</span>
+        </div>
+        <span class="maint-status" id="statusPpob">…</span>
+      </div>
+      <div class="maint-desc">23:30 - 00:30 WIB. Transaksi dibekukan sistem pusat.</div>
+    </div>
+    <!-- Top Up -->
+    <div class="maint-item">
+      <div class="maint-header-row">
+        <div class="maint-title-wrap">
+          <div class="maint-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5">
+              <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <span class="maint-name">Top Up</span>
+        </div>
+        <span class="maint-status" id="statusTopup">…</span>
+      </div>
+      <div class="maint-desc">00:00 - 00:10 WIB. Sinkronisasi mutasi bank.</div>
+    </div>
+  </div>
+
+  <div style="height:8px;"></div>
 </div>
 
 <!-- ── BOTTOM NAV ── -->
@@ -749,10 +736,10 @@ function checkMaintenanceStatus() {
   
   const statusPpobEl = document.getElementById('statusPpob');
   if (isPpobMaint) {
-    statusPpobEl.textContent = 'Maintenance Aktif';
+    statusPpobEl.textContent = 'Maint';
     statusPpobEl.className = 'maint-status active';
   } else {
-    statusPpobEl.textContent = 'Normal / Lancar';
+    statusPpobEl.textContent = 'Lancar';
     statusPpobEl.className = 'maint-status normal';
   }
 
@@ -760,10 +747,10 @@ function checkMaintenanceStatus() {
   
   const statusTopupEl = document.getElementById('statusTopup');
   if (isTopupMaint) {
-    statusTopupEl.textContent = 'Maintenance Aktif';
+    statusTopupEl.textContent = 'Maint';
     statusTopupEl.className = 'maint-status active';
   } else {
-    statusTopupEl.textContent = 'Normal / Lancar';
+    statusTopupEl.textContent = 'Lancar';
     statusTopupEl.className = 'maint-status normal';
   }
 }
@@ -779,20 +766,16 @@ function startAutoBannerScroll() {
 
   function autoScrollEffect() {
     if (isTargetingManual) return;
-
     const cards = container.querySelectorAll('.banner-card');
     if (!cards.length) return;
-
     const cardWidth = container.offsetWidth; 
     const maxScrollLeft = container.scrollWidth - container.clientWidth;
-
     if (container.scrollLeft >= maxScrollLeft - 5) {
       container.scrollLeft = 0;
     } else {
       container.scrollLeft += cardWidth;
     }
   }
-
   container.addEventListener('touchstart', () => { isTargetingManual = true; });
   container.addEventListener('touchend', () => {
     setTimeout(() => { isTargetingManual = false; }, 2000);
@@ -803,13 +786,10 @@ setTimeout(startAutoBannerScroll, 500);
 function getAvatarColor(name){
   const palettes = [
     ['#4285F4','#1A73E8'],['#EA4335','#C5221F'],['#34A853','#188038'],
-    ['#FBBC05','#F9AB00'],['#7B2FBE','#5A1A9A'],['#EC4899','#BE185D'],
-    ['#06B6D4','#0E7490'],['#F97316','#C2410C'],['#10B981','#047857'],['#6366F1','#4338CA']
+    ['#FBBC05','#F9AB00'],['#7B2FBE','#5A1A9A'],['#EC4899','#BE185D']
   ];
   let hash = 0;
-  for(let i = 0; i < name.length; i++){
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
+  for(let i = 0; i < name.length; i++){ hash = name.charCodeAt(i) + ((hash << 5) - hash); }
   return palettes[Math.abs(hash) % palettes.length];
 }
 
@@ -838,37 +818,21 @@ if (!localUser || !token) {
   renderUserAvatar(localUser);
 }
 
-const hdrs = {
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  }
-};
-
-function rupiah(val) {
-  return 'Rp ' + Number(val || 0).toLocaleString('id-ID');
-}
+const hdrs = { headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` } };
+function rupiah(val) { return 'Rp ' + Number(val || 0).toLocaleString('id-ID'); }
 
 async function loadProfile() {
   try {
     const r = await fetch('/api/profile', hdrs);
-    if (!r.ok) throw new Error('Request gagal');
+    if (!r.ok) throw new Error('fail');
     const d = await r.json();
-    if (!d.success || !d.user) {
-      localStorage.clear();
-      window.location.href = 'index.html';
-      return;
-    }
+    if (!d.success || !d.user) { window.location.href = 'index.html'; return; }
     const u = d.user;
     localStorage.setItem('user', JSON.stringify(u));
     document.getElementById('headerName').textContent = u.username || '—';
     renderUserAvatar(u);
     document.getElementById('balanceAmt').textContent = rupiah(u.balance);
-  } catch (e) {
-    console.error('Gagal load profile:', e);
-    localStorage.clear();
-    window.location.href = 'index.html';
-  }
+  } catch (e) { console.error(e); }
 }
 
 const HIDDEN = ['gas','tv','tv kabel','gas pln','gas elpiji','tagihan gas'];
@@ -886,9 +850,7 @@ const IMG_MAP = [
 ];
 function getImg(name) {
   const k = name.toLowerCase();
-  for (const { keys, img } of IMG_MAP) {
-    if (keys.some(x => k.includes(x))) return img;
-  }
+  for (const { keys, img } of IMG_MAP) { if (keys.some(x => k.includes(x))) return img; }
   return 'https://app.isdarprem.net/images/images.png';
 }
 
@@ -900,9 +862,7 @@ async function loadCategories() {
     const grid  = document.getElementById('catGrid');
     const badge = document.getElementById('catCount');
     if (d.success && d.categories?.length) {
-      const visible = d.categories.filter(
-        c => !HIDDEN.some(h => c.toLowerCase().includes(h))
-      );
+      const visible = d.categories.filter(c => !HIDDEN.some(h => c.toLowerCase().includes(h)));
       badge.textContent = visible.length + ' Kategori';
       grid.innerHTML = '';
       visible.forEach(cat => {
@@ -910,17 +870,10 @@ async function loadCategories() {
         el.className = 'cat-item';
         el.href = `ppob.html?cat=${encodeURIComponent(cat)}`;
         const initial = encodeURIComponent(cat[0] || '?');
-        el.innerHTML = `
-          <div class="cat-img">
-            <img src="${getImg(cat)}" alt="${cat}"
-              onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=${initial}'">
-          </div>
-          <div class="cat-name">${cat}</div>`;
+        el.innerHTML = `<div class="cat-img"><img src="${getImg(cat)}" alt="${cat}" onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=${initial}'"></div><div class="cat-name">${cat}</div>`;
         grid.appendChild(el);
       });
-    } else {
-      showCatErr();
-    }
+    } else { showCatErr(); }
   } catch (e) {
     const demo = ['Pulsa','Paket Data','Token PLN','E-Wallet','Games','Voucher','Perdana','Masa Active'];
     const grid  = document.getElementById('catGrid');
@@ -929,26 +882,17 @@ async function loadCategories() {
     grid.innerHTML = '';
     demo.forEach(cat => {
       const el = document.createElement('a');
-      el.className = 'cat-item';
-      el.href = '#';
+      el.className = 'cat-item'; el.href = '#';
       const initial = encodeURIComponent(cat[0] || '?');
-      el.innerHTML = `
-        <div class="cat-img">
-          <img src="${getImg(cat)}" alt="${cat}"
-            onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=${initial}'">
-        </div>
-        <div class="cat-name">${cat}</div>`;
+      el.innerHTML = `<div class="cat-img"><img src="${getImg(cat)}" alt="${cat}" onerror="this.src='https://placehold.co/42/7B2FBE/fff?text=${initial}'"></div><div class="cat-name">${cat}</div>`;
       grid.appendChild(el);
     });
   }
 }
 
 function showCatErr() {
-  document.getElementById('catGrid').innerHTML =
-    '<div style="padding:16px;font-size:12px;font-weight:700;color:var(--text-light);grid-column: span 4; text-align:center;">Gagal memuat. Coba lagi nanti.</div>';
-  const b = document.getElementById('catCount');
-  b.textContent = 'Offline';
-  b.style.cssText = 'background:var(--red-bg);color:var(--red);border:1px solid rgba(232,64,64,0.1);';
+  document.getElementById('catGrid').innerHTML = '<div style="padding:16px;font-size:12px;font-weight:700;color:var(--text-light);grid-column: span 4; text-align:center;">Gagal memuat.</div>';
+  const b = document.getElementById('catCount'); b.textContent = 'Offline';
 }
 
 loadProfile();
