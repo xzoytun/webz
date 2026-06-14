@@ -4,15 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Xtrimer — Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght=400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ── TOKENS SYNCHRONIZED WITH PROFILE.HTML ── */
 :root {
   --purple:       #7B2FBE;
   --purple-dark:  #5A1A9A;
-  --purple-deep:  #2E1065; 
+  --purple-deep:  #2E1065;
   --purple-light: #9B4FDE;
-  --purple-soft:  #F5EEFC; 
+  --purple-soft:  #F5EEFC;
   --purple-mid:   #EAD5FA;
   --accent:       #FF6B2B;
   --accent2:      #FFD600;
@@ -21,24 +20,18 @@
   --red:          #E84040;
   --red-bg:       #FFECEC;
   --white:        #FFFFFF;
-  --bg:           #F8F9FC; 
+  --bg:           #F8F9FC;
   --card:         #FFFFFF;
   --gray-line:    #EEF0F6;
-  
-  /* ── PERBAIKAN WARNA TEKS (NEUTRAL/SLATE GREY) ── */
-  --text-dark:    #1E293B; 
-  --text-mid:     #475569;  
+  --text-dark:    #1E293B;
+  --text-mid:     #475569;
   --text-light:   #64748B;
-
   --shadow-sm:  0 4px 12px rgba(90,26,154,0.02);
   --shadow-md:  0 6px 18px rgba(90,26,154,0.04);
   --shadow-lg:  0 6px 18px rgba(90,26,154,0.04);
   --shadow-purple: 0 4px 12px rgba(123,47,190,0.15);
-
   --r-card: 16px;
   --r-btn:  12px;
-  
-  /* ── TOKENS TAMBAHAN UNTUK NAVIGASI YANG SINKRON ── */
   --nav-bg:       #FFFFFF;
   --nav-shadow:   rgba(90,26,154,0.06);
 }
@@ -52,8 +45,8 @@ html[data-theme="dark"] {
   --bg:           #0a0b0d;
   --card:         #1c1d21;
   --gray-line:    #303135;
-  --text-dark:    #E2E8F0; 
-  --text-mid:     #94A3B8;  
+  --text-dark:    #E2E8F0;
+  --text-mid:     #94A3B8;
   --text-light:   #64748B;
   --nav-bg:       #17181c;
   --nav-shadow:   rgba(0,0,0,0.4);
@@ -79,6 +72,7 @@ html[data-theme="dark"] .hdr-btn.theme-toggle .icon-moon { display: flex; }
 html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-sun { display: flex; }
 html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-moon { display: none; }
 
+/* Dark mode: kartu saldo di luar header */
 html[data-theme="dark"] .balance-card {
   background: linear-gradient(135deg, #2e1065 0%, #3b0764 100%);
   border-color: rgba(255, 255, 255, 0.08);
@@ -95,7 +89,7 @@ body {
   color: var(--text-dark);
   min-height: 100vh;
   overflow-x: hidden;
-  padding-bottom: 90px; 
+  padding-bottom: 90px;
   -webkit-tap-highlight-color: transparent;
   transition: background .25s ease, color .25s ease;
 }
@@ -120,19 +114,16 @@ img { display:block; }
   50% { opacity: 0.4; }
 }
 
-/* ── HEADER FIXED DENGAN KARTU SALDO DI DALAMNYA ── */
+/* ── HEADER STICKY — HANYA BERISI INFO PROFIL ── */
 .header {
   position: sticky;
   top: 0;
   z-index: 1000;
   overflow: hidden;
   background: linear-gradient(135deg, #1a0933 0%, #2e1065 60%, #3b0764 100%);
-  padding: 14px 16px 14px; /* Padding disesuaikan agar lebih slim */
+  padding: 14px 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   animation: fadeUp 0.4s ease both;
-  display: flex;
-  flex-direction: column;
-  gap: 14px; /* Memberi jarak konsisten antara info profil dan kartu saldo */
 }
 .header::before {
   content:''; position:absolute; top:-40px; right:-20px;
@@ -153,7 +144,7 @@ img { display:block; }
 
 .avatar-wrap {
   position: relative;
-  width: 40px; /* Diperkecil sedikit agar tidak terlalu memakan space vertical */
+  width: 40px;
   height: 40px;
   flex-shrink: 0;
 }
@@ -194,7 +185,7 @@ img { display:block; }
   letter-spacing: .2px;
 }
 .header-name {
-  font-size: 16px; font-weight:900; /* Dioptimasi agar profil tidak terlalu panjang */
+  font-size: 16px; font-weight:900;
   color: #fff; letter-spacing:-.2px; line-height:1.2;
 }
 
@@ -217,16 +208,17 @@ img { display:block; }
   position: absolute; align-items:center; justify-content:center;
 }
 
-/* ── WRAPPER KARTU SALDO SEKARANG FLAT & CLEAN DI DALAM HEADER ── */
+/* ── KARTU SALDO — DI LUAR HEADER, SCROLL NORMAL ── */
 .balance-wrap {
-  width: 100%; max-width:440px; margin: 0 auto;
-  position: relative; z-index: 1001;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 14px 16px 0;
   animation: fadeUp 0.4s 0.08s ease both;
 }
 .balance-card {
   background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%);
   border-radius: var(--r-card);
-  padding: 14px 16px; /* Padding dikurangi biar compact */
+  padding: 14px 16px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   transition: background .25s ease, border-color .25s ease;
@@ -259,7 +251,7 @@ img { display:block; }
   background: #FFFFFF;
   color: #5b21b6;
   border: 1.5px solid transparent;
-  border-radius: var(--r-btn); 
+  border-radius: var(--r-btn);
   padding: 6px 12px;
   font-size:12px; font-weight:800;
   display: flex; align-items:center; gap:4px;
@@ -267,13 +259,13 @@ img { display:block; }
   white-space: nowrap;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
-.topup-btn:hover { 
+.topup-btn:hover {
   background: #f5eeFC;
   transform: translateY(-1px);
 }
 .topup-btn svg { width:11px; height:11px; stroke:currentColor; stroke-width:2.5; fill:none; }
 
-/* ── KONTEN UTAMA DENGAN MARGIN TOP YANG AMAN CORNER ── */
+/* ── KONTEN UTAMA ── */
 .main { max-width:440px; margin:0 auto; padding:4px 16px 0; }
 
 .sec-head {
@@ -293,36 +285,36 @@ img { display:block; }
 .sec-badge.red     { background:var(--red-bg); color:var(--red); border: 1px solid rgba(232,64,64,0.1); }
 
 /* ── BANNER SCROLL ── */
-.banner-wrap { 
-  animation:fadeUp .5s .15s ease both; 
+.banner-wrap {
+  animation:fadeUp .5s .15s ease both;
   width: 100%;
   overflow: hidden;
 }
 .banner-scroll {
-  display:flex; 
+  display:flex;
   overflow-x: auto;
-  scroll-snap-type: x mandatory; 
+  scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; 
+  scrollbar-width: none;
   padding: 4px 0 12px;
   scroll-behavior: smooth;
   width: 100%;
 }
 .banner-scroll::-webkit-scrollbar { display:none; }
 .banner-card {
-  flex: 0 0 100%; 
+  flex: 0 0 100%;
   width: 100%;
-  aspect-ratio: 16/7.5; 
-  border-radius: 18px; 
-  overflow: hidden; 
-  background-size: 100% 100%; 
+  aspect-ratio: 16/7.5;
+  border-radius: 18px;
+  overflow: hidden;
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  scroll-snap-align: start; 
-  border: 1px solid var(--gray-line); 
+  scroll-snap-align: start;
+  border: 1px solid var(--gray-line);
   background-color: var(--card);
-  box-shadow: var(--shadow-sm); 
-  transition: transform .3s ease, box-shadow .3s ease; 
+  box-shadow: var(--shadow-sm);
+  transition: transform .3s ease, box-shadow .3s ease;
   position: relative;
 }
 .banner-card::after {
@@ -413,8 +405,8 @@ img { display:block; }
   transition: background .25s ease, border-color .25s ease;
 }
 .cat-grid-layout {
-  display: grid; 
-  grid-template-columns: repeat(4, 1fr); 
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 8px;
 }
 .cat-item {
@@ -476,7 +468,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
 </head>
 <body>
 
-<!-- STRUKTUR DIUBAH: CARD SALDO MASUK KE DALAM HEADER AGAR STICKY SEJAJAR -->
+<!-- HEADER STICKY — HANYA INFO PROFIL, TANPA KARTU SALDO -->
 <header class="header">
   <div class="hero-dots"></div>
   <div class="header-inner">
@@ -513,31 +505,31 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       </a>
     </div>
   </div>
+</header>
 
-  <!-- Kartu Saldo disatukan di sini agar tidak memotong teks sapaan saat scroll -->
-  <div class="balance-wrap">
-    <div class="balance-card">
-      <div class="balance-top">
-        <div class="balance-top-left">
-          <div class="balance-icon-wrap">
-            <svg viewBox="0 0 24 24">
-              <rect x="2" y="5" width="20" height="14" rx="2"/>
-              <line x1="2" y1="10" x2="22" y2="10"/>
-            </svg>
-          </div>
-          <div>
-            <div class="balance-lbl">Saldo Anda</div>
-            <div class="balance-amount" id="balanceAmt">Rp 0</div>
-          </div>
+<!-- KARTU SALDO — DI LUAR HEADER, IKUT SCROLL -->
+<div class="balance-wrap">
+  <div class="balance-card">
+    <div class="balance-top">
+      <div class="balance-top-left">
+        <div class="balance-icon-wrap">
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
         </div>
-        <a class="topup-btn" href="topup.html">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Top Up
-        </a>
+        <div>
+          <div class="balance-lbl">Saldo Anda</div>
+          <div class="balance-amount" id="balanceAmt">Rp 0</div>
+        </div>
       </div>
+      <a class="topup-btn" href="topup.html">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Top Up
+      </a>
     </div>
   </div>
-</header>
+</div>
 
 <div class="main">
 
@@ -692,7 +684,7 @@ function checkMaintenanceStatus() {
   const ppobStart = (23 * 60) + 30;
   const ppobEnd = 30;
   const isPpobMaint = (currentTimeInMinutes >= ppobStart || currentTimeInMinutes <= ppobEnd);
-  
+
   const statusPpobEl = document.getElementById('statusPpob');
   if (isPpobMaint) {
     statusPpobEl.textContent = 'Maintenance Active';
@@ -703,7 +695,7 @@ function checkMaintenanceStatus() {
   }
 
   const isTopupMaint = (currentTimeInMinutes >= 0 && currentTimeInMinutes <= 10);
-  
+
   const statusTopupEl = document.getElementById('statusTopup');
   if (isTopupMaint) {
     statusTopupEl.textContent = 'Maintenance Active';
@@ -725,13 +717,8 @@ function startAutoBannerScroll() {
 
   function autoScrollEffect() {
     if (isTargetingManual) return;
-
-    const cards = container.querySelectorAll('.banner-card');
-    if (!cards.length) return;
-
-    const cardWidth = container.offsetWidth; 
+    const cardWidth = container.offsetWidth;
     const maxScrollLeft = container.scrollWidth - container.clientWidth;
-
     if (container.scrollLeft >= maxScrollLeft - 5) {
       container.scrollLeft = 0;
     } else {
