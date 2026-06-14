@@ -209,7 +209,7 @@ html:not([data-theme="dark"]) .hdr-btn .icon-moon { display: none; }
   </div>
 
   <div class="menu-group">
-    <div class="menu-item">
+    <div class="menu-item" onclick="openSecurity()">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
@@ -219,7 +219,7 @@ html:not([data-theme="dark"]) .hdr-btn .icon-moon { display: none; }
       </div>
     </div>
 
-    <div class="menu-item">
+    <div class="menu-item" onclick="openNotification()">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
       </div>
@@ -229,7 +229,7 @@ html:not([data-theme="dark"]) .hdr-btn .icon-moon { display: none; }
       </div>
     </div>
 
-    <div class="menu-item">
+    <div class="menu-item" onclick="openDevice()">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
       </div>
@@ -240,7 +240,7 @@ html:not([data-theme="dark"]) .hdr-btn .icon-moon { display: none; }
       </div>
     </div>
 
-    <div class="menu-item">
+    <div class="menu-item" onclick="openRole()">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
@@ -261,7 +261,7 @@ html:not([data-theme="dark"]) .hdr-btn .icon-moon { display: none; }
   </div>
 
   <div class="menu-group">
-    <div class="menu-item">
+    <div class="menu-item" onclick="openHelp()">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </div>
@@ -271,7 +271,7 @@ html:not([data-theme="dark"]) .hdr-btn .icon-moon { display: none; }
       </div>
     </div>
 
-    <div class="menu-item">
+    <div class="menu-item" onclick="openTerms()">
       <div class="menu-icon">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       </div>
@@ -417,7 +417,62 @@ async function detectDevice() {
   if (deviceMap[device]) device = deviceMap[device];
   document.getElementById('deviceName').innerText = device;
 }
+function openSecurity() {
+  alert(
+`🔐 Pengaturan Keamanan
 
+• Ganti Password
+• Logout Semua Device
+• Aktivitas Login`
+  );
+}
+
+function openNotification() {
+  alert(
+`🔔 Pengaturan Notifikasi
+
+• Notifikasi Transaksi
+• Notifikasi Login
+• Promo & Info`
+  );
+}
+
+function openDevice() {
+  alert(
+`📱 Device Aktif
+
+Device:
+${document.getElementById('deviceName').innerText}
+
+IP:
+Sedang digunakan`
+  );
+}
+
+function openRole() {
+  alert(
+`👑 Informasi Role
+
+Role akun kamu:
+${document.getElementById('role').innerText}`
+  );
+}
+
+function openHelp() {
+  window.open(
+    'https://t.me/xtrimertunnel',
+    '_blank'
+  );
+}
+
+function openTerms() {
+  alert(
+`📄 Syarat & Ketentuan
+
+Dilarang menyalahgunakan layanan.
+Semua aktivitas tercatat di sistem.`
+  );
+}
 function logout() {
   if (confirm('Yakin mau keluar?')) {
     localStorage.clear();
