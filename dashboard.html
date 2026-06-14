@@ -63,7 +63,6 @@ html[data-theme="dark"] .balance-card,
 html[data-theme="dark"] .vpn-grid,
 html[data-theme="dark"] .cat-card,
 html[data-theme="dark"] .bottom-nav,
-html[data-theme="dark"] .bstat,
 html[data-theme="dark"] .maint-box,
 html[data-theme="dark"] .topup-btn { background: var(--card); border-color: var(--gray-line); }
 html[data-theme="dark"] .balance-card { border-color: rgba(255, 255, 255, 0.05); }
@@ -78,10 +77,6 @@ html[data-theme="dark"] .skel-lbl {
 }
 html[data-theme="dark"] .sec-badge.orange { background:#3A2A14; color:#FFB870; border-color: rgba(255,184,112,0.15); }
 html[data-theme="dark"] .sec-badge.blue   { background:#15233F; color:#7FA8FF; border-color: rgba(127,168,255,0.15); }
-html[data-theme="dark"] .balance-divider,
-html[data-theme="dark"] .bstat { border-color: var(--gray-line); }
-html[data-theme="dark"] .info-item,
-html[data-theme="dark"] .bstat { border-color: #2E2244; }
 html[data-theme="dark"] .hdr-btn.theme-toggle .icon-sun { display: none; }
 html[data-theme="dark"] .hdr-btn.theme-toggle .icon-moon { display: flex; }
 html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-sun { display: flex; }
@@ -227,7 +222,6 @@ img { display:block; }
 }
 .balance-top {
   display: flex; align-items:center; justify-content:space-between;
-  margin-bottom: 14px;
 }
 .balance-top-left { display:flex; align-items:center; gap:10px; }
 .balance-icon-wrap {
@@ -268,28 +262,6 @@ img { display:block; }
 }
 .topup-btn svg { width:12px; height:12px; stroke:currentColor; stroke-width:2.5; fill:none; }
 
-.balance-divider { height:1px; background:var(--gray-line); margin-bottom:12px; transition: background .25s ease; }
-
-.balance-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.bstat {
-  background: var(--white);
-  border-radius:12px; padding:10px 12px;
-  border: 1px solid var(--gray-line);
-  display: flex; align-items:center; gap:8px;
-  transition: background .25s ease, border-color .25s ease;
-}
-.bstat-icon {
-  width:26px; height:26px; border-radius:8px;
-  display:flex; align-items:center; justify-content:center; flex-shrink:0;
-}
-.bstat-icon.in  { background: var(--green-bg); }
-.bstat-icon.out { background: var(--red-bg); }
-.bstat-icon svg { width:12px; height:12px; fill:none; stroke-width:2.8; }
-.bstat-icon.in  svg { stroke: var(--green); }
-.bstat-icon.out svg { stroke: var(--red); }
-.bstat-lbl { font-size:10px; font-weight:800; color:var(--text-light); letter-spacing:.3px; margin-bottom:1px; }
-.bstat-val { font-size:13px; font-weight:900; color:var(--text-dark); }
-
 .main { max-width:440px; margin:0 auto; padding:16px 16px 0; }
 
 .sec-head {
@@ -328,10 +300,10 @@ img { display:block; }
 .banner-card {
   flex: 0 0 100%; 
   width: 100%;
-  aspect-ratio: 16/7.5; /* Proporsi rasio disesuaikan agar pas memanjang */
+  aspect-ratio: 16/7.5; 
   border-radius: 18px; 
   overflow: hidden; 
-  background-size: 100% 100%; /* Memaksa gambar pas masuk ke dalam frame */
+  background-size: 100% 100%; 
   background-position: center;
   background-repeat: no-repeat;
   scroll-snap-align: start; 
@@ -550,27 +522,6 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
         Top Up
       </a>
     </div>
-    <div class="balance-divider"></div>
-    <div class="balance-stats">
-      <div class="bstat">
-        <div class="bstat-icon in">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-        </div>
-        <div>
-          <div class="bstat-lbl">Masuk</div>
-          <div class="bstat-val" id="totalIn">Rp 0</div>
-        </div>
-      </div>
-      <div class="bstat">
-        <div class="bstat-icon out">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-        </div>
-        <div>
-          <div class="bstat-lbl">Keluar</div>
-          <div class="bstat-val" id="totalOut">Rp 0</div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -758,7 +709,6 @@ function checkMaintenanceStatus() {
     statusTopupEl.className = 'maint-status normal';
   }
 }
-// Jalankan pengecekan status awal dan loop setiap 30 detik
 checkMaintenanceStatus();
 setInterval(checkMaintenanceStatus, 30000);
 
@@ -776,7 +726,6 @@ function startAutoBannerScroll() {
     const cards = container.querySelectorAll('.banner-card');
     if (!cards.length) return;
 
-    // Lebar card penuh 100%
     const cardWidth = container.offsetWidth; 
     const maxScrollLeft = container.scrollWidth - container.clientWidth;
 
@@ -858,8 +807,7 @@ async function loadProfile() {
     document.getElementById('headerName').textContent = u.username || '—';
     renderUserAvatar(u);
     document.getElementById('balanceAmt').textContent = rupiah(u.balance);
-    document.getElementById('totalIn').textContent = rupiah(u.total_in || 0);
-    document.getElementById('totalOut').textContent = rupiah(u.total_out || 0);
+    // Bagian pemetaan total_in dan total_out ke DOM dihapus karena elemen HTML-nya sudah tidak ada
   } catch (e) {
     console.error('Gagal load profile:', e);
     localStorage.clear();
