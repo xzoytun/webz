@@ -37,6 +37,10 @@
 
   --r-card: 16px;
   --r-btn:  12px;
+  
+  /* ── TOKENS TAMBAHAN UNTUK NAVIGASI YANG SINKRON ── */
+  --nav-bg:       #FFFFFF;
+  --nav-shadow:   rgba(90,26,154,0.06);
 }
 
 html[data-theme="dark"] {
@@ -51,6 +55,8 @@ html[data-theme="dark"] {
   --text-dark:    #E2E8F0; /* Slate 200 untuk dark mode */
   --text-mid:     #94A3B8;  /* Slate 400 */
   --text-light:   #64748B;/* Slate 500 */
+  --nav-bg:       #17181c;
+  --nav-shadow:   rgba(0,0,0,0.4);
 }
 html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
 html[data-theme="dark"] .balance-card,
@@ -65,7 +71,6 @@ html[data-theme="dark"] .topup-btn { color: var(--text-mid); }
 html[data-theme="dark"] .vm-icon,
 html[data-theme="dark"] .cat-img,
 html[data-theme="dark"] .balance-icon-wrap { background: var(--bg); border-color: var(--gray-line); }
-html[data-theme="dark"] .bottom-nav { background: var(--card); box-shadow: 0 -4px 20px rgba(0,0,0,0.4); }
 html[data-theme="dark"] .skel,
 html[data-theme="dark"] .skel-lbl {
   background: linear-gradient(90deg, var(--card) 25%, var(--gray-line) 50%, var(--card) 75%);
@@ -92,7 +97,7 @@ body {
   color: var(--text-dark);
   min-height: 100vh;
   overflow-x: hidden;
-  padding-bottom: 100px;
+  padding-bottom: 90px; /* Diubah dari 100px menjadi 90px agar persis serasi dengan riwayat */
   -webkit-tap-highlight-color: transparent;
   transition: background .25s ease, color .25s ease;
 }
@@ -176,7 +181,7 @@ img { display:block; }
 }
 .header-sub {
   font-size: 11px; font-weight:600;
-  color: rgba(255,255,255,.75); /* Dibuat lebih kontras putihnya */
+  color: rgba(255,255,255,.75);
   letter-spacing: .3px;
 }
 .header-name {
@@ -214,7 +219,7 @@ img { display:block; }
   border-radius: var(--r-card);
   padding: 16px 18px;
   border: 1px solid rgba(234, 213, 250, 0.6);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06); /* Shadow diperhalus */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
   transition: background .25s ease, border-color .25s ease;
 }
 .balance-top {
@@ -243,7 +248,7 @@ img { display:block; }
 }
 
 .topup-btn {
-  background: var(--purple-soft); /* Tombol top up disesuaikan biar manis */
+  background: var(--purple-soft);
   color: var(--purple);
   border: 1.5px solid transparent;
   border-radius: var(--r-btn); 
@@ -437,6 +442,7 @@ img { display:block; }
   width:14px; height:14px; stroke:var(--text-light); stroke-width:2.5; fill:none;
 }
 
+/* ── SINKRONISASI TOTAL BOTTOM NAV DENGAN RIWAYAT PPOB ── */
 .bottom-nav {
   position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 440px; background: var(--nav-bg);
@@ -549,7 +555,6 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
 
 <div class="main">
 
-  <!-- 1. INFORMASI (dipindah ke atas) -->
   <div class="sec-head">
     <span class="sec-title">Informasi</span>
     <span class="sec-badge blue">Terbaru</span>
@@ -562,7 +567,6 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
   </div>
 
-  <!-- 2. PRODUK DIGITAL (tengah) -->
   <div class="sec-head">
     <span class="sec-title">Produk Digital</span>
     <span class="sec-badge orange" id="catCount">Loading…</span>
@@ -580,7 +584,6 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
   </div>
 
-  <!-- 3. MENU LAYANAN / VPN (dipindah ke bawah) -->
   <div class="sec-head">
     <span class="sec-title">Menu Layanan</span>
     <span class="sec-badge purple">VPN</span>
