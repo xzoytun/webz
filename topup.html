@@ -39,23 +39,23 @@
   --text-light:   #A882CC;  
 }  
   
-/* ── GOPAY-INSPIRED DARK THEME TOKENS (synced with dashboard & profile) ── */
+/* ── GOPAY-INSPIRED DARK THEME TOKENS ── */
 html[data-theme="dark"] {
-  --purple-soft:  #202124; /* GoPay Dark Grey */
+  --purple-soft:  #202124; 
   --purple-mid:   #2a2b2f; 
-  --green-bg:     #0c2a21; /* Dark Green */
+  --green-bg:     #0c2a21; 
   --green-border: rgba(18,194,138,0.15);
-  --red-bg:       #311111; /* Dark Red */
+  --red-bg:       #311111; 
   --red-border:   rgba(232,64,64,0.15);
-  --amber-bg:     #2c1a10; /* Dark Amber */
+  --amber-bg:     #2c1a10; 
   --amber-border: rgba(255,107,43,0.15);
   --white:        #17181c; 
-  --bg:           #0a0b0d; /* Deep Background */
-  --card:         #1c1d21; /* Card Grey */
+  --bg:           #0a0b0d; 
+  --card:         #1c1d21; 
   --border:       #303135;
   --border-soft:  #2a2b2f;
   --gray-line:    #303135; 
-  --text-dark:    #e8eaed; /* Light Text */
+  --text-dark:    #e8eaed; 
   --text-mid:     #bdc1c6; 
   --text-light:   #9aa0a6; 
 }
@@ -64,18 +64,16 @@ html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
 html[data-theme="dark"] .input-card,
 html[data-theme="dark"] .qris-card,
 html[data-theme="dark"] .back-btn { background: var(--card); border-color: var(--gray-line); }
-html[data-theme="dark"] .amount-wrap { background: var(--purple-mid); border-color: var(--gray-line); }
+html[data-theme="dark"] .amount-wrap { background: var(--purple-soft); border-color: var(--border); }
 html[data-theme="dark"] .nominal-btn { background: var(--purple-soft); border-color: var(--gray-line); color: var(--text-mid); }
 html[data-theme="dark"] .nominal-btn:hover { background: var(--purple-mid); color: var(--text-dark); }
 html[data-theme="dark"] .nominal-btn.selected { background: linear-gradient(135deg, var(--purple-dark), var(--purple)); color: #fff; border-color: var(--purple); }
 html[data-theme="dark"] .promo-chip { background: var(--purple-soft); border-color: var(--gray-line); color: var(--text-mid); }
 html[data-theme="dark"] .fee-item { background: var(--purple-soft); border-color: var(--gray-line); }
 html[data-theme="dark"] .qr-img-box { background: var(--purple-soft); border-color: var(--gray-line); }
-html[data-theme="dark"] .qr-img-box img { background: #fff; border-color: #fff; } /* Tetap putih agar QR gampang di-scan */
+html[data-theme="dark"] .qr-img-box img { background: #fff; border-color: #fff; } 
 
-/* prevent flash before JS runs */
 html { background: var(--bg); }
-
 * { margin:0; padding:0; box-sizing:border-box; }  
   
 body {  
@@ -391,7 +389,7 @@ body {
   font-size:15px; font-weight:900; color:var(--text-dark);  
 }  
   
-/* ── QR IMAGE ── */  
+/* ── QR IMAGE WITH HOVER EFFECTS ── */  
 .qr-img-wrap {  
   display:flex; flex-direction:column;  
   align-items:center; gap:12px; margin-bottom:16px;  
@@ -406,8 +404,13 @@ body {
   border-radius:24px;  
   padding:18px;  
   border:2px dashed var(--border);  
-  transition: background .25s ease, border-color .25s ease;
+  cursor: pointer;
+  transition: background .25s ease, border-color .25s ease, transform 0.15s;
 }  
+.qr-img-box:hover {
+  transform: scale(1.02);
+  border-color: var(--purple-light);
+}
 .qr-img-box img {  
   width:100%;  
   max-width:230px;  
@@ -421,20 +424,20 @@ body {
   box-shadow:0 4px 16px rgba(0,0,0,0.08);  
 }  
   
-/* ── NOTICE SCREENSHOT CHIP ── */  
+/* ── NOTICE CLICK/DOWNLOAD CHIP ── */  
 .ss-notice-chip {  
   display:flex; align-items:center; gap:8px;  
-  background:var(--amber-bg);  
-  border:1.5px solid var(--amber-border);  
+  background:var(--green-bg);  
+  border:1.5px solid var(--green-border);  
   border-radius:12px; padding:10px 14px;  
-  font-size:13px; font-weight:800; color:var(--amber);  
+  font-size:13px; font-weight:800; color:var(--green);  
   text-align:center; justify-content:center;  
   width:100%;  
   transition: background .25s ease, border-color .25s ease;
 }  
 .ss-notice-chip svg {  
   width:16px; height:16px; fill:none;  
-  stroke:var(--amber); stroke-width:2.2;  
+  stroke:var(--green); stroke-width:2.2;  
   stroke-linecap:round; stroke-linejoin:round;  
   flex-shrink:0;  
 }  
@@ -553,9 +556,6 @@ body {
 .toast svg {  
   width:15px; height:15px; fill:none; stroke:#fff; stroke-width:2; flex-shrink:0;  
 }  
-.toast.show { transform:translateX(-50%) translateY(0); opacity:1; }  
-.toast.error { background:linear-gradient(135deg, var(--red), #F87171); box-shadow:0 8px 24px rgba(232,64,64,0.25); }  
-.toast.warn  { background:linear-gradient(135deg, var(--accent), #FF9E74); color:#fff; box-shadow:0 8px 24px rgba(255,107,43,0.25); }  
   
 </style>  
 </head>  
@@ -684,7 +684,6 @@ body {
 let depositCode = null;  
 let timerInterval = null; 
 
-/* ── THEME DETECTOR (synced with dashboard.html & profile.html) ── */
 (function initTheme(){
   const saved = localStorage.getItem('theme');
   if (saved === 'dark' || saved === 'light') {
@@ -712,6 +711,17 @@ function clearSelected() {
   document.querySelectorAll('.nominal-btn').forEach(b => b.classList.remove('selected'));  
 }  
   
+// Fungsi untuk mendownload QRIS secara langsung saat ditekan
+function downloadQris(url) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `QRIS_Xtrimer_${Date.now()}.png`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast('QRIS berhasil diunduh!', 'success');
+}
+
 async function createDeposit() {  
   const amount = document.getElementById('amount').value;  
   if (!amount || amount < 100) {  
@@ -753,6 +763,7 @@ async function createDeposit() {
   
     depositCode = data.uniqueCode;  
     const amtFormatted = Number(data.amount).toLocaleString('id-ID');  
+    const finalQrUrl = `${data.qrUrl}&t=${Date.now()}`;
   
     document.getElementById('result').innerHTML = `  
       <div class="qris-card">  
@@ -767,7 +778,7 @@ async function createDeposit() {
           </div>  
           <div>  
             <div class="qris-head-title">Scan &amp; Bayar</div>  
-            <div class="qris-head-sub">Gunakan aplikasi e-wallet apapun</div>  
+            <div class="qris-head-sub">Gunakan e-wallet atau m-banking apa saja</div>  
           </div>  
         </div>  
         <div class="qris-body">  
@@ -788,16 +799,16 @@ async function createDeposit() {
               <div class="fee-val">Rp ${Number(data.originalAmount).toLocaleString('id-ID')}</div>  
             </div>  
             <div class="fee-item">  
-              <div class="fee-label">Admin</div>  
+              <div class="fee-label">Biaya Admin</div>  
               <div class="fee-val">Rp ${Number(data.adminFee).toLocaleString('id-ID')}</div>  
             </div>  
           </div>  
   
           <div class="qr-img-wrap">  
-            <div class="qr-img-box">  
+            <div class="qr-img-box" onclick="downloadQris('${finalQrUrl}')" title="Klik untuk unduh gambar QRIS">  
               <img  
                 id="qrisImage"  
-                src="${data.qrUrl}&t=${Date.now()}"  
+                src="${finalQrUrl}"  
                 alt="QRIS Code"  
                 loading="lazy"  
                 referrerpolicy="no-referrer"  
@@ -807,10 +818,9 @@ async function createDeposit() {
             </div>  
             <div class="ss-notice-chip">  
               <svg viewBox="0 0 24 24">  
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>  
-                <circle cx="12" cy="13" r="4"/>  
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
               </svg>  
-              Silakan <strong>Screenshot QRIS</strong> untuk membayar  
+              Tekan/klik gambar QRIS di atas untuk mengunduh kodenya.  
             </div>  
           </div>  
   
@@ -818,7 +828,7 @@ async function createDeposit() {
             <svg viewBox="0 0 24 24">  
               <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>  
             </svg>  
-            QRIS berlaku: &nbsp;<strong id="countdown">05:00</strong>  
+            Batas waktu pembayaran: &nbsp;<strong id="countdown">05:00</strong>  
           </div>  
   
           <div id="statusArea">  
@@ -826,7 +836,7 @@ async function createDeposit() {
               <svg viewBox="0 0 24 24">  
                 <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>  
               </svg>  
-              Menunggu pembayaran...  
+              Menunggu pembayaran terdeteksi sistem...  
             </div>  
           </div>  
   
@@ -884,7 +894,7 @@ function setQrisExpiredView() {
           <line x1="15" y1="9" x2="9" y2="15" stroke="#fff" stroke-width="2" stroke-linecap="round"/>  
           <line x1="9" y1="9" x2="15" y2="15" stroke="#fff" stroke-width="2" stroke-linecap="round"/>  
         </svg>  
-        QRIS sudah expired. Buat ulang untuk melanjutkan.  
+        Masa berlaku QRIS habis. Silakan buat ulang.  
       </div>`;
   }
   depositCode = null; 
@@ -917,9 +927,9 @@ function startChecker() {
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>  
                 <polyline points="22,4 12,14.01 9,11.01"/>  
               </svg>  
-              Pembayaran Berhasil!  
+              Pembayaran Sukses!  
             </div>  
-            <div class="status-paid-sub">Saldo sudah masuk ke akun kamu</div>  
+            <div class="status-paid-sub">Saldo otomatis ditambahkan ke akun Anda</div>  
           </div>`;  
         clearInterval(interval);  
         setTimeout(() => { window.location.href = 'dashboard.html'; }, 3000);  
