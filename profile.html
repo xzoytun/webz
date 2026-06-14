@@ -34,24 +34,28 @@
   --nav-shadow:   rgba(90,26,154,0.06);
 }
 
-/* ── SINKRONISASI TOTAL DENGAN DASHBOARD / RIWAYAT PPOB ── */
+/* ── SINKRONISASI KONTRAST TOTAL DENGAN DASHBOARD ── */
 html[data-theme="dark"] {
-  --purple-soft:  #202124;
-  --purple-mid:   #2a2b2f;
-  --green-bg:     #0c2a21;
-  --red-bg:       #311111;
-  --orange-bg:    #3a2414;
-  --white:        #17181c;
-  --bg:           #0a0b0d;
-  --card-bg:      #1c1d21;
-  --gray-line:    #303135;
-  --text-dark:    #e8eaed;
-  --text-mid:     #9aa0a6;
-  --text-light:   #80868b;
-  --input-bg:     #202124;
-  --accent-light: #3A241F;
-  --nav-bg:       #17181c;
-  --nav-shadow:   rgba(0,0,0,0.4);
+  --purple-soft:  #241931; /* Diperdalam agar kontras dengan icon purple-light */
+  --purple-mid:   #322245;
+  --green:        #1df2af; /* Dibuat lebih terang untuk dark mode */
+  --green-bg:     #0a2920; 
+  --red:          #ff5c5c; /* Dibuat lebih terang untuk dark mode */
+  --red-bg:       #2e1414;
+  --orange:       #ffab52;
+  --orange-bg:    #2d1f15;
+  --accent:       #ff7f47;
+  --accent-light: #2d1b15;
+  --white:        #16171a;
+  --bg:           #0f1013; /* Hitam pekat dasbor */
+  --card-bg:      #1a1b20; /* Card base dasbor */
+  --gray-line:    #26282e; /* Garis pembatas yang smooth */
+  --text-dark:    #f3f4f6; /* Putih terang untuk teks utama */
+  --text-mid:     #a0aec0; /* Abu-abu medium untuk sub-judul */
+  --text-light:   #718096; /* Abu-abu redup untuk label kecil */
+  --input-bg:     #22242a;
+  --nav-bg:       #16171a;
+  --nav-shadow:   rgba(0,0,0,0.5);
 }
 
 /* mencegah flash putih sebelum JS berjalan */
@@ -96,7 +100,7 @@ body {
   max-width: 440px; margin: 0 auto; gap:16px;
 }
 
-.hero-profile-area { display: flex; align-items: center; gap: 14px; flex: 1; }
+.hero-profile-area { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
 
 .avatar-wrap { position: relative; flex-shrink: 0; }
 .avatar {
@@ -113,16 +117,17 @@ body {
 .edit-avatar-btn svg { width: 10px; height: 10px; fill: none; stroke: var(--purple); stroke-width: 2.5; }
 html[data-theme="dark"] .edit-avatar-btn svg { stroke: var(--purple-light); }
 
-.profile-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.profile-name { font-size: 17px; font-weight: 900; color: #fff; line-height: 1.2; letter-spacing: -0.2px; }
-.profile-meta-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.profile-email { font-size: 11px; color: rgba(255,255,255,0.65); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
+.profile-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
+.profile-name { font-size: 17px; font-weight: 900; color: #fff; line-height: 1.2; letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.profile-meta-row { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
+.profile-email { font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px; }
 
 /* Badge Role */
 .role-badge {
   display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 6px;
-  font-size: 9px; font-weight: 900; background: rgba(255,255,255,0.15); color: #fff;
-  text-transform: uppercase; border: 1px solid rgba(255,255,255,0.2); letter-spacing: 0.3px;
+  font-size: 9px; font-weight: 900; background: rgba(255,255,255,0.2); color: #fff;
+  text-transform: uppercase; border: 1px solid rgba(255,255,255,0.25); letter-spacing: 0.3px;
+  flex-shrink: 0;
 }
 .role-badge.admin { background: var(--accent); border-color: var(--accent); }
 
@@ -151,7 +156,7 @@ html:not([data-theme="dark"]) .icon-moon { display: none; }
   box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid var(--gray-line);
   margin-bottom: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 0;
 }
-html[data-theme="dark"] .dana-grid-card { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+html[data-theme="dark"] .dana-grid-card { box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
 .grid-item {
   display: flex; flex-direction: column; align-items: center; text-decoration: none; text-align: center; gap: 5px;
@@ -173,7 +178,7 @@ html[data-theme="dark"] .grid-icon-box svg { stroke: var(--purple-light); }
   background: var(--card-bg); border-radius: 16px; border: 1px solid var(--gray-line);
   display: flex; margin-bottom: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
-html[data-theme="dark"] .cashflow-card { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+html[data-theme="dark"] .cashflow-card { box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
 .flow-side { flex: 1; display: flex; align-items: center; gap: 10px; padding: 12px 14px; position: relative; }
 .flow-side:first-child::after {
@@ -197,7 +202,7 @@ html[data-theme="dark"] .cashflow-card { box-shadow: 0 4px 12px rgba(0,0,0,0.15)
   background: var(--card-bg); border-radius: 16px; border: 1px solid var(--gray-line);
   box-shadow: 0 4px 12px rgba(0,0,0,0.03); overflow: hidden; margin-bottom: 12px;
 }
-html[data-theme="dark"] .dana-list-card { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+html[data-theme="dark"] .dana-list-card { box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
 .list-item {
   display: flex; align-items: center; gap: 14px; padding: 14px 16px;
@@ -215,11 +220,16 @@ html[data-theme="dark"] .list-icon-box svg { stroke: var(--purple-light); }
 
 .list-icon-img {
   width: 32px; height: 32px; object-fit: contain; flex-shrink: 0;
+  border-radius: 6px;
 }
 .list-content { flex: 1; min-width: 0; }
-.list-title { font-size: 13px; font-weight: 800; color: var(--text-mid); margin-bottom: 2px; }
+.list-title { font-size: 12px; font-weight: 800; color: var(--text-light); margin-bottom: 2px; }
 .list-subtitle { font-size: 13px; font-weight: 800; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .list-arrow { font-size: 16px; color: var(--text-light); font-weight: 500; margin-left: 4px; }
+
+/* KHUSUS LINK DI MENU LIST agar teks judulnya tegas */
+a.list-item .list-title { color: var(--text-dark); font-size: 13px; font-weight: 800; }
+a.list-item .list-subtitle { color: var(--text-mid); font-size: 12px; font-weight: 600; }
 
 /* LOGOUT BUTTON */
 .logout-btn-wrap { padding: 4px 0; margin-top: 16px; }
@@ -413,7 +423,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       </div>
       <div class="list-content">
         <div class="list-title" id="deviceName">Loading Device...</div>
-        <div class="list-subtitle">IP: <span id="deviceIp">Loading...</span></div>
+        <div class="list-subtitle" style="color:var(--text-dark); font-weight:700;">IP: <span id="deviceIp" style="color:var(--purple); font-weight:800;">Loading...</span></div>
       </div>
       <div class="list-arrow">›</div>
     </div>
@@ -424,7 +434,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       </div>
       <div class="list-content">
         <div class="list-title">Terakhir Aktif</div>
-        <div class="list-subtitle" id="lastOnlineTime" style="font-size:11px;">Loading...</div>
+        <div class="list-subtitle" id="lastOnlineTime" style="font-size:12px; font-weight:700;">Loading...</div>
       </div>
     </div>
   </div>
@@ -462,16 +472,28 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
+    
+    // Perbarui warna dinamis teks IP setelah switch tema
+    updateIpStyle(next);
   }
+  
+  function updateIpStyle(theme) {
+    const ipSpan = document.getElementById('deviceIp');
+    if(ipSpan) {
+      ipSpan.style.color = theme === 'dark' ? 'var(--purple-light)' : 'var(--purple)';
+    }
+  }
+
   (function() {
     const saved = localStorage.getItem('theme');
+    let currentTheme = 'light';
     if (saved === 'dark' || saved === 'light') {
-      document.documentElement.setAttribute('data-theme', saved);
+      currentTheme = saved;
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.setAttribute('data-theme', 'light');
+      currentTheme = 'dark';
     }
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    setTimeout(() => updateIpStyle(currentTheme), 50);
   })();
 
   const localUser = JSON.parse(localStorage.getItem('user'));
@@ -629,6 +651,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
   }
 
   function logout() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     Swal.fire({
       title: 'Yakin mau keluar?',
       text: "Kamu harus login kembali untuk mengakses layanan.",
@@ -637,7 +660,9 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       confirmButtonColor: '#7B2FBE',
       cancelButtonColor: '#E84040',
       confirmButtonText: 'Ya, Keluar!',
-      cancelButtonText: 'Batal'
+      cancelButtonText: 'Batal',
+      background: isDark ? '#1a1b20' : '#ffffff',
+      color: isDark ? '#f3f4f6' : '#1A0533'
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.clear();
