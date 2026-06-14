@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Riwayat PPOB - Xtrimer Tunnel</title>
+<title>Riwayat Transaksi - Xtrimer Tunnel</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght=400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
+
 :root {
   --purple:       #7B2FBE;
   --purple-dark:  #5A1A9A;
@@ -18,6 +19,7 @@
   --accent-light: #FFEFEA;
   --green:        #12C28A;
   --green-bg:     #E6FAF4;
+  --green-dark:   #0A9E70;
   --red:          #E84040;
   --red-bg:       #FFECEC;
   --orange:       #FE9431;
@@ -34,7 +36,7 @@
   --nav-shadow:   rgba(90,26,154,0.06);
 }
 
-/* ── SINKRONISASI TOTAL DENGAN DASHBOARD / MY-VPN (GOPAY-INSPIRED DARK THEME) ── */
+/* ── SINKRONISASI GOPAY-INSPIRED DARK THEME ── */
 html[data-theme="dark"] {
   --purple-soft:  #202124;
   --purple-mid:   #2a2b2f;
@@ -54,18 +56,16 @@ html[data-theme="dark"] {
   --nav-shadow:   rgba(0,0,0,0.4);
 }
 
-/* mencegah flash putih sebelum JS berjalan */
 html { background: var(--bg); }
-
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   background: var(--bg);
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
-  overflow-x: hidden;
-  padding-bottom: 90px;
   color: var(--text-dark);
+  padding-bottom: 95px;
+  overflow-x: hidden;
   transition: background 0.25s ease, color 0.25s ease;
 }
 
@@ -75,7 +75,7 @@ body {
 }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ── HERO HEADER (SINKRON 100% DENGAN RIWAYAT TOPUP) ── */
+/* ── HERO HEADER ── */
 .hero {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
   padding: 28px 20px 48px;
@@ -91,7 +91,6 @@ body {
   background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
   background-size: 20px 20px; pointer-events:none;
 }
-
 .hero-top {
   display:flex; align-items:center; justify-content:space-between; position:relative; z-index:2;
   max-width: 440px; margin: 0 auto; gap:12px;
@@ -112,8 +111,12 @@ body {
 .hero-title p { font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; margin-top:3px; }
 
 .hero-right-area { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.hero-badge {
+  background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
+  border-radius:20px; padding:5px 12px; font-size:11px; font-weight:800; color:#fff;
+  white-space:nowrap; backdrop-filter:blur(8px);
+}
 
-/* ─── THEME TOGGLE ─── */
 .theme-toggle {
   width: 36px; height: 36px; border-radius: 50%;
   background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.2);
@@ -127,18 +130,38 @@ body {
 html:not([data-theme="dark"]) .icon-sun  { display: block; }
 html:not([data-theme="dark"]) .icon-moon { display: none; }
 
-/* ─── CONTAINER ─── */
 .container { max-width:440px; margin:0 auto; padding:0 16px; position: relative; z-index: 2; }
 
-/* ─── FILTER SEGMENT ─── */
+/* ── TAB NAVIGATION SYSTEM ── */
+.tab-container {
+  display: grid; grid-template-columns: 1fr 1fr; background: var(--card-bg);
+  border: 1px solid var(--gray-line); padding: 5px; border-radius: 14px;
+  margin: -24px 0 16px; box-shadow: 0 8px 24px rgba(90,26,154,0.03);
+  position: relative; z-index: 10; transition: background 0.25s, border-color 0.25s;
+}
+html[data-theme="dark"] .tab-container { box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.tab-btn {
+  background: transparent; border: none; padding: 10px; font-size: 12px;
+  font-weight: 800; color: var(--text-light); cursor: pointer; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.25s;
+}
+.tab-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+.tab-btn.active {
+  background: var(--purple-soft); color: var(--purple);
+}
+html[data-theme="dark"] .tab-btn.active {
+  background: var(--purple-mid); color: var(--text-dark);
+}
+
+/* ── FILTER SEGMENT ── */
 .filter-container {
-  display: flex; gap: 8px; margin: -24px 0 16px; overflow-x: auto;
-  padding: 4px 2px 8px; scrollbar-width: none; position: relative; z-index: 10;
+  display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto;
+  padding: 2px 2px 6px; scrollbar-width: none;
 }
 .filter-container::-webkit-scrollbar { display: none; }
 .filter-btn {
   background: var(--card-bg); border: 1px solid var(--gray-line);
-  padding: 8px 14px; border-radius: 20px; font-size: 11px; font-weight: 800;
+  padding: 7px 12px; border-radius: 20px; font-size: 11px; font-weight: 800;
   color: var(--text-mid); cursor: pointer; white-space: nowrap; transition: all 0.2s;
   display: inline-flex; align-items: center; gap: 5px;
   box-shadow: 0 4px 12px rgba(90,26,154,0.02);
@@ -147,7 +170,7 @@ html[data-theme="dark"] .filter-btn { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 .filter-btn svg { width: 13px; height: 13px; flex-shrink: 0; stroke: var(--text-light); fill: none; }
 .filter-btn.active {
   background: var(--purple); color: #FFFFFF; border-color: var(--purple);
-  box-shadow: 0 6px 16px rgba(123,47,190,0.25);
+  box-shadow: 0 4px 12px rgba(123,47,190,0.2);
 }
 html[data-theme="dark"] .filter-btn.active { background: var(--purple-light); border-color: var(--purple-light); }
 .filter-btn.active svg { stroke: #FFFFFF !important; }
@@ -156,50 +179,83 @@ html[data-theme="dark"] .filter-btn.active { background: var(--purple-light); bo
 .filter-btn.btn-sukses svg { stroke: var(--green); }
 .filter-btn.btn-gagal svg { stroke: var(--red); }
 
-/* ─── HISTORY LIST & CARD ─── */
+/* ── SUMMARY CARD ── */
+.summary-card {
+  background:var(--card-bg); border-radius:16px; padding:12px;
+  margin-bottom: 14px; border: 1px solid var(--gray-line);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  box-shadow: 0 6px 16px rgba(90,26,154,0.02);
+  animation: fadeUp 0.4s ease both; transition: background 0.25s, border-color 0.25s;
+}
+.summary-item { border-radius:12px; padding:10px 12px; }
+.summary-item.green-item { background:var(--green-bg); border:1px solid rgba(18,194,138,0.1); }
+.summary-item.purple-item { background:var(--purple-soft); border:1px solid rgba(123,47,190,0.06); }
+
+.summary-label {
+  font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.3px;
+  color:var(--text-light); margin-bottom:3px; display:flex; align-items:center; gap:4px;
+}
+.summary-label svg { width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:2.2; }
+.summary-label.green-label svg { stroke:var(--green); }
+.summary-label.purple-label svg { stroke:var(--purple); }
+html[data-theme="dark"] .summary-label.purple-label svg { stroke: var(--purple-light); }
+.summary-val { font-size:15px; font-weight:900; color:var(--text-dark); }
+.summary-val.green-val { color:var(--green); }
+
+/* ── LIST & UNIVERSAL CARDS ── */
 .history-list { display: flex; flex-direction: column; gap: 10px; }
+
+/* Style Card PPOB */
 .history-card {
   background: var(--card-bg); border-radius: 16px; padding: 14px 16px;
   border: 1px solid var(--gray-line); display: flex; flex-direction: column; gap: 10px;
-  box-shadow: 0 4px 12px rgba(90,26,154,0.02);
-  animation: fadeUp 0.35s ease both;
+  box-shadow: 0 4px 12px rgba(90,26,154,0.02); animation: fadeUp 0.35s ease both;
   transition: background 0.25s, border-color 0.25s, transform 0.15s;
 }
 html[data-theme="dark"] .history-card { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 .history-card:hover { transform: translateY(-1px); }
 
 .card-top { display: flex; justify-content: space-between; align-items: center; }
-.card-service { font-size: 14px; font-weight: 900; color: var(--text-dark); letter-spacing: -0.1px; }
-.card-date { font-size: 11px; font-weight: 700; color: var(--text-light); }
+.card-service { font-size: 14px; font-weight: 900; color: var(--text-dark); }
+.card-date { font-size: 11px; font-weight: 700; color: var(--text-light); display: inline-flex; align-items: center; gap: 4px; }
+.card-date svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.2; }
 
 .card-mid { 
   display: flex; flex-direction: column; gap: 6px; 
-  background: var(--input-bg); padding: 12px; border-radius: 12px; 
-  transition: background 0.25s; 
+  background: var(--input-bg); padding: 12px; border-radius: 12px; transition: background 0.25s; 
 }
 .info-row { display: flex; justify-content: space-between; font-size: 11.5px; align-items: flex-start; }
 .info-label { color: var(--text-light); font-weight: 700; }
 .info-value { color: var(--text-dark); font-weight: 800; text-align: right; word-break: break-all; margin-left: 16px; }
 
-.card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
-.card-price { font-size: 16px; font-weight: 900; color: var(--purple); letter-spacing: -0.2px; }
+.card-bottom { display: flex; justify-content: space-between; align-items: center; }
+.card-price { font-size: 15px; font-weight: 900; color: var(--purple); }
 html[data-theme="dark"] .card-price { color: var(--purple-light); }
 
-.badge { font-size: 10px; font-weight: 900; padding: 3px 9px; border-radius: 7px; text-transform: uppercase; letter-spacing: 0.3px; display: inline-flex; align-items: center; }
+/* Style Card Topup */
+.topup-card-border-left { border-left: 4px solid var(--green); }
+.topup-flex-inner { display: flex; align-items: center; gap: 12px; width: 100%; }
+.topup-icon-box {
+  width:36px; height:36px; border-radius:11px;
+  background:linear-gradient(135deg, var(--green-dark), var(--green));
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.topup-icon-box svg { width:16px; height:16px; fill:none; stroke:#fff; stroke-width:2.5; }
+.topup-amount-val { font-size:15px; font-weight:900; color:var(--green); }
+
+/* BADGES & BUTTONS */
+.badge { font-size: 10px; font-weight: 900; padding: 3px 9px; border-radius: 7px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 4px; }
 .badge.sukses { background: var(--green-bg); color: var(--green); }
 .badge.pending { background: var(--orange-bg); color: var(--orange); animation: pulse 1.5s infinite; }
 .badge.gagal { background: var(--red-bg); color: var(--red); }
-
 @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
 .btn-copy {
   background: var(--purple-soft); border: none; color: var(--purple);
   padding: 2px 7px; border-radius: 6px; font-size: 9.5px; font-weight: 800;
-  cursor: pointer; display: inline-flex; align-items: center; gap: 3px; transition: all 0.15s;
-  margin-left: 6px; flex-shrink: 0;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 3px; transition: all 0.15s; margin-left: 6px;
 }
-html[data-theme="dark"] .btn-copy { color: var(--purple-light); }
-.btn-copy:hover { opacity: 0.8; }
+html[data-theme="dark"] .btn-copy { color: var(--purple-light); background: var(--purple-mid); }
 .btn-copy svg { fill: none; stroke: currentColor; }
 
 /* ─── STATUS BOX ─── */
@@ -219,12 +275,11 @@ html[data-theme="dark"] .status-box svg { stroke: var(--purple-light); }
 .status-box p { font-size: 12px; font-weight: 700; max-width: 260px; line-height: 1.5; color: var(--text-mid); }
 .hidden { display: none !important; }
 
-/* ─── BOTTOM NAV (SINKRON 100% DENGAN MY-VPN) ─── */
+/* ─── BOTTOM NAV ─── */
 .bottom-nav {
   position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 440px; background: var(--nav-bg);
-  border-top: 1px solid var(--gray-line);
-  box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
+  border-top: 1px solid var(--gray-line); box-shadow: 0 -4px 20px var(--nav-shadow); z-index: 999;
   transition: background 0.25s ease, border-color 0.25s ease;
 }
 .bottom-nav-inner { display: flex; align-items: center; justify-content: space-around; padding: 10px 0 14px; }
@@ -251,52 +306,74 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
         <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
       </a>
       <div class="hero-title">
-        <h1>Riwayat Pembelian</h1>
-        <p id="subtitle">PPOB &amp; Pascabayar</p>
+        <h1 id="mainTitle">Riwayat Transaksi</h1>
+        <p id="subtitle">Memuat data...</p>
       </div>
     </div>
     
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
-      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="5"/>
-        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-      </svg>
-    </button>
+    <div class="hero-right-area">
+      <div class="hero-badge" id="countBadge">— Trx</div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle tema">
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </div>
 
 <div class="container">
 
+  <div class="tab-container">
+    <button class="tab-btn active" id="tab-ppob" onclick="switchTab('PPOB')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10M7 12h10M7 16h10"/></svg>
+      Produk PPOB
+    </button>
+    <button class="tab-btn" id="tab-topup" onclick="switchTab('TOPUP')">
+      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      Isi Saldo / Topup
+    </button>
+  </div>
+
   <div class="filter-container">
     <button class="filter-btn active" onclick="filterStatus('ALL', this)">
-      <svg viewBox="0 0 24 24" stroke-width="2.5">
-        <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
-        <circle cx="3" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1" fill="currentColor" stroke="none"/>
-      </svg>
+      <svg viewBox="0 0 24 24" stroke-width="2.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
       Semua
     </button>
     <button class="filter-btn btn-pending" onclick="filterStatus('PENDING', this)">
-      <svg viewBox="0 0 24 24" stroke-width="2.3">
-        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-      </svg>
+      <svg viewBox="0 0 24 24" stroke-width="2.3"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       Pending
     </button>
     <button class="filter-btn btn-sukses" onclick="filterStatus('SUKSES', this)">
-      <svg viewBox="0 0 24 24" stroke-width="2.3">
-        <circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/>
-      </svg>
+      <svg viewBox="0 0 24 24" stroke-width="2.3"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
       Sukses
     </button>
     <button class="filter-btn btn-gagal" onclick="filterStatus('GAGAL', this)">
-      <svg viewBox="0 0 24 24" stroke-width="2.3">
-        <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
-      </svg>
+      <svg viewBox="0 0 24 24" stroke-width="2.3"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
       Gagal
     </button>
+  </div>
+
+  <div class="summary-card" id="summaryCard">
+    <div class="summary-item green-item">
+      <div class="summary-label green-label">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span id="sumLabelText">Total Belanja</span>
+      </div>
+      <div class="summary-val green-val" id="sumTotal">Rp 0</div>
+    </div>
+    <div class="summary-item purple-item">
+      <div class="summary-label purple-label">
+        <svg viewBox="0 0 24 24"><polygon points="12,2 22,8.5 12,15 2,8.5"/><polyline points="2,15 12,21.5 22,15"/></svg>
+        Volume Trx
+      </div>
+      <div class="summary-val" id="sumCount">0x</div>
+    </div>
   </div>
 
   <div id="history-area">
@@ -306,7 +383,6 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       </div>
       <p>Memuat riwayat transaksi kamu...</p>
     </div>
-
     <div id="history-grid" class="history-list"></div>
   </div>
 
@@ -318,7 +394,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
       <div class="nav-label">Home</div>
     </a>
-    <a class="nav-item active" href="riwayat-ppob.html">
+    <a class="nav-item active" href="transactions.html">
       <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg></div>
       <div class="nav-label">Riwayat</div>
     </a>
@@ -330,7 +406,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
 </nav>
 
 <script>
-  // ─── THEME MANAGER (SINKRON SAMA KEY 'theme') ───
+  // ─── THEME MANAGER ───
   function toggleTheme() {
     const html = document.documentElement;
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -348,137 +424,207 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     }
   })();
 
-  let allTransactions = [];
+  // Core Variables
+  let currentTab = 'PPOB'; // PPOB atau TOPUP
   let currentFilter = 'ALL';
+  let dataPPOB = [];
+  let dataTopup = [];
 
   const token = localStorage.getItem('token') || '';
-  const localUser = JSON.parse(localStorage.getItem('user'));
-
-  // Proteksi Login
-  if (!token || !localUser) {
+  if (!token) {
     window.location.href = 'index.html';
   }
 
-  const getHeaders = () => ({
+  const headers = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token}`
-  });
+  };
 
-  async function loadTransactionHistory() {
-    const grid = document.getElementById('history-grid');
-    const statusBox = document.getElementById('history-status');
-
-    grid.innerHTML = '';
-    statusBox.className = "status-box loading";
-    statusBox.classList.remove('hidden');
-
-    try {
-      const res = await fetch('/api/ppob/history', {
-        method: 'GET',
-        headers: getHeaders()
-      });
-      const data = await res.json();
-
-      if (data.success && data.transactions && data.transactions.length > 0) {
-        allTransactions = data.transactions;
-        renderHistory();
-      } else {
-        showEmptyStatus("Belum ada riwayat transaksi nih. Yuk, lakukan transaksi pertamamu!");
-      }
-    } catch (err) {
-      console.error(err);
-      showEmptyStatus("Gagal mengambil data riwayat dari server.");
+  // Helper formatting waktu WIB
+  function formatWIB(dateStr) {
+    if (!dateStr) return '—';
+    let d = new Date(dateStr);
+    if (typeof dateStr === 'string' && !dateStr.includes('Z') && !dateStr.includes('+')) {
+      d = new Date(dateStr.replace(' ', 'T') + 'Z'); 
     }
+    if (isNaN(d.getTime())) d = new Date(dateStr);
+    
+    return d.toLocaleString('id-ID', {
+      timeZone: 'Asia/Jakarta',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
   }
 
-  function renderHistory() {
-    const grid = document.getElementById('history-grid');
-    const statusBox = document.getElementById('history-status');
-    grid.innerHTML = '';
+  // Trigger main function loader
+  async function initHistory() {
+    await Promise.all([fetchPPOB(), fetchTopup()]);
+    renderData();
+  }
 
-    const filtered = allTransactions.filter(t => {
-      if (currentFilter === 'ALL') return true;
-      const stat = (t.status || 'PENDING').toUpperCase();
-      if (currentFilter === 'SUKSES') return stat === 'SUKSES' || stat === 'SUCCESS';
-      if (currentFilter === 'GAGAL') return stat === 'GAGAL' || stat === 'FAILED' || stat === 'FAILURE';
-      if (currentFilter === 'PENDING') return stat === 'PENDING';
-      return false;
-    });
+  async function fetchPPOB() {
+    try {
+      const res = await fetch('/api/ppob/history', { method: 'GET', headers });
+      const data = await res.json();
+      if (data.success) dataPPOB = data.transactions || [];
+    } catch (e) { console.error('Fetch PPOB Error:', e); }
+  }
 
-    if (filtered.length === 0) {
-      showEmptyStatus(`Tidak ada transaksi dengan status ${currentFilter}`);
-      return;
-    }
+  async function fetchTopup() {
+    try {
+      const res = await fetch('/api/topup-history', { method: 'GET', headers });
+      const data = await res.json();
+      if (data.success) dataTopup = data.data || [];
+    } catch (e) { console.error('Fetch Topup Error:', e); }
+  }
 
-    statusBox.classList.add('hidden');
+  function switchTab(tabName) {
+    currentTab = tabName;
+    document.getElementById('tab-ppob').classList.toggle('active', tabName === 'PPOB');
+    document.getElementById('tab-topup').classList.toggle('active', tabName === 'TOPUP');
+    
+    // Reset status filter ke ALL saat ganti tab biar ga membingungkan user
+    currentFilter = 'ALL';
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector('.filter-container .filter-btn:first-child').classList.add('active');
 
-    filtered.forEach((t, i) => {
-      const card = document.createElement('div');
-      card.className = "history-card";
-      card.style.animationDelay = `${i * 0.05}s`;
-
-      const stat = (t.status || 'PENDING').toUpperCase();
-      let statusClass = 'pending';
-      let statusLabel = 'PENDING';
-
-      if (stat === 'SUKSES' || stat === 'SUCCESS') {
-        statusClass = 'sukses'; statusLabel = 'SUKSES';
-      } else if (stat === 'GAGAL' || stat === 'FAILED' || stat === 'FAILURE') {
-        statusClass = 'gagal'; statusLabel = 'GAGAL';
-      }
-
-      const dateSource = t.created_at ? new Date(t.created_at) : new Date();
-      const dateFormatted = dateSource.toLocaleString('id-ID', {
-        timeZone: 'Asia/Jakarta',
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-
-      card.innerHTML = `
-        <div class="card-top">
-          <div class="card-service">${t.sku}</div>
-          <div class="card-date">${dateFormatted}</div>
-        </div>
-        <div class="card-mid">
-          <div class="info-row">
-            <span class="info-label">No. Target</span>
-            <span class="info-value">${t.target}</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">Ref ID</span>
-            <span class="info-value" style="font-family:monospace; font-size:11px;">${t.ref_id || '—'}</span>
-          </div>
-          ${ t.sn ? `
-          <div class="info-row">
-            <span class="info-label">SN / Keterangan</span>
-            <span class="info-value" style="display:inline-flex; align-items:center; justify-content:flex-end; gap:4px;">
-              <span>${t.sn}</span>
-              <button class="btn-copy" onclick="copySN('${t.sn}')">
-                <svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
-              </button>
-            </span>
-          </div>` : '' }
-        </div>
-        <div class="card-bottom">
-          <div class="card-price">Rp ${(t.price || 0).toLocaleString('id-ID')}</div>
-          <span class="badge ${statusClass}">${statusLabel}</span>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
+    renderData();
   }
 
   function filterStatus(status, element) {
     currentFilter = status;
     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     element.classList.add('active');
-    renderHistory();
+    renderData();
   }
 
-  function copySN(text) {
+  function renderData() {
+    const grid = document.getElementById('history-grid');
+    const statusBox = document.getElementById('history-status');
+    grid.innerHTML = '';
+    
+    const targetData = (currentTab === 'PPOB') ? dataPPOB : dataTopup;
+    
+    // Set UI Meta Text & Label Cards
+    if (currentTab === 'PPOB') {
+      document.getElementById('mainTitle').textContent = 'Riwayat Pembelian';
+      document.getElementById('sumLabelText').textContent = 'Total Belanja';
+    } else {
+      document.getElementById('mainTitle').textContent = 'Riwayat Topup';
+      document.getElementById('sumLabelText').textContent = 'Total Topup';
+    }
+
+    // Filter Logic berdasarkan status data masing-masing API
+    const filtered = targetData.filter(item => {
+      if (currentFilter === 'ALL') return true;
+      const rawStat = (item.status || 'SUKSES').toUpperCase(); // Topup default API biasanya lsg sukses berdasar endpoint mu tadi
+      
+      if (currentFilter === 'SUKSES') return rawStat === 'SUKSES' || rawStat === 'SUCCESS' || rawStat === 'BERHASIL';
+      if (currentFilter === 'GAGAL') return rawStat === 'GAGAL' || rawStat === 'FAILED' || rawStat === 'FAILURE';
+      if (currentFilter === 'PENDING') return rawStat === 'PENDING';
+      return false;
+    });
+
+    // Update Counter Analytics Card & Badges atas
+    const totalSum = filtered.reduce((acc, curr) => acc + Number(curr.price || curr.amount || 0), 0);
+    document.getElementById('subtitle').textContent = `${filtered.length} transaksi ditemukan`;
+    document.getElementById('countBadge').textContent = `${filtered.length} Trx`;
+    document.getElementById('sumTotal').textContent = 'Rp ' + totalSum.toLocaleString('id-ID');
+    document.getElementById('sumCount').textContent = filtered.length + 'x';
+
+    if (filtered.length === 0) {
+      statusBox.className = "status-box";
+      statusBox.classList.remove('hidden');
+      statusBox.innerHTML = `
+        <div class="status-icon-badge">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <p>Tidak ada riwayat transaksi dengan kriteria ini.</p>
+      `;
+      return;
+    }
+
+    statusBox.classList.add('hidden');
+
+    // Rendering template conditionally
+    filtered.forEach((item, index) => {
+      if (currentTab === 'PPOB') {
+        // --- VIEW CARD PPOB ---
+        const card = document.createElement('div');
+        card.className = "history-card";
+        card.style.animationDelay = `${index * 0.04}s`;
+
+        const stat = (item.status || 'PENDING').toUpperCase();
+        let statusClass = 'pending'; let statusLabel = 'PENDING';
+        if (stat === 'SUKSES' || stat === 'SUCCESS') { statusClass = 'sukses'; statusLabel = 'SUKSES'; }
+        else if (stat === 'GAGAL' || stat === 'FAILED' || stat === 'FAILURE') { statusClass = 'gagal'; statusLabel = 'GAGAL'; }
+
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="card-service">${item.sku || 'Produk Konten'}</div>
+            <div class="card-date">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
+              ${formatWIB(item.created_at)}
+            </div>
+          </div>
+          <div class="card-mid">
+            <div class="info-row"><span class="info-label">No. Target</span><span class="info-value">${item.target}</span></div>
+            <div class="info-row"><span class="info-label">Ref ID</span><span class="info-value" style="font-family:monospace;">${item.ref_id || '—'}</span></div>
+            ${ item.sn ? `
+            <div class="info-row">
+              <span class="info-label">SN / Keterangan</span>
+              <span class="info-value" style="display:inline-flex; align-items:center; justify-content:flex-end; gap:4px;">
+                <span>${item.sn}</span>
+                <button class="btn-copy" onclick="copyText('${item.sn}')">
+                  <svg width="10" height="10" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                </button>
+              </span>
+            </div>` : '' }
+          </div>
+          <div class="card-bottom">
+            <div class="card-price">Rp ${(item.price || 0).toLocaleString('id-ID')}</div>
+            <span class="badge ${statusClass}">${statusLabel}</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      } else {
+        // --- VIEW CARD TOPUP ---
+        const card = document.createElement('div');
+        card.className = "history-card topup-card-border-left";
+        card.style.animationDelay = `${index * 0.04}s`;
+
+        card.innerHTML = `
+          <div class="topup-flex-inner">
+            <div class="topup-icon-box">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5,12 12,5 19,12"/></svg>
+            </div>
+            <div style="flex:1; min-width:0;">
+              <div class="topup-amount-val">+ Rp ${Number(item.amount || 0).toLocaleString('id-ID')}</div>
+              <div style="font-size:11px; font-weight:800; color:var(--text-mid); margin-top:2px; display:flex; align-items:center; gap:4px;">
+                <span style="width:5px; height:5px; background:var(--purple-light); border-radius:50%;"></span>
+                ${item.metode || 'QRIS'}
+              </div>
+              <div class="badge sukses" style="margin-top:5px; font-size:9px; padding:1px 6px;">BERHASIL</div>
+            </div>
+            <div style="text-align:right; flex-shrink:0;">
+              <div style="font-size:9px; font-weight:800; color:var(--text-light); font-family:monospace; margin-bottom:2px;">${item.reference || '—'}</div>
+              <div class="card-date">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 15,15"/></svg>
+                ${formatWIB(item.created_at)}
+              </div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+    });
+  }
+
+  function copyText(text) {
     navigator.clipboard.writeText(text).then(() => {
       const Toast = Swal.mixin({
         toast: true, position: 'top', showConfirmButton: false, timer: 1500, timerProgressBar: true
@@ -487,19 +633,8 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     });
   }
 
-  function showEmptyStatus(msg) {
-    const statusBox = document.getElementById('history-status');
-    statusBox.className = "status-box";
-    statusBox.classList.remove('hidden');
-    statusBox.innerHTML = `
-      <div class="status-icon-badge">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      </div>
-      <p>${msg}</p>
-    `;
-  }
-
-  loadTransactionHistory();
+  // Jalankan inisialisasi runtime
+  initHistory();
 </script>
 </body>
 </html>
