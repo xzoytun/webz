@@ -318,7 +318,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       </div>
       <div class="flow-details">
         <div>Uang Masuk</div>
-        <div>Rp 0</div>
+        <div id="totalIn">Rp 0</div>
       </div>
     </div>
     <div class="flow-side flow-up">
@@ -327,7 +327,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       </div>
       <div class="flow-details">
         <div>Uang Keluar</div>
-        <div id="balance_out">Rp 0</div>
+        <div id="totalOut">Rp 0</div>
       </div>
     </div>
   </div>
@@ -436,6 +436,10 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
   detectDevice();
   loadIPAddress();
 
+  function rupiah(val) {
+    return 'Rp ' + Number(val || 0).toLocaleString('id-ID');
+  }
+
   async function loadProfile() {
     try {
       const response = await fetch('/api/profile', {
@@ -462,14 +466,16 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       }
 
       const user = result.user;
+      localStorage.setItem('user', JSON.stringify(user));
 
       document.getElementById('username').innerText   = user.username || '—';
       document.getElementById('username2').innerText  = user.username || '—';
       document.getElementById('username_id').innerText = user.username || '—';
       document.getElementById('email').innerText      = user.email    || '—';
       document.getElementById('email2').innerText     = user.email    || '—';
-      document.getElementById('balance').innerText    = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
-      document.getElementById('balance_out').innerText = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
+      document.getElementById('balance').innerText    = rupiah(user.balance);
+      document.getElementById('totalIn').innerText     = rupiah(user.total_in || 0);
+      document.getElementById('totalOut').innerText    = rupiah(user.total_out || 0);
       
       if(user.avatar) {
         document.getElementById('avatar').src = user.avatar;
