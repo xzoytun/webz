@@ -26,15 +26,15 @@
   --bg:           #F8F6FC;
   --gray-line:    #EEF0F6;
   --text-dark:    #1A0533;
-  --text-mid:     #6B3FA0;
-  --text-light:   #A882CC;
+  --text-mid:     #555555;
+  --text-light:   #757575;
   --card-bg:      #FFFFFF;
   --input-bg:     #F8F6FC;
   --nav-bg:       #FFFFFF;
   --nav-shadow:   rgba(90,26,154,0.06);
 }
 
-/* ── SINKRONISASI TOTAL DENGAN DASHBOARD / RIWAYAT PPOB (GOPAY-INSPIRED DARK THEME) ── */
+/* ── SINKRONISASI TOTAL DENGAN DASHBOARD / RIWAYAT PPOB ── */
 html[data-theme="dark"] {
   --purple-soft:  #202124;
   --purple-mid:   #2a2b2f;
@@ -46,8 +46,8 @@ html[data-theme="dark"] {
   --card-bg:      #1c1d21;
   --gray-line:    #303135;
   --text-dark:    #e8eaed;
-  --text-mid:     #bdc1c6;
-  --text-light:   #9aa0a6;
+  --text-mid:     #9aa0a6;
+  --text-light:   #80868b;
   --input-bg:     #202124;
   --accent-light: #3A241F;
   --nav-bg:       #17181c;
@@ -74,7 +74,7 @@ body {
   to   { opacity:1; transform:translateY(0); }
 }
 
-/* ── HERO HEADER (SINKRON 100% DENGAN RIWAYAT PPOB) ── */
+/* ── HERO HEADER ── */
 .hero {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
   padding: 28px 20px 48px;
@@ -96,7 +96,6 @@ body {
   max-width: 440px; margin: 0 auto; gap:16px;
 }
 
-/* Area info profile horizontal */
 .hero-profile-area { display: flex; align-items: center; gap: 14px; flex: 1; }
 
 .avatar-wrap { position: relative; flex-shrink: 0; }
@@ -129,7 +128,7 @@ html[data-theme="dark"] .edit-avatar-btn svg { stroke: var(--purple-light); }
 
 .hero-right-area { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
-/* ─── THEME TOGGLE ─── */
+/* Theme Toggle */
 .theme-toggle {
   width: 36px; height: 36px; border-radius: 50%;
   background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.2);
@@ -143,13 +142,13 @@ html[data-theme="dark"] .edit-avatar-btn svg { stroke: var(--purple-light); }
 html:not([data-theme="dark"]) .icon-sun  { display: block; }
 html:not([data-theme="dark"]) .icon-moon { display: none; }
 
-/* ─── CONTAINER ─── */
+/* CONTAINER */
 .container { max-width:440px; margin:-24px auto 0; padding:0 16px; position: relative; z-index: 10; animation: fadeUp 0.35s ease both; }
 
-/* ─── GRID CARD INFO ─── */
+/* GRID CARD INFO */
 .dana-grid-card {
   background: var(--card-bg); border-radius: 16px; padding: 14px 8px;
-  box-shadow: 0 4px 12px rgba(90,26,154,0.02); border: 1px solid var(--gray-line);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid var(--gray-line);
   margin-bottom: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 0;
 }
 html[data-theme="dark"] .dana-grid-card { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
@@ -169,10 +168,10 @@ html[data-theme="dark"] .grid-icon-box svg { stroke: var(--purple-light); }
 .grid-val { font-size: 13px; font-weight: 900; color: var(--text-dark); letter-spacing: -0.1px; }
 .grid-val.status-active { color: var(--green); }
 
-/* ─── CASH FLOW ROW ─── */
+/* CASH FLOW ROW */
 .cashflow-card {
   background: var(--card-bg); border-radius: 16px; border: 1px solid var(--gray-line);
-  display: flex; margin-bottom: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(90,26,154,0.02);
+  display: flex; margin-bottom: 14px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 html[data-theme="dark"] .cashflow-card { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
@@ -189,38 +188,40 @@ html[data-theme="dark"] .cashflow-card { box-shadow: 0 4px 12px rgba(0,0,0,0.15)
 .flow-details div:first-child { font-size: 9.5px; font-weight: 800; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.2px; }
 .flow-details div:last-child { font-size: 13px; font-weight: 900; color: var(--text-dark); margin-top: 1px; }
 
-/* ─── LIST GROUP MENU TO KE BAWAH ─── */
+/* LIST GROUP MENU */
 .list-group-title {
   font-size: 11px; font-weight: 900; color: var(--text-light); text-transform: uppercase;
   margin: 16px 0 6px 4px; letter-spacing: 0.5px;
 }
 .dana-list-card {
   background: var(--card-bg); border-radius: 16px; border: 1px solid var(--gray-line);
-  box-shadow: 0 4px 12px rgba(90,26,154,0.02); overflow: hidden; margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03); overflow: hidden; margin-bottom: 12px;
 }
 html[data-theme="dark"] .dana-list-card { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
 .list-item {
-  display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+  display: flex; align-items: center; gap: 14px; padding: 14px 16px;
   text-decoration: none; border-bottom: 1px solid var(--gray-line); transition: background 0.15s;
 }
 .list-item:last-child { border-bottom: none; }
 .list-item:active { background: var(--input-bg); }
 
 .list-icon-box {
-  width: 32px; height: 32px; border-radius: 10px; background: var(--purple-soft);
-  display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0;
+  width: 34px; height: 34px; border-radius: 10px; background: var(--purple-soft);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-/* Style spesifik untuk ikon gambar agar presisi dan pas */
+.list-icon-box svg { width: 18px; height: 18px; fill: none; stroke: var(--purple); stroke-width: 2.2; }
+html[data-theme="dark"] .list-icon-box svg { stroke: var(--purple-light); }
+
 .list-icon-img {
   width: 32px; height: 32px; object-fit: contain; flex-shrink: 0;
 }
 .list-content { flex: 1; min-width: 0; }
-.list-title { font-size: 12.5px; font-weight: 900; color: var(--text-dark); margin-bottom: 1px; }
-.list-subtitle { font-size: 11px; font-weight: 700; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.list-arrow { font-size: 14px; color: var(--text-light); font-weight: 800; margin-left: 4px; }
+.list-title { font-size: 13px; font-weight: 800; color: var(--text-mid); margin-bottom: 2px; }
+.list-subtitle { font-size: 13px; font-weight: 800; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.list-arrow { font-size: 16px; color: var(--text-light); font-weight: 500; margin-left: 4px; }
 
-/* ─── LOGOUT BUTTON ─── */
+/* LOGOUT BUTTON */
 .logout-btn-wrap { padding: 4px 0; margin-top: 16px; }
 .logout-btn {
   width: 100%; padding: 12px; border: 1.5px solid var(--gray-line); border-radius: 14px;
@@ -231,7 +232,7 @@ html[data-theme="dark"] .dana-list-card { box-shadow: 0 4px 12px rgba(0,0,0,0.15
 .logout-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-bg); }
 .logout-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; }
 
-/* ─── BOTTOM NAV (SINKRON 100% DENGAN RIWAYAT PPOB) ─── */
+/* BOTTOM NAV */
 .bottom-nav {
   position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
   width: 100%; max-width: 440px; background: var(--nav-bg);
@@ -353,7 +354,9 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
   <div class="list-group-title">Informasi Akun</div>
   <div class="dana-list-card">
     <div class="list-item">
-      <div class="list-icon-box">👤</div>
+      <div class="list-icon-box">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
       <div class="list-content">
         <div class="list-title">Nama Pengguna</div>
         <div class="list-subtitle" id="username2">—</div>
@@ -361,7 +364,9 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
     
     <div class="list-item">
-      <div class="list-icon-box">✉️</div>
+      <div class="list-icon-box">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
       <div class="list-content">
         <div class="list-title">Alamat Email</div>
         <div class="list-subtitle" id="email2">—</div>
@@ -369,7 +374,9 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
 
     <div class="list-item">
-      <div class="list-icon-box">📅</div>
+      <div class="list-icon-box">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
       <div class="list-content">
         <div class="list-title">Terdaftar Sejak</div>
         <div class="list-subtitle" id="created_at">—</div>
@@ -401,7 +408,9 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
   <div class="list-group-title">Keamanan Perangkat</div>
   <div class="dana-list-card">
     <div class="list-item">
-      <div class="list-icon-box" id="deviceIcon">📱</div>
+      <div class="list-icon-box">
+        <svg id="deviceSvg" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
+      </div>
       <div class="list-content">
         <div class="list-title" id="deviceName">Loading Device...</div>
         <div class="list-subtitle">IP: <span id="deviceIp">Loading...</span></div>
@@ -410,10 +419,12 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
     
     <div class="list-item">
-      <div class="list-icon-box">⏱️</div>
+      <div class="list-icon-box">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
       <div class="list-content">
         <div class="list-title">Terakhir Aktif</div>
-        <div class="list-subtitle" id="lastOnlineTime" style="font-size:10px;">Loading...</div>
+        <div class="list-subtitle" id="lastOnlineTime" style="font-size:11px;">Loading...</div>
       </div>
     </div>
   </div>
@@ -445,7 +456,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
 </nav>
 
 <script>
-  // ─── THEME MANAGER (SINKRON SAMA KEY 'theme') ───
+  // ─── THEME MANAGER ───
   function toggleTheme() {
     const html = document.documentElement;
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -530,12 +541,10 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       if (user.role === 'admin') {
         roleBadge.innerText = 'Admin';
         roleBadge.classList.add('admin');
-        // Tampilkan menu admin jika role adalah admin
         adminMenuSection.style.display = 'block';
       } else {
         roleBadge.innerText = 'Premium';
         roleBadge.classList.remove('admin');
-        // Pastikan tersembunyi untuk user biasa
         adminMenuSection.style.display = 'none';
       }
 
@@ -593,7 +602,12 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
   }
 
   function updateDeviceUI(deviceName, isMobile) {
-    document.getElementById('deviceIcon').innerText = isMobile ? '📱' : '💻';
+    const svgEl = document.getElementById('deviceSvg');
+    if (isMobile) {
+      svgEl.innerHTML = '<rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12" y2="18.01"></line>';
+    } else {
+      svgEl.innerHTML = '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>';
+    }
     document.getElementById('deviceName').innerText = deviceName;
   }
 
@@ -633,4 +647,4 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
   }
 </script>
 </body>
-                                   </html>
+</html>
