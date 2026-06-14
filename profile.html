@@ -20,7 +20,7 @@
   --red:          #E84040;
   --red-bg:       #FFECEC;
   --white:        #FFFFFF;
-  --bg:           #F8F9FC;
+  --bg:           #F5F7FA; /* Dibikin sedikit soft abu ala base screen DANA */
   --card:         #FFFFFF;
   --gray-line:    #EEF0F6;
   
@@ -43,26 +43,6 @@ html[data-theme="dark"] {
   --text-mid:     #bdc1c6;
   --text-light:   #9aa0a6;
 }
-html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
-html[data-theme="dark"] .stat-chip,
-html[data-theme="dark"] .card,
-html[data-theme="dark"] .bottom-nav,
-html[data-theme="dark"] .logout-btn { background: var(--card); border-color: var(--gray-line); }
-html[data-theme="dark"] .stat-chip { border-color: rgba(255, 255, 255, 0.05); }
-html[data-theme="dark"] .logout-btn { color: var(--text-mid); }
-html[data-theme="dark"] .bottom-nav { background: var(--card); box-shadow: 0 -4px 20px rgba(0,0,0,0.4); }
-html[data-theme="dark"] .info-item, html[data-theme="dark"] .menu-item { border-color: var(--gray-line); }
-html[data-theme="dark"] .role-badge { background: var(--purple-soft); color: var(--text-mid); border-color: var(--gray-line); }
-html[data-theme="dark"] .role-badge.admin { background: var(--red-bg); color: var(--red); border-color: rgba(232,64,64,0.15); }
-html[data-theme="dark"] .edit-avatar-btn { background: var(--card); }
-html[data-theme="dark"] .edit-avatar-btn svg { stroke: var(--text-dark); }
-html[data-theme="dark"] .card-title svg { stroke: var(--text-dark); }
-html[data-theme="dark"] .card-title-pill,
-html[data-theme="dark"] .sec-title-pill { background: var(--purple-soft); color: var(--text-mid); }
-html[data-theme="dark"] .hdr-btn.theme-toggle .icon-sun { display: none; }
-html[data-theme="dark"] .hdr-btn.theme-toggle .icon-moon { display: flex; }
-html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-sun { display: flex; }
-html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-moon { display: none; }
 
 html { background: var(--bg); }
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -74,6 +54,7 @@ body {
   overflow-x: hidden;
   padding-bottom: 100px;
   transition: background .25s ease, color .25s ease;
+  color: var(--text-dark);
 }
 
 @keyframes fadeUp {
@@ -85,9 +66,10 @@ body {
   50%      { transform:scale(1.1); }
 }
 
+/* ── HERO PROFILE HEADER (HORIZONTAL STYLE GAYA DANA) ── */
 .hero {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
-  padding: 32px 20px 64px;
+  padding: 24px 20px 52px;
   position: relative;
   overflow: hidden;
   animation: fadeUp 0.4s ease both;
@@ -106,7 +88,7 @@ body {
 .hero-topbar {
   position: relative; z-index: 2;
   display: flex; align-items:center; justify-content:flex-end;
-  max-width: 440px; margin: 0 auto 8px;
+  max-width: 440px; margin: 0 auto 6px;
 }
 .hdr-actions { display:flex; gap:8px; align-items:center; }
 .hdr-btn {
@@ -118,145 +100,142 @@ body {
   cursor: pointer;
 }
 .hdr-btn:hover { background:rgba(255,255,255,.2); transform:translateY(-2px); }
-.hdr-btn svg {
-  width:16px; height:16px;
-  stroke:#fff; stroke-width:2.2; fill:none;
-}
+.hdr-btn svg { width:16px; height:16px; stroke:#fff; stroke-width:2.2; fill:none; }
 .hdr-btn.theme-toggle { position: relative; }
 .hdr-btn.theme-toggle .icon-sun,
-.hdr-btn.theme-toggle .icon-moon {
-  position: absolute; align-items:center; justify-content:center;
-}
+.hdr-btn.theme-toggle .icon-moon { position: absolute; display: flex; align-items:center; justify-content:center; }
 
 .hero-profile {
   position: relative; z-index: 2;
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  display: flex; flex-direction: row; align-items: center; gap: 14px;
+  max-width: 440px; margin: 0 auto;
 }
 
-.avatar-wrap { position: relative; }
+.avatar-wrap { position: relative; flex-shrink: 0; }
 .avatar {
-  width: 76px; height: 76px; border-radius: 50%;
-  border: 2.5px solid rgba(255,255,255,0.4);
+  width: 68px; height: 68px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.5);
   object-fit: cover; background: rgba(255,255,255,0.1);
   display: block;
 }
 .online-dot {
-  position: absolute; bottom: 3px; right: 3px;
-  width: 12px; height: 12px; border-radius: 50%;
+  position: absolute; bottom: 2px; right: 2px;
+  width: 11px; height: 11px; border-radius: 50%;
   background: var(--green); border: 2px solid var(--purple-deep);
   animation: pulse 2s infinite;
 }
 .edit-avatar-btn {
   position: absolute; bottom: -2px; right: -2px;
-  width: 24px; height: 24px; border-radius: 50%;
+  width: 22px; height: 22px; border-radius: 50%;
   background: #fff; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; border: none;
-  transition: background .25s ease, transform .2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15); cursor: pointer; border: none;
 }
-.edit-avatar-btn:active { transform: scale(0.9); }
-.edit-avatar-btn svg { width: 12px; height: 12px; fill: none; stroke: var(--purple); stroke-width: 2.5; }
+.edit-avatar-btn svg { width: 10px; height: 10px; fill: none; stroke: var(--purple); stroke-width: 2.5; }
 
-.profile-name { font-size: 19px; font-weight: 900; color: #fff; letter-spacing: -0.2px; text-align: center; }
-.profile-email { font-size: 12px; color: rgba(255,255,255,0.7); text-align: center; font-weight: 600; }
+.profile-info-text { display: flex; flex-direction: column; gap: 1px; }
+.profile-name { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.2px; text-align: left; }
+.profile-email { font-size: 12px; color: rgba(255,255,255,0.75); text-align: left; font-weight: 600; }
 
-.content-wrap { max-width: 440px; margin: -40px auto 0; padding: 0 16px; position: relative; z-index: 10; }
+/* ── LAYOUT KONTEN UTAMA ── */
+.content-wrap { max-width: 440px; margin: -25px auto 0; padding: 0 14px; position: relative; z-index: 10; }
 
-.stat-row { display: flex; gap: 10px; margin-bottom: 16px; animation: fadeUp 0.4s 0.08s ease both; }
+/* ── SALDO CHIP ROW (SAMPINGAN KIRI-KANAN) ── */
+.stat-row { display: flex; gap: 10px; margin-bottom: 12px; animation: fadeUp 0.4s 0.08s ease both; }
 .stat-chip {
-  flex: 1; border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 10px;
-  background: var(--white); border: 1px solid rgba(234, 213, 250, 0.6);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+  flex: 1; border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; gap: 10px;
+  background: var(--white); border: 1px solid var(--gray-line);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
   transition: background .25s ease, border-color .25s ease;
 }
-.chip-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.chip-icon svg { width: 20px; height: 20px; fill: none; stroke-width: 2.2; }
+.chip-icon { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.chip-icon svg { width: 18px; height: 18px; fill: none; stroke-width: 2.2; }
 .balance-chip .chip-icon svg { stroke: var(--purple); }
 .status-chip .chip-icon svg { stroke: var(--green); }
+.chip-text-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-light); }
+.chip-text-val { font-size: 14px; font-weight: 800; color: var(--text-dark); }
 
-.chip-text-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin-bottom: 1px; }
-.chip-text-val { font-size: 14px; font-weight: 900; color: var(--text-dark); }
+/* ── JUDUL SUB-KATEGORI MENU GRUP (SANGAT GAYA DANA) ── */
+.menu-group-title {
+  font-size: 11px; font-weight: 800; color: var(--text-light);
+  text-transform: uppercase; letter-spacing: 0.6px;
+  margin: 16px 0 6px 4px;
+}
 
+/* ── WADAH KOTAK KATEGORI LIST ── */
 .card {
-  background: var(--card); border-radius: 16px; padding: 16px 18px; margin-bottom: 16px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.04); border: 1px solid var(--gray-line);
+  background: var(--card); border-radius: 14px; padding: 4px 16px; margin-bottom: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02); border: 1px solid var(--gray-line);
   animation: fadeUp 0.4s 0.12s ease both;
   transition: background .25s ease, border-color .25s ease;
 }
-.card.delay-1 { animation-delay: 0.14s; }
-.card.delay-2 { animation-delay: 0.16s; }
 
-.card-title {
-  font-size: 13.5px; font-weight: 900; color: var(--text-dark); margin-bottom: 14px;
-  display: flex; align-items: center; gap: 6px; letter-spacing: -0.1px;
-}
-.card-title svg { width: 16px; height: 16px; fill: none; stroke: var(--purple); stroke-width: 2.2; flex-shrink: 0; }
-.card-title-pill { font-size: 9px; font-weight: 800; background: var(--purple-soft); color: var(--purple); border-radius: 6px; padding: 1px 6px; }
-
-.info-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--gray-line); transition: border-color .25s ease; }
-.info-item:last-child { border-bottom: none; padding-bottom: 0; }
-.info-item:first-child { padding-top: 0; }
-
-.info-label { font-size: 11px; font-weight: 800; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
-.info-value { font-size: 13px; font-weight: 800; color: var(--text-dark); text-align: right; }
-
-/* ── STYLE TOMBOL MENU AKSI (GAYA DANA) ── */
-.menu-item {
+/* ── ITEM ROW DI DALAM GRUP MENU ── */
+.menu-item, .info-item {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 0; border-bottom: 1px solid var(--gray-line);
-  text-decoration: none; color: inherit; cursor: pointer;
-  transition: background 0.2s;
+  padding: 13px 0; border-bottom: 1px solid var(--gray-line);
+  text-decoration: none; color: inherit;
 }
-.menu-item:last-child { border-bottom: none; padding-bottom: 0; }
-.menu-item:first-child { padding-top: 0; }
-.menu-left { display: flex; align-items: center; gap: 10px; }
-.menu-icon { width: 18px; height: 18px; color: var(--text-mid); display: flex; align-items: center; }
-.menu-icon svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2.2; }
-.menu-label { font-size: 13px; font-weight: 800; color: var(--text-dark); }
+.menu-item:last-child, .info-item:last-child { border-bottom: none; }
+
+.menu-left { display: flex; align-items: center; gap: 12px; }
+
+/* Lingkaran pembungkus Icon ala DANA */
+.menu-icon-circle {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--purple-soft); color: var(--purple);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.menu-icon-circle svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+.menu-label { font-size: 13.5px; font-weight: 700; color: var(--text-dark); }
+
+.menu-right { display: flex; align-items: center; gap: 6px; }
+.info-value-text { font-size: 13.5px; font-weight: 800; color: var(--text-dark); }
 .menu-arrow { width: 14px; height: 14px; color: var(--text-light); display: flex; align-items: center; }
 .menu-arrow svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2.5; }
 
+/* Badge Role */
 .role-badge {
   display: inline-block; padding: 2px 8px; border-radius: 6px;
   font-size: 10px; font-weight: 800; background: var(--purple-soft); color: var(--purple);
   text-transform: uppercase; border: 1px solid rgba(123,47,190,0.1);
-  transition: background .25s ease, border-color .25s ease;
 }
 .role-badge.admin { background: var(--red-bg); color: var(--red); border-color: rgba(232,64,64,0.1); }
 
+/* DEVICE INFORMASI LAYOUT */
+.device-box { display: flex; align-items: center; gap: 12px; padding: 2px 0; }
+.device-icon { font-size: 20px; }
+.device-info { display: flex; flex-direction: column; }
+.device-name { font-size: 13.5px; font-weight: 700; color: var(--text-dark); }
+.device-meta { font-size: 11px; font-weight: 600; color: var(--text-light); margin-top: 1px; }
+
+/* ── TOMBOL KELUAR ── */
 .logout-btn {
-  width: 100%; padding: 12px; border: 1.5px solid var(--gray-line); border-radius: 12px;
-  background: var(--white); color: var(--text-mid); font-family: 'Nunito', sans-serif;
-  font-weight: 800; font-size: 13px; cursor: pointer;
+  width: 100%; padding: 14px; border: 1px solid var(--gray-line); border-radius: 12px;
+  background: var(--white); color: var(--red); font-family: 'Nunito', sans-serif;
+  font-weight: 800; font-size: 14px; cursor: pointer;
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: all 0.2s ease;
-  animation: fadeUp 0.4s 0.18s ease both;
+  margin-top: 24px; transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.01);
 }
-.logout-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-bg); box-shadow: 0 4px 12px rgba(232,64,64,0.06); }
+.logout-btn:hover { background: var(--red-bg); }
 .logout-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; }
 
+/* ── BOTTOM NAV ── */
 .bottom-nav {
   position:fixed; bottom:0; left:0; right:0; background:#fff;
   border-top:1px solid var(--gray-line); display:flex; padding:10px 0 14px;
-  box-shadow:0 -4px 20px rgba(0,0,0,0.04); z-index:100; max-width:440px; margin:0 auto;
-  transition: background .25s ease, border-color .25s ease;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.03); z-index:100; max-width:440px; margin:0 auto;
 }
 .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
-.nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
-.nav-label { font-size:10.5px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
+.nav-icon svg { width:20px; height:20px; fill:none; stroke: var(--text-light); stroke-width:2.2; }
+.nav-label { font-size:10.5px; font-weight:800; color:var(--text-light); }
 .nav-item.active .nav-label { color:var(--purple); }
 .nav-item.active .nav-icon svg { stroke: var(--purple); }
 
-.device-card{ animation: fadeUp 0.4s 0.14s ease both; }
-.device-box{ display:flex; align-items:center; gap:14px; }
-.device-icon{
-  width:52px; height:52px; border-radius:14px;
-  background:var(--purple-soft); display:flex;
-  align-items:center; justify-content:center;
-  font-size:24px; flex-shrink:0;
-}
-.device-info{ flex:1; min-width:0; }
-.device-name{ font-size:14px; font-weight:900; color:var(--text-dark); margin-bottom:3px; }
-.device-meta{ font-size:11px; font-weight:700; color:var(--text-light); margin-top:2px; }
+html[data-theme="dark"] .hdr-btn.theme-toggle .icon-sun { display: none; }
+html[data-theme="dark"] .hdr-btn.theme-toggle .icon-moon { display: flex; }
+html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-sun { display: flex; }
+html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-moon { display: none; }
 </style>
 </head>
 <body>
@@ -280,6 +259,7 @@ body {
       </button>
     </div>
   </div>
+  
   <div class="hero-profile">
     <div class="avatar-wrap">
       <img class="avatar" id="avatar" src="https://via.placeholder.com/76" alt="Avatar">
@@ -288,8 +268,10 @@ body {
         <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
       </button>
     </div>
-    <div class="profile-name" id="username">—</div>
-    <div class="profile-email" id="email">—</div>
+    <div class="profile-info-text">
+      <div class="profile-name" id="username">—</div>
+      <div class="profile-email" id="email">—</div>
+    </div>
   </div>
 </div>
 
@@ -301,7 +283,7 @@ body {
         <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
       </div>
       <div>
-        <div class="chip-text-label">Saldo</div>
+        <div class="chip-text-label">Saldo Anda</div>
         <div class="chip-text-val" id="balance">Rp 0</div>
       </div>
     </div>
@@ -310,135 +292,78 @@ body {
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l2.5 2.5L16 9"/></svg>
       </div>
       <div>
-        <div class="chip-text-label">Status</div>
+        <div class="chip-text-label">Status Akun</div>
         <div class="chip-text-val">Aktif</div>
       </div>
     </div>
   </div>
 
+  <div class="menu-group-title">Informasi Akun</div>
   <div class="card">
-    <div class="card-title">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      Informasi Akun
-      <span class="card-title-pill">Detail</span>
+    <div class="info-item">
+      <div class="menu-left">
+        <div class="menu-label">Username</div>
+      </div>
+      <div class="menu-right">
+        <div class="info-value-text" id="username2">—</div>
+      </div>
+    </div>
+    
+    <div class="info-item">
+      <div class="menu-left">
+        <div class="menu-label">Email</div>
+      </div>
+      <div class="menu-right">
+        <div class="info-value-text" style="font-weight:600; color:var(--text-mid);" id="email2">—</div>
+      </div>
     </div>
 
     <div class="info-item">
-      <div class="info-label">Username</div>
-      <div class="info-value" id="username2">—</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">Email</div>
-      <div class="info-value" id="email2">—</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">Role</div>
-      <div class="info-value">
+      <div class="menu-left">
+        <div class="menu-label">Hak Akses / Role</div>
+      </div>
+      <div class="menu-right">
         <span class="role-badge" id="role">User</span>
       </div>
     </div>
+
     <div class="info-item">
-      <div class="info-label">Terdaftar Sejak</div>
-      <div class="info-value" id="created_at">—</div>
+      <div class="menu-left">
+        <div class="menu-label">Terdaftar Sejak</div>
+      </div>
+      <div class="menu-right">
+        <div class="info-value-text" style="font-weight:600; color:var(--text-mid);" id="created_at">—</div>
+      </div>
     </div>
   </div>
 
-    <!-- CARD 2: FITUR KEAMANAN (BARU) -->
-  <div class="card delay-1">
-    <div class="card-title">
-      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Fitur Keamanan
-      <span class="card-title-pill">Proteksi</span>
+  <div class="menu-group-title">Keamanan & Perangkat</div>
+  <div class="card">
+    <div class="menu-item" style="cursor: default;">
+      <div class="device-box">
+        <div class="device-icon" id="deviceIcon">📱</div>
+        <div class="device-info">
+          <div class="device-name" id="deviceName">Loading Device...</div>
+          <div class="device-meta">IP: <span id="deviceIp">Loading...</span></div>
+          <div class="device-meta">Aktivitas: <span id="lastOnlineTime">Loading...</span></div>
+        </div>
+      </div>
     </div>
-
-    <!-- Menggantikan ubah password, karena login pakai Google -->
-    <a class="menu-item" href="linked-accounts.html">
-      <div class="menu-left">
-        <div class="menu-icon">
-          <!-- Ikon Kunci / Badge Akun Terhubung -->
-          <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
-        </div>
-        <div>
-          <div class="menu-label">Metode Login Utama</div>
-          <div style="font-size: 11px; color: var(--green); font-weight: 700; margin-top: 2px; display: flex; align-items: center; gap: 4px;">
-            <span style="width: 6px; height: 6px; background: var(--green); border-radius: 50%;"></span> Google Sign-In Aktif
-          </div>
-        </div>
-      </div>
-      <div class="menu-arrow">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </a>
-
-    <!-- PIN Transaksi tetap sangat penting untuk PPOB / potong saldo -->
-    <a class="menu-item" href="secure-pin.html">
-      <div class="menu-left">
-        <div class="menu-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="9" cy="15" r="1"/><circle cx="15" cy="15" r="1"/></svg>
-        </div>
-        <div class="menu-label">PIN Transaksi (Amankan Saldo)</div>
-      </div>
-      <div class="menu-arrow">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </a>
   </div>
 
-
-  <div class="card delay-2">
-    <div class="card-title">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Pusat Bantuan & Legal
-      <span class="card-title-pill">Support</span>
-    </div>
-
+  <div class="menu-group-title">Pusat Bantuan</div>
+  <div class="card">
     <a class="menu-item" href="help.html">
       <div class="menu-left">
-        <div class="menu-icon">
+        <div class="menu-icon-circle">
           <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
-        <div class="menu-label">FAQ & Bantuan</div>
+        <div class="menu-label">FAQ & Bantuan Pelanggan</div>
       </div>
       <div class="menu-arrow">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
     </a>
-
-    <a class="menu-item" href="terms.html">
-      <div class="menu-left">
-        <div class="menu-icon">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        </div>
-        <div class="menu-label">Syarat & Ketentuan Layanan</div>
-      </div>
-      <div class="menu-arrow">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-    </a>
-  </div>
-  
-  <div class="card device-card">
-    <div class="card-title">
-      <svg viewBox="0 0 24 24">
-        <rect x="5" y="2" width="14" height="20" rx="2"/>
-        <line x1="12" y1="18" x2="12.01" y2="18"/>
-      </svg>
-      Device Login
-      <span class="card-title-pill">Aktif</span>
-    </div>
-
-    <div class="device-box">
-      <div class="device-icon" id="deviceIcon">📱</div>
-      <div class="device-info">
-        <div class="device-name" id="deviceName">Loading Device...</div>
-        <div class="device-meta">IP: <span id="deviceIp">Loading...</span></div>
-        <div class="device-meta">Terakhir aktif: <span id="lastOnlineTime">Loading...</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="sec-title" style="font-size:13px; font-weight:900; color:var(--text-dark); margin: 4px 0 10px 4px; display:flex; align-items:center; gap:6px;">
-    Aksi <span class="sec-title-pill" style="font-size: 9px; background:var(--purple-soft); color:var(--purple); padding:1px 6px; border-radius:6px;">Akun</span>
   </div>
 
   <button class="logout-btn" onclick="logout()">
@@ -501,7 +426,6 @@ if (!localUser || !token) {
   window.location.href = 'index.html';
 }
 
-// Jalankan fungsi utama
 loadProfile();
 detectDevice();
 loadIPAddress();
@@ -546,7 +470,6 @@ async function loadProfile() {
       roleBadge.classList.remove('admin');
     }
 
-    // TAMPILKAN WAKTU LOGIN BERDASARKAN HASIL BACKEND/LOCALSTORAGE
     displayLastOnline(user.last_login);
 
   } catch (err) {
@@ -554,7 +477,6 @@ async function loadProfile() {
   }
 }
 
-/* DETECT DEVICE (DENGAN MAPPING NAMA PRODUK PASARAN) */
 async function detectDevice() {
   const ua = navigator.userAgent;
   let device = 'Unknown Device';
@@ -583,9 +505,7 @@ async function detectDevice() {
         updateDeviceUI(device, isMobile);
         return; 
       }
-    } catch (e) {
-      console.log("Client hints ditolak/tidak disupport, beralih ke regex UA.");
-    }
+    } catch (e) { }
   }
 
   if (/Android/i.test(ua)) {
@@ -596,23 +516,12 @@ async function detectDevice() {
       device = 'Android Device';
     }
   }
-  else if (/iPhone/i.test(ua)) {
-    device = 'iPhone';
-  }
-  else if (/iPad/i.test(ua)) {
-    device = 'iPad';
-  }
-  else if (/Windows/i.test(ua)) {
-    device = 'Windows PC';
-  }
-  else if (/Macintosh/i.test(ua)) {
-    device = 'MacBook';
-  }
+  else if (/iPhone/i.test(ua)) { device = 'iPhone'; }
+  else if (/iPad/i.test(ua)) { device = 'iPad'; }
+  else if (/Windows/i.test(ua)) { device = 'Windows PC'; }
+  else if (/Macintosh/i.test(ua)) { device = 'MacBook'; }
 
-  if (deviceMap[device]) {
-    device = deviceMap[device];
-  }
-
+  if (deviceMap[device]) { device = deviceMap[device]; }
   updateDeviceUI(device, isMobile);
 }
 
@@ -621,7 +530,6 @@ function updateDeviceUI(deviceName, isMobile) {
   document.getElementById('deviceName').innerText = deviceName;
 }
 
-/* AMBIL IP PUBLIC USER */
 async function loadIPAddress() {
   try {
     const res = await fetch('https://api.ipify.org?format=json');
@@ -632,23 +540,18 @@ async function loadIPAddress() {
   }
 }
 
-/* FUNGSI MERENDER FORMAT WAKTU LOGIN */
 function displayLastOnline(backendTimestamp) {
   let targetDate;
-
-  // Jika backend mengirimkan data waktu login
   if (backendTimestamp) {
     targetDate = new Date(backendTimestamp);
   } else {
-    // Jika tidak ada, pakai data localstorage
     const localTimestamp = localStorage.getItem('last_login_timestamp');
     targetDate = localTimestamp ? new Date(localTimestamp) : new Date();
   }
 
   const formatTanggal = targetDate.toLocaleDateString('id-ID', {
-    weekday: 'long',
     day: 'numeric',
-    month: 'long',
+    month: 'short',
     year: 'numeric'
   });
 
@@ -658,7 +561,7 @@ function displayLastOnline(backendTimestamp) {
     hour12: false
   });
 
-  document.getElementById('lastOnlineTime').innerText = `${formatTanggal} - ${formatJam} WIB`;
+  document.getElementById('lastOnlineTime').innerText = `${formatTanggal}, ${formatJam} WIB`;
 }
 
 function logout() {
