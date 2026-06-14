@@ -117,12 +117,15 @@ img { display:block; }
 }
 
 .header {
-  position: relative;
+  position: sticky; /* Diubah dari relative */
+  top: 0;           /* Wajib ditambahkan agar nempel di paling atas */
+  z-index: 100;     /* Wajib ditambahkan agar tidak tertutup konten lain saat di-scroll */
   overflow: hidden;
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
-  padding: 32px 20px 64px;
+  padding: 16px 20px 48px; /* Opsional: Dikurangi sedikit agar header tidak terlalu tebal di layar HP */
   animation: fadeUp 0.4s ease both;
 }
+
 .header::before {
   content:''; position:absolute; top:-40px; right:-20px;
   width:160px; height:160px;
