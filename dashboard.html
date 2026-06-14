@@ -12,7 +12,7 @@
   --purple-dark:  #5A1A9A;
   --purple-deep:  #3D0F72;
   --purple-light: #9B4FDE;
-  --purple-soft:  #F5EEFC; /* Diperhalus sedikit agar kontras teks bagus */
+  --purple-soft:  #F5EEFC; 
   --purple-mid:   #EAD5FA;
   --accent:       #FF6B2B;
   --accent2:      #FFD600;
@@ -21,14 +21,14 @@
   --red:          #E84040;
   --red-bg:       #FFECEC;
   --white:        #FFFFFF;
-  --bg:           #F8F9FC; /* Mengarah ke abu netral bersih */
+  --bg:           #F8F9FC; 
   --card:         #FFFFFF;
   --gray-line:    #EEF0F6;
   
   /* ── PERBAIKAN WARNA TEKS (NEUTRAL/SLATE GREY) ── */
-  --text-dark:    #1E293B; /* Abu-abu sangat gelap (Slate 800) untuk judul utama */
-  --text-mid:     #475569;  /* Abu-abu sedang (Slate 600) untuk teks reguler/label menu */
-  --text-light:   #64748B;/* Abu-abu terang (Slate 500) untuk sub-informasi */
+  --text-dark:    #1E293B; 
+  --text-mid:     #475569;  
+  --text-light:   #64748B;
 
   --shadow-sm:  0 4px 12px rgba(90,26,154,0.02);
   --shadow-md:  0 6px 18px rgba(90,26,154,0.04);
@@ -52,9 +52,9 @@ html[data-theme="dark"] {
   --bg:           #0a0b0d;
   --card:         #1c1d21;
   --gray-line:    #303135;
-  --text-dark:    #E2E8F0; /* Slate 200 untuk dark mode */
-  --text-mid:     #94A3B8;  /* Slate 400 */
-  --text-light:   #64748B;/* Slate 500 */
+  --text-dark:    #E2E8F0; 
+  --text-mid:     #94A3B8;  
+  --text-light:   #64748B;
   --nav-bg:       #17181c;
   --nav-shadow:   rgba(0,0,0,0.4);
 }
@@ -65,6 +65,7 @@ html[data-theme="dark"] .cat-card,
 html[data-theme="dark"] .util-card,
 html[data-theme="dark"] .bottom-nav,
 html[data-theme="dark"] .bstat,
+html[data-theme="dark"] .maint-box,
 html[data-theme="dark"] .topup-btn { background: var(--card); border-color: var(--gray-line); }
 html[data-theme="dark"] .balance-card { border-color: rgba(255, 255, 255, 0.05); }
 html[data-theme="dark"] .topup-btn { color: var(--text-mid); }
@@ -97,7 +98,7 @@ body {
   color: var(--text-dark);
   min-height: 100vh;
   overflow-x: hidden;
-  padding-bottom: 90px; /* Diubah dari 100px menjadi 90px agar persis serasi dengan riwayat */
+  padding-bottom: 90px; 
   -webkit-tap-highlight-color: transparent;
   transition: background .25s ease, color .25s ease;
 }
@@ -116,6 +117,10 @@ img { display:block; }
 @keyframes pulse {
   0%,100% { transform:scale(1); }
   50%      { transform:scale(1.1); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .header {
@@ -303,6 +308,44 @@ img { display:block; }
 .sec-badge.orange  { background:#FFF3E0; color:#C05600; border: 1px solid rgba(192,86,0,0.1); }
 .sec-badge.blue    { background:#EEF4FF; color:#1D4ED8; border: 1px solid rgba(29,78,216,0.1); }
 .sec-badge.teal    { background:var(--green-bg); color:var(--green); border: 1px solid rgba(18,194,138,0.1); }
+.sec-badge.red     { background:var(--red-bg); color:var(--red); border: 1px solid rgba(232,64,64,0.1); }
+
+/* ── STYLE BARU: BOX JADWAL MAINTENANCE ── */
+.maint-box {
+  background: var(--white);
+  border: 1px solid var(--gray-line);
+  border-radius: var(--r-card);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeUp 0.4s 0.1s ease both;
+}
+.maint-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed var(--gray-line);
+}
+.maint-item:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+.maint-icon {
+  width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px;
+}
+.maint-icon svg { width: 100%; height: 100%; }
+.maint-content { flex: 1; }
+.maint-title-row {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;
+}
+.maint-name { font-size: 12px; font-weight: 800; color: var(--text-dark); }
+.maint-status { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px; }
+.maint-status.active { color: var(--red); animation: blink 1.5s infinite; }
+.maint-status.normal { color: var(--green); }
+.maint-desc { font-size: 11px; font-weight: 600; color: var(--text-light); line-height: 1.3; }
 
 .vpn-grid {
   display: grid; grid-template-columns: repeat(4,1fr); gap:8px;
@@ -555,6 +598,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
 
 <div class="main">
 
+  <!-- 1. INFORMASI -->
   <div class="sec-head">
     <span class="sec-title">Informasi</span>
     <span class="sec-badge blue">Terbaru</span>
@@ -567,6 +611,49 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
   </div>
 
+  <!-- JADWAL MAINTENANCE BOX -->
+  <div class="sec-head">
+    <span class="sec-title">Jadwal Maintenance</span>
+    <span class="sec-badge red">Sistem</span>
+  </div>
+  <div class="maint-box">
+    <!-- Maintenance PPOB -->
+    <div class="maint-item">
+      <div class="maint-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5">
+          <rect x="3" y="4" width="18" height="16" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div class="maint-content">
+        <div class="maint-title-row">
+          <span class="maint-name">Produk PPOB (Pulsa, Data, Token, dll)</span>
+          <span class="maint-status" id="statusPpob">Mengecek…</span>
+        </div>
+        <div class="maint-desc">Pukul 23:30 - 00:30 WIB harian. Transaksi dibekukan sementara oleh sistem pusat selama proses kliring bursa.</div>
+      </div>
+    </div>
+    <!-- Maintenance Top Up -->
+    <div class="maint-item">
+      <div class="maint-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2.5">
+          <line x1="12" y1="1" x2="12" y2="23"/>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+      </div>
+      <div class="maint-content">
+        <div class="maint-title-row">
+          <span class="maint-name">Fitur Top Up Saldo</span>
+          <span class="maint-status" id="statusTopup">Mengecek…</span>
+        </div>
+        <div class="maint-desc">Pukul 00:00 - 00:10 WIB harian. Sinkronisasi mutasi mutlak bank, disarankan melakukan top up di luar jam ini.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. PRODUK DIGITAL -->
   <div class="sec-head">
     <span class="sec-title">Produk Digital</span>
     <span class="sec-badge orange" id="catCount">Loading…</span>
@@ -584,6 +671,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
   </div>
 
+  <!-- 3. MENU LAYANAN / VPN -->
   <div class="sec-head">
     <span class="sec-title">Menu Layanan</span>
     <span class="sec-badge purple">VPN</span>
@@ -647,6 +735,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
 
 </div>
 
+<!-- ── BOTTOM NAV ── -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
     <a class="nav-item active" href="dashboard.html">
@@ -682,6 +771,43 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
 });
+
+// ── LOGIK STATUS MAINTENANCE OTOMATIS BERDASARKAN JAM USER ──
+function checkMaintenanceStatus() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const currentTimeInMinutes = (hours * 60) + minutes;
+
+  // PPOB: 23:30 (1410 menit) sampai 00:30 (30 menit)
+  const ppobStart = (23 * 60) + 30;
+  const ppobEnd = 30;
+  const isPpobMaint = (currentTimeInMinutes >= ppobStart || currentTimeInMinutes <= ppobEnd);
+  
+  const statusPpobEl = document.getElementById('statusPpob');
+  if (isPpobMaint) {
+    statusPpobEl.textContent = 'Maintenance Aktif';
+    statusPpobEl.className = 'maint-status active';
+  } else {
+    statusPpobEl.textContent = 'Normal / Lancar';
+    statusPpobEl.className = 'maint-status normal';
+  }
+
+  // Top Up: 00:00 (0 menit) sampai 00:10 (10 menit)
+  const isTopupMaint = (currentTimeInMinutes >= 0 && currentTimeInMinutes <= 10);
+  
+  const statusTopupEl = document.getElementById('statusTopup');
+  if (isTopupMaint) {
+    statusTopupEl.textContent = 'Maintenance Aktif';
+    statusTopupEl.className = 'maint-status active';
+  } else {
+    statusTopupEl.textContent = 'Normal / Lancar';
+    statusTopupEl.className = 'maint-status normal';
+  }
+}
+// Jalankan pengecekan status awal dan loop setiap 30 detik
+checkMaintenanceStatus();
+setInterval(checkMaintenanceStatus, 30000);
 
 function getAvatarColor(name){
   const palettes = [
