@@ -33,23 +33,23 @@
   --nav-shadow:   rgba(90,26,154,0.06);
 }
 
-/* ── SINKRONISASI TOTAL DENGAN TRIAL / CHECKOUT (GOPAY-INSPIRED DARK THEME) ── */
+/* ── SINKRONISASI TOTAL WARNA KONTRAS TAJAM DENGAN DASHBOARD (DARK THEME) ── */
 html[data-theme="dark"] {
-  --purple-soft:  #202124;
-  --purple-mid:   #2a2b2f;
-  --green-bg:     #0c2a21;
-  --red-bg:       #311111;
-  --white:        #17181c;
-  --bg:           #0a0b0d;
-  --card-bg:      #1c1d21;
-  --gray-line:    #303135;
-  --text-dark:    #e8eaed;
-  --text-mid:     #bdc1c6;
-  --text-light:   #9aa0a6;
-  --input-bg:     #202124;
-  --accent-light: #3A241F;
-  --nav-bg:       #17181c;
-  --nav-shadow:   rgba(0,0,0,0.4);
+  --purple-soft:  #1e142a; /* Ungu gelap pekat untuk background soft */
+  --purple-mid:   #34224d;
+  --green-bg:     #052e21;
+  --red-bg:       #3d1414;
+  --white:        #000000; /* Hitam pekat solid sesuai dashboard */
+  --bg:           #000000; /* Hitam pekat solid agar konsisten */
+  --card-bg:      #0b0c0e; /* Background card dibuat sangat gelap mendekati hitam */
+  --gray-line:    #26272b; /* Garis pembatas lebih tegas */
+  --text-dark:    #ffffff; /* Teks utama putih murni kontras tinggi */
+  --text-mid:     #cfd2d6; /* Teks sekunder abu terang netral */
+  --text-light:   #9aa0a6; /* Teks pelengkap */
+  --input-bg:     #121316; /* Background tombol detail/input */
+  --accent-light: #3d1b0c;
+  --nav-bg:       #0b0c0e;
+  --nav-shadow:   rgba(0,0,0,0.6);
 }
 
 /* prevent flash sebelum JS jalan */
@@ -107,7 +107,7 @@ body {
   display:flex; align-items:center; gap:6px;
 }
 .header-title h1 svg { width:20px; height:20px; fill:none; stroke:#fff; stroke-width:2.2; }
-.header-title p { font-size:11px; color:rgba(255,255,255,0.55); font-weight:700; margin-top:3px; }
+.header-title p { font-size:11px; color:rgba(255,255,255,0.65); font-weight:700; margin-top:3px; }
 
 .header-count {
   background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.18);
@@ -169,7 +169,7 @@ html[data-theme="dark"] .loading-state svg { stroke: var(--purple-light); }
 .account-card ~ .account-card {
   margin-top: 0px;
 }
-html[data-theme="dark"] .account-card { box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+html[data-theme="dark"] .account-card { box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
 
 .card-banner {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
@@ -186,22 +186,22 @@ html[data-theme="dark"] .account-card { box-shadow: 0 8px 24px rgba(0,0,0,0.2); 
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 .card-server {
-  font-size:11px; color:rgba(255,255,255,0.6); font-weight:700; margin-top:3px;
+  font-size:11px; color:rgba(255,255,255,0.7); font-weight:700; margin-top:3px;
   display:flex; align-items:center; gap:4px;
 }
-.card-server svg { width:12px; height:12px; fill:none; stroke:rgba(255,255,255,0.6); stroke-width:2; }
+.card-server svg { width:12px; height:12px; fill:none; stroke:rgba(255,255,255,0.7); stroke-width:2; }
 
 /* Protocol Badges */
-.proto-badge { padding:4px 10px; border-radius:20px; font-size:10px; font-weight:800; flex-shrink:0; display:flex; align-items:center; gap:4px; }
+.proto-badge { padding:4px 10px; border-radius:20px; font-size:10px; font-weight:800; flex-shrink:0; display:flex; align-items:center; gap:4px; border: 1px solid transparent; }
 .proto-badge svg { width:12px; height:12px; fill:none; stroke-width:2.2; }
 
 .pb-ssh    { border-color:var(--accent); background:var(--accent-light); color:var(--accent); }
 .pb-ssh svg { stroke: var(--accent); }
 .pb-vmess  { border-color:#0077AA; background:rgba(0,119,170,0.1); color:#0077AA; }
-html[data-theme="dark"] .pb-vmess { background:rgba(0,119,170,0.2); }
-.pb-vmess svg { stroke: #0077AA; }
+html[data-theme="dark"] .pb-vmess { background:rgba(0,119,170,0.2); color:#33a1fd; border-color:#33a1fd; }
+.pb-vmess svg { stroke: currentColor; }
 .pb-vless  { border-color:var(--purple); background:var(--purple-soft); color:var(--purple); }
-html[data-theme="dark"] .pb-vless { border-color:var(--purple-light); color:var(--purple-light); }
+html[data-theme="dark"] .pb-vless { border-color:var(--purple-light); color:var(--purple-light); background:rgba(155,79,222,0.15); }
 .pb-vless svg { stroke: currentColor; }
 .pb-trojan { border-color:var(--red); background:var(--red-bg); color:var(--red); }
 .pb-trojan svg { stroke: var(--red); }
@@ -227,11 +227,19 @@ html[data-theme="dark"] .pb-vless { border-color:var(--purple-light); color:var(
   transition:all 0.15s;
 }
 .result-toggle:hover { border-color:var(--purple); color:var(--purple); background:var(--card-bg); }
-html[data-theme="dark"] .result-toggle:hover { border-color: var(--purple-light); color: var(--purple-light); }
+html[data-theme="dark"] .result-toggle:hover { border-color: var(--purple-light); color: var(--purple-light); background:transparent; }
 .result-toggle svg { width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2.5; transition:transform 0.2s; }
 .result-toggle.open svg { transform:rotate(180deg); }
 .result-body { margin-top:10px; display:none; }
 .result-body.open { display:block; }
+
+/* Config Code Block Contrast Styling */
+html[data-theme="dark"] .result-body pre, 
+html[data-theme="dark"] .result-body code {
+  color: #ffffff !important;
+  background-color: #121316 !important;
+  border-color: var(--gray-line) !important;
+}
 
 /* ── BOTTOM NAV (SAMA DENGAN TRIAL) ── */
 .bottom-nav {
@@ -404,7 +412,6 @@ function formatLocalDate(isoString) {
   if (!isoString) return '—';
   try {
     const d = new Date(isoString);
-    // Menggunakan locale 'id-ID' agar mudah di-custom formatnya
     const tgl = d.toLocaleDateString('id-ID', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
     const jam = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
     return `${tgl} ${jam}`;
@@ -450,7 +457,6 @@ async function loadAccounts() {
       const proto = getProto(acc.product_type);
       const label = (acc.product_type || 'VPN').toUpperCase();
       
-      // Format tanggal mentah ke zona waktu lokal client (WIB)
       const dateRaw = acc.expired_at || acc.created_at;
       const dateDisplay = formatLocalDate(dateRaw);
 
