@@ -62,7 +62,6 @@ html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
 html[data-theme="dark"] .balance-card,
 html[data-theme="dark"] .vpn-grid,
 html[data-theme="dark"] .cat-card,
-html[data-theme="dark"] .util-card,
 html[data-theme="dark"] .bottom-nav,
 html[data-theme="dark"] .bstat,
 html[data-theme="dark"] .maint-box,
@@ -80,7 +79,6 @@ html[data-theme="dark"] .skel-lbl {
 html[data-theme="dark"] .sec-badge.orange { background:#3A2A14; color:#FFB870; border-color: rgba(255,184,112,0.15); }
 html[data-theme="dark"] .sec-badge.blue   { background:#15233F; color:#7FA8FF; border-color: rgba(127,168,255,0.15); }
 html[data-theme="dark"] .balance-divider,
-html[data-theme="dark"] .util-card,
 html[data-theme="dark"] .bstat { border-color: var(--gray-line); }
 html[data-theme="dark"] .info-item,
 html[data-theme="dark"] .bstat { border-color: #2E2244; }
@@ -316,7 +314,7 @@ img { display:block; }
   display:flex; gap:14px; overflow-x:auto;
   scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
   scrollbar-width:none; padding:4px 2px 12px;
-  scroll-behavior: smooth; /* Membuat efek geser otomatis menjadi halus */
+  scroll-behavior: smooth;
 }
 .banner-scroll::-webkit-scrollbar { display:none; }
 .banner-card {
@@ -333,39 +331,6 @@ img { display:block; }
 .b1 { background-image: url('https://app.isdarprem.net/images/akun2.png'); }
 .b2 { background-image: url('https://app.isdarprem.net/images/trial2.png'); }
 .b3 { background-image: url('https://app.isdarprem.net/images/ppo.png'); }
-
-.util-section { animation:fadeUp .4s .24s ease both; }
-.util-card {
-  background:var(--card); border-radius:16px; padding:12px 14px;
-  display:flex; align-items:center; gap:12px;
-  border:1px solid var(--gray-line); margin-bottom:9px;
-  box-shadow:0 4px 16px rgba(0,0,0,0.04);
-  transition:all .2s;
-}
-.util-card:last-child { margin-bottom:0; }
-.util-card:hover {
-  transform:translateY(-2px);
-  box-shadow:0 6px 18px rgba(90,26,154,0.06);
-  border-color: rgba(123,47,190,0.3);
-}
-
-.util-img {
-  width:38px; height:38px; border-radius:12px;
-  overflow:hidden; flex-shrink:0; background:var(--bg);
-  border:1px solid var(--gray-line);
-  transition: background .25s ease, border-color .25s ease;
-}
-.util-img img { width:100%; height:100%; object-fit:cover; }
-
-.util-body { flex:1; min-width:0; }
-.util-title {
-  font-size:13.5px; font-weight:800; color:var(--text-dark); margin-bottom:1px;
-}
-.util-title.admin { color:var(--red); }
-.util-sub { font-size:11px; font-weight:600; color:var(--text-light); }
-.util-arrow svg {
-  width:14px; height:14px; stroke:var(--text-light); stroke-width:2.5; fill:none;
-}
 
 /* ── STYLE BARU: BOX JADWAL MAINTENANCE ── */
 .maint-box {
@@ -506,11 +471,6 @@ img { display:block; }
 html[data-theme="dark"] .nav-item.active { color: var(--purple-light); }
 .nav-item.active .nav-icon svg { stroke: var(--purple); }
 html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-light); }
-
-.online-dot {
-  width:8px; height:8px; border-radius:50%; background:var(--green);
-  display:inline-block; margin-right:5px; animation:pulse 2s infinite;
-}
 </style>
 </head>
 <body>
@@ -707,31 +667,6 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
       <div class="vm-label">Riwayat PPOB</div>
     </a>
   </div>
-
-  <div class="sec-head">
-    <span class="sec-title">Pusat Bantuan</span>
-    <span class="sec-badge teal">
-      <span class="online-dot"></span>24/7
-    </span>
-  </div>
-  <div class="util-section">
-    <div id="adminSlot"></div>
-    <a class="util-card" href="https://t.me/joyhayabuse" target="_blank">
-      <div class="util-img">
-        <img src="https://app.isdarprem.net/images/telegram.png" alt="Telegram"
-          onerror="this.src='https://placehold.co/40/229ED9/fff?text=TG'">
-      </div>
-      <div class="util-body">
-        <div class="util-title">Customer Service</div>
-        <div class="util-sub">Hubungi via Telegram · Siap membantu</div>
-      </div>
-      <div class="util-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
-      </div>
-    </a>
-  </div>
   <div style="height:8px;"></div>
 
 </div>
@@ -914,23 +849,6 @@ async function loadProfile() {
     document.getElementById('balanceAmt').textContent = rupiah(u.balance);
     document.getElementById('totalIn').textContent = rupiah(u.total_in || 0);
     document.getElementById('totalOut').textContent = rupiah(u.total_out || 0);
-    if (u.role === 'admin') {
-      document.getElementById('adminSlot').innerHTML = `
-        <a class="util-card" href="admin.html">
-          <div class="util-img">
-            <img src="https://app.isdarprem.net/images/paneladmin.jpeg" alt="Admin" onerror="this.src='https://placehold.co/40/E84040/fff?text=ADM'">
-          </div>
-          <div class="util-body">
-            <div class="util-title admin">Admin Panel</div>
-            <div class="util-sub">Kelola user, produk & transaksi</div>
-          </div>
-          <div class="util-arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#A882CC" stroke-width="2.5">
-              <polyline points="9 18 15 12 9 6"/>
-            </svg>
-          </div>
-        </a>`;
-    }
   } catch (e) {
     console.error('Gagal load profile:', e);
     localStorage.clear();
