@@ -20,364 +20,357 @@
   --red:          #E84040;
   --red-bg:       #FFECEC;
   --white:        #FFFFFF;
-  --bg:           #F8F6FC;
+  --bg:           #F5F6FA;
   --card:         #FFFFFF;
-  --gray-line:    #EEF0F6;
+  --gray-line:    #EBEFF5;
   --text-dark:    #1A0533;
   --text-mid:     #6B3FA0;
   --text-light:   #A882CC;
 }
 
-/* ── GOPAY-INSPIRED DARK THEME TOKENS ── */
+/* ── DARK THEME TOKENS ── */
 html[data-theme="dark"] {
   --purple-soft:  #202124;
   --purple-mid:   #2a2b2f;
   --green-bg:     #0c2a21;
   --red-bg:       #311111;
   --white:        #17181c;
-  --bg:           #0a0b0d;
-  --card:         #1c1d21;
-  --gray-line:    #303135;
-  --text-dark:    #e8eaed;
-  --text-mid:     #bdc1c6;
-  --text-light:   #9aa0a6;
+  --bg:           #0A0B0D;
+  --card:         #1C1D21;
+  --gray-line:    #2C2D30;
+  --text-dark:    #E8EAED;
+  --text-mid:     #BDC1C6;
+  --text-light:   #9AA0A6;
 }
-html[data-theme="dark"] body { background: var(--bg); color: var(--text-dark); }
-html[data-theme="dark"] .stat-chip,
-html[data-theme="dark"] .card,
-html[data-theme="dark"] .bottom-nav,
-html[data-theme="dark"] .logout-btn { background: var(--card); border-color: var(--gray-line); }
-html[data-theme="dark"] .stat-chip { border-color: rgba(255, 255, 255, 0.05); }
-html[data-theme="dark"] .logout-btn { color: var(--text-mid); }
-html[data-theme="dark"] .bottom-nav { background: var(--card); box-shadow: 0 -4px 20px rgba(0,0,0,0.4); }
-html[data-theme="dark"] .info-item { border-color: var(--gray-line); }
-html[data-theme="dark"] .role-badge { background: var(--purple-soft); color: var(--text-mid); border-color: var(--gray-line); }
-html[data-theme="dark"] .role-badge.admin { background: var(--red-bg); color: var(--red); border-color: rgba(232,64,64,0.15); }
-html[data-theme="dark"] .edit-avatar-btn { background: var(--card); }
-html[data-theme="dark"] .edit-avatar-btn svg { stroke: var(--text-dark); }
-html[data-theme="dark"] .card-title svg { stroke: var(--text-dark); }
-html[data-theme="dark"] .card-title-pill,
-html[data-theme="dark"] .sec-title-pill { background: var(--purple-soft); color: var(--text-mid); }
-html[data-theme="dark"] .hdr-btn.theme-toggle .icon-sun { display: none; }
-html[data-theme="dark"] .hdr-btn.theme-toggle .icon-moon { display: flex; }
-html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-sun { display: flex; }
-html:not([data-theme="dark"]) .hdr-btn.theme-toggle .icon-moon { display: none; }
 
-html { background: var(--bg); }
 * { margin:0; padding:0; box-sizing:border-box; }
-
 body {
   background: var(--bg);
   min-height: 100vh;
   font-family: 'Nunito', sans-serif;
   overflow-x: hidden;
-  padding-bottom: 90px;
+  padding-bottom: 100px;
+  color: var(--text-dark);
   transition: background .25s ease, color .25s ease;
 }
 
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(12px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-@keyframes pulse {
-  0%,100% { transform:scale(1); }
-  50%      { transform:scale(1.1); }
-}
-
+/* ── HERO BANNER STYLE DANA ── */
 .hero {
   background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple) 60%, var(--purple-light) 100%);
-  padding: 24px 20px 48px; /* Diperkecil dari 32px 20px 64px */
+  padding: 20px 16px 40px;
   position: relative;
-  overflow: hidden;
-  animation: fadeUp 0.4s ease both;
 }
-.hero::before {
-  content:''; position:absolute; top:-40px; right:-20px;
-  width:160px; height:160px;
-  border:32px solid rgba(255,255,255,0.05); border-radius:50%;
-}
-.hero-dots {
-  position:absolute; inset:0;
-  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 20px 20px; pointer-events:none;
-}
-
 .hero-topbar {
-  position: relative; z-index: 2;
-  display: flex; align-items:center; justify-content:flex-end;
-  max-width: 440px; margin: 0 auto 4px;
+  display: flex; justify-content: flex-end; max-width: 440px; margin: 0 auto 12px;
 }
-.hdr-actions { display:flex; gap:8px; align-items:center; }
 .hdr-btn {
-  width:32px; height:32px; border-radius:50%;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.2);
-  display: flex; align-items:center; justify-content:center;
-  transition: all .2s; backdrop-filter:blur(10px);
-  cursor: pointer;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,.15); border: none;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
 }
-.hdr-btn:hover { background:rgba(255,255,255,.2); transform:translateY(-2px); }
-.hdr-btn svg {
-  width:15px; height:15px;
-  stroke:#fff; stroke-width:2.2; fill:none;
-}
-.hdr-btn.theme-toggle { position: relative; }
-.hdr-btn.theme-toggle .icon-sun,
-.hdr-btn.theme-toggle .icon-moon {
-  position: absolute; align-items:center; justify-content:center;
-}
+.hdr-btn svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2.2; }
+html[data-theme="dark"] .hdr-btn .icon-sun { display: none; }
+html[data-theme="dark"] .hdr-btn .icon-moon { display: flex; }
+html:not([data-theme="dark"]) .hdr-btn .icon-sun { display: flex; }
+html:not([data-theme="dark"]) .hdr-btn .icon-moon { display: none; }
 
+/* Flex Profile horizontal kiri-kanan khas DANA */
 .hero-profile {
-  position: relative; z-index: 2;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: 16px; max-width: 440px; margin: 0 auto;
 }
-
-.avatar-wrap { position: relative; }
+.avatar-wrap { position: relative; flex-shrink: 0; }
 .avatar {
-  width: 70px; height: 70px; border-radius: 50%; /* Diperkecil sedikit */
-  border: 2px solid rgba(255,255,255,0.4);
-  object-fit: cover; background: rgba(255,255,255,0.1);
-  display: block;
-}
-.online-dot {
-  position: absolute; bottom: 2px; right: 2px;
-  width: 11px; height: 11px; border-radius: 50%;
-  background: var(--green); border: 2px solid var(--purple-deep);
-  animation: pulse 2s infinite;
+  width: 64px; height: 64px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6); object-fit: cover;
 }
 .edit-avatar-btn {
-  position: absolute; bottom: -2px; right: -2px;
-  width: 22px; height: 22px; border-radius: 50%;
-  background: #fff; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: pointer; border: none;
-  transition: background .25s ease, transform .2s;
+  position: absolute; bottom: 0; right: 0;
+  width: 20px; height: 20px; border-radius: 50%; background: #fff;
+  display: flex; align-items: center; justify-content: center; border: none; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
-.edit-avatar-btn:active { transform: scale(0.9); }
-.edit-avatar-btn svg { width: 11px; height: 11px; fill: none; stroke: var(--purple); stroke-width: 2.5; }
+.edit-avatar-btn svg { width: 10px; height: 10px; fill: none; stroke: var(--purple); stroke-width: 2.5; }
 
-.profile-name { font-size: 18px; font-weight: 900; color: #fff; letter-spacing: -0.2px; text-align: center; }
-.profile-email { font-size: 11px; color: rgba(255,255,255,0.55); text-align: center; font-weight: 600; }
+.profile-info { display: flex; flex-direction: column; gap: 4px; }
+.profile-name { font-size: 18px; font-weight: 800; color: #fff; line-height: 1.2; }
+.profile-meta-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.profile-email { font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 600; }
 
-.content-wrap { max-width: 440px; margin: -28px auto 0; padding: 0 14px; position: relative; z-index: 10; }
-
-.stat-row { display: flex; gap: 8px; margin-bottom: 10px; animation: fadeUp 0.4s 0.08s ease both; }
-.stat-chip {
-  flex: 1; border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; gap: 8px;
-  background: var(--white); border: 1px solid rgba(234, 213, 250, 0.6);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.03);
-  transition: background .25s ease, border-color .25s ease;
-}
-.chip-icon { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.chip-icon svg { width: 18px; height: 18px; fill: none; stroke-width: 2.2; }
-.balance-chip .chip-icon svg { stroke: var(--purple); }
-.status-chip .chip-icon svg { stroke: var(--green); }
-
-.chip-text-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-light); margin-bottom: 1px; }
-.chip-text-val { font-size: 13px; font-weight: 900; color: var(--text-dark); }
-
-/* Card Diperkecil */
-.card {
-  background: var(--card); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.03); border: 1px solid var(--gray-line);
-  animation: fadeUp 0.4s 0.12s ease both;
-  transition: background .25s ease, border-color .25s ease;
-}
-.card-title {
-  font-size: 12px; font-weight: 900; color: var(--text-dark); margin-bottom: 8px; /* Margin bawah dikurangi */
-  display: flex; align-items: center; gap: 6px; letter-spacing: -0.1px;
-}
-.card-title svg { width: 15px; height: 15px; fill: none; stroke: var(--purple); stroke-width: 2.2; flex-shrink: 0; }
-.card-title-pill { font-size: 9px; font-weight: 800; background: var(--purple-soft); color: var(--purple); border-radius: 5px; padding: 1px 5px; }
-
-/* Menghilangkan kerenggangan antar baris detail akun */
-.info-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--gray-line); transition: border-color .25s ease; }
-.info-item:last-child { border-bottom: none; padding-bottom: 0; }
-.info-item:first-child { padding-top: 0; }
-
-.info-label { font-size: 11px; font-weight: 800; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
-.info-value { font-size: 13px; font-weight: 800; color: var(--text-dark); text-align: right; }
-
+/* Badge Role Premium ala DANA */
 .role-badge {
-  display: inline-block; padding: 1px 6px; border-radius: 5px;
-  font-size: 10px; font-weight: 800; background: var(--purple-soft); color: var(--purple);
-  text-transform: uppercase; border: 1px solid rgba(123,47,190,0.1);
-  transition: background .25s ease, border-color .25s ease;
+  display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px;
+  font-size: 10px; font-weight: 900; background: rgba(255,255,255,0.2); color: #fff;
+  text-transform: uppercase; border: 1px solid rgba(255,255,255,0.4); letter-spacing: 0.5px;
 }
-.role-badge.admin { background: var(--red-bg); color: var(--red); border-color: rgba(232,64,64,0.1); }
+.role-badge.admin { background: var(--accent); border-color: var(--accent); }
 
+/* ── CONTAINER KONTEN ── */
+.content-wrap { max-width: 440px; margin: -20px auto 0; padding: 0 12px; position: relative; z-index: 10; }
+
+/* ── DANA GRID MENU (2x2 / 3x2) ── */
+.dana-grid-card {
+  background: var(--card); border-radius: 16px; padding: 16px 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03); border: 1px solid var(--gray-line);
+  margin-bottom: 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 0;
+}
+.grid-item {
+  display: flex; flex-direction: column; align-items: center; text-decoration: none; text-align: center; gap: 6px;
+}
+.grid-icon-box {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--purple-soft);
+  display: flex; align-items: center; justify-content: center; transition: transform 0.2s;
+}
+.grid-item:active .grid-icon-box { transform: scale(0.9); }
+.grid-icon-box svg { width: 20px; height: 20px; fill: none; stroke: var(--purple); stroke-width: 2.2; }
+.grid-label { font-size: 11px; font-weight: 800; color: var(--text-mid); }
+.grid-val { font-size: 13px; font-weight: 900; color: var(--text-dark); margin-top: -2px; }
+.grid-val.status-active { color: var(--green); }
+
+/* ── CASH FLOW ROW (Uang Masuk / Keluar ala DANA) ── */
+.cashflow-card {
+  background: var(--card); border-radius: 14px; border: 1px solid var(--gray-line);
+  display: flex; margin-bottom: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+.flow-side {
+  flex: 1; display: flex; align-items: center; gap: 10px; padding: 12px; position: relative;
+}
+.flow-side:first-child::after {
+  content: ''; position: absolute; right: 0; top: 20%; bottom: 20%; width: 1px; background: var(--gray-line);
+}
+.flow-icon {
+  width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+}
+.flow-down .flow-icon { background: var(--green-bg); color: var(--green); }
+.flow-up .flow-icon { background: rgba(255, 107, 43, 0.1); color: var(--accent); }
+.flow-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+.flow-details div:first-child { font-size: 10px; font-weight: 800; color: var(--text-light); text-transform: uppercase; }
+.flow-details div:last-child { font-size: 13px; font-weight: 900; color: var(--text-dark); }
+
+/* ── LIST MENU KE BAWAH (Rekan DANA Style) ── */
+.list-group-title {
+  font-size: 12px; font-weight: 900; color: var(--text-light); text-transform: uppercase;
+  margin: 14px 0 6px 4px; letter-spacing: 0.5px;
+}
+.dana-list-card {
+  background: var(--card); border-radius: 16px; border: 1px solid var(--gray-line);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03); overflow: hidden; margin-bottom: 12px;
+}
+.list-item {
+  display: flex; align-items: center; gap: 14px; padding: 12px 16px;
+  text-decoration: none; border-bottom: 1px solid var(--gray-line); transition: background 0.2s;
+}
+.list-item:last-child { border-bottom: none; }
+.list-item:active { background: var(--purple-soft); }
+.list-icon-box {
+  width: 36px; height: 36px; border-radius: 10px; background: var(--purple-soft);
+  display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+}
+.list-icon-box svg { width: 18px; height: 18px; fill: none; stroke: var(--purple); stroke-width: 2.2; }
+.list-content { flex: 1; min-width: 0; }
+.list-title { font-size: 13px; font-weight: 900; color: var(--text-dark); margin-bottom: 1px; }
+.list-subtitle { font-size: 11px; font-weight: 700; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.list-arrow { font-size: 14px; color: var(--text-light); font-weight: 800; }
+
+/* ── LOGOUT BUTTON ALIGNED ALA DANA ── */
+.logout-btn-wrap { padding: 4px; margin-top: 16px; }
 .logout-btn {
-  width: 100%; padding: 10px; border: 1.5px solid var(--gray-line); border-radius: 10px;
+  width: 100%; padding: 12px; border: 1.5px solid var(--gray-line); border-radius: 14px;
   background: var(--white); color: var(--text-mid); font-family: 'Nunito', sans-serif;
   font-weight: 800; font-size: 13px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: all 0.2s ease;
-  animation: fadeUp 0.4s 0.16s ease both;
+  display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
 }
-.logout-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-bg); box-shadow: 0 4px 12px rgba(232,64,64,0.06); }
-.logout-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; }
+.logout-btn:hover { border-color: var(--red); color: var(--red); background: var(--red-bg); }
+.logout-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; }
 
+/* ── BOTTOM NAVIGATION DANA ── */
 .bottom-nav {
-  position:fixed; bottom:0; left:0; right:0; background:#fff;
-  border-top:1px solid var(--gray-line); display:flex; padding:8px 0 12px;
-  box-shadow:0 -4px 20px rgba(0,0,0,0.04); z-index:100; max-width:440px; margin:0 auto;
-  transition: background .25s ease, border-color .25s ease;
+  position: fixed; bottom: 0; left: 0; right: 0; background: var(--card);
+  border-top: 1px solid var(--gray-line); display: flex; padding: 6px 0 10px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.03); z-index: 100; max-width: 440px; margin: 0 auto;
 }
-.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; }
-.nav-icon svg { width:18px; height:18px; fill:none; stroke: var(--text-light); stroke-width:2.2; transition: stroke 0.2s; }
-.nav-label { font-size:9px; font-weight:800; color:var(--text-light); transition: color 0.2s; }
-.nav-item.active .nav-label { color:var(--purple); }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; position: relative; }
+.nav-icon svg { width: 20px; height: 20px; fill: none; stroke: var(--text-light); stroke-width: 2.2; }
+.nav-label { font-size: 10px; font-weight: 800; color: var(--text-light); }
+.nav-item.active .nav-label { color: var(--purple); }
 .nav-item.active .nav-icon svg { stroke: var(--purple); }
 
-.device-card{ animation: fadeUp 0.4s 0.14s ease both; }
-.device-box{ display:flex; align-items:center; gap:12px; }
-.device-icon{
-  width:44px; height:44px; border-radius:10px;
-  background:var(--purple-soft); display:flex;
-  align-items:center; justify-content:center;
-  font-size:20px; flex-shrink:0;
+/* Center Button Pay ala DANA */
+.nav-item.nav-pay { margin-top: -16px; }
+.nav-item.nav-pay .nav-icon-pay {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(123, 47, 190, 0.3);
 }
-.device-info{ flex:1; min-width:0; }
-.device-name{ font-size:13px; font-weight:900; color:var(--text-dark); margin-bottom:1px; }
-.device-meta{ font-size:11px; font-weight:700; color:var(--text-light); margin-top:1px; }
+.nav-item.nav-pay .nav-icon-pay svg { stroke: #fff; width: 22px; height: 22px; }
+.nav-item.nav-pay .nav-label { margin-top: 2px; }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <div class="hero-dots"></div>
   <div class="hero-topbar">
-    <div class="hdr-actions">
-      <button class="hdr-btn theme-toggle" id="themeToggle" aria-label="Ganti tema">
-        <span class="icon-sun">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-          </svg>
-        </span>
-        <span class="icon-moon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
-            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-          </svg>
-        </span>
-      </button>
-    </div>
+    <button class="hdr-btn" id="themeToggle" aria-label="Ganti tema">
+      <span class="icon-sun">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </span>
+      <span class="icon-moon">
+        <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </span>
+    </button>
   </div>
+  
   <div class="hero-profile">
     <div class="avatar-wrap">
-      <img class="avatar" id="avatar" src="https://via.placeholder.com/76" alt="Avatar">
-      <div class="online-dot"></div>
+      <img class="avatar" id="avatar" src="https://via.placeholder.com/64" alt="Avatar">
       <button class="edit-avatar-btn" aria-label="Edit avatar">
         <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
       </button>
     </div>
-    <div class="profile-name" id="username">—</div>
-    <div class="profile-email" id="email">—</div>
+    <div class="profile-info">
+      <div class="profile-name" id="username">—</div>
+      <div class="profile-meta-row">
+        <div class="profile-email" id="email">—</div>
+        <span class="role-badge" id="role">User</span>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="content-wrap">
 
-  <div class="stat-row">
-    <div class="stat-chip balance-chip">
-      <div class="chip-icon">
+  <div class="dana-grid-card">
+    <div class="grid-item">
+      <div class="grid-icon-box">
         <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
       </div>
-      <div>
-        <div class="chip-text-label">Saldo</div>
-        <div class="chip-text-val" id="balance">Rp 0</div>
-      </div>
+      <div class="grid-label">Saldo Anda</div>
+      <div class="grid-val" id="balance">Rp 0</div>
     </div>
-    <div class="stat-chip status-chip">
-      <div class="chip-icon">
+    
+    <div class="grid-item">
+      <div class="grid-icon-box">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l2.5 2.5L16 9"/></svg>
       </div>
-      <div>
-        <div class="chip-text-label">Status</div>
-        <div class="chip-text-val">Aktif</div>
+      <div class="grid-label">Status Akun</div>
+      <div class="grid-val status-active">Aktif</div>
+    </div>
+
+    <div class="grid-item">
+      <div class="grid-icon-box">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="grid-label">ID Anda</div>
+      <div class="grid-val" id="username_id" style="font-size:11px; max-width:100px; overflow:hidden; text-overflow:ellipsis;">—</div>
+    </div>
+  </div>
+
+  <div class="cashflow-card">
+    <div class="flow-side flow-down">
+      <div class="flow-icon">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+      </div>
+      <div class="flow-details">
+        <div>Uang Masuk</div>
+        <div>Rp 0</div>
+      </div>
+    </div>
+    <div class="flow-side flow-up">
+      <div class="flow-icon">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+      </div>
+      <div class="flow-details">
+        <div>Uang Keluar</div>
+        <div id="balance_out">Rp 0</div>
       </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-title">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      Informasi Akun
-      <span class="card-title-pill">Detail</span>
-    </div>
-
-    <div class="info-item">
-      <div class="info-label">Username</div>
-      <div class="info-value" id="username2">—</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">Email</div>
-      <div class="info-value" id="email2">—</div>
-    </div>
-    <div class="info-item">
-      <div class="info-label">Role</div>
-      <div class="info-value">
-        <span class="role-badge" id="role">User</span>
+  <div class="list-group-title">Informasi Akun</div>
+  <div class="dana-list-card">
+    <div class="list-item">
+      <div class="list-icon-box">👤</div>
+      <div class="list-content">
+        <div class="list-title">Nama Pengguna</div>
+        <div class="list-subtitle" id="username2">—</div>
       </div>
     </div>
-    <div class="info-item">
-      <div class="info-label">Terdaftar Sejak</div>
-      <div class="info-value" id="created_at">—</div>
-    </div>
-  </div>
-  
-  <div class="card device-card">
-    <div class="card-title">
-      <svg viewBox="0 0 24 24">
-        <rect x="5" y="2" width="14" height="20" rx="2"/>
-        <line x1="12" y1="18" x2="12.01" y2="18"/>
-      </svg>
-      Device Login
-      <span class="card-title-pill">Aktif</span>
+    
+    <div class="list-item">
+      <div class="list-icon-box">✉️</div>
+      <div class="list-content">
+        <div class="list-title">Alamat Email</div>
+        <div class="list-subtitle" id="email2">—</div>
+      </div>
     </div>
 
-    <div class="device-box">
-      <div class="device-icon" id="deviceIcon">📱</div>
-      <div class="device-info">
-        <div class="device-name" id="deviceName">Loading Device...</div>
-        <div class="device-meta">IP: <span id="deviceIp">Loading...</span></div>
-        <div class="device-meta">Terakhir aktif: <span id="lastOnlineTime">Loading...</span></div>
+    <div class="list-item">
+      <div class="list-icon-box">📅</div>
+      <div class="list-content">
+        <div class="list-title">Terdaftar Sejak</div>
+        <div class="list-subtitle" id="created_at">—</div>
       </div>
     </div>
   </div>
 
-  <div class="sec-title" style="font-size:12px; font-weight:900; color:var(--text-dark); margin: 4px 0 8px 4px; display:flex; align-items:center; gap:6px;">
-    Aksi <span class="sec-title-pill" style="font-size: 9px; background:var(--purple-soft); color:var(--purple); padding:1px 5px; border-radius:5px;">Akun</span>
+  <div class="list-group-title">Keamanan Perangkat</div>
+  <div class="dana-list-card">
+    <div class="list-item">
+      <div class="list-icon-box" id="deviceIcon">📱</div>
+      <div class="list-content">
+        <div class="list-title" id="deviceName">Loading Device...</div>
+        <div class="list-subtitle">IP: <span id="deviceIp">Loading...</span></div>
+      </div>
+      <div class="list-arrow">›</div>
+    </div>
+    
+    <div class="list-item">
+      <div class="list-icon-box">⏱️</div>
+      <div class="list-content">
+        <div class="list-title">Terakhir Aktif</div>
+        <div class="list-subtitle" id="lastOnlineTime" style="font-size:10px;">Loading...</div>
+      </div>
+    </div>
   </div>
 
-  <button class="logout-btn" onclick="logout()">
-    <svg viewBox="0 0 24 24">
-      <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
-      <polyline points="16 17 21 12 16 7"/>
-      <line x1="21" y1="12" x2="9" y2="12"/>
-    </svg>
-    Keluar dari Akun
-  </button>
+  <div class="logout-btn-wrap">
+    <button class="logout-btn" onclick="logout()">
+      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Keluar dari Akun
+    </button>
+  </div>
 
 </div>
 
 <nav class="bottom-nav">
   <a class="nav-item" href="dashboard.html">
     <div class="nav-icon">
-      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/></svg>
     </div>
-    <div class="nav-label">Home</div>
+    <div class="nav-label">Beranda</div>
   </a>
   <a class="nav-item" href="transactions.html">
     <div class="nav-icon">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/><polyline points="7,17 10,13 13,15 17,9"/></svg>
     </div>
-    <div class="nav-label">Riwayat</div>
+    <div class="nav-label">Aktivitas</div>
+  </a>
+  <a class="nav-item nav-pay" href="#">
+    <div class="nav-icon-pay">
+      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M12 11h.01M16 11h.01M8 11h.01"/></svg>
+    </div>
+    <div class="nav-label">BAYAR</div>
+  </a>
+  <a class="nav-item" href="#">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="16" y1="2" x2="16" y2="4"/><line x1="8" y1="2" x2="8" y2="4"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </div>
+    <div class="nav-label">Dompet</div>
   </a>
   <a class="nav-item active" href="#">
     <div class="nav-icon">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
     </div>
-    <div class="nav-label">Profile</div>
+    <div class="nav-label">Saya</div>
   </a>
 </nav>
 
@@ -434,13 +427,15 @@ async function loadProfile() {
 
     const user = result.user;
 
-    document.getElementById('username').innerText  = user.username || '—';
-    document.getElementById('username2').innerText = user.username || '—';
-    document.getElementById('email').innerText     = user.email    || '—';
-    document.getElementById('email2').innerText    = user.email    || '—';
-    document.getElementById('balance').innerText   = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
-    document.getElementById('avatar').src          = user.avatar   || 'https://via.placeholder.com/76';
-    document.getElementById('created_at').innerText = user.created_at
+    document.getElementById('username').innerText   = user.username || '—';
+    document.getElementById('username2').innerText  = user.username || '—';
+    document.getElementById('username_id').innerText = user.username || '—';
+    document.getElementById('email').innerText      = user.email    || '—';
+    document.getElementById('email2').innerText     = user.email    || '—';
+    document.getElementById('balance').innerText    = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
+    document.getElementById('balance_out').innerText = 'Rp ' + Number(user.balance || 0).toLocaleString('id-ID');
+    document.getElementById('avatar').src           = user.avatar   || 'https://via.placeholder.com/64';
+    document.getElementById('created_at').innerText  = user.created_at
       ? new Date(user.created_at).toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })
       : '—';
 
@@ -449,7 +444,7 @@ async function loadProfile() {
       roleBadge.innerText = 'Admin';
       roleBadge.classList.add('admin');
     } else {
-      roleBadge.innerText = 'User';
+      roleBadge.innerText = 'Premium';
       roleBadge.classList.remove('admin');
     }
 
@@ -482,15 +477,11 @@ async function detectDevice() {
       const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platform']);
       if (hints.model) {
         device = hints.model;
-        if (deviceMap[device]) {
-          device = deviceMap[device];
-        }
+        if (deviceMap[device]) device = deviceMap[device];
         updateDeviceUI(device, isMobile);
         return; 
       }
-    } catch (e) {
-      console.log("Client hints ditolak/tidak disupport, beralih ke regex UA.");
-    }
+    } catch (e) {}
   }
 
   if (/Android/i.test(ua)) {
@@ -500,24 +491,13 @@ async function detectDevice() {
     } else {
       device = 'Android Device';
     }
-  }
-  else if (/iPhone/i.test(ua)) {
+  } else if (/iPhone/i.test(ua)) {
     device = 'iPhone';
-  }
-  else if (/iPad/i.test(ua)) {
-    device = 'iPad';
-  }
-  else if (/Windows/i.test(ua)) {
+  } else if (/Windows/i.test(ua)) {
     device = 'Windows PC';
   }
-  else if (/Macintosh/i.test(ua)) {
-    device = 'MacBook';
-  }
 
-  if (deviceMap[device]) {
-    device = deviceMap[device];
-  }
-
+  if (deviceMap[device]) device = deviceMap[device];
   updateDeviceUI(device, isMobile);
 }
 
@@ -532,33 +512,14 @@ async function loadIPAddress() {
     const data = await res.json();
     document.getElementById('deviceIp').innerText = data.ip;
   } catch (error) {
-    document.getElementById('deviceIp').innerText = 'Gagal memuat IP';
+    document.getElementById('deviceIp').innerText = '-';
   }
 }
 
 function displayLastOnline(backendTimestamp) {
-  let targetDate;
-
-  if (backendTimestamp) {
-    targetDate = new Date(backendTimestamp);
-  } else {
-    const localTimestamp = localStorage.getItem('last_login_timestamp');
-    targetDate = localTimestamp ? new Date(localTimestamp) : new Date();
-  }
-
-  const formatTanggal = targetDate.toLocaleDateString('id-ID', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  });
-
-  const formatJam = targetDate.toLocaleTimeString('id-ID', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-  });
-
+  let targetDate = backendTimestamp ? new Date(backendTimestamp) : new Date();
+  const formatTanggal = targetDate.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const formatJam = targetDate.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
   document.getElementById('lastOnlineTime').innerText = `${formatTanggal} - ${formatJam} WIB`;
 }
 
