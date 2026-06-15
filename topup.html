@@ -754,7 +754,7 @@ async function createDeposit() {
 
     showToast('QRIS Berhasil Dibuat!', 'success');
 
-    // ── RENDER ELEMEN QRIS DI HALAMAN YANG SAMA ──
+    // ── RENDER ELEMEN DENGAN TOMBOL REDIRECT (ANTI-BROKEN IFRAME) ──
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = `
       <div class="qris-card">
@@ -783,20 +783,12 @@ async function createDeposit() {
               <div class="fee-val" style="font-size: 11px;">${data.order_id}</div>
             </div>
           </div>
-          
-          <div class="timer-row">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Sisa waktu pembayaran: &nbsp;<span id="countdown">60:00</span>
-          </div>
 
-          <div class="qr-img-wrap">
-            <div class="qr-frame-box">
-              <iframe src="${data.payment_url}"></iframe>
-            </div>
-            <div class="ss-notice-chip">
-              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-              Silakan selesaikan pembayaran pada panel di atas
-            </div>
+          <div style="margin: 15px 0;">
+            <a href="${data.payment_url}" target="_blank" class="submit-btn" style="text-decoration: none; background: linear-gradient(135deg, #FF6B2B, #FF8E53); animation: none; box-shadow: none;">
+              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              Bayar Sekarang via QRIS
+            </a>
           </div>
 
           <div id="statusArea">
@@ -809,9 +801,10 @@ async function createDeposit() {
       </div>
     `;
 
-    // Jalankan countdown timer selama 60 menit (3600 detik)
-    const countdownDisplay = document.getElementById('countdown');
-    startTimer(3600, countdownDisplay);
+    // Opsional: Otomatis buka di tab baru setelah 1.5 detik agar user ga bingung
+    setTimeout(() => {
+      window.open(data.payment_url, '_blank');
+    }, 1500);
 
   } catch (err) {
     console.error(err);
