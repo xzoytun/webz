@@ -36,7 +36,7 @@
   --shadow-lg:  0 10px 25px rgba(15, 23, 42, 0.05);
   --shadow-purple: 0 4px 14px rgba(123, 47, 190, 0.12);
 
-  --r-card: 16px;
+  --r-card: 14px;
   --r-btn:  10px;
   
   --nav-bg:       #F8FAFC;
@@ -281,9 +281,9 @@ html[data-theme="dark"] .balance-icon-wrap {
 
 .sec-head {
   display:flex; align-items:center; justify-content:space-between;
-  margin: 16px 0 8px 4px;
+  margin: 12px 0 6px 4px;
 }
-.sec-title { font-size:13px; font-weight:900; color:var(--text-dark); letter-spacing: -0.1px; }
+.sec-title { font-size:12.5px; font-weight:900; color:var(--text-dark); letter-spacing: -0.1px; }
 .sec-badge {
   font-size:8.5px; font-weight:800;
   padding:2px 6px; border-radius:5px; letter-spacing:.3px;
@@ -366,132 +366,74 @@ html[data-theme="dark"] .balance-icon-wrap {
   line-height: 1.3;
 }
 
-/* ── KATEGORI & VPN GRID (ULTRA PREMIUM & BALANCED) ── */
+/* ── KATEGORI & VPN GRID COMPACT ── */
 .cat-card {
-  background: var(--card); 
-  border-radius: var(--r-card);
-  padding: 12px 8px; 
-  border: 1px solid var(--gray-line);
+  background:var(--card); border-radius:var(--r-card);
+  padding: 10px 6px; border:1px solid var(--gray-line);
   box-shadow: var(--shadow-sm);
-  animation: fadeUp .4s .16s ease both;
+  animation:fadeUp .4s .16s ease both;
   transition: background .25s ease, border-color .25s ease;
 }
 .cat-grid-layout {
   display: grid; 
   grid-template-columns: repeat(4, 1fr); 
-  gap: 10px 6px;
+  gap: 6px;
 }
 .cat-item {
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  gap: 6px;
-  padding: 6px 2px; 
-  border-radius: 12px; 
-  transition: all 0.2s ease;
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  padding:4px 2px; border-radius:10px; transition:background .2s;
 }
-.cat-item:hover { background: rgba(123, 47, 190, 0.05); }
-.cat-item:active { transform: scale(0.94); }
+.cat-item:hover  { background:var(--purple-soft); }
+.cat-item:active { transform:scale(.95); }
 
 .cat-img {
-  width: 44px; 
-  height: 44px; 
-  aspect-ratio: 1/1;
-  border-radius: 12px; 
-  overflow: hidden;
-  background: var(--white); 
-  border: 1px solid var(--gray-line);
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
-  padding: 6px; /* Memberikan ruang napas agar logo tidak mentok ke pinggir kotak */
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  flex-shrink: 0;
+  width:40px; height:40px; border-radius:10px; overflow:hidden;
+  background:var(--bg); border:1px solid var(--gray-line);
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s; flex-shrink: 0;
 }
-.cat-img img { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: contain; /* Agar logo digital/provider bulat sempurna tidak lonjong */
-}
+.cat-img img { width:100%; height:100%; object-fit:cover; }
 .cat-item:hover .cat-img {
-  transform: translateY(-3px);
-  border-color: var(--purple-light);
-  box-shadow: 0 4px 12px rgba(123, 47, 190, 0.12);
+  transform:translateY(-2px);
 }
-
 .cat-name {
-  font-size: 11px; 
-  font-weight: 700; 
-  color: var(--text-mid); 
-  text-align: center;
-  line-height: 1.2; 
-  overflow: hidden;
-  display: -webkit-box; 
-  -webkit-line-clamp: 2; 
-  -webkit-box-orient: vertical;
-  word-break: break-word;
+  font-size:10px; font-weight:800; color:var(--text-mid); text-align:center;
+  line-height:1.2; overflow:hidden;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
 }
 
-/* ── LAYANAN VPN GRID (3 KOLOM PRESISI) ── */
 .vpn-grid {
-  display: grid; 
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 8px;
+  display: grid; grid-template-columns: repeat(4,1fr); gap:6px;
   background: var(--card);
   border-radius: var(--r-card);
-  padding: 12px 8px;
+  padding: 10px 6px;
   border: 1px solid var(--gray-line);
   box-shadow: var(--shadow-sm);
   animation: fadeUp .4s .12s ease both;
   transition: background .25s ease, border-color .25s ease;
 }
 .vm-item {
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  gap: 7px;
-  padding: 8px 4px; 
-  border-radius: 12px; 
-  transition: all 0.2s ease;
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  padding:4px 2px; border-radius:10px; transition:background .2s;
 }
-.vm-item:hover { background: rgba(123, 47, 190, 0.05); }
-.vm-item:active { transform: scale(0.94); }
+.vm-item:hover  { background:var(--purple-soft); }
+.vm-item:active { transform:scale(.95); }
 
 .vm-icon {
-  width: 46px; 
-  height: 46px; 
-  aspect-ratio: 1/1;
-  border-radius: 12px;
-  overflow: hidden; 
-  background: var(--white);
+  width:40px; height:40px; border-radius:10px;
+  overflow:hidden; background:var(--bg);
   border: 1px solid var(--gray-line);
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
-  padding: 2px; /* Disesuaikan untuk keselarasan ilustrasi/ikon */
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative; 
-  flex-shrink: 0;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s;
+  position:relative; flex-shrink:0;
 }
-.vm-icon img { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-  border-radius: 10px;
-}
+.vm-icon img { width:100%; height:100%; object-fit:cover; }
 .vm-item:hover .vm-icon {
-  transform: translateY(-3px);
-  border-color: var(--purple-light);
-  box-shadow: 0 4px 12px rgba(123, 47, 190, 0.12);
+  transform:translateY(-2px);
 }
 .vm-label {
-  font-size: 11px; 
-  font-weight: 800; 
-  color: var(--text-dark);
-  text-align: center; 
-  line-height: 1.2;
+  font-size:10px; font-weight:800; color:var(--text-mid);
+  text-align:center; line-height:1.2;
 }
 
 /* ── RE-DESIGN JADWAL MAINTENANCE GRID (ULTRA COMPACT) ── */
@@ -538,7 +480,7 @@ html[data-theme="dark"] .balance-icon-wrap {
 .maint-desc { font-size: 9.5px; font-weight: 600; color: var(--text-light); line-height: 1.25; }
 
 .skel {
-  border-radius:12px; height:44px; width:44px; flex-shrink:0;
+  border-radius:10px; height:40px; width:40px; flex-shrink:0;
   background:linear-gradient(90deg, var(--gray-line) 25%, var(--purple-soft) 50%, var(--gray-line) 75%);
   background-size:200% 100%; animation:shimmer 1.4s infinite;
 }
@@ -636,7 +578,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
 
 <div class="main">
 
-  <!-- POSISI 1: BANNER PROMO -->
+  <!-- POSISI 1: BANNER PROMO (NAIK KE ATAS) -->
   <div class="sec-head">
     <span class="sec-title">Informasi Promo</span>
     <span class="sec-badge blue">Terbaru</span>
@@ -688,10 +630,10 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </div>
   </div>
 
-  <!-- POSISI 3: MENU LAYANAN / VPN -->
+    <!-- POSISI 3: MENU LAYANAN / VPN -->
   <div class="sec-head">
-    <span class="sec-title">Menu Layanan VPN</span>
-    <span class="sec-badge purple">Premium</span>
+    <span class="sec-title">Menu Layanan</span>
+    <span class="sec-badge purple">VPN</span>
   </div>
   <div class="vpn-grid">
     <a class="vm-item" href="products.html">
@@ -714,7 +656,7 @@ html[data-theme="dark"] .nav-item.active .nav-icon svg { stroke: var(--purple-li
     </a>
   </div>
 
-  <!-- POSISI 4: JADWAL MAINTENANCE -->
+  <!-- POSISI 4: JADWAL MAINTENANCE (DITURUNKAN KE BAWAH & COMPACT GRID) -->
   <div class="sec-head">
     <span class="sec-title">Jadwal Maintenance</span>
     <span class="sec-badge red">Sistem</span>
