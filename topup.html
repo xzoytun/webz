@@ -350,7 +350,7 @@ body {
 }  
   
 .qris-fee-row {  
-  display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;  
+  display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:14px;  
 }  
 .fee-item {  
   background:var(--bg);  
@@ -366,40 +366,26 @@ body {
   font-size:13px; font-weight:900; color:var(--text-dark);  
 }  
   
-/* ── QR IMAGE ── */  
+/* ── QR IMAGE & IFRAME WRAP ── */  
 .qr-img-wrap {  
   display:flex; flex-direction:column;  
   align-items:center; gap:10px; margin-bottom:14px;  
 }  
-.qr-img-box {  
+.qr-frame-box {  
   position:relative;  
   width:100%;  
-  display:flex;  
-  justify-content:center;  
-  align-items:center;  
-  background:var(--bg);  
-  border-radius:16px;  
-  padding:14px;  
-  border:1px dashed var(--purple-light);  
-  cursor: pointer;
-  transition: all 0.2s ease;
-}  
-.qr-img-box:hover {
-  transform: scale(1.01);
-  border-color: var(--purple);
-}
-.qr-img-box img {  
-  width:100%;  
-  max-width:210px;  
-  aspect-ratio:1/1;  
-  object-fit:contain;  
-  display:block;  
-  border-radius:12px;  
-  padding:8px;  
+  height: 340px;
   background:#fff;  
-  border:1px solid var(--gray-line);  
+  border-radius:16px;  
+  border:1px dashed var(--purple-light);  
+  overflow: hidden;
   box-shadow: var(--shadow-sm);
 }  
+.qr-frame-box iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
   
 /* ── NOTICE CHIP ── */  
 .ss-notice-chip {  
@@ -429,7 +415,7 @@ body {
 }  
 .timer-row svg {  
   width:14px; height:14px;  
-  fill:none; stroke:var(--amber); stroke-width:22; flex-shrink:0;  
+  fill:none; stroke:var(--amber); stroke-width:2.2; flex-shrink:0;  
 }  
   
 /* ── STATUS AREA ── */  
@@ -663,6 +649,7 @@ body {
 })();
 
 const token = localStorage.getItem('token');
+let countdownInterval = null; // Menyimpan instance timer global
 
 if (!token) {
   location.href = 'index.html';
@@ -677,30 +664,47 @@ function setNominal(value, el) {
 function clearSelected() {  
   document.querySelectorAll('.nominal-btn').forEach(b => b.classList.remove('selected'));  
 }  
+
+function formatRupiah(number) {
+  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
+}
+
+function startTimer(durationInSeconds, displayElement) {
+  if (countdownInterval) clearInterval(countdownInterval);
+  
+  let timer = durationInSeconds;
+  
+  countdownInterval = setInterval(() => {
+    let minutes = Math.floor(timer / 60);
+    let seconds = timer % 60;
+    
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    
+    displayElement.textContent = `${minutes}:${seconds}`;
+    
+    if (--timer < 0) {
+      clearInterval(countdownInterval);
+      document.getElementById('statusArea').innerHTML = `
+        <div class="status-expired">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          Sesi Pembayaran Kedaluwarsa
+        </div>
+      `;
+    }
+  }, 1000);
+}
   
 async function createDeposit() {
-
-  const amount =
-    Number(
-      document.getElementById('amount').value
-    );
+  const amount = Number(document.getElementById('amount').value);
 
   if (!amount || amount < 1000) {
-
-    showToast(
-      'Minimal topup Rp 1.000',
-      'warn'
-    );
-
+    showToast('Minimal topup Rp 1.000', 'warn');
     return;
-
   }
 
-  const btn =
-    document.getElementById('topupBtn');
-
+  const btn = document.getElementById('topupBtn');
   btn.disabled = true;
-
   btn.innerHTML = `
     <svg class="spin-icon" viewBox="0 0 24 24">
       <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/>
@@ -709,45 +713,25 @@ async function createDeposit() {
   `;
 
   try {
+    const res = await fetch('/api/create-topup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ amount })
+    });
 
-    const res =
-      await fetch('/api/create-topup', {
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+      showToast('Session expired', 'warn');
+      setTimeout(() => { location.href = 'index.html'; }, 1000);
+      return;
+    }
 
-        method: 'POST',
-
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-
-        body: JSON.stringify({
-          amount
-        })
-
-      });
-
-    const data =
-      await res.json();
-      if (res.status === 401) {
-
-  localStorage.removeItem('token');
-
-  showToast(
-    'Session expired',
-    'warn'
-  );
-
-  setTimeout(() => {
-
-    location.href = 'index.html';
-
-  }, 1000);
-
-  return;
-}
+    const data = await res.json();
 
     btn.disabled = false;
-
     btn.innerHTML = `
       <svg viewBox="0 0 24 24">
         <rect x="3" y="3" width="7" height="7" rx="1"/>
@@ -759,49 +743,83 @@ async function createDeposit() {
     `;
 
     if (!data.success) {
-
-      showToast(
-        data.message || 'Gagal membuat pembayaran',
-        'error'
-      );
-
+      showToast(data.message || 'Gagal membuat pembayaran', 'error');
       return;
-
     }
     
     if (!data.payment_url) {
+      showToast('Payment URL tidak tersedia', 'error');
+      return;
+    }
 
-  showToast(
-    'Payment URL tidak tersedia',
-    'error'
-  );
+    showToast('QRIS Berhasil Dibuat!', 'success');
 
-  return;
+    // ── RENDER ELEMEN QRIS DI HALAMAN YANG SAMA ──
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `
+      <div class="qris-card">
+        <div class="qris-card-head">
+          <div class="qris-head-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </div>
+          <div>
+            <div class="qris-head-title">Metode Pembayaran QRIS</div>
+            <div class="qris-head-sub">Scan QRIS melalui Dana, OVO, GoPay, LinkAja, dll</div>
+          </div>
+        </div>
+        <div class="qris-body">
+          <div class="qris-amount-row">
+            <div class="qris-amount-label">Total Tagihan</div>
+            <div class="qris-amount-val">${formatRupiah(amount)}</div>
+          </div>
+          <div class="qris-fee-row">
+            <div class="fee-item">
+              <div class="fee-label">Order ID</div>
+              <div class="fee-val" style="font-size: 11px;">${data.order_id}</div>
+            </div>
+          </div>
+          
+          <div class="timer-row">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Sisa waktu pembayaran: &nbsp;<span id="countdown">60:00</span>
+          </div>
 
-}
-showToast(
-  'Mengalihkan ke pembayaran...',
-  'success'
-);
+          <div class="qr-img-wrap">
+            <div class="qr-frame-box">
+              <iframe src="${data.payment_url}"></iframe>
+            </div>
+            <div class="ss-notice-chip">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              Silakan selesaikan pembayaran pada panel di atas
+            </div>
+          </div>
 
-    // LANGSUNG REDIRECT KE PAKASIR
-    window.location.href =
-      data.payment_url;
+          <div id="statusArea">
+            <div class="status-waiting">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Menunggu pembayaran diproses...
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Jalankan countdown timer selama 60 menit (3600 detik)
+    const countdownDisplay = document.getElementById('countdown');
+    startTimer(3600, countdownDisplay);
 
   } catch (err) {
-
     console.error(err);
-
     btn.disabled = false;
-
-    showToast(
-      'Server error',
-      'error'
-    );
-
+    showToast('Server error', 'error');
   }
-
 }
+
 function showToast(msg, type) {  
   const t = document.getElementById('toast');  
   const icons = {  
