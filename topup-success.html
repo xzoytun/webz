@@ -37,10 +37,41 @@ h1{
 p{
   color:#666;
   font-size:14px;
+  margin-bottom: 20px;
+}
+
+/* Style tambahan untuk detail info transaksi */
+.info-detail {
+  background: #f8fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 15px 0;
+  text-align: left;
+  font-size: 13px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  color: #718096;
+}
+
+.info-value {
+  color: #2d3748;
+  font-weight: bold;
 }
 
 .btn{
-  margin-top:20px;
+  margin-top:10px;
   display:inline-block;
   padding:12px 20px;
   border-radius:12px;
@@ -48,6 +79,13 @@ p{
   color:white;
   text-decoration:none;
   font-weight:bold;
+  width: calc(100% - 40px); /* Menyesuaikan lebar card */
+}
+
+.countdown-text {
+  font-size: 11px;
+  color: #a0aec0;
+  margin-top: 15px;
 }
 </style>
 </head>
@@ -63,21 +101,65 @@ p{
     Saldo berhasil ditambahkan ke akun Anda.
   </p>
 
+  <!-- Wadah informasi detail transaksi yang dibaca oleh script -->
+  <div class="info-detail">
+    <div class="info-row">
+      <span class="info-label">Jumlah Saldo:</span>
+      <span class="info-value" id="deposit-amount">-</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Ref ID:</span>
+      <span class="info-value" id="ref-id">-</span>
+    </div>
+  </div>
+
   <a href="/dashboard.html" class="btn">
     Kembali ke Dashboard
   </a>
 
+  <!-- Teks hitung mundur otomatis -->
+  <div class="countdown-text">
+    Mengalihkan otomatis dalam <span id="countdown">4</span> detik...
+  </div>
+
 </div>
 
 <script>
+  // 1. Ambil query parameter dari URL browser secara otomatis
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  // Pakasir biasanya mengembalikan parameter berupa 'order_id' atau 'orderId'
+  const orderId = urlParams.get('order_id') || urlParams.get('orderId') || '-';
+  
+  // Tampilkan Order ID ke element HTML
+  document.getElementById('ref-id').innerText = orderId;
 
-setTimeout(() => {
+  // 2. Mengambil nominal amount yang dibayar
+  // Karena saat redirect Pakasir kadang tidak membawa nominal di URL, kita bisa mencoba menembak API lokal 
+  // atau jika kamu ingin praktis, kamu bisa modifikasi redirectUrl di backend kamu agar ikut membawa nominal:
+  // Contoh di backend: &redirect=https://app.isdarprem.net/topup-success?amount=xxxxx
+  const amount = urlParams.get('amount');
+  if (amount) {
+    document.getElementById('deposit-amount').innerText = 'Rp ' + Number(amount).toLocaleString('id-ID');
+  } else {
+    // Jika nominal tidak ada di URL redirect, kita tuliskan pesan sukses otomatis
+    document.getElementById('deposit-amount').innerText = 'Berhasil Diproses';
+    document.getElementById('deposit-amount').style.color = '#12C28A';
+  }
 
-  window.location.href =
-    '/dashboard.html';
-
-}, 3000);
-
+  // 3. Hitung mundur visual 4 detik sebelum otomatis kembali ke Dashboard
+  let timeLeft = 4;
+  const countdownEl = document.getElementById('countdown');
+  
+  const timer = setInterval(() => {
+    timeLeft--;
+    if (countdownEl) countdownEl.innerText = timeLeft;
+    
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      window.location.href = '/dashboard.html';
+    }
+  }, 1000);
 </script>
 
 </body>
