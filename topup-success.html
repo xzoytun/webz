@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembayaran Berhasil</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f5f7fb;
+  font-family:sans-serif;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  width:320px;
+}
+
+.icon{
+  font-size:60px;
+}
+
+h1{
+  margin:15px 0 10px;
+  color:#12C28A;
+}
+
+p{
+  color:#666;
+  font-size:14px;
+}
+
+.btn{
+  margin-top:20px;
+  display:inline-block;
+  padding:12px 20px;
+  border-radius:12px;
+  background:#7B2FBE;
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="icon">✅</div>
+
+  <h1>Pembayaran Berhasil</h1>
+
+  <p>
+    Saldo berhasil ditambahkan ke akun Anda.
+  </p>
+
+  <a href="/dashboard.html" class="btn">
+    Kembali ke Dashboard
+  </a>
+
+</div>
+
+<script>
+
+setTimeout(() => {
+
+  window.location.href =
+    '/dashboard.html';
+
+}, 3000);
+
+</script>
+
+</body>
+</html>
