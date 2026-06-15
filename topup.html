@@ -623,7 +623,7 @@ body {
           <circle cx="12" cy="12" r="10"/>  
           <polyline points="12,6 12,12 16,14"/>  
         </svg>  
-        Berlaku 5 menit  
+        Berlaku 60 menit
       </div>  
     </div>  
   
@@ -651,9 +651,6 @@ body {
   
 <script>  
   
-let depositCode = null;  
-let timerInterval = null; 
-
 (function initTheme(){
   const saved = localStorage.getItem('theme');
   if (saved === 'dark' || saved === 'light') {
@@ -681,232 +678,130 @@ function clearSelected() {
   document.querySelectorAll('.nominal-btn').forEach(b => b.classList.remove('selected'));  
 }  
   
-function downloadQris(url) {
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `QRIS_Xtrimer_${Date.now()}.png`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  showToast('QRIS berhasil diunduh!', 'success');
-}
+async function createDeposit() {
 
-async function createDeposit() {  
-  const amount = document.getElementById('amount').value;  
-  if (!amount || amount < 100) {  
-    showToast('Minimal topup Rp 100', 'warn'); return;  
-  }  
-  
-  const btn = document.getElementById('topupBtn');  
-  btn.disabled = true;  
-  btn.innerHTML = `  
-    <svg class="spin-icon" viewBox="0 0 24 24">  
-      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>  
-    </svg>  
-    Membuat QRIS...`;  
-  
-  try {  
-    if (timerInterval) clearInterval(timerInterval);
+  const amount =
+    Number(
+      document.getElementById('amount').value
+    );
 
-    const res  = await fetch('/api/deposit', {  
-      method: 'POST',  
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },  
-      body: JSON.stringify({ amount })
-    });  
-    const data = await res.json();  
-  
-    btn.disabled = false;  
-    btn.innerHTML = `  
-      <svg viewBox="0 0 24 24">  
-        <rect x="3" y="3" width="7" height="7" rx="1"/>  
-        <rect x="14" y="3" width="7" height="7" rx="1"/>  
-        <rect x="3" y="14" width="7" height="7" rx="1"/>  
-        <rect x="14" y="14" width="7" height="7" rx="1"/>  
-      </svg>  
-      Buat QRIS Sekarang`;  
-  
-    if (!data.success) { showToast(data.message || 'Gagal membuat QRIS', 'error'); return; }  
-  
-    depositCode = data.uniqueCode;  
-    const amtFormatted = Number(data.amount).toLocaleString('id-ID');  
-    const finalQrUrl = `${data.qrUrl}&t=${Date.now()}`;
-  
-    document.getElementById('result').innerHTML = `  
-      <div class="qris-card">  
-        <div class="qris-card-head">  
-          <div class="qris-head-icon">  
-            <svg viewBox="0 0 24 24">  
-              <rect x="3" y="3" width="7" height="7" rx="1"/>  
-              <rect x="14" y="3" width="7" height="7" rx="1"/>  
-              <rect x="3" y="14" width="7" height="7" rx="1"/>  
-              <rect x="14" y="14" width="7" height="7" rx="1"/>  
-            </svg>  
-          </div>  
-          <div>  
-            <div class="qris-head-title">Scan &amp; Bayar</div>  
-            <div class="qris-head-sub">Gunakan e-wallet atau m-banking apa saja</div>  
-          </div>  
-        </div>  
-        <div class="qris-body">  
-  
-          <div class="qris-amount-row">  
-            <div class="qris-amount-label">  
-              <svg viewBox="0 0 24 24">  
-                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>  
-              </svg>  
-              Total Pembayaran  
-            </div>  
-            <div class="qris-amount-val">Rp ${amtFormatted}</div>  
-          </div>  
-  
-          <div class="qris-fee-row">  
-            <div class="fee-item">  
-              <div class="fee-label">Topup</div>  
-              <div class="fee-val">Rp ${Number(data.originalAmount).toLocaleString('id-ID')}</div>  
-            </div>  
-            <div class="fee-item">  
-              <div class="fee-label">Biaya Admin</div>  
-              <div class="fee-val">Rp ${Number(data.adminFee).toLocaleString('id-ID')}</div>  
-            </div>  
-          </div>  
-  
-          <div class="qr-img-wrap">  
-            <div class="qr-img-box" onclick="downloadQris('${finalQrUrl}')" title="Klik untuk unduh gambar QRIS">  
-              <img  
-                id="qrisImage"  
-                src="${finalQrUrl}"  
-                alt="QRIS Code"  
-                loading="lazy"  
-                referrerpolicy="no-referrer"  
-                onload="this.style.opacity='1'"  
-                style="opacity:0;transition:0.3s;"  
-              >   
-            </div>  
-            <div class="ss-notice-chip">  
-              <svg viewBox="0 0 24 24">  
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-              </svg>  
-              Tekan/klik gambar QRIS di atas untuk mengunduh kodenya.  
-            </div>  
-          </div>  
-  
-          <div class="timer-row">  
-            <svg viewBox="0 0 24 24">  
-              <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>  
-            </svg>  
-            Batas waktu pembayaran: &nbsp;<strong id="countdown">05:00</strong>  
-          </div>  
-  
-          <div id="statusArea">  
-            <div class="status-waiting">  
-              <svg viewBox="0 0 24 24">  
-                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>  
-              </svg>  
-              Menunggu pembayaran terdeteksi sistem...  
-            </div>  
-          </div>  
-  
-        </div>  
-      </div>`;  
-  
-    document.getElementById('result').scrollIntoView({ behavior:'smooth' });  
-    startCountdown(300); 
-    startChecker();  
-  
-  } catch(err) {  
-    console.error(err);  
-    btn.disabled = false;  
-    btn.innerHTML = `  
-      <svg viewBox="0 0 24 24">  
-        <rect x="3" y="3" width="7" height="7" rx="1"/>  
-        <rect x="14" y="3" width="7" height="7" rx="1"/>  
-        <rect x="3" y="14" width="7" height="7" rx="1"/>  
-        <rect x="14" y="14" width="7" height="7" rx="1"/>  
-      </svg>  
-      Buat QRIS Sekarang`;  
-    showToast('Gagal membuat QRIS', 'error');  
-  }  
-}  
+  if (!amount || amount < 1000) {
 
-function startCountdown(durationInSeconds) {
-  let timeRemaining = durationInSeconds;
-  const countdownEl = document.getElementById('countdown');
+    showToast(
+      'Minimal topup Rp 1.000',
+      'warn'
+    );
 
-  timerInterval = setInterval(() => {
-    let minutes = Math.floor(timeRemaining / 60);
-    let seconds = timeRemaining % 60;
+    return;
 
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-
-    if (countdownEl) {
-      countdownEl.innerText = `${minutes}:${seconds}`;
-    }
-
-    if (--timeRemaining < 0) {
-      clearInterval(timerInterval);
-      setQrisExpiredView(); 
-    }
-  }, 1000);
-}
-
-function setQrisExpiredView() {
-  const statusArea = document.getElementById('statusArea');
-  if (statusArea) {
-    statusArea.innerHTML = `  
-      <div class="status-expired">  
-        <svg viewBox="0 0 24 24">  
-          <circle cx="12" cy="12" r="10"/>  
-          <line x1="15" y1="9" x2="9" y2="15" stroke="#fff" stroke-width="2" stroke-linecap="round"/>  
-          <line x1="9" y1="9" x2="15" y2="15" stroke="#fff" stroke-width="2" stroke-linecap="round"/>  
-        </svg>  
-        Masa berlaku QRIS habis. Silakan buat ulang.  
-      </div>`;
   }
-  depositCode = null; 
-}  
-  
-function startChecker() {  
-  const interval = setInterval(async () => {  
-    if (!depositCode) { clearInterval(interval); return; }  
-    try {  
-      const res  = await fetch('/api/deposit-status/' + depositCode, {
-        method: 'GET',
+
+  const btn =
+    document.getElementById('topupBtn');
+
+  btn.disabled = true;
+
+  btn.innerHTML = `
+    <svg class="spin-icon" viewBox="0 0 24 24">
+      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/>
+    </svg>
+    Membuat QRIS...
+  `;
+
+  try {
+
+    const res =
+      await fetch('/api/create-topup', {
+
+        method: 'POST',
+
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        }
-      });  
-      const data = await res.json();  
-  
-      if (data.success && data.status === 'expired') {  
-        if (timerInterval) clearInterval(timerInterval);
-        setQrisExpiredView();
-        clearInterval(interval);  
-      }  
-  
-      if (data.success && data.status === 'paid') {  
-        if (timerInterval) clearInterval(timerInterval);
-        document.getElementById('statusArea').innerHTML = `  
-          <div class="status-paid">  
-            <div class="status-paid-title">  
-              <svg viewBox="0 0 24 24">  
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>  
-                <polyline points="22,4 12,14.01 9,11.01"/>  
-              </svg>  
-              Pembayaran Sukses!  
-            </div>  
-            <div class="status-paid-sub">Saldo otomatis ditambahkan ke akun Anda</div>  
-          </div>`;  
-        clearInterval(interval);  
-        setTimeout(() => { window.location.href = 'dashboard.html'; }, 3000);  
-      }  
-    } catch(e) {}  
-  }, 5000);  
-}  
-  
+        },
+
+        body: JSON.stringify({
+          amount
+        })
+
+      });
+
+    const data =
+      await res.json();
+      if (res.status === 401) {
+
+  localStorage.removeItem('token');
+
+  showToast(
+    'Session expired',
+    'warn'
+  );
+
+  setTimeout(() => {
+
+    location.href = 'index.html';
+
+  }, 1000);
+
+  return;
+}
+
+    btn.disabled = false;
+
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1"/>
+        <rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/>
+        <rect x="14" y="14" width="7" height="7" rx="1"/>
+      </svg>
+      Buat QRIS Sekarang
+    `;
+
+    if (!data.success) {
+
+      showToast(
+        data.message || 'Gagal membuat pembayaran',
+        'error'
+      );
+
+      return;
+
+    }
+    
+    if (!data.payment_url) {
+
+  showToast(
+    'Payment URL tidak tersedia',
+    'error'
+  );
+
+  return;
+
+}
+showToast(
+  'Mengalihkan ke pembayaran...',
+  'success'
+);
+
+    // LANGSUNG REDIRECT KE PAKASIR
+    window.location.href =
+      data.payment_url;
+
+  } catch (err) {
+
+    console.error(err);
+
+    btn.disabled = false;
+
+    showToast(
+      'Server error',
+      'error'
+    );
+
+  }
+
+}
 function showToast(msg, type) {  
   const t = document.getElementById('toast');  
   const icons = {  
