@@ -357,19 +357,28 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   localStorage.setItem('theme', next);
 });
 
-// ─── HELPER FORMAT TANGGAL UTC KE WAKTU LOKAL (DD-MM-YYYY HH:mm) ───
-function formatLocalDate(isoString) {
-  if (!isoString) return '-';
+// ─── HELPER FORMAT TANGGAL SQLITE KE WAKTU LOKAL (DD MMM YYYY, HH:mm WIB) ───
+function formatLocalDate(dateString) {
+  if (!dateString) return '-';
   try {
-    let d = new Date(isoString);
-    if (typeof isoString === 'string' && !isoString.includes('Z') && !isoString.includes('+')) {
-      d = new Date(isoString.replace(' ', 'T') + 'Z'); 
+    // Deteksi jika format bawaan SQLite datetime('now') => YYYY-MM-DD HH:mm:ss
+    // Tambahkan 'Z' atau konversi agar dibaca sebagai UTC/Waktu lokal yang valid
+    let cleanString = dateString;
+    if (typeof dateString === 'string' && !dateString.includes('Z') && !dateString.includes('+')) {
+      cleanString = dateString.replace(' ', 'T') + 'Z';
     }
-    if (isNaN(d.getTime())) { d = new Date(isoString); }
-    const tgl = d.toLocaleDateString('id-ID', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+    
+    const d = new Date(cleanString);
+    if (isNaN(d.getTime())) return dateString;
+
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    const tgl = d.toLocaleDateString('id-ID', options);
     const jam = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
-    return `${tgl} ${jam}`;
-  } catch (e) { return isoString; }
+    
+    return `${tgl}, ${jam} WIB`;
+  } catch (e) { 
+    return dateString; 
+  }
 }
 
 // ─── AUTH & STATE CONFIG ───
@@ -422,7 +431,8 @@ function applyFilter() {
     return (
       (item.username || '').toLowerCase().includes(kw) ||
       (item.reference || '').toLowerCase().includes(kw) ||
-      (item.metode || '').toLowerCase().includes(kw)
+      (item.metode || '').toLowerCase().includes(kw) ||
+      String(item.user_id).includes(kw)
     );
   });
 
@@ -450,29 +460,38 @@ function renderList(data) {
   data.forEach((item, i) => {
     const dateFormatted = formatLocalDate(item.created_at);
     const cleanAmount = Number(item.amount || 0).toLocaleString('id-ID');
+    
+    // Deteksi cerdas apakah user berasal dari WEB atau Bot Telegram berdasarkan struktur username/ID
+    const isWebUser = (item.username || '').includes('@') || (item.reference || '').startsWith('WEB-');
+    const userPlatformBadge = isWebUser 
+      ? `<span style="font-size: 9px; padding: 2px 6px; background: #e0f2fe; color: #0369a1; border-radius: 4px; font-weight: 800; margin-left: 6px;">WEB</span>`
+      : `<span style="font-size: 9px; padding: 2px 6px; background: #fef3c7; color: #b45309; border-radius: 4px; font-weight: 800; margin-left: 6px;">TELE</span>`;
 
     html += `
-    <div class="log-card" style="animation-delay: ${i * 0.035}s">
+    <div class="log-card" style="animation-delay: ${i * 0.02}s">
       <div class="top-row">
-        <div class="username">${item.username || 'Unknown User'}</div>
-        <div class="amount">Rp ${cleanAmount}</div>
+        <div class="username">
+          ${item.username || 'Unknown User'}
+          ${userPlatformBadge}
+        </div>
+        <div class="amount" style="color: var(--green); font-weight: 800;">+ Rp ${cleanAmount}</div>
       </div>
       <div class="info-box">
         <div class="info-item">
-          <div class="label">User</div>
-          <div class="value">${item.username || '-'}</div>
+          <div class="label">User ID</div>
+          <div class="value" style="font-family: monospace; font-size: 11px;">${item.user_id || '-'}</div>
         </div>
         <div class="info-item">
-          <div class="label">Metode</div>
-          <div class="value">${item.metode || '-'}</div>
+          <div class="label">Metode Pembayaran</div>
+          <div class="value">${item.metode || 'Pakasir (QRIS)'}</div>
         </div>
         <div class="info-item">
-          <div class="label">Reference</div>
-          <div class="value">${item.reference || '-'}</div>
+          <div class="label">No. Referensi (Ref)</div>
+          <div class="value" style="font-family: monospace; font-size: 11px; color: var(--purple-light);">${item.reference || '-'}</div>
         </div>
         <div class="info-item">
-          <div class="label">Tanggal</div>
-          <div class="value">${dateFormatted}</div>
+          <div class="label">Waktu Sukses</div>
+          <div class="value" style="color: var(--text-light); font-weight: 600;">${dateFormatted}</div>
         </div>
       </div>
     </div>
