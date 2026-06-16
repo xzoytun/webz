@@ -459,12 +459,11 @@ function renderList(data) {
     const dateFormatted = formatLocalDate(item.created_at);
     const cleanAmount = Number(item.amount || 0).toLocaleString('id-ID');
     
-    // 🔍 PENCOCOKAN LOGIKA FILTER AKURAT (SINKRON DENGAN TELEGRAM BACKEND)
+    // ─── LOGIKA IDENTIFIKASI PLATFORM ───
     const usernameStr = String(item.username || '').toLowerCase();
     const refStr = String(item.reference || '').toUpperCase();
     const currentId = Number(item.user_id || 0);
 
-    // Dianggap web mutlak jika pake gmail, ref dimulai WEB-, atau ID di bawah 1.000.000
     const isWebUser = usernameStr.includes('@gmail.com') || 
                       refStr.startsWith('WEB-') || 
                       (currentId > 0 && currentId < 1000000);
@@ -472,6 +471,13 @@ function renderList(data) {
     const userPlatformBadge = isWebUser 
       ? `<span style="font-size: 9px; padding: 2px 6px; background: #e0f2fe; color: #0369a1; border-radius: 4px; font-weight: 800; margin-left: 6px;">WEB</span>`
       : `<span style="font-size: 9px; padding: 2px 6px; background: #fef3c7; color: #b45309; border-radius: 4px; font-weight: 800; margin-left: 6px;">TELE</span>`;
+
+    // Kondisional baris User ID: Sembunyikan total jika platform WEB
+    const userIdRow = isWebUser ? '' : `
+        <div class="info-item">
+          <div class="label">User ID</div>
+          <div class="value" style="font-family: monospace; font-size: 11px;">${item.user_id || '-'}</div>
+        </div>`;
 
     html += `
     <div class="log-card" style="animation-delay: ${i * 0.02}s">
@@ -483,10 +489,7 @@ function renderList(data) {
         <div class="amount" style="color: var(--green); font-weight: 800;">+ Rp ${cleanAmount}</div>
       </div>
       <div class="info-box">
-        <div class="info-item">
-          <div class="label">User ID</div>
-          <div class="value" style="font-family: monospace; font-size: 11px;">${item.user_id || '-'}</div>
-        </div>
+        ${userIdRow}
         <div class="info-item">
           <div class="label">Metode Pembayaran</div>
           <div class="value">${item.metode || 'Pakasir (QRIS)'}</div>
