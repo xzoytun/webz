@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://bizhnet3.isdarprem.net/api/:path*"
+      "destination": "http://sg-leasweb.isdarprem.cloud:50123/api/:path*"
     }
   ]
 }
