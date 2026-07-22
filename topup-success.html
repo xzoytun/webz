@@ -1,165 +1,304 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pembayaran Berhasil</title>
-
-<style>
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f5f7fb;
-  font-family:sans-serif;
-}
-
-.card{
-  background:white;
-  padding:30px;
-  border-radius:20px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  width:320px;
-}
-
-.icon{
-  font-size:60px;
-}
-
-h1{
-  margin:15px 0 10px;
-  color:#12C28A;
-}
-
-p{
-  color:#666;
-  font-size:14px;
-  margin-bottom: 20px;
-}
-
-/* Style tambahan untuk detail info transaksi */
-.info-detail {
-  background: #f8fafc;
-  border: 1px solid #edf2f7;
-  border-radius: 12px;
-  padding: 12px;
-  margin: 15px 0;
-  text-align: left;
-  font-size: 13px;
-}
-
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-.info-row:last-child {
-  margin-bottom: 0;
-}
-
-.info-label {
-  color: #718096;
-}
-
-.info-value {
-  color: #2d3748;
-  font-weight: bold;
-}
-
-.btn{
-  margin-top:10px;
-  display:inline-block;
-  padding:12px 20px;
-  border-radius:12px;
-  background:#7B2FBE;
-  color:white;
-  text-decoration:none;
-  font-weight:bold;
-  width: calc(100% - 40px); /* Menyesuaikan lebar card */
-}
-
-.countdown-text {
-  font-size: 11px;
-  color: #a0aec0;
-  margin-top: 15px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Up Berhasil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0b0e17;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            padding: 20px;
+        }
+        .card {
+            background: linear-gradient(145deg, #141b2b, #1a2335);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+        .icon {
+            font-size: 72px;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .sub {
+            font-size: 16px;
+            color: #8892b0;
+            margin-bottom: 24px;
+        }
+        .detail-box {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: left;
+            margin: 16px 0 24px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        .label {
+            color: #8892b0;
+            font-size: 14px;
+        }
+        .value {
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            word-break: break-all;
+            text-align: right;
+            max-width: 60%;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-top: 8px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(58, 123, 213, 0.4);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            margin-left: 12px;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: none;
+        }
+        .footer {
+            margin-top: 24px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top-color: #00d2ff;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .hidden {
+            display: none;
+        }
+        .status-pending { color: #fbbf24; }
+        .status-success { color: #34d399; }
+        .status-failed { color: #f87171; }
+        .status-expired { color: #f87171; }
+    </style>
 </head>
 <body>
 
-<div class="card">
+<div class="card" id="app">
+    <div class="icon" id="icon">🎉</div>
+    <h1 id="title">Memproses Pembayaran...</h1>
+    <p class="sub" id="sub">Mohon tunggu, kami sedang memverifikasi transaksi Anda.</p>
 
-  <div class="icon">✅</div>
-
-  <h1>Pembayaran Berhasil</h1>
-
-  <p>
-    Saldo berhasil ditambahkan ke akun Anda.
-  </p>
-
-  <!-- Wadah informasi detail transaksi yang dibaca oleh script -->
-  <div class="info-detail">
-    <div class="info-row">
-      <span class="info-label">Jumlah Saldo:</span>
-      <span class="info-value" id="deposit-amount">-</span>
+    <div class="detail-box" id="detailBox">
+        <div class="detail-item">
+            <span class="label">Order ID</span>
+            <span class="value" id="orderId">-</span>
+        </div>
+        <div class="detail-item">
+            <span class="label">Nominal</span>
+            <span class="value" id="amount">-</span>
+        </div>
+        <div class="detail-item">
+            <span class="label">Status</span>
+            <span class="value" id="status">⏳ Menunggu</span>
+        </div>
+        <div class="detail-item" id="paymentMethodRow">
+            <span class="label">Metode</span>
+            <span class="value" id="paymentMethod">-</span>
+        </div>
     </div>
-    <div class="info-row">
-      <span class="info-label">Ref ID:</span>
-      <span class="info-value" id="ref-id">-</span>
+
+    <div id="actionButtons">
+        <a href="/dashboard.html" class="btn">📊 Dashboard</a>
+        <a href="/" class="btn btn-secondary">🏠 Home</a>
     </div>
-  </div>
 
-  <a href="/dashboard.html" class="btn">
-    Kembali ke Dashboard
-  </a>
-
-  <!-- Teks hitung mundur otomatis -->
-  <div class="countdown-text">
-    Mengalihkan otomatis dalam <span id="countdown">4</span> detik...
-  </div>
-
+    <p class="footer" id="footerMsg">Jika saldo belum masuk dalam 5 menit, hubungi admin.</p>
 </div>
 
 <script>
-  // 1. Ambil query parameter dari URL browser secara otomatis
-  const urlParams = new URLSearchParams(window.location.search);
-  
-  // Pakasir biasanya mengembalikan parameter berupa 'order_id' atau 'orderId'
-  const orderId = urlParams.get('order_id') || urlParams.get('orderId') || '-';
-  
-  // Tampilkan Order ID ke element HTML
-  document.getElementById('ref-id').innerText = orderId;
+    (function() {
+        // =====================================================
+        // 1. Ambil parameter dari URL
+        // =====================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('order_id') || urlParams.get('orderId') || 'Tidak tersedia';
+        const amount = urlParams.get('amount') || urlParams.get('gross_amount') || '-';
+        const statusCode = urlParams.get('status_code') || urlParams.get('transaction_status') || 'pending';
+        const paymentMethod = urlParams.get('payment_type') || 'QRIS';
 
-  // 2. Mengambil nominal amount yang dibayar
-  // Karena saat redirect Pakasir kadang tidak membawa nominal di URL, kita bisa mencoba menembak API lokal 
-  // atau jika kamu ingin praktis, kamu bisa modifikasi redirectUrl di backend kamu agar ikut membawa nominal:
-  // Contoh di backend: &redirect=https://app.isdarprem.net/topup-success?amount=xxxxx
-  const amount = urlParams.get('amount');
-  if (amount) {
-    document.getElementById('deposit-amount').innerText = 'Rp ' + Number(amount).toLocaleString('id-ID');
-  } else {
-    // Jika nominal tidak ada di URL redirect, kita tuliskan pesan sukses otomatis
-    document.getElementById('deposit-amount').innerText = 'Berhasil Diproses';
-    document.getElementById('deposit-amount').style.color = '#12C28A';
-  }
+        // Deteksi gateway dari format order_id
+        let gateway = 'unknown';
+        if (orderId.startsWith('MID-')) gateway = 'midtrans';
+        else if (orderId.startsWith('PKS-') || orderId.startsWith('WEB-')) gateway = 'pakasir';
+        else if (orderId.startsWith('TRX')) gateway = 'orkut';
 
-  // 3. Hitung mundur visual 4 detik sebelum otomatis kembali ke Dashboard
-  let timeLeft = 4;
-  const countdownEl = document.getElementById('countdown');
-  
-  const timer = setInterval(() => {
-    timeLeft--;
-    if (countdownEl) countdownEl.innerText = timeLeft;
-    
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      window.location.href = '/dashboard.html';
-    }
-  }, 1000);
+        // =====================================================
+        // 2. Tampilkan data awal
+        // =====================================================
+        document.getElementById('orderId').textContent = orderId;
+        document.getElementById('amount').textContent = amount !== '-' ? `Rp ${Number(amount).toLocaleString('id-ID')}` : '-';
+        document.getElementById('paymentMethod').textContent = paymentMethod.toUpperCase();
+
+        // =====================================================
+        // 3. Tentukan status & icon
+        // =====================================================
+        let statusText = '⏳ Menunggu Verifikasi';
+        let statusClass = 'status-pending';
+        let icon = '⏳';
+        let title = 'Pembayaran Diproses...';
+        let sub = 'Kami sedang menunggu konfirmasi dari bank/ewallet.';
+
+        const isSuccess = statusCode === '200' || statusCode === '201' || statusCode === 'capture' || statusCode === 'settlement';
+        const isPending = statusCode === 'pending' || statusCode === '201' || statusCode === 'waiting';
+        const isFailed = statusCode === '400' || statusCode === '401' || statusCode === 'deny' || statusCode === 'expire' || statusCode === 'cancel';
+
+        if (isSuccess) {
+            statusText = '✅ BERHASIL';
+            statusClass = 'status-success';
+            icon = '🎉';
+            title = 'Pembayaran Berhasil!';
+            sub = 'Saldo Anda telah ditambahkan secara otomatis.';
+        } else if (isPending) {
+            statusText = '⏳ PENDING';
+            statusClass = 'status-pending';
+            icon = '⏳';
+            title = 'Menunggu Konfirmasi';
+            sub = 'Pembayaran sedang diproses, akan selesai dalam beberapa menit.';
+        } else if (isFailed) {
+            statusText = '❌ GAGAL / EXPIRED';
+            statusClass = 'status-failed';
+            icon = '😓';
+            title = 'Pembayaran Gagal';
+            sub = 'Transaksi tidak dapat diproses. Silakan coba lagi.';
+        }
+
+        document.getElementById('status').textContent = statusText;
+        document.getElementById('status').className = `value ${statusClass}`;
+        document.getElementById('icon').textContent = icon;
+        document.getElementById('title').textContent = title;
+        document.getElementById('sub').textContent = sub;
+
+        // =====================================================
+        // 4. Jika pending, cek ulang status ke server
+        // =====================================================
+        if (isPending && orderId && orderId !== 'Tidak tersedia') {
+            // Cek ke endpoint status API
+            let checkInterval;
+            let attempts = 0;
+            const MAX_ATTEMPTS = 12; // 12 x 5 detik = 1 menit
+
+            function checkStatus() {
+                attempts++;
+                const apiUrl = `/api/midtrans-status/${orderId}`;
+
+                fetch(apiUrl, {
+                    headers: { 'Authorization': 'Bearer ' + (localStorage.getItem('token') || '') }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.status === 'completed') {
+                        clearInterval(checkInterval);
+                        document.getElementById('status').textContent = '✅ BERHASIL';
+                        document.getElementById('status').className = 'value status-success';
+                        document.getElementById('icon').textContent = '🎉';
+                        document.getElementById('title').textContent = 'Pembayaran Berhasil!';
+                        document.getElementById('sub').textContent = 'Saldo Anda telah ditambahkan.';
+                        document.getElementById('footerMsg').textContent = '✅ Transaksi selesai. Silakan kembali ke dashboard.';
+                    } else if (data.success && (data.status === 'expired' || data.status === 'failed')) {
+                        clearInterval(checkInterval);
+                        document.getElementById('status').textContent = '❌ EXPIRED / GAGAL';
+                        document.getElementById('status').className = 'value status-failed';
+                        document.getElementById('icon').textContent = '😓';
+                        document.getElementById('title').textContent = 'Pembayaran Gagal';
+                        document.getElementById('sub').textContent = 'Transaksi kadaluarsa atau dibatalkan.';
+                        document.getElementById('footerMsg').textContent = 'Silakan buat transaksi baru.';
+                    }
+
+                    if (attempts >= MAX_ATTEMPTS) {
+                        clearInterval(checkInterval);
+                        document.getElementById('footerMsg').textContent = '⏳ Transaksi masih diproses. Cek dashboard nanti.';
+                    }
+                })
+                .catch(() => {
+                    // Silent error, biarkan pending
+                });
+            }
+
+            checkStatus(); // langsung cek sekali
+            checkInterval = setInterval(checkStatus, 5000);
+        }
+
+        // =====================================================
+        // 5. Jika gagal, tampilkan tombol ulangi
+        // =====================================================
+        if (isFailed) {
+            document.getElementById('actionButtons').innerHTML = `
+                <a href="/" class="btn">🔄 Coba Lagi</a>
+                <a href="/dashboard.html" class="btn btn-secondary">📊 Dashboard</a>
+            `;
+            document.getElementById('footerMsg').textContent = 'Klik "Coba Lagi" untuk membuat transaksi baru.';
+        }
+
+        // =====================================================
+        // 6. Untuk Pakasir / Orkut (yang sudah selesai)
+        // =====================================================
+        if (gateway === 'pakasir' || gateway === 'orkut') {
+            // Tidak perlu polling, sudah redirect dari gateway
+            if (isSuccess) {
+                document.getElementById('footerMsg').textContent = '✅ Saldo sudah masuk.';
+            }
+        }
+
+    })();
 </script>
 
 </body>
